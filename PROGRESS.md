@@ -85,7 +85,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 
 | Page | Design reference | Status |
 |---|---|---|
-| Home | `fc_lads_home_page` | ✅ built, awaiting user review |
+| Home | `fc_lads_home_page` | ✅ built; feedback round 1 done (auto-scroll + interactive hard truth) |
 | Learn library | `fc_lads_learn_free_guides_library` | ⬜ |
 | Guide article | `fc_lads_guide_article_beat_the_high_press` | ⬜ |
 | Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ⬜ |
@@ -127,6 +127,15 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 - Mobile fix learned: grids that switch to 12 columns on desktop need `grid-cols-1` on phones, otherwise a horizontal carousel inside stretches the column and pushes headings off-screen.
 - Copy changes vs. design (to avoid unverifiable claims): "0hr Time Wasted / 100% In-Game Tested" → "No hours wasted / Tested in-game"; "30 MIN SLA" → "Patch day"; footer fake server/build text → EA disclaimer; "Glitched in 1.08" → "elite in 1.08".
 - Mock values still hard-coded on Home: patch "1.08", week 28 (`app/(site)/page.tsx`).
+
+### 2026-10-06 — Session 1 (continued, Home feedback round 1)
+User feedback on Home → implemented:
+- **Meta players carousel auto-scrolls** (`ui/AutoScrollRow`): seamless loop, stops on mouse hover, keyboard focus and touch (resumes 3s after touch), Pause/Play button (WCAG 2.2.2), stops off-screen, no auto-scroll with OS "reduce motion".
+- **"The hard truth" 5 problems are interactive** (`home/HardTruth`, content in `data/hardTruth.ts`): hover previews the answer, click/tap/arrow keys pin it; green skewed bar slides to the active row; answer card animates out and in with word-by-word headline. Built as accessible ARIA tabs.
+- Added dependency **`motion`** (v14, `motion/react`) for animations; `MotionConfig reducedMotion="user"` respects OS setting.
+- Added `lib/useReducedMotion.ts` hook.
+- Verified with an automated interaction test (headless Edge via DevTools protocol): 12/12 checks pass — scroll, hover-stop, resume, pause button, filter, hover preview, revert on leave, click pin, aria-selected, keyboard, skew kept.
+- Bug found by the test and fixed: animated headline had no real spaces between words (screen readers/SEO read "Testedbeforeyouspend").
 
 ## How to run locally
 

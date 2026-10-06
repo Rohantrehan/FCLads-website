@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { MetaPlayerCard } from "@/components/cards/PlayerCard";
+import { AutoScrollRow } from "@/components/ui/AutoScrollRow";
 import { Button } from "@/components/ui/Button";
 import { FilterPills } from "@/components/ui/FilterPills";
 import type { Player, Position } from "@/types";
@@ -48,14 +49,12 @@ export function MetaPlayersSection({ players, week }: { players: Player[]; week:
 
         <div className="lg:col-span-8">
           {visible.length > 0 ? (
-            <div
-              aria-live="polite"
-              className="scrollbar-none -mx-4 flex snap-x gap-5 overflow-x-auto px-4 pt-1 pb-4 md:-mx-8 md:px-8 lg:mx-0 lg:px-1"
-            >
+            // `key` restarts the loop from the first card when the position filter changes.
+            <AutoScrollRow key={group} count={visible.length} label={`Meta players: ${group}`}>
               {visible.map((player, index) => (
                 <MetaPlayerCard key={player.slug} player={player} active={index === 0} />
               ))}
-            </div>
+            </AutoScrollRow>
           ) : (
             <div
               aria-live="polite"
