@@ -137,6 +137,9 @@ User feedback on Home → implemented:
 - Verified with an automated interaction test (headless Edge via DevTools protocol): 12/12 checks pass — scroll, hover-stop, resume, pause button, filter, hover preview, revert on leave, click pin, aria-selected, keyboard, skew kept.
 - Bug found by the test and fixed: animated headline had no real spaces between words (screen readers/SEO read "Testedbeforeyouspend").
 
+### 2026-10-06 — Home feedback round 2
+- "Hard truth" is now **hover-only and sticky**: the answer changes where the cursor rests (120ms hover-intent, so sweeping across doesn't flash answers) and **stays** after the cursor leaves. No click-to-pin. Tap (phones) and arrow keys still work. Interaction test 13/13 pass.
+
 ## How to run locally
 
 ```bash

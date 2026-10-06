@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, MotionConfig, motion, type Variants } from "motion/react";
 import { ArrowRight, Zap } from "lucide-react";
 import { Avatar } from "@/components/ui/DataBits";
@@ -10,6 +10,7 @@ import { hardTruth } from "@/data/hardTruth";
 import { cn } from "@/lib/cn";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const HOVER_INTENT_MS = 120;
 
 const panel: Variants = {
   hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
@@ -33,17 +34,25 @@ const fadeUp: Variants = {
 };
 
 /**
- * Interactive "hard truth" list. Hover a problem to preview its answer, click (or tap / arrow keys)
- * to pin it. Built as ARIA tabs: the problems are tabs, the answer is the tab panel.
+ * Interactive "hard truth" list. Resting the cursor on a problem shows its answer, and it stays
+ * after the cursor leaves. Tap (phones) and arrow keys (keyboard) do the same.
+ * Built as ARIA tabs: the problems are tabs, the answer is the tab panel.
  */
 export function HardTruth() {
   const baseId = useId();
-  const [selected, setSelected] = useState(2);
-  const [hovered, setHovered] = useState<number | null>(null);
-  const active = hovered ?? selected;
+  const [active, setActive] = useState(2);
   const item = hardTruth[active];
   const creator = getCreator(item.creatorSlug);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Hover intent: switch only when the cursor rests on a row, so sweeping across the list
+  // doesn't flash every answer. The last answer stays after the cursor leaves the list.
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(hoverTimer.current), []);
+  const onHover = (index: number) => {
+    clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => setActive(index), HOVER_INTENT_MS);
+  };
 
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const last = hardTruth.length - 1;
@@ -59,7 +68,7 @@ export function HardTruth() {
               : null;
     if (next === null) return;
     event.preventDefault();
-    setSelected(next);
+    setActive(next);
     tabRefs.current[next]?.focus();
   };
 
@@ -76,7 +85,7 @@ export function HardTruth() {
               aria-orientation="vertical"
               aria-label="Common FC problems"
               className="flex flex-col gap-2"
-              onMouseLeave={() => setHovered(null)}
+              onMouseLeave={() => clearTimeout(hoverTimer.current)}
             >
               {hardTruth.map((entry, index) => {
                 const isActive = index === active;
@@ -89,11 +98,11 @@ export function HardTruth() {
                     type="button"
                     role="tab"
                     id={`${baseId}-tab-${index}`}
-                    aria-selected={index === selected}
+                    aria-selected={isActive}
                     aria-controls={`${baseId}-panel`}
-                    tabIndex={index === selected ? 0 : -1}
-                    onClick={() => setSelected(index)}
-                    onMouseEnter={() => setHovered(index)}
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => setActive(index)}
+                    onMouseEnter={() => onHover(index)}
                     onKeyDown={(event) => onKeyDown(event, index)}
                     className="group relative px-5 py-3.5 text-left outline-offset-4"
                   >
@@ -132,7 +141,7 @@ export function HardTruth() {
                 );
               })}
             </div>
-            <p className="tabular mt-4 pl-5 text-xs text-muted">Hover or tap a problem to see how we solve it.</p>
+            <p className="tabular mt-4 pl-5 text-xs text-muted">Point at a problem to see how we solve it.</p>
           </div>
 
           <div className="flex flex-col gap-6 lg:col-span-6 lg:pl-6">
@@ -150,7 +159,7 @@ export function HardTruth() {
             <div
               role="tabpanel"
               id={`${baseId}-panel`}
-              aria-labelledby={`${baseId}-tab-${selected}`}
+              aria-labelledby={`${baseId}-tab-${active}`}
               className="relative min-h-[19rem] sm:min-h-64"
             >
               <AnimatePresence mode="wait" initial={false}>
