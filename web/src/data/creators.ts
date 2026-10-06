@@ -15,6 +15,7 @@ export const creators: Creator[] = [
     ratings: { gam: 98, tac: 96, trd: 88, meta: 99 },
     badge: "Founding",
     rankLabel: "GLOBAL #01",
+    highlight: { label: "Peak rank", value: "Top 100" },
     bio: "Competing at the highest division levels since 2017, TFV breaks pro animation cancels, skill moves and in-game mechanics down into simple, actionable steps.",
     socials: { youtube: "#", x: "#", instagram: "#", tiktok: "#" },
   },
@@ -30,6 +31,7 @@ export const creators: Creator[] = [
     cardPosition: "CAM / EXPERT",
     ratings: { gam: 94, tac: 99, trd: 82, meta: 95 },
     rankLabel: "TACTICAL #02",
+    highlight: { label: "Specialty", value: "71-depth ctrl" },
     bio: "Elite division tactician and Top 100 competitive player specialising in press counters and bespoke custom tactics.",
     socials: { youtube: "#", x: "#", instagram: "#" },
   },
@@ -45,6 +47,7 @@ export const creators: Creator[] = [
     cardPosition: "RW / RANK 1",
     ratings: { gam: 99, tac: 92, trd: 79, meta: 97 },
     rankLabel: "FINISHER #03",
+    highlight: { label: "WL record", value: "20-0 Rank 1" },
     socials: { youtube: "#", x: "#", twitch: "#" },
   },
   {
@@ -59,6 +62,7 @@ export const creators: Creator[] = [
     cardPosition: "CM / TRADER",
     ratings: { gam: 88, tac: 86, trd: 99, meta: 93 },
     rankLabel: "ECONOMY #04",
+    highlight: { label: "Portfolio", value: "50M+ coins" },
     socials: { youtube: "#", x: "#" },
   },
 ];

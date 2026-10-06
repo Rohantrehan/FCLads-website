@@ -119,7 +119,7 @@ export function MetaPlayerCard({
       <div className="flex items-center justify-between">
         <Badge tone={active ? "mint" : "neutral"}>
           {active && <Flame aria-hidden className="size-3" />}
-          Rank #{player.metaRank} meta
+          {player.metaRank ? `Rank #${player.metaRank} meta` : (player.metaTag ?? "Meta pick")}
         </Badge>
         {player.trend !== undefined && <Trend value={player.trend} />}
       </div>

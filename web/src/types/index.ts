@@ -76,6 +76,8 @@ export interface Creator {
   ratings: { gam: number; tac: number; trd: number; meta: number };
   badge?: string;
   rankLabel?: string;
+  /** One headline stat shown on compact tiles, e.g. { label: "WL record", value: "20-0 Rank 1" }. */
+  highlight?: { label: string; value: string };
   bio?: string;
   socials: CreatorSocials;
   image?: string;

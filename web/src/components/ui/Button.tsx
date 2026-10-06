@@ -6,7 +6,7 @@ type Variant = "iridescent" | "primary" | "glass" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-display font-extrabold uppercase tracking-wider transition-all duration-200 select-none disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]";
+  "group inline-flex items-center justify-center gap-2 font-display font-extrabold uppercase tracking-wider transition-all duration-200 select-none disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]";
 
 const variants: Record<Variant, string> = {
   // Master CTA from DESIGN.md: white → lavender → mint, black text, mint ring + glow.

@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. Build 2–4 public pages with mock data, then decide hosting and answer the open questions.
-**Next action:** Step 3 — site layout: top nav (+ mobile menu) and footer, then start the Home page. User to review `/design-system` first.
+**Next action:** Step 5b — Learn library page (`/learn`): search, category filters, featured guide, guide grid. Expand mock guides to the full set first. User to review the Home page.
 
 ---
 
@@ -66,20 +66,26 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 - ✅ `/design-system` preview page (noindex) — checked at 1440px and 375px, no horizontal overflow
 - ✅ Utilities added: `scrollbar-none`; helpers `lib/format.ts` (numbers, compact, %, category labels)
 
-### Step 3 — Site layout ⬜
-- ⬜ Top nav (Learn, Players, Squads, Feed, Trading, Creators, FC Lads+, Log in) + mobile menu
-- ⬜ Footer
-- ⬜ Logo component
+### Step 3 — Site layout ✅
+- ✅ `layout/SiteHeader` — sticky glass header, desktop nav with active state, FREE/LADS+ badges, Log in; phone/tablet menu (button with aria-expanded, Escape closes, closes on navigation, scroll lock); "Skip to content" link
+- ✅ `layout/SiteFooter` — logo + tagline, footer nav, social icons, EA non-affiliation line (replaces the fake "SERVER: EU-CENTRAL / BUILD" text)
+- ✅ `layout/SocialIcons` — generic icons as in the designs (lucide has no brand logos); real URLs still `#` in `lib/site.ts`
+- ✅ `lib/site.ts` — single source for main nav, footer nav, social links
+- ✅ `(site)` route group with shared layout (header + main + footer)
+- ✅ Root `not-found.tsx` — styled "This page isn't built yet" 404 with header/footer (all nav links not built yet land here)
+- ✅ `page-container` utility (16px phone gutter → 56px desktop)
 
 ### Step 4 — Mock data 🟡
 - ✅ Types in `src/types/index.ts`: Player, Creator, Guide, AccessTier, Position (FeedPost still to add)
-- ✅ `src/data/creators.ts` (4 Lads), `guides.ts` (4 guides), `players.ts` (5 fictional players from the designs)
+- ✅ `src/data/creators.ts` (4 Lads, with `highlight` stat), `guides.ts` (4 guides), `players.ts` (7 fictional players from the designs), `ladsPlus.ts` (price + 5 perks)
 - ⬜ Expand guides to the full Learn library set; add feed posts
 
-### Step 5 — First pages ⬜
+### Step 5 — First pages 🟡
+Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayersSection (position filter, carousel, empty state), HardTruth, LearnSection, LadsPlusTeaser, MeetTheLads (+ `cards/CreatorTile`, `OpenSlotTile`), FeedPreview, MembershipCta (+ log-in strip). Checked at 1440px and 375px.
+
 | Page | Design reference | Status |
 |---|---|---|
-| Home | `fc_lads_home_page` | ⬜ |
+| Home | `fc_lads_home_page` | ✅ built, awaiting user review |
 | Learn library | `fc_lads_learn_free_guides_library` | ⬜ |
 | Guide article | `fc_lads_guide_article_beat_the_high_press` | ⬜ |
 | Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ⬜ |
@@ -116,6 +122,12 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 - Placeholders used instead of player/creator photos (licensing + real photos pending).
 - Testing note: the Chrome extension cannot reach `localhost` on this PC. Visual checks are done with headless Edge. Headless Edge's minimum viewport is 496px, so phone width (375px) is tested by loading the page inside a 375px iframe.
 
+### 2026-10-06 — Session 1 (continued, Step 3 + Home)
+- Completed **Step 3 (site layout)** and built the **Home page**.
+- Mobile fix learned: grids that switch to 12 columns on desktop need `grid-cols-1` on phones, otherwise a horizontal carousel inside stretches the column and pushes headings off-screen.
+- Copy changes vs. design (to avoid unverifiable claims): "0hr Time Wasted / 100% In-Game Tested" → "No hours wasted / Tested in-game"; "30 MIN SLA" → "Patch day"; footer fake server/build text → EA disclaimer; "Glitched in 1.08" → "elite in 1.08".
+- Mock values still hard-coded on Home: patch "1.08", week 28 (`app/(site)/page.tsx`).
+
 ## How to run locally
 
 ```bash
@@ -126,4 +138,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (placeholder), `/design-system` (component preview).
+Pages so far: `/` (Home), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
