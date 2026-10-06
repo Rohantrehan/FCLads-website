@@ -113,3 +113,39 @@ export interface Guide {
   youtubeId?: string;
   image?: string;
 }
+
+/** One block of guide body content. Mirrors what a CMS (e.g. Payload "blocks") will return. */
+export type GuideBlock =
+  | { type: "p"; text: string }
+  | { type: "section"; id: string; title: string }
+  | { type: "steps"; items: { title: string; text: string }[] }
+  | { type: "tip"; label?: string; title: string; text: string }
+  | {
+      type: "controls";
+      title: string;
+      /** Button presses in order, e.g. ["L1", "R1", "Through ball"]. */
+      inputs: string[];
+      result: string;
+      note?: string;
+      successRate?: string;
+    }
+  | { type: "player"; slug: string; note: string };
+
+export interface GuideContent {
+  slug: string;
+  /** Words of the title to colour green, e.g. "high press". */
+  highlight?: string;
+  patch?: string;
+  /** Lead paragraphs shown above the body. */
+  intro: string[];
+  blocks: GuideBlock[];
+  /**
+   * Index in `blocks` where FC Lads+ content starts. Everything from here is only sent
+   * to members. Undefined = the whole guide is free.
+   */
+  lockedFrom?: number;
+  /** Custom tactic share code shown in the sidebar. */
+  presetCode?: string;
+  /** Players mentioned, shown in the sidebar. */
+  playerSlugs?: string[];
+}

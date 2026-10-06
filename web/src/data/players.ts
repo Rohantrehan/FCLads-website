@@ -4,6 +4,22 @@ import type { Player } from "@/types";
 // are on hold until the licensing question is answered (PROGRESS.md open question #2).
 export const players: Player[] = [
   {
+    slug: "marco-velardi",
+    name: "Marco Velardi",
+    cardName: "M. Velardi",
+    ovr: 91,
+    position: "ST",
+    nation: "ITA",
+    club: "Apex FC",
+    stats: { pac: 96, sho: 91, pas: 81, dri: 92, def: 30, phy: 77 },
+    price: 420_000,
+    trend: 8.2,
+    metaTag: "TOP PICK",
+    playstyles: ["Incisive Pass+", "Finesse Shot+", "Quick Step+"],
+    verdict: "The most responsive left-stick exit angle in the game. Undervalued.",
+    matchUsage: "840K matches",
+  },
+  {
     slug: "kai-vanderbilt",
     name: "Kai Vanderbilt",
     ovr: 94,

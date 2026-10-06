@@ -17,7 +17,6 @@ export const guides: Guide[] = [
     authorSlug: "tfv-gaming",
     publishedAt: "2025-10-15",
     isFeatured: true,
-    youtubeId: "placeholder",
   },
   {
     slug: "beat-the-high-press",

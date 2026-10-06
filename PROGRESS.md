@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. Build 2–4 public pages with mock data, then decide hosting and answer the open questions.
-**Next action:** Step 5c — Guide article page (`/guides/[slug]`): article template, YouTube embed, steps, pro-tip callouts, partial paywall for Lads+ content. User to review `/learn` first.
+**Next action:** Step 5d — Meet the Lads (`/creators`) + creator profile template (`/creators/[slug]`). This is the 4th and last page before the Step 6 review checkpoint. User to review a guide page first (e.g. `/guides/beat-the-high-press`).
 
 ---
 
@@ -88,7 +88,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 |---|---|---|
 | Home | `fc_lads_home_page` | ✅ built; feedback round 1 done (auto-scroll + interactive hard truth) |
 | Learn library | `fc_lads_learn_free_guides_library` | ✅ built, awaiting user review |
-| Guide article | `fc_lads_guide_article_beat_the_high_press` | ⬜ |
+| Guide article | `fc_lads_guide_article_beat_the_high_press` | ✅ built, awaiting user review |
 | Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ⬜ |
 
 ### Step 6 — Review checkpoint ⬜
@@ -152,6 +152,19 @@ User feedback on Home → implemented:
 - Interaction test (headless Edge/CDP): **9/9 Learn checks pass** (count, load more, scroll kept, category filter + active state, search keeps category, results, clear search, deep link from Home chip). Home regression still 13/13.
 - `/learn` renders on each request (reads URL filters). Fine now; add caching when the real API arrives.
 
+### 2026-10-06 — Guide article page
+- Built **`/guides/[slug]`** (`app/(site)/guides/[slug]/page.tsx`, components in `components/guide/`). All 16 guides **pre-built as static HTML** (`generateStaticParams`, `dynamicParams = false` → unknown slugs 404).
+  - Breadcrumb, badges, title with green highlight words, author row, read time, date, Share.
+  - `VideoFacade`: poster + play button, loads the **youtube-nocookie** player only on click. Shows "Video coming soon" until real YouTube IDs are added to `data/guides.ts` (`youtubeId`).
+  - Body = **structured blocks** (`GuideBlock` type: p, section, steps, tip, controls, player) rendered by `GuideBlocks`. Content in `data/guideContent.ts` (full "Beat the high press", shorter "hybrid overload" and "FUT Champs first 10 games"); other guides show a "write-up coming soon" fallback.
+  - Sidebar: **"In this guide"** with scroll-spy and locked sections, **players in this guide** with prices, **custom tactic code** with Copy button.
+  - "Keep learning": 3 related guides (same category first). Article JSON-LD for Google.
+- **Paywall is enforced on the server**: `lib/guideAccess.ts` (`server-only`) cuts blocks at `lockedFrom`; Lads+ guides lock from the start. `lib/viewer.ts` is a stub (`isMember: false`) — plug real auth in there later.
+  - Verified in the production build: members-only text is absent from the HTML, the RSC payloads and all client JS. Only a deliberate one-paragraph teaser (≤180 chars) is sent.
+- Added deps: `server-only`. Added `marco-velardi` to mock players.
+- Browser checks: guide 5/5 (TOC, locked links, copy code + clipboard, scroll to paywall), 404 for unknown slug; Home 13/13 and Learn 9/9 still pass.
+- **Browser check scripts saved to `web/scripts/browser-checks/`** (home, learn, guide) with a README, so they survive between sessions.
+
 ## How to run locally
 
 ```bash
@@ -162,4 +175,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides library), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides library), `/guides/[slug]` (16 guide articles), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
