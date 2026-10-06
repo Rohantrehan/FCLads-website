@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'surface': '#111318', 'surface-container-highest': '#333539', 'on-tertiary': '#003061', 'on-secondary-container': '#9fffd8', 'error': '#ffb4ab', 'outline-variant': '#3c4a40', 'inverse-primary': '#006d41', 'surface-tint': '#38e192', 'tertiary': '#c9dbff', 'tertiary-fixed-dim': '#a8c8ff', 'on-surface': '#e2e2e8', 'on-secondary-fixed-variant': '#00513b', 'on-error': '#690005', 'tertiary-fixed': '#d5e3ff', 'surface-container-lowest': '#0c0e12', 'secondary-fixed-dim': '#78d9b3', 'secondary': '#78d9b3', 'surface-container': '#1d2024', 'on-error-container': '#ffdad6', 'primary': '#54f6a5', 'on-primary': '#003920', 'on-primary-container': '#005935', 'primary-fixed': '#5efeac', 'inverse-on-surface': '#2e3035', 'on-secondary': '#003828', 'on-surface-variant': '#bbcbbd', 'background': '#111318', 'surface-variant': '#333539', 'on-secondary-fixed': '#002116', 'on-tertiary-container': '#004d95', 'tertiary-container': '#9bc0ff', 'surface-dim': '#111318', 'on-tertiary-fixed-variant': '#004689', 'surface-container-high': '#282a2f', 'on-background': '#e2e2e8', 'primary-container': '#2bd98b', 'on-primary-fixed-variant': '#005230', 'surface-container-low': '#191c20', 'outline': '#859488', 'error-container': '#93000a', 'on-primary-fixed': '#002110', 'inverse-surface': '#e2e2e8', 'surface-bright': '#37393e', 'secondary-container': '#007a5a', 'primary-fixed-dim': '#38e192', 'secondary-fixed': '#94f5ce', 'on-tertiary-fixed': '#001b3c' }, borderRadius: { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, spacing: { 'space-xl': '2.5rem', 'space-lg': '1.5rem', 'space-xs': '0.25rem', 'gutter': '1.5rem', 'margin-desktop': '3.5rem', 'margin': '1.5rem', 'gutter-desktop': '2rem', 'space-sm': '0.5rem', 'space-md': '1rem' }, fontFamily: { 'body-lg': ['Manrope'], 'hero-display': ['Sora'], 'headline-lg': ['Sora'], 'label-badge': ['Sora'], 'body-sm': ['Manrope'], 'headline-xl': ['Sora'], 'headline-md': ['Sora'], 'hero-display-mobile': ['Sora'], 'body-md': ['Manrope'], 'label-data': ['JetBrains Mono'] }, fontSize: { 'body-lg': ['18px', { lineHeight: '26px', fontWeight: '500' }], 'hero-display': ['80px', { lineHeight: '84px', letterSpacing: '0.06em', fontWeight: '800' }], 'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '0.04em', fontWeight: '700' }], 'label-badge': ['11px', { lineHeight: '14px', letterSpacing: '0.08em', fontWeight: '700' }], 'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }], 'headline-xl': ['36px', { lineHeight: '42px', letterSpacing: '0.05em', fontWeight: '800' }], 'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '0.03em', fontWeight: '700' }], 'hero-display-mobile': ['44px', { lineHeight: '48px', letterSpacing: '0.04em', fontWeight: '800' }], 'body-md': ['16px', { lineHeight: '24px', fontWeight: '500' }], 'label-data': ['14px', { lineHeight: '18px', letterSpacing: '0.02em', fontWeight: '600' }] } } } }</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-sm focus:outline-none" data-path="feed" href="#"><img alt="FC Lads logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1X2uZxYtNWeohRsC--jbMaMyMaUYVZxgPPXS0E15pVhoKdIJs7j63LETs3lc2z9xTJ0q0z-pihzF4qj9o5C8-Ox3GFFEIYQSaliMxP5qVK3fkChGYXweSz7N7cgopS8VFwhbt9TSDhmYm8xVEjckzxFmeOq_ADeAlcJn1rBNElaxLUQZYc9eQaPYyVlkhqoinhzbyez4T4VfArxb4fFLjD02EzaRU45YAwclqg0_IZ6G-5I4tRnHIppdykP"/><span class="font-headline-md text-headline-md tracking-wider text-on-surface uppercase">FC Lads</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-headline-md font-bold shadow-[0_0_16px_rgba(43,217,139,0.35)]"><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="learn" href="#">Learn</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="players" href="#">Players</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="squads" href="#">Squads</a><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-primary-container text-on-primary-container font-headline-md font-bold shadow-[0_0_16px_rgba(43,217,139,0.35)]" data-path="feed" href="#">Feed</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="trading" href="#">Trading</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="creators" href="#">Creators</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="fc-lads+" href="#">FC Lads+</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-low"><div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div><span class="font-label-data text-label-data text-on-surface-variant uppercase">Patch 1.08 Sync</span><span class="text-outline font-label-data text-label-data">/</span><span class="font-label-data text-label-data text-primary">14ms</span></div><div class="flex items-center gap-space-xs"><span class="px-space-sm py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant font-label-badge text-label-badge uppercase tracking-widest">Free</span><span class="px-space-sm py-0.5 rounded-lg bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-widest shadow-[0_0_12px_rgba(43,217,139,0.25)]">Lads+</span></div><a class="hidden sm:inline-block font-headline-md text-label-data text-on-surface hover:text-primary transition-colors uppercase tracking-wider px-space-sm py-space-xs" data-path="login" href="#">Log in</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface-container-lowest relative min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full px-gutter-desktop py-space-xl flex flex-col gap-space-xl">
+<!-- HEADER ZONE -->
+<header class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-surface-container-high text-primary font-label-badge text-label-badge uppercase tracking-widest">
+            Tactical Feed v1.08
+          </span>
+<span class="text-outline font-label-data text-label-data">/</span>
+<span class="font-label-data text-label-data text-on-surface-variant uppercase">Stream Active</span>
+</div>
+<h1 class="font-hero-display text-hero-display text-on-surface uppercase tracking-tight">
+          THE FC LADS FEED
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          Everything happening in FC without having to spend your entire day online.
+        </p>
+</div>
+<!-- TELEMETRY CHIP -->
+<div class="flex items-center gap-space-md bg-surface-container-low px-space-lg py-space-md rounded-xl shadow-lg border-0 self-start lg:self-end">
+<div class="relative flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary animate-ping absolute"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-badge text-label-badge uppercase tracking-widest text-on-surface">FEED STREAM // LIVE SYNC</span>
+<span class="font-label-data text-label-data text-primary uppercase font-bold">24 NEW PULSES TODAY</span>
+</div>
+</div>
+</header>
+<!-- FILTER BAR -->
+<section aria-label="Feed Filters" class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md bg-surface-container-low/60 p-space-xs rounded-xl backdrop-blur-md">
+<!-- Tactical Tabs -->
+<div class="flex items-center gap-space-xs overflow-x-auto py-space-xs scrollbar-none">
+<!-- Active Tab with kinetic gradient slab -->
+<button class="relative px-space-lg py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-primary-container bg-primary-container font-bold shadow-[0_0_20px_rgba(43,217,139,0.35)] flex items-center gap-space-xs transition-transform active:scale-95">
+<span>All</span>
+<span class="px-1.5 py-0.5 rounded bg-on-primary-container/20 text-on-primary-container text-[11px] font-label-data">24</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span>Gameplay</span>
+<span class="text-outline font-label-data text-label-badge">(6)</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span>Players</span>
+<span class="text-outline font-label-data text-label-badge">(8)</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span>Trading</span>
+<span class="text-outline font-label-data text-label-badge">(4)</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span>Updates</span>
+<span class="text-outline font-label-data text-label-badge">(3)</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span>FUT Champs</span>
+<span class="text-outline font-label-data text-label-badge">(5)</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-space-xs">
+<span>Squads</span>
+<span class="text-outline font-label-data text-label-badge">(7)</span>
+</button>
+</div>
+<!-- Quick Fast Toggles -->
+<div class="flex items-center gap-space-sm px-space-xs justify-end">
+<label class="flex items-center gap-space-xs bg-surface-container px-space-md py-space-xs rounded-full cursor-pointer hover:bg-surface-container-high transition-colors">
+<input class="sr-only peer" id="unread-toggle" type="checkbox"/>
+<div class="w-7 h-4 bg-surface-container-highest peer-checked:bg-primary-container rounded-full relative transition-colors">
+<div class="w-3 h-3 bg-on-surface peer-checked:bg-on-primary-container rounded-full absolute top-0.5 left-0.5 transition-transform peer-checked:translate-x-3"></div>
+</div>
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant select-none">Unread Only</span>
+</label>
+<button class="flex items-center gap-space-xs bg-surface-container-highest/80 hover:bg-surface-container-highest px-space-md py-space-xs rounded-full transition-colors">
+<span class="material-symbols-outlined text-[14px] text-tertiary">bolt</span>
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-tertiary">Lads+ Highlights</span>
+</button>
+</div>
+</section>
+<!-- MAIN GRID CONTAINER -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-xl items-start">
+<!-- FEED CONTENT (LEFT COLUMN - 8 COLS ~67-70%) -->
+<main class="xl:col-span-8 flex flex-col gap-space-lg">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg items-start">
+<!-- CARD 1: VIDEO POST (FOCUSED STATE WITH MINT GLOW) -->
+<article class="lg:col-span-2 bg-surface-container-low rounded-xl p-space-lg shadow-2xl relative overflow-hidden group transition-all duration-300 hover:scale-[1.01] ring-1 ring-primary/40 shadow-[0_0_35px_rgba(43,217,139,0.18)]">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-surface-bright flex items-center justify-center font-headline-md text-label-badge text-on-surface font-bold">
+                  S
+                </div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">Stefan <span class="text-on-surface-variant font-normal text-body-sm">(Top 100 Tactics Analyst)</span></span>
+<span class="font-label-data text-label-badge text-outline">45m ago • Patch 1.08 Analysis</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-tertiary-container/30 text-tertiary font-label-badge text-label-badge uppercase tracking-widest">
+                  Free
+                </span>
+<button aria-label="Bookmark" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+<button aria-label="Share" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+<!-- Video Thumbnail Canvas -->
+<div class="relative w-full aspect-video rounded-lg overflow-hidden mb-space-md bg-surface-container-lowest">
+<div class="bg-cover bg-center w-full h-full transform transition-transform duration-500 group-hover:scale-105" data-alt="Dark tactical pitch diagram with neon green and cyan passing vectors, showing defensive overload breaking in a modern soccer simulation video game with tactical overlays and glowing arrows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4MHT7kVNcLMhvkyLANeWZ_9HeT0Bv79lgRO8Dhr7CZ-OfrshjHnzWo0Nu0nO2vZ3lJR0WaXiLDbpicO3fiv8OKeoRxAD26PJbuVWvVc9FMChnpr4_tss1_sQXtcMShGHNU47zYV7ZaOL7yNLyfJnHLM2ihfx25mpDArDFKtcaZAYtdLuVIqRyjvirf09b49PTwg6jLEimA9adF7319kMGNrMTTnFZe5AY3XhqaopjTjubl4reZ29-kw')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent"></div>
+<!-- Play overlay trigger -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_0_24px_rgba(84,246,165,0.6)] transform transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[32px] ml-1">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-space-sm right-space-sm px-space-sm py-0.5 rounded bg-surface-container-lowest/90 backdrop-blur font-label-data text-label-badge text-on-surface font-bold">
+                14:10 HD
+              </div>
+<div class="absolute top-space-sm left-space-sm px-space-sm py-0.5 rounded bg-primary/20 backdrop-blur text-primary font-label-badge text-label-badge uppercase tracking-wider">
+                Tactical Breakdown
+              </div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-normal group-hover:text-primary transition-colors cursor-pointer">
+                How to beat the 71-depth auto-overload in Patch 1.08 without long balls
+              </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Full slider decomposition on manipulating full-back AI positioning to trigger effortless third-man underlaps against elite division hyper-press setups.
+              </p>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-sm bg-surface-container/40 rounded-lg px-space-md py-space-xs">
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-data text-label-data">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">visibility</span> 18.4K views</span>
+<span class="text-outline">/</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">thumb_up</span> 94% approval</span>
+</div>
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-primary flex items-center gap-1">
+                Watch Clip <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</span>
+</div>
+</article>
+<!-- CARD 2: PLAYER SCOUTING VERDICT -->
+<article class="bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col justify-between transition-transform hover:-translate-y-1">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">TFV Gaming <span class="text-primary text-[12px]">★ Pro</span></span>
+<span class="font-label-data text-label-badge text-outline">2h ago</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-tertiary-container/30 text-tertiary font-label-badge text-label-badge uppercase tracking-widest">
+                    Free
+                  </span>
+<button aria-label="Bookmark" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+<div class="font-label-badge text-label-badge uppercase tracking-widest text-primary mb-space-xs">
+                PLAYERS // META VERDICT
+              </div>
+<!-- Mini Holographic Card + Verdict split -->
+<div class="flex flex-col sm:flex-row gap-space-md my-space-md">
+<!-- Mini Card Chassis -->
+<div class="w-full sm:w-36 flex-shrink-0 bg-surface-container rounded-lg p-space-sm flex flex-col items-center justify-between text-center relative overflow-hidden shadow-inner">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-surface-container-highest/40 pointer-events-none"></div>
+<div class="w-full flex justify-between items-start">
+<div class="flex flex-col text-left">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface leading-none">91</span>
+<span class="font-label-badge text-label-badge text-primary uppercase font-bold">ST</span>
+</div>
+<span class="font-label-data text-[10px] text-on-surface-variant uppercase">ITA 1</span>
+</div>
+<div class="w-16 h-16 rounded-full bg-surface-container-high my-space-xs flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait rendering of athletic Italian football striker with styled dark hair, aggressive game face, under dramatic arena neon studio lighting with dark teal accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWcXpZfIIUhl4vxeMeBckreb4xUwd0pyo94011Shy2nGTHsXE8T1Tq_Fq0kFCQyirmdi7zLBssJT60UvS2wLizK2IlcLG1zG9ihXcIv49ErNqlhDC1T14ERvfk1KV3R1pvjVc9Y63Tej3eIc36b5v0f9alri-0NCX9jqLVYq0UGM9cEgE-O0dfZvHVyWo3wDjF5_eYxow4UAC6j3w53TI9k4AY4EwA-XnvThX3bDHdGZliYlzMg4xpfg"/>
+</div>
+<div class="w-full">
+<span class="font-headline-md text-label-data text-on-surface font-bold uppercase truncate block">M. Velardi</span>
+<div class="grid grid-cols-3 gap-1 text-[10px] font-label-data text-on-surface-variant mt-1">
+<div><span class="text-primary font-bold">94</span> PAC</div>
+<div><span class="text-on-surface font-bold">92</span> SHO</div>
+<div><span class="text-primary font-bold">93</span> DRI</div>
+</div>
+</div>
+</div>
+<!-- Verdict Context -->
+<div class="flex flex-col justify-between">
+<blockquote class="font-headline-md text-headline-md text-on-surface tracking-tight leading-snug">
+                    "Velardi's step-over exit angle is mathematically glitched — best striker under 500K by a wide margin."
+                  </blockquote>
+<div class="flex flex-wrap gap-1 mt-space-sm">
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-[11px] font-label-data text-primary font-bold">Finesse Shot+</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-[11px] font-label-data text-on-surface">Rapid</span>
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-[11px] font-label-data text-on-surface">Technical</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-sm bg-surface-container/30 px-space-md py-space-xs rounded-lg mt-space-xs">
+<span class="font-label-data text-label-badge uppercase tracking-wider text-on-surface-variant">Market Index:</span>
+<span class="font-label-data text-label-data text-tertiary-fixed font-bold">~420,000 Coins</span>
+</div>
+</article>
+<!-- CARD 3: PATCH BREAKDOWN -->
+<article class="bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col justify-between transition-transform hover:-translate-y-1">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">build</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">Hobs <span class="text-tertiary text-[12px] font-bold">20-0 Rank 1</span></span>
+<span class="font-label-data text-label-badge text-outline">3h ago</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-tertiary-container/30 text-tertiary font-label-badge text-label-badge uppercase tracking-widest">
+                    Free
+                  </span>
+<button aria-label="Bookmark" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+<div class="font-label-badge text-label-badge uppercase tracking-widest text-primary mb-space-xs">
+                UPDATES // PATCH 1.08 DEEP DIVE
+              </div>
+<h2 class="font-headline-lg text-headline-md text-on-surface mb-space-md leading-tight">
+                What the latest update actually changed (and what EA didn't tell you)
+              </h2>
+<ul class="flex flex-col gap-space-sm font-body-sm text-body-sm text-on-surface-variant">
+<li class="flex items-start gap-space-sm p-space-xs rounded bg-surface-container/50">
+<span class="w-1.5 h-1.5 rounded-full bg-error mt-2 flex-shrink-0"></span>
+<span>Second man press recovery time increased by <strong class="text-on-surface font-label-data font-bold">+220ms</strong> (auto-traps nerfed hard).</span>
+</li>
+<li class="flex items-start gap-space-sm p-space-xs rounded bg-surface-container/50">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0"></span>
+<span>Trivela trajectory curve flattened outside the 20-yard arc to reduce long-shot cheese.</span>
+</li>
+<li class="flex items-start gap-space-sm p-space-xs rounded bg-surface-container/50">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+<span>Controlled sprint acceleration adjusted for Lengthy archetypes (<strong class="text-primary font-label-data font-bold">+34%</strong> effective burst).</span>
+</li>
+</ul>
+</div>
+<div class="flex items-center justify-between pt-space-sm mt-space-md bg-surface-container/30 px-space-md py-space-xs rounded-lg">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant">Engineering Log</span>
+<span class="font-label-data text-label-badge text-primary uppercase">Engine Rev: 884-KB</span>
+</div>
+</article>
+<!-- CARD 4: TRADING NOTE (PREMIUM LADS+) -->
+<article class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-1">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">Wessam <span class="text-secondary text-[12px] font-bold">Market Lead</span></span>
+<span class="font-label-data text-label-badge text-outline">4h ago</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-widest flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[12px]">lock</span> Lads+
+                  </span>
+<button aria-label="Bookmark" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+<div class="font-label-badge text-label-badge uppercase tracking-widest text-primary mb-space-xs">
+                TRADING // MARKET PULSE
+              </div>
+<h2 class="font-headline-lg text-headline-md text-on-surface mb-space-md leading-tight">
+                3 high-rated fodder targets to stockpile before Friday's 6PM content drop
+              </h2>
+<!-- Fodder target token rows -->
+<div class="flex flex-col gap-space-xs mb-space-sm">
+<div class="flex items-center justify-between p-space-xs px-space-sm bg-surface-container rounded-lg">
+<div class="flex items-center gap-space-sm">
+<span class="w-6 h-6 rounded bg-surface-container-highest flex items-center justify-center text-[11px] font-label-data text-primary font-bold">88</span>
+<span class="font-headline-md text-label-data text-on-surface">Irene Paredes</span>
+</div>
+<span class="font-label-data text-label-badge text-secondary font-bold">BUY: &lt; 14,250</span>
+</div>
+<div class="flex items-center justify-between p-space-xs px-space-sm bg-surface-container rounded-lg">
+<div class="flex items-center gap-space-sm">
+<span class="w-6 h-6 rounded bg-surface-container-highest flex items-center justify-center text-[11px] font-label-data text-primary font-bold">87</span>
+<span class="font-headline-md text-label-data text-on-surface">Gregor Kobel</span>
+</div>
+<span class="font-label-data text-label-badge text-secondary font-bold">BUY: &lt; 9,800</span>
+</div>
+<!-- 3rd Locked Fodder item with blur -->
+<div class="relative p-space-xs px-space-sm bg-surface-container rounded-lg overflow-hidden flex items-center justify-between">
+<div class="filter blur-sm select-none opacity-40 flex items-center gap-space-sm">
+<span class="w-6 h-6 rounded bg-surface-container-highest flex items-center justify-center text-[11px] font-label-data">89</span>
+<span class="font-headline-md text-label-data">Alisson Becker</span>
+</div>
+<div class="absolute inset-0 bg-surface-container-low/80 backdrop-blur-xs flex items-center justify-center gap-space-xs px-2">
+<span class="material-symbols-outlined text-primary text-[14px]">lock</span>
+<span class="font-label-badge text-[11px] uppercase tracking-wider text-on-surface">Lads+ Target Band Locked</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-space-sm">
+<a class="w-full py-space-xs bg-surface-container-high hover:bg-surface-bright rounded-lg font-label-badge text-label-badge uppercase tracking-wider text-primary text-center block transition-colors" href="#">
+                Unlock full price bands &amp; sell targets →
+              </a>
+</div>
+</article>
+<!-- CARD 5: SQUAD BLUEPRINT -->
+<article class="bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col justify-between transition-transform hover:-translate-y-1">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">sports_soccer</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">Stefan</span>
+<span class="font-label-data text-label-badge text-outline">5h ago</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-tertiary-container/30 text-tertiary font-label-badge text-label-badge uppercase tracking-widest">
+                    Free
+                  </span>
+<button aria-label="Bookmark" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+<div class="font-label-badge text-label-badge uppercase tracking-widest text-primary mb-space-xs">
+                SQUADS // 50K BLUEPRINT
+              </div>
+<h2 class="font-headline-lg text-headline-md text-on-surface mb-space-sm leading-tight">
+                50K Weekend League starter that went 18-2 in test runs
+              </h2>
+<!-- Mini Pitch Graphic -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md my-space-sm relative overflow-hidden flex flex-col items-center justify-center">
+<div class="w-full h-32 relative rounded border border-outline-variant/30 flex items-center justify-center bg-gradient-to-b from-surface-container-low to-surface-container-lowest">
+<!-- Pitch Center Circle -->
+<div class="w-14 h-14 rounded-full border border-outline-variant/20 absolute"></div>
+<!-- Formation nodes (4-2-3-1 simplified) -->
+<div class="w-2.5 h-2.5 rounded-full bg-primary absolute top-2 shadow-[0_0_8px_rgba(84,246,165,0.8)]"></div>
+<div class="w-2 h-2 rounded-full bg-secondary absolute top-10 left-8"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary absolute top-9"></div>
+<div class="w-2 h-2 rounded-full bg-secondary absolute top-10 right-8"></div>
+<div class="w-2 h-2 rounded-full bg-surface-tint absolute bottom-12 left-14"></div>
+<div class="w-2 h-2 rounded-full bg-surface-tint absolute bottom-12 right-14"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface-variant absolute bottom-4 left-6"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface-variant absolute bottom-4 left-16"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface-variant absolute bottom-4 right-16"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface-variant absolute bottom-4 right-6"></div>
+</div>
+<div class="w-full flex items-center justify-between mt-space-sm pt-space-xs text-on-surface">
+<div class="flex items-center gap-1 font-label-data text-label-badge">
+<span class="text-primary font-bold">33/33</span> Chem
+                  </div>
+<span class="font-label-data text-label-badge text-tertiary-fixed font-bold">~48,500 Coins</span>
+<span class="font-label-badge text-label-badge text-on-surface-variant uppercase">4-2-3-1</span>
+</div>
+</div>
+</div>
+<div class="pt-space-xs">
+<button class="w-full py-space-xs bg-surface-container hover:bg-surface-container-high rounded-lg font-headline-md text-label-data uppercase tracking-wider text-on-surface flex items-center justify-center gap-space-xs transition-colors">
+<span class="material-symbols-outlined text-[16px] text-primary">content_copy</span>
+                Copy Squad Code
+              </button>
+</div>
+</article>
+<!-- CARD 6: FUT CHAMPS TIP (TYPOGRAPHIC QUOTE) -->
+<article class="bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col justify-between transition-transform hover:-translate-y-1">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">emoji_events</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">Hobs</span>
+<span class="font-label-data text-label-badge text-outline">6h ago</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-tertiary-container/30 text-tertiary font-label-badge text-label-badge uppercase tracking-widest">
+                    Free
+                  </span>
+<button aria-label="Bookmark" class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+<div class="font-label-badge text-label-badge uppercase tracking-widest text-primary mb-space-md">
+                FUT CHAMPS // MENTALITY
+              </div>
+<div class="relative py-space-sm">
+<span class="material-symbols-outlined text-outline-variant/30 text-[64px] absolute -top-4 -left-2 select-none pointer-events-none">format_quote</span>
+<p class="font-headline-lg text-headline-md text-on-surface tracking-tight leading-snug relative z-10 italic">
+                  "If you concede in the first 10 minutes, do not trigger team press. 80% of comebacks in Elite Division happen between min 55 and 75 by holding your shape."
+                </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-md bg-surface-container/30 px-space-md py-space-xs rounded-lg mt-space-md">
+<span class="font-label-badge text-label-badge uppercase tracking-widest text-outline">Rule #04 // Weekend League</span>
+<span class="font-label-data text-label-badge text-primary uppercase">Discipline Factor</span>
+</div>
+</article>
+<!-- CARD 7: COMMUNITY SKILL POLL -->
+<article class="lg:col-span-2 bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">poll</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-label-data text-on-surface">FC Lads Community Pulse</span>
+<span class="font-label-data text-label-badge text-outline">7h ago • 3,410 Votes Cast</span>
+</div>
+</div>
+<span class="px-space-sm py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant font-label-badge text-label-badge uppercase tracking-widest">
+                Active Ballot
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-md">
+              Which skill move are you currently using most reliably to break 5-at-the-back low blocks?
+            </h3>
+<!-- Interactive Poll items -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col gap-1 cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between font-label-data text-label-data">
+<span class="text-on-surface">Ball Roll Drag Back</span>
+<span class="text-primary font-bold">52%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 52%"></div>
+</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col gap-1 cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between font-label-data text-label-data">
+<span class="text-on-surface">Step-over Speed Boost</span>
+<span class="text-on-surface-variant font-bold">29%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 29%"></div>
+</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col gap-1 cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between font-label-data text-label-data">
+<span class="text-on-surface">Flair Nutmeg Cancel</span>
+<span class="text-on-surface-variant font-bold">12%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 12%"></div>
+</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col gap-1 cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between font-label-data text-label-data">
+<span class="text-on-surface">Elastico Reverse</span>
+<span class="text-on-surface-variant font-bold">7%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 7%"></div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- LOAD MORE CONSOLE ACTION -->
+<div class="flex flex-col items-center justify-center pt-space-xl gap-space-xs">
+<button class="px-space-xl py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-headline-md text-label-data uppercase tracking-wider flex items-center gap-space-sm shadow-md transition-all active:scale-98">
+<span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-primary">X</span>
+<span>Load More Pulses</span>
+</button>
+<span class="font-label-data text-label-badge text-outline uppercase tracking-wider">
+            Showing 7 of 34 updates from the past 48 hours
+          </span>
+</div>
+</main>
+<!-- STICKY RIGHT RAIL (4 COLS ~30-33%) -->
+<aside class="xl:col-span-4 flex flex-col gap-space-lg xl:sticky xl:top-24">
+<!-- FREE VS FC LADS+ PANEL -->
+<section aria-label="Membership Tiers" class="rounded-xl overflow-hidden shadow-2xl bg-surface-container-low flex flex-col">
+<!-- FREE BLOCK -->
+<div class="p-space-lg bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-space-sm py-0.5 rounded-lg bg-surface-container-highest text-on-surface-variant font-label-badge text-label-badge uppercase tracking-widest">
+                Tier: Free
+              </span>
+<span class="font-label-data text-label-badge text-outline">Public Node</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Read public FC Lads feed content, browse meta database ratings, and watch weekly creator breakdown guides without a subscription.
+            </p>
+</div>
+<!-- Glowing divider separator -->
+<div class="h-0.5 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-40"></div>
+<!-- FC LADS+ BLOCK -->
+<div class="p-space-lg bg-gradient-to-br from-surface-container to-surface-container-low relative overflow-hidden flex flex-col gap-space-md">
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex items-center justify-between relative z-10">
+<span class="px-space-sm py-0.5 rounded-lg bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-widest font-bold shadow-[0_0_12px_rgba(43,217,139,0.3)]">
+                FC LADS+ ($29/MO)
+              </span>
+<span class="material-symbols-outlined text-primary text-[20px]">stars</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface relative z-10">
+              Unlock competitive telemetry, secret pro custom slider imports, private coaching Discord channels, creator 1-on-1 access, and weekly live market briefs.
+            </p>
+<ul class="flex flex-col gap-1.5 font-label-data text-label-badge text-on-surface-variant relative z-10">
+<li class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Pro 20-0 Custom Tactics Sliders
+              </li>
+<li class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Daily SBC Sniping &amp; Market Alerts
+              </li>
+<li class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Monthly Gameplay VOD Reviews
+              </li>
+</ul>
+<!-- Master CTA -->
+<a class="w-full py-space-sm rounded-lg bg-gradient-to-r from-on-surface via-tertiary-fixed to-primary text-surface-container-lowest font-headline-md text-label-data uppercase tracking-wider font-bold text-center block shadow-[0_0_24px_rgba(84,246,165,0.4)] hover:brightness-110 active:scale-98 transition-all relative z-10 mt-space-xs" href="#">
+              Join FC Lads+
+            </a>
+</div>
+</section>
+<!-- TRENDING THIS WEEK -->
+<section aria-label="Trending Stories" class="bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md uppercase tracking-wider text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">local_fire_department</span>
+              Trending This Week
+            </h2>
+<span class="font-label-data text-label-badge text-outline uppercase">Top 5</span>
+</div>
+<div class="flex flex-col divide-y-0 gap-space-xs">
+<!-- Item 1 -->
+<a class="flex items-center gap-space-md p-space-xs rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="font-hero-display text-[26px] leading-none font-bold text-outline group-hover:text-primary transition-colors">#01</span>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-label-data text-on-surface truncate group-hover:text-primary transition-colors">Beat the 71-depth auto-press</span>
+<span class="font-label-data text-label-badge text-on-surface-variant">Stefan • 42K views</span>
+</div>
+</a>
+<!-- Item 2 -->
+<a class="flex items-center gap-space-md p-space-xs rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="font-hero-display text-[26px] leading-none font-bold text-outline group-hover:text-primary transition-colors">#02</span>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-label-data text-on-surface truncate group-hover:text-primary transition-colors">Marco Velardi 91 ST review</span>
+<span class="font-label-data text-label-badge text-on-surface-variant">TFV Gaming • 38K views</span>
+</div>
+</a>
+<!-- Item 3 -->
+<a class="flex items-center gap-space-md p-space-xs rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="font-hero-display text-[26px] leading-none font-bold text-outline group-hover:text-primary transition-colors">#03</span>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-label-data text-on-surface truncate group-hover:text-primary transition-colors">Patch 1.08 hidden nerf list</span>
+<span class="font-label-data text-label-badge text-on-surface-variant">Hobs • 29K views</span>
+</div>
+</a>
+<!-- Item 4 -->
+<a class="flex items-center gap-space-md p-space-xs rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="font-hero-display text-[26px] leading-none font-bold text-outline group-hover:text-primary transition-colors">#04</span>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-label-data text-on-surface truncate group-hover:text-primary transition-colors">4-3-2-1 post-patch slider import</span>
+<span class="font-label-data text-label-badge text-on-surface-variant">Stefan • 24K views</span>
+</div>
+</a>
+<!-- Item 5 -->
+<a class="flex items-center gap-space-md p-space-xs rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<span class="font-hero-display text-[26px] leading-none font-bold text-outline group-hover:text-primary transition-colors">#05</span>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-label-data text-on-surface truncate group-hover:text-primary transition-colors">TOTW 5 fodder investment roadmap</span>
+<span class="font-label-data text-label-badge text-on-surface-variant">Wessam • 19K views</span>
+</div>
+</a>
+</div>
+</section>
+<!-- FOLLOW THE LADS -->
+<section aria-label="Social Channels" class="bg-surface-container-low rounded-xl p-space-lg shadow-lg flex flex-col gap-space-sm">
+<h2 class="font-headline-md text-headline-md uppercase tracking-wider text-on-surface">
+            FOLLOW THE LADS
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Catch our daily clips, pro streams, and patch alerts directly on console networks &amp; platforms.
+          </p>
+<div class="flex items-center justify-between pt-space-xs">
+<a aria-label="YouTube" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-high transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">smart_display</span>
+</a>
+<a aria-label="Instagram" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-high transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</a>
+<a aria-label="X / Twitter" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-high transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">tag</span>
+</a>
+<a aria-label="TikTok" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-high transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">music_note</span>
+</a>
+<a aria-label="Discord" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-container-high transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">forum</span>
+</a>
+</div>
+</section>
+</aside>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest"><div class="w-full px-gutter-desktop py-space-xl flex flex-col gap-space-xl"><div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-wider text-on-surface uppercase">FC Lads</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Play Better. Together.</p></div><nav class="flex flex-wrap items-center gap-space-md" data-active-classes="text-primary font-bold"><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="learn" href="#">Learn</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="players" href="#">Players</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="squads" href="#">Squads</a><a aria-current="page" class="uppercase tracking-wider transition-colors text-primary font-bold" data-path="feed" href="#">Feed</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="trading" href="#">Trading</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="creators" href="#">Creators</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="fc-lads+" href="#">FC Lads+</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="login" href="#">Login</a></nav><div class="flex items-center gap-space-md text-on-surface-variant"><a aria-label="YouTube" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">smart_display</span></a><a aria-label="Instagram" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">photo_camera</span></a><a aria-label="X" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">tag</span></a><a aria-label="TikTok" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">music_note</span></a><a aria-label="Discord" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">forum</span></a></div></div><div class="flex flex-col md:flex-row items-center justify-between gap-space-md pt-space-lg bg-surface-container-low/40 rounded-xl px-space-md py-space-sm"><div class="flex flex-wrap items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-high px-space-md py-space-xs rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span><span class="font-label-data text-label-data text-on-surface-variant uppercase tracking-wider">Server: EU-Central (24ms) | Build: 28.1.0</span></div><div class="hidden sm:flex items-center gap-space-sm"><div class="flex items-center gap-space-xs"><span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-data text-label-badge text-primary uppercase">L1</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Prev Tab</span></div><div class="flex items-center gap-space-xs"><span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-data text-label-badge text-primary uppercase">R1</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Next Tab</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-primary">X</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Select</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-error">B</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Back</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-secondary">Y</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Chemistry Preview</span></div></div></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 FC Lads. All rights reserved.</p></div></div></footer></body></html>

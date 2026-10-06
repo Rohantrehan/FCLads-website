@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'error': '#ffb4ab', 'tertiary-fixed-dim': '#a8c8ff', 'secondary-fixed': '#94f5ce', 'surface-variant': '#333539', 'tertiary': '#c9dbff', 'surface-container-lowest': '#0c0e12', 'inverse-surface': '#e2e2e8', 'on-primary-fixed-variant': '#005230', 'on-primary-fixed': '#002110', 'on-error': '#690005', 'on-error-container': '#ffdad6', 'on-surface-variant': '#bbcbbd', 'primary-container': '#2bd98b', 'primary': '#54f6a5', 'on-secondary-fixed-variant': '#00513b', 'surface-tint': '#38e192', 'surface': '#111318', 'surface-container-low': '#191c20', 'surface-container': '#1d2024', 'secondary': '#78d9b3', 'on-tertiary-container': '#004d95', 'tertiary-container': '#9bc0ff', 'secondary-container': '#007a5a', 'on-tertiary': '#003061', 'inverse-on-surface': '#2e3035', 'inverse-primary': '#006d41', 'on-primary': '#003920', 'on-background': '#e2e2e8', 'surface-dim': '#111318', 'on-secondary-container': '#9fffd8', 'on-secondary-fixed': '#002116', 'outline': '#859488', 'on-secondary': '#003828', 'error-container': '#93000a', 'on-surface': '#e2e2e8', 'tertiary-fixed': '#d5e3ff', 'surface-container-high': '#282a2f', 'surface-bright': '#37393e', 'primary-fixed': '#5efeac', 'secondary-fixed-dim': '#78d9b3', 'on-tertiary-fixed': '#001b3c', 'background': '#111318', 'on-tertiary-fixed-variant': '#004689', 'on-primary-container': '#005935', 'surface-container-highest': '#333539', 'primary-fixed-dim': '#38e192', 'outline-variant': '#3c4a40' }, borderRadius: { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, spacing: { 'space-xs': '0.25rem', 'gutter-desktop': '2rem', 'space-md': '1rem', 'margin': '1.5rem', 'space-sm': '0.5rem', 'gutter': '1.5rem', 'space-xl': '2.5rem', 'margin-desktop': '3.5rem', 'space-lg': '1.5rem' }, fontFamily: { 'hero-display-mobile': ['Sora'], 'label-badge': ['Sora'], 'body-lg': ['Manrope'], 'headline-md': ['Sora'], 'label-data': ['JetBrains Mono'], 'hero-display': ['Sora'], 'body-md': ['Manrope'], 'body-sm': ['Manrope'], 'headline-xl': ['Sora'], 'headline-lg': ['Sora'] }, fontSize: { 'hero-display-mobile': ['44px', { lineHeight: '48px', letterSpacing: '0.04em', fontWeight: '800' }], 'label-badge': ['11px', { lineHeight: '14px', letterSpacing: '0.08em', fontWeight: '700' }], 'body-lg': ['18px', { lineHeight: '26px', fontWeight: '500' }], 'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '0.03em', fontWeight: '700' }], 'label-data': ['14px', { lineHeight: '18px', letterSpacing: '0.02em', fontWeight: '600' }], 'hero-display': ['80px', { lineHeight: '84px', letterSpacing: '0.06em', fontWeight: '800' }], 'body-md': ['16px', { lineHeight: '24px', fontWeight: '500' }], 'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }], 'headline-xl': ['36px', { lineHeight: '42px', letterSpacing: '0.05em', fontWeight: '800' }], 'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '0.04em', fontWeight: '700' }] } } } }</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-xl"><div class="flex items-center gap-space-sm"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1X2uZxYtNWeohRsC--jbMaMyMaUYVZxgPPXS0E15pVhoKdIJs7j63LETs3lc2z9xTJ0q0z-pihzF4qj9o5C8-Ox3GFFEIYQSaliMxP5qVK3fkChGYXweSz7N7cgopS8VFwhbt9TSDhmYm8xVEjckzxFmeOq_ADeAlcJn1rBNElaxLUQZYc9eQaPYyVlkhqoinhzbyez4T4VfArxb4fFLjD02EzaRU45YAwclqg0_IZ6G-5I4tRnHIppdykP"/><span class="font-headline-md text-headline-md tracking-wider text-on-surface uppercase">FC Lads</span></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-headline-md font-bold shadow-[0_0_16px_rgba(43,217,139,0.35)]"><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-primary-container text-on-primary-container font-headline-md font-bold shadow-[0_0_16px_rgba(43,217,139,0.35)]" data-path="learn" href="#">Learn</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="players" href="#">Players</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="squads" href="#">Squads</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="feed" href="#">Feed</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="trading" href="#">Trading</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="creators" href="#">Creators</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-low"><div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div><span class="font-label-data text-label-data text-on-surface-variant uppercase">Patch 1.08 Sync</span><span class="text-outline font-label-data text-label-data">/</span><span class="font-label-data text-label-data text-primary">14ms</span></div><div class="flex items-center gap-space-xs"><span class="px-space-sm py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant font-label-badge text-label-badge uppercase tracking-widest">Free</span><span class="px-space-sm py-0.5 rounded-lg bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-widest shadow-[0_0_12px_rgba(43,217,139,0.25)]">Lads+</span></div><a class="hidden sm:inline-block font-headline-md text-label-data text-on-surface hover:text-primary transition-colors uppercase tracking-wider px-space-sm py-space-xs" data-path="login" href="#">Log in</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface-container-lowest relative min-h-screen"><div class="flex flex-col w-full">
+<!-- ATMOSPHERIC STADIUM LIGHTING / BACKGROUND BACKDROP -->
+<div class="relative w-full overflow-hidden bg-surface-container-lowest">
+<!-- Ambient Pitch Floodlights & Stadium Vignette -->
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[1100px] h-[520px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute top-40 right-[-10%] w-[500px] h-[400px] bg-tertiary-container/10 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="relative max-w-[1360px] mx-auto px-gutter md:px-gutter-desktop pt-6 pb-20">
+<!-- 1. BREADCRUMB -->
+<nav class="flex items-center gap-space-sm mb-6 text-on-surface-variant">
+<a class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors font-label-data text-label-data" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Tactics Hub</span>
+</a>
+<span class="text-outline-variant font-label-data text-label-data">/</span>
+<a class="hover:text-on-surface transition-colors font-label-data text-label-data" href="#">Learn</a>
+<span class="text-outline-variant font-label-data text-label-data">/</span>
+<a class="hover:text-on-surface transition-colors font-label-data text-label-data" href="#">Competitive Tactics</a>
+<span class="text-outline-variant font-label-data text-label-data">/</span>
+<span class="text-on-surface font-label-data text-label-data truncate">Beat the high press</span>
+</nav>
+<!-- 2. ARTICLE HEADER -->
+<header class="flex flex-col gap-space-md max-w-[980px]">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-md py-1 rounded-full bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-widest shadow-[0_0_18px_rgba(43,217,139,0.35)]">
+            TACTICS
+          </span>
+<span class="px-space-md py-1 rounded-full bg-tertiary-container/20 text-tertiary-fixed font-label-badge text-label-badge uppercase tracking-wider">
+            Patch 1.08 Verified
+          </span>
+<span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-data text-label-data">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Meta Counter
+          </span>
+</div>
+<h1 class="font-hero-display text-headline-xl md:text-[54px] md:leading-[60px] text-on-surface tracking-tight uppercase">
+          BEAT THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-fixed to-secondary-fixed">HIGH PRESS</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[840px] leading-relaxed">
+          How to nullify 71-depth auto-overloads, break aggressive second-man pressing traps, and trigger diagonal escape lanes using controller telemetry and third-man runs.
+        </p>
+<!-- Creator & Metadata Row -->
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover shadow-lg shadow-black/50" data-alt="Close-up cinematic esport profile portrait of professional coach Stefan wearing dark team jersey with neon mint edge lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKkoaHUhEBKyibNgSTdBYYSrsVBRUObBkbminc-V5jH1yyhzbvXHUnCsXmkkgWyLwZOx6MKBJFIBS2hugn_gdjIxlQPzNEkSflBL5MqSC10fqrhYK2dvm3MjBpL26eDdiiHby8dLXTMxoHa87h_9NBvTfZ1v7mmwXQxPdxeqZSlIVGh75mxLudaUAQS5-y8Eh4Q8cJSmBJ49CtJF4EQ1P5Wf3sMjY2L_3vb97Hdh7a82g3K2Ysancb5A"/>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-on-primary text-[13px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">Stefan</span>
+<span class="font-label-badge text-label-badge text-primary uppercase px-1.5 py-0.5 rounded bg-surface-container-high">PRO PRODUCER</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Top 100 Tactics Analyst • Verified Coach</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant">
+<div class="flex items-center gap-4 bg-surface-container-low px-space-md py-space-xs rounded-xl shadow-inner">
+<div class="flex items-center gap-1.5 font-label-data text-label-data">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+<span>8 min read</span>
+</div>
+<span class="text-outline-variant font-label-data text-label-data">•</span>
+<div class="flex items-center gap-1.5 font-label-data text-label-data">
+<span class="material-symbols-outlined text-[16px] text-outline">calendar_today</span>
+<span>Oct 14, 2025</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all" title="Bookmark guide">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all" id="copy-article-link" title="Copy share link">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- 3. COMPETITIVE VIDEO PLAYER HUD -->
+<section class="mt-space-lg relative rounded-2xl overflow-hidden shadow-2xl bg-surface-container-lowest group">
+<div class="relative aspect-video w-full max-h-[580px] bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover object-center filter brightness-[0.78] group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="High tech tactical football stadium view at night from broadcast perspective with glowing neon emerald telemetry arrows passing angle overlays and player spacing vectors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE9RzAz7vyO_-HBsIQz0ClCSCPU6IG7ATZB3wDSqm5so3MeDPT1kRJj1snnY86UtLnNis8KOcrF5NwhnohMLs_qiQIUOAEf1S4aIOuQEywCzCWS12cOijiNOXU-1wqMd-qdpLNNxHT7DlDqisqHmw5d3p1KYZjfQg_4DKYb7Pulo9NB-jFhKa3eMkqpGZ-gfxZnPFgSxOmvVwT7qgcRz7skT55102g4bXgbfj71YnmnqfxbB_a_AYkiQ"/>
+<!-- Gradient Scrim for contrast -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/40"></div>
+<!-- Video Overlays -->
+<div class="absolute top-4 left-4 flex items-center gap-2">
+<span class="px-space-sm py-1 rounded bg-black/70 backdrop-blur-md text-primary font-label-badge text-label-badge tracking-wider uppercase flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> 4K ANALYTICS
+            </span>
+<span class="px-space-sm py-1 rounded bg-black/70 backdrop-blur-md text-on-surface font-label-badge text-label-badge tracking-wider uppercase">
+              PATCH 1.08 FOOTAGE
+            </span>
+</div>
+<div class="absolute top-4 right-4">
+<a class="px-space-md py-1.5 rounded-lg bg-surface-container-highest/80 hover:bg-surface-container-highest text-on-surface text-label-badge font-label-badge uppercase flex items-center gap-1.5 backdrop-blur-md transition-colors" href="https://youtube.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-error text-[18px]" style="font-variation-settings: 'FILL' 1;">smart_display</span>
+<span>Watch on YouTube</span>
+</a>
+</div>
+<!-- Centered Big Play Button -->
+<button class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-tr from-primary to-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_40px_rgba(43,217,139,0.55)] hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[44px] translate-x-1" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<!-- Bottom HUD Player Strip -->
+<div class="absolute bottom-0 inset-x-0 p-4 md:p-6 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent flex flex-col gap-2">
+<!-- Progress Bar -->
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden cursor-pointer relative">
+<div class="h-full bg-primary w-[38%] rounded-full shadow-[0_0_12px_rgba(43,217,139,0.8)]"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-data text-label-data pt-1">
+<div class="flex items-center gap-4">
+<span class="text-on-surface font-bold">05:27</span>
+<span class="text-outline">/</span>
+<span>14:20 HD</span>
+<span class="hidden md:inline-block px-2 py-0.5 rounded bg-surface-container text-primary text-label-badge font-label-badge">CHAPTER: R1 RECEPTORS</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">volume_up</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">subtitles</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">settings</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">fullscreen</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. TWO-COLUMN LAYOUT (ARTICLE + STICKY SIDEBAR) -->
+<div class="mt-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- MAIN ARTICLE COLUMN (COL 1-8) -->
+<article class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Intro Lead -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-sm flex flex-col gap-space-md">
+<p class="font-body-lg text-body-lg text-on-surface font-medium leading-relaxed">
+              In the current patch cycle, opponents executing 71-depth tactical setups cause defensive midfields to collapse inward, creating artificial midfield dead-zones. If your first impulse is sprinting or attempting instant one-touch forward passing, you will consistently turn over possession in your own defensive third.
+            </p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Beating this mechanic is not about reflexes—it is about mathematical spacing, baiting the AI press trigger, and immediately capitalizing on the vacated diagonal half-spaces behind their fullback.
+            </p>
+</div>
+<!-- SECTION 1 -->
+<section class="flex flex-col gap-space-md pt-space-md" id="section-1">
+<div class="flex items-center gap-3">
+<span class="font-label-data text-label-data text-primary px-2.5 py-1 rounded bg-primary/10">01</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight">
+                Recognizing the 71-Depth Auto-Press Trigger
+              </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              When an opponent plays with defensive depth set to 71 or higher, the game engine automatically flags your ball carrier as "vulnerable" the instant you take a heavy touch toward your own goal line. Two AI players step up synchronously while a human-controlled second-man press (R1/RB) pins the nearest central passing option.
+            </p>
+<!-- Numbered Tactical Sequence -->
+<div class="flex flex-col gap-3 my-2">
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest text-primary flex items-center justify-center font-headline-md text-headline-md flex-shrink-0">1</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Identify the trap zone before receiving the touch</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Look at your radar before the ball reaches your midfielder. If their central midfielders are sprinting towards you in unison, the auto-overload is engaged.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest text-primary flex items-center justify-center font-headline-md text-headline-md flex-shrink-0">2</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Hold L1/LB to call the striker to drop deep</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Calling your target striker backward forces their center back to either follow and open a gaping vertical corridor, or remain back and surrender a clean third-man bounce pass.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest text-primary flex items-center justify-center font-headline-md text-headline-md flex-shrink-0">3</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Execute the Driven Ground Pass (R1 + X / RB + A) into half-space</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">A normal short pass will be intercepted by the auto-tracking AI. The driven pass contains sufficient velocity to pierce through congested press channels.</p>
+</div>
+</div>
+</div>
+<!-- LADS TIP CALLOUT BOX -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-high p-6 shadow-xl">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-primary via-primary-container to-secondary"></div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">tips_and_updates</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-wider">Lads Pro Tip: The 180° Body Feint</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Never sprint on your initial reception</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    When receiving with your back turned to the opponent's goal, releasing the sprint trigger lets your player shield dynamically. Tap L1 to face goal, let the presser commit his charging momentum over your shoulder, and roll into the open pocket using the left stick.
+                  </p>
+</div>
+</div>
+</div>
+<!-- CONTROLLER INPUT COMBO DISPLAY -->
+<div class="p-6 rounded-2xl bg-surface-container flex flex-col gap-4 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-badge text-label-badge text-on-surface-variant uppercase tracking-wider">Console Controller Telemetry</span>
+<span class="font-label-data text-label-data text-primary">Success Rate: 84% in Elite Div</span>
+</div>
+<div class="flex flex-wrap items-center gap-3 py-2">
+<!-- Button 1 -->
+<div class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-highest shadow-md">
+<span class="font-label-data text-label-data text-primary font-bold">L1</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] uppercase">Modifier</span>
+</div>
+<span class="text-primary font-bold text-lg">+</span>
+<!-- Button 2 -->
+<div class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-highest shadow-md">
+<span class="font-label-data text-label-data text-primary font-bold">R1</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px] uppercase">Driven</span>
+</div>
+<span class="text-primary font-bold text-lg">+</span>
+<!-- Button 3 (Triangle) -->
+<div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-on-primary font-bold shadow-[0_0_16px_rgba(84,246,165,0.4)]">
+<span class="material-symbols-outlined text-[18px]">change_history</span>
+<span class="font-label-data text-label-data">THROUGH BALL</span>
+</div>
+<span class="text-on-surface-variant text-xl">→</span>
+<!-- Result pill -->
+<div class="px-4 py-2 rounded-xl bg-surface-container-low text-secondary font-label-data text-label-data">
+                  Driven Lofted Trajectory (Direct to Far Wing)
+                </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Hold with 2.8 to 3.2 bars of power directly angled towards your opposite fullback. The auto-press overload leaves that flank completely uncovered.
+              </p>
+</div>
+<!-- INLINE MINI PLAYER CARD CALLOUT -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-14 rounded-lg bg-gradient-to-b from-surface-bright to-surface-container-high flex flex-col items-center justify-center text-center shadow-inner">
+<span class="font-headline-md text-headline-md text-primary leading-none">91</span>
+<span class="font-label-badge text-label-badge text-on-surface-variant">ST</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Marco Velardi</span>
+<span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary font-label-badge text-label-badge">Incisive Pass+</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">92 PAC • 91 DRI • Ideal drop-in pivot with 95 Short Passing</p>
+</div>
+</div>
+<a class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-label-data font-label-data text-center transition-colors" href="#">
+                View Chem Style →
+              </a>
+</div>
+</section>
+<!-- SECTION 2 & PREMIUM PAYWALL GATE -->
+<div class="relative mt-8 pt-4">
+<!-- Content that subtly fades underneath the lock -->
+<div class="opacity-40 select-none pointer-events-none filter blur-[2px] flex flex-col gap-space-md">
+<div class="flex items-center gap-3">
+<span class="font-label-data text-label-data text-outline px-2.5 py-1 rounded bg-surface-container">02</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight">
+                  Breaking the Second-Man Press with Driven Triangles &amp; Switched Wings
+                </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Once the initial line of press is baited into your central third, the opposing defensive line is temporarily locked in an asynchronous compression state. In this segment, we analyze the exact 4-3-2-1 counter slider parameters (45 Width / 71 Depth counters) alongside controller inputs to trigger instantaneous diagonal switch paths.
+              </p>
+<div class="h-32 bg-surface-container-high rounded-xl"></div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                By pre-buffering the driven lofted pass before your winger crosses the halfway line, the opposing auto-tracking fullbacks get dragged out of position, unlocking an unguardable 3v2 counter-break every single match...
+              </p>
+</div>
+<!-- Centered Paywall Lock Glass Card -->
+<div class="absolute inset-0 flex items-center justify-center p-4">
+<div class="w-full max-w-[620px] rounded-2xl bg-surface-container/95 backdrop-blur-2xl p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col items-center text-center">
+<!-- Lock Badge -->
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-primary-container/30 to-secondary/30 flex items-center justify-center text-primary shadow-[0_0_24px_rgba(43,217,139,0.3)] mb-4">
+<span class="material-symbols-outlined text-[32px]">lock</span>
+</div>
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-widest px-3 py-1 rounded-full bg-primary/10 mb-3">
+                  FC LADS+ EXCLUSIVE DEEP DIVE
+                </span>
+<h3 class="font-headline-xl text-headline-xl text-on-surface uppercase tracking-tight">
+                  This guide continues for FC Lads+ members
+                </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-3 max-w-[500px] leading-relaxed">
+                  Unlock the complete step-by-step controller telemetry, custom slider tactics (45 Width / 71 Depth counters), video VOD breakdowns, and private Discord coach channel access.
+                </p>
+<!-- Value Highlights Grid -->
+<div class="grid grid-cols-2 gap-3 w-full my-6 text-left">
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-high">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span class="font-label-data text-label-data text-on-surface">Tactical Slider Import Codes</span>
+</div>
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-high">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span class="font-label-data text-label-data text-on-surface">14-Min Match Breakdown VOD</span>
+</div>
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-high">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span class="font-label-data text-label-data text-on-surface">Weekly Trading Brief Included</span>
+</div>
+<div class="flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-high">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span class="font-label-data text-label-data text-on-surface">Monthly 1-on-1 Review</span>
+</div>
+</div>
+<!-- Price + CTA -->
+<div class="flex flex-col items-center gap-3 w-full">
+<div class="flex items-baseline gap-2">
+<span class="font-hero-display text-headline-lg text-on-surface font-extrabold">$29</span>
+<span class="font-label-data text-label-data text-on-surface-variant">/ month • Cancel anytime</span>
+</div>
+<a class="w-full max-w-[380px] py-3.5 px-8 rounded-xl bg-gradient-to-r from-primary via-primary-container to-secondary-fixed text-on-primary-fixed font-headline-md text-headline-md uppercase tracking-wider text-center shadow-[0_0_24px_rgba(43,217,139,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all" href="#">
+                    Join FC Lads+ Now
+                  </a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors mt-2" href="#">
+                    Already a Lad? <span class="text-on-surface underline">Log in to view</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- RIGHT STICKY SIDEBAR (COL 9-12) -->
+<aside class="lg:col-span-4 flex flex-col gap-space-lg lg:sticky lg:top-24">
+<!-- CARD 1: IN THIS GUIDE (Interactive Table of Contents) -->
+<div class="rounded-2xl bg-surface-container-low p-6 shadow-md flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">menu_book</span>
+<span class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">In This Guide</span>
+</div>
+<span class="font-label-data text-label-badge text-primary px-2 py-0.5 rounded bg-primary/10">1 / 5 Sections</span>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2 font-label-data text-label-data">
+<!-- Active Item with Slanted Highlight -->
+<a class="relative group flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-primary-container/20 to-tertiary-container/10 text-on-surface font-semibold shadow-inner" href="#section-1">
+<div class="flex items-center gap-2.5">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span>1. Recognizing the 71-Depth Press</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[18px]">play_circle</span>
+</a>
+<div class="flex items-center justify-between p-3 rounded-xl text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+<span>2. Driven Triangles &amp; Wing Switches</span>
+</div>
+<span class="font-label-badge text-label-badge uppercase text-primary">LADS+</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+<span>3. Controller Input Breakdown</span>
+</div>
+<span class="font-label-badge text-label-badge uppercase text-primary">LADS+</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+<span>4. Custom Tactics &amp; Sliders</span>
+</div>
+<span class="font-label-badge text-label-badge uppercase text-primary">LADS+</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl text-on-surface-variant opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+<span>5. Recommended Chem Styles</span>
+</div>
+<span class="font-label-badge text-label-badge uppercase text-primary">LADS+</span>
+</div>
+</nav>
+<div class="pt-2">
+<div class="flex justify-between text-body-sm font-label-data text-label-data text-on-surface-variant mb-1.5">
+<span>Free segment completed</span>
+<span>20%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/5 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- CARD 2: PLAYERS REFERENCED IN THIS GUIDE -->
+<div class="rounded-2xl bg-surface-container-low p-6 shadow-md flex flex-col gap-4">
+<div class="flex items-center justify-between pb-2">
+<span class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">Featured Meta Items</span>
+<span class="font-label-badge text-label-badge text-on-surface-variant uppercase">3 Meta Cards</span>
+</div>
+<!-- Player 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-primary font-headline-md">
+                  91
+                </div>
+<div>
+<h5 class="font-headline-md text-headline-md text-on-surface text-[15px]">M. Velardi</h5>
+<div class="flex items-center gap-2 font-label-data text-label-data text-on-surface-variant text-[12px]">
+<span class="text-primary">Incisive+</span>
+<span>•</span>
+<span>ST</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-data text-label-data text-secondary-fixed font-bold">420K</span>
+<span class="block font-label-badge text-label-badge text-outline uppercase">Est. Price</span>
+</div>
+</div>
+<!-- Player 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-on-surface font-headline-md">
+                  84
+                </div>
+<div>
+<h5 class="font-headline-md text-headline-md text-on-surface text-[15px]">Leo Silva</h5>
+<div class="flex items-center gap-2 font-label-data text-label-data text-on-surface-variant text-[12px]">
+<span class="text-tertiary">Technical+</span>
+<span>•</span>
+<span>CAM</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-data text-label-data text-secondary-fixed font-bold">4.2K</span>
+<span class="block font-label-badge text-label-badge text-outline uppercase">Budget Gem</span>
+</div>
+</div>
+<!-- Player 3 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-primary font-headline-md">
+                  90
+                </div>
+<div>
+<h5 class="font-headline-md text-headline-md text-on-surface text-[15px]">A. Valere</h5>
+<div class="flex items-center gap-2 font-label-data text-label-data text-on-surface-variant text-[12px]">
+<span class="text-primary">Trivela+</span>
+<span>•</span>
+<span>CF</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-data text-label-data text-secondary-fixed font-bold">145K</span>
+<span class="block font-label-badge text-label-badge text-outline uppercase">Top Pick</span>
+</div>
+</div>
+</div>
+<!-- CARD 3: TACTICAL SLIDER QUICK-COPY -->
+<div class="rounded-2xl bg-gradient-to-br from-surface-container to-surface-container-low p-6 shadow-md flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-badge text-label-badge text-on-surface-variant uppercase">Tactics Preset Import</span>
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-lowest">
+<div class="flex flex-col">
+<span class="font-label-data text-label-badge text-outline uppercase">Share Code</span>
+<span class="font-label-data text-label-data text-primary font-bold tracking-wider" id="slider-code">FCL-PRS-108</span>
+</div>
+<button class="px-3.5 py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-wider hover:opacity-90 active:scale-95 transition-all" id="copy-slider-btn">
+                Copy Code
+              </button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[12px]">Paste into Custom Tactics menu to apply direct 4-3-2-1 anti-press sliders.</p>
+</div>
+</aside>
+</div>
+<!-- 5. "KEEP LEARNING" RELATED GUIDES SECTION -->
+<section class="mt-space-xl pt-space-xl">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+<div>
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-widest">CONTINUE YOUR RUN</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-tight mt-1">
+              KEEP LEARNING // RELATED TACTICS
+            </h3>
+</div>
+<a class="font-headline-md text-label-data text-primary hover:text-primary-fixed uppercase tracking-wider flex items-center gap-1" href="#">
+            Browse All 64 Guides →
+          </a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<a class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all overflow-hidden flex flex-col shadow-lg" href="#">
+<div class="relative aspect-video w-full overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Tactical esports breakdown of 1v1 defensive positioning jockeying drill inside 18 yard penalty box with neon holographic overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5pJJowZBUrA7qfxveTBQ4TVskYuAYsKfIvChBbRBLt2fbxZDFqOdQ_lu84xsvx6gzHtZ3Er-5oMu4KojaLq8Fel43WUeE1UKnBVGIVyTZEh8VzoW8jphKbbeI9t1yhkqSutWoDf-T3eDX0rXkhqpBtKl-hl8_Glwf5N6HSZTcIgL14vnJrZA6s3_SDLm_yTyM_DjHHuxXDBcdfPlDEIxcCIlNYIOqLhm9Krd8xnz25vfApOBmJiPA-A"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md bg-tertiary-container text-on-tertiary-container font-label-badge text-label-badge uppercase font-bold">
+                  FREE
+                </span>
+</div>
+<div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/80 font-label-data text-label-data text-on-surface text-[12px]">
+                10 min read
+              </div>
+</div>
+<div class="p-5 flex flex-col gap-3 flex-1 justify-between">
+<div>
+<span class="font-label-badge text-label-badge text-outline uppercase">Defensive Mastery</span>
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors mt-1">
+                  Defending 1v1 Without Panicking
+                </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Learn to manage speed jockey momentum and eliminate over-committing to fake shots.
+                </p>
+</div>
+<div class="flex items-center gap-2 pt-2 text-on-surface-variant font-label-data text-label-data">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-primary text-[10px] font-bold">H</span>
+<span>By Hobs</span>
+</div>
+</div>
+</a>
+<!-- Card 2 -->
+<a class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all overflow-hidden flex flex-col shadow-lg" href="#">
+<div class="relative aspect-video w-full overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Esports gameplay capture highlighting five key skill moves on the wing with directional telemetry arrows and glowing mint trail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJpgBkCVtTfD13IkEMGw9qg3i6qOFiyNU4_um_3eBFNQS5dRXbrJEAJSo-Gl_NJwyhVNUPByNUTDURXRNxacJi_ZTjeINh9AmjvO-ahJr3hUQWv6-RffDustZH1pnSnwcMdyOLY9dxL8ac6NWMYglXw3aVRYXIM8d0-nngubPGKpSHsSXL2TqIA9cDlSApjxa6wCucU1H9Zd7bN5OOrBFGHQuIWYihibHORG1qAroda935aigxoigXHw"/>
+<div class="absolute top-3 left-3 flex gap-1.5">
+<span class="px-2.5 py-1 rounded-md bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase font-bold">
+                  NEW PATCH
+                </span>
+</div>
+<div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/80 font-label-data text-label-data text-on-surface text-[12px]">
+                14 min video
+              </div>
+</div>
+<div class="p-5 flex flex-col gap-3 flex-1 justify-between">
+<div>
+<span class="font-label-badge text-label-badge text-outline uppercase">Skill Moves &amp; Mechanics</span>
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors mt-1">
+                  5 Skill Moves That Still Work Post-Patch
+                </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Step-overs were tuned down, but the reverse elastico and ball-roll scoop are deadlier than ever.
+                </p>
+</div>
+<div class="flex items-center gap-2 pt-2 text-on-surface-variant font-label-data text-label-data">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-primary text-[10px] font-bold">TFV</span>
+<span>By TFV Gaming</span>
+</div>
+</div>
+</a>
+<!-- Card 3 -->
+<a class="group rounded-2xl bg-surface-container-low hover:bg-surface-container transition-all overflow-hidden flex flex-col shadow-lg" href="#">
+<div class="relative aspect-video w-full overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Futuristic tactics board showing 4-3-2-1 hybrid asymmetric tactical setup with glowing gold connection links and player heatmaps" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmxdn7Y_LwS4IsMqPM4QIPAeOkRROTuYpnYPDHKhswkyGbYSWYm5nckBZTSSPVVEE-YSWxJkhYlN-BWk1awRcL38D8tKz_KjYLh-AC3pZzOEeX8cnxIgB-NfO-7Ta9vzQb1SwconBXoqMY1B2dZ1mOC1rNBzmlSq0ObsbupDcHPh7S-vf6jO2SrwCzWCLzHhjblxkvfGfHhoJTrsIP_EaY-gP8_gTG1O0vYepa3qyGePMt5jB9w1V5pw"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-badge text-label-badge uppercase font-bold shadow-[0_0_12px_rgba(148,245,206,0.3)]">
+                  LADS+ PRO
+                </span>
+</div>
+<div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/80 font-label-data text-label-data text-on-surface text-[12px]">
+                18 min masterclass
+              </div>
+</div>
+<div class="p-5 flex flex-col gap-3 flex-1 justify-between">
+<div>
+<span class="font-label-badge text-label-badge text-outline uppercase">Meta Formations</span>
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors mt-1">
+                  The 4-3-2-1 Hybrid Overload Setup
+                </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                  Asymmetric full-back instructions and direct passing triggers designed for Weekend League 19-1.
+                </p>
+</div>
+<div class="flex items-center gap-2 pt-2 text-on-surface-variant font-label-data text-label-data">
+<span class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-primary text-[10px] font-bold">ST</span>
+<span>By Stefan</span>
+</div>
+</div>
+</a>
+</div>
+</section>
+</div>
+</div>
+<!-- Interactive script for quick copy micro-interactions -->
+<script>
+    (function() {
+      const copyBtn = document.getElementById('copy-slider-btn');
+      const sliderCode = document.getElementById('slider-code');
+      if (copyBtn && sliderCode) {
+        copyBtn.addEventListener('click', function() {
+          navigator.clipboard.writeText(sliderCode.textContent.trim()).then(function() {
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'COPIED!';
+            copyBtn.classList.add('bg-primary', 'text-on-primary');
+            setTimeout(function() {
+              copyBtn.textContent = originalText;
+              copyBtn.classList.remove('bg-primary', 'text-on-primary');
+            }, 2000);
+          });
+        });
+      }
+
+      const shareBtn = document.getElementById('copy-article-link');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function() {
+          navigator.clipboard.writeText(window.location.href).then(function() {
+            shareBtn.classList.add('text-primary');
+            setTimeout(function() {
+              shareBtn.classList.remove('text-primary');
+            }, 1800);
+          });
+        });
+      }
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest"><div class="w-full px-gutter-desktop py-space-xl flex flex-col gap-space-xl"><div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-wider text-on-surface uppercase">FC Lads</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Play Better. Together.</p></div><nav class="flex flex-wrap items-center gap-space-md" data-active-classes="text-primary font-bold"><a aria-current="page" class="uppercase tracking-wider transition-colors text-primary font-bold" data-path="learn" href="#">Learn</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="trading" href="#">Trading</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="creators" href="#">Creators</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="fc-lads+" href="#">FC Lads+</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="discord" href="#">Discord</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="login" href="#">Login</a></nav><div class="flex items-center gap-space-md text-on-surface-variant"><a class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">smart_display</span></a><a class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">photo_camera</span></a><a class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">tag</span></a><a class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">music_note</span></a><a class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">forum</span></a></div></div><div class="flex flex-col md:flex-row items-center justify-between gap-space-md pt-space-lg bg-surface-container-low/40 rounded-xl px-space-md py-space-sm"><div class="flex flex-wrap items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-high px-space-md py-space-xs rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span><span class="font-label-data text-label-data text-on-surface-variant uppercase tracking-wider">Server: EU-Central (24ms) | Build: 28.1.0</span></div><div class="hidden sm:flex items-center gap-space-sm"><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-primary">X</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Select</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-error">B</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Back</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-secondary">Y</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Chemistry Preview</span></div></div></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 FC Lads. All rights reserved.</p></div></div></footer></body></html>

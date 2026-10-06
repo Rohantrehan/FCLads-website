@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-surface": "#e2e2e8", "secondary-fixed": "#94f5ce", "outline": "#859488", "tertiary-fixed": "#d5e3ff", "on-background": "#e2e2e8", "secondary-container": "#007a5a", "surface-variant": "#333539", "primary-fixed-dim": "#38e192", "surface-container": "#1d2024", "on-secondary-fixed-variant": "#00513b", "on-tertiary-fixed": "#001b3c", "on-surface": "#e2e2e8", "on-surface-variant": "#bbcbbd", "primary-container": "#2bd98b", "inverse-primary": "#006d41", "outline-variant": "#3c4a40", "tertiary": "#c9dbff", "surface-tint": "#38e192", "surface-container-low": "#191c20", "on-tertiary-container": "#004d95", "error": "#ffb4ab", "on-tertiary": "#003061", "on-primary-container": "#005935", "on-error-container": "#ffdad6", "on-primary-fixed-variant": "#005230", "tertiary-container": "#9bc0ff", "secondary-fixed-dim": "#78d9b3", "on-secondary-container": "#9fffd8", "primary-fixed": "#5efeac", "secondary": "#78d9b3", "surface": "#111318", "on-primary-fixed": "#002110", "tertiary-fixed-dim": "#a8c8ff", "background": "#111318", "on-tertiary-fixed-variant": "#004689", "surface-dim": "#111318", "on-secondary": "#003828", "surface-bright": "#37393e", "surface-container-lowest": "#0c0e12", "on-primary": "#003920", "inverse-on-surface": "#2e3035", "surface-container-highest": "#333539", "error-container": "#93000a", "surface-container-high": "#282a2f", "on-secondary-fixed": "#002116", "on-error": "#690005", "primary": "#54f6a5" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter": "1.5rem", "gutter-desktop": "2rem", "margin": "1.5rem", "margin-desktop": "3.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem" }, "fontFamily": { "headline-xl": [ "Sora" ], "hero-display-mobile": [ "Sora" ], "hero-display": [ "Sora" ], "headline-md": [ "Sora" ], "label-badge": [ "Sora" ], "body-lg": [ "Manrope" ], "label-data": [ "JetBrains Mono" ], "body-md": [ "Manrope" ], "body-sm": [ "Manrope" ], "headline-lg": [ "Sora" ] }, "fontSize": { "headline-xl": [ "36px", { "lineHeight": "42px", "letterSpacing": "0.05em", "fontWeight": "800" } ], "hero-display-mobile": [ "44px", { "lineHeight": "48px", "letterSpacing": "0.04em", "fontWeight": "800" } ], "hero-display": [ "80px", { "lineHeight": "84px", "letterSpacing": "0.06em", "fontWeight": "800" } ], "headline-md": [ "20px", { "lineHeight": "26px", "letterSpacing": "0.03em", "fontWeight": "700" } ], "label-badge": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" } ], "body-lg": [ "18px", { "lineHeight": "26px", "fontWeight": "500" } ], "label-data": [ "14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-lg": [ "28px", { "lineHeight": "34px", "letterSpacing": "0.04em", "fontWeight": "700" } ] } } } }</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen relative selection:bg-primary selection:text-on-primary"><div class="fixed inset-0 pointer-events-none z-0 overflow-hidden"><div class="absolute -top-40 -left-40 w-[650px] h-[650px] bg-secondary-container/10 rounded-full blur-[140px]"></div><div class="absolute top-1/4 right-0 w-[550px] h-[550px] bg-primary-container/10 rounded-full blur-[160px]"></div><div class="absolute bottom-0 left-1/3 w-[700px] h-[450px] bg-surface-container-lowest/90 blur-[100px]"></div><div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(43,217,139,0.06),rgba(12,14,18,0.95))]"></div></div><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.45)]"><div class="h-20 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"><span class="material-symbols-outlined text-primary text-[22px]">shield</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wider uppercase text-on-surface">My Lads<span class="text-primary font-headline-md text-headline-md">+</span></span><span class="font-label-badge text-[9px] tracking-[0.2em] text-on-surface-variant uppercase -mt-space-xs">Console HQ</span></div></div><div class="h-7 w-[1px] bg-surface-variant/40"></div><nav class="flex items-center gap-space-xs" data-active-classes="bg-surface-container-high text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"><a aria-current="page" class="font-headline-md uppercase tracking-wider px-space-md py-space-sm rounded-lg transition-all duration-150 bg-surface-container-high text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" data-path="my-feed" href="#">My Feed</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="trading" href="#">Trading</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="gameplay" href="#">Gameplay</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="my-review" href="#">My Review</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="discord" href="#">Discord</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="creators" href="#">Creators</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"><span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#54f6a5]"></span><span class="font-label-badge text-label-badge text-primary uppercase">LADS+ ACTIVE</span></div><div class="hidden lg:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"><span class="material-symbols-outlined text-secondary text-[16px]">military_tech</span><span class="font-label-badge text-label-badge text-on-surface-variant uppercase">Review: <span class="text-secondary font-label-badge text-label-badge">1 LEFT</span></span></div><div class="hidden 2xl:flex items-center px-space-sm py-1 rounded bg-surface-container-lowest font-label-data text-[11px] text-outline text-opacity-90 tracking-widest"><span class="text-primary mr-1.5 font-label-data text-[11px]">NET:</span>18MS // SYNCED</div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_6px_#54f6a5] ring-2 ring-surface-container-lowest"></span></div><div class="hidden md:flex flex-col"><span class="font-headline-md text-[13px] leading-tight text-on-surface">Arjun</span><span class="font-label-data text-[10px] text-primary tracking-wider uppercase">ELITE DIV</span></div></div></div></div></header><main class="relative z-10 w-full pt-20 bg-surface/40"><div class="flex flex-col w-full">
+<!-- ATMOSPHERIC AMBIENT CANVAS LAYER -->
+<div class="relative w-full overflow-hidden px-margin-desktop py-space-lg space-y-space-xl">
+<!-- SUBTLE BACKGROUND ILLUMINATION OF TROPHY CABINETS -->
+<div class="absolute -top-12 left-1/4 w-[720px] h-[340px] bg-secondary-container/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute top-[480px] -right-20 w-[600px] h-[500px] bg-primary/5 rounded-full blur-[160px] pointer-events-none"></div>
+<!-- 1. HEADER / GREETING BANNER -->
+<section class="relative z-10 flex flex-col xl:flex-row xl:items-end justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-badge text-label-badge uppercase tracking-widest shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            Telemetry Online
+          </span>
+<span class="font-label-data text-label-data text-on-surface-variant/80 uppercase">
+            FEED SYNC // PATCH 1.08 // 4 NEW BROADCASTS
+          </span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface uppercase tracking-tight">
+          Welcome Back, <span class="text-primary font-headline-xl text-headline-xl">Arjun</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Here’s what the Lads posted since your last visit.
+        </p>
+</div>
+<!-- Tactical Session Metric Quick Chips -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-low shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">sports_score</span>
+</div>
+<div>
+<div class="font-label-badge text-[10px] text-on-surface-variant uppercase tracking-wider">WL Form</div>
+<div class="font-label-data text-label-data text-on-surface">16-4 <span class="text-primary text-[12px] font-label-data">(RANK II)</span></div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm px-space-md py-2.5 rounded-xl bg-surface-container-low shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">toll</span>
+</div>
+<div>
+<div class="font-label-badge text-[10px] text-on-surface-variant uppercase tracking-wider">Trading Reserve</div>
+<div class="font-label-data text-label-data text-on-surface">2.48M <span class="text-secondary text-[12px] font-label-data">+14.2%</span></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. CAROUSEL OF FOUR TALL PREMIUM CARDS (WITH 5th PEEKING) -->
+<section class="relative z-10 w-full space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs font-label-badge text-label-badge text-outline uppercase tracking-widest">
+<span class="material-symbols-outlined text-primary text-[16px]">stream</span>
+<span>Tactical Dispatch Hub</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-data text-[12px] text-on-surface-variant">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface">R1</span>
+<span class="uppercase">Cycle Cards</span>
+</div>
+</div>
+<!-- Cards Grid / Scroller Container -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-space-md overflow-x-hidden pt-1 pb-3">
+<!-- CARD 1 (Focused State - Glowing Neon Mint Border Aura) -->
+<article class="relative flex flex-col justify-between h-[440px] rounded-xl bg-surface-container-high p-space-md transition-all duration-300 transform scale-[1.02] shadow-[0_0_0_2px_#54f6a5,0_12px_36px_rgba(84,246,165,0.25)] group cursor-pointer">
+<div class="space-y-space-sm z-10">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-gradient-to-r from-on-surface via-tertiary-fixed to-secondary-fixed text-surface-container-lowest font-label-badge text-[10px] uppercase font-bold tracking-wider shadow-sm">
+                LADS+
+              </span>
+<div class="flex items-center gap-1 font-label-data text-[11px] text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+<span>FEATURED</span>
+</div>
+</div>
+<div>
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-widest">New Premium Guide</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mt-1 leading-snug group-hover:text-primary transition-colors">
+                The 4-3-2-1 Inverted Overload &amp; Press-Break Routine
+              </h3>
+</div>
+<div class="flex items-center gap-space-xs pt-1">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center font-label-badge text-[10px] text-on-primary font-bold">S</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Stefan <span class="text-outline text-[12px] font-label-data">(CAM Specialist)</span></span>
+</div>
+</div>
+<!-- Bottom Artwork: Pitch overlay graphic -->
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden mt-space-sm flex items-center justify-center">
+<!-- Tactical Board SVG graphic -->
+<svg class="w-full h-full p-2 opacity-90" fill="none" viewbox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+<!-- Field outlines -->
+<rect class="text-outline" height="120" rx="4" stroke="currentColor" stroke-opacity="0.2" width="220" x="10" y="10"></rect>
+<line class="text-outline" stroke="currentColor" stroke-opacity="0.2" x1="120" x2="120" y1="10" y2="130"></line>
+<circle class="text-outline" cx="120" cy="70" r="24" stroke="currentColor" stroke-opacity="0.2"></circle>
+<circle class="text-primary" cx="120" cy="70" fill="currentColor" r="2"></circle>
+<!-- Attack Vector Nodes -->
+<path d="M 50 110 Q 90 70 140 45" stroke="#54f6a5" stroke-dasharray="3 3" stroke-width="2.5"></path>
+<path d="M 140 45 L 195 40" marker-end="url(#arrow)" stroke="#54f6a5" stroke-width="2.5"></path>
+<circle class="shadow-[0_0_8px_#54f6a5]" cx="50" cy="110" fill="#54f6a5" r="5"></circle>
+<circle cx="100" cy="80" fill="#38e192" r="4.5"></circle>
+<circle cx="140" cy="45" fill="#78d9b3" r="5.5"></circle>
+<circle cx="195" cy="40" fill="#54f6a5" r="6"></circle>
+<!-- Defensive Block markers -->
+<rect fill="#ffb4ab" height="8" opacity="0.75" rx="2" width="8" x="150" y="55"></rect>
+<rect fill="#ffb4ab" height="8" opacity="0.75" rx="2" width="8" x="165" y="85"></rect>
+</svg>
+<div class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-surface-container font-label-data text-[10px] text-primary uppercase tracking-widest">
+              SLIDERS: 71 DEPTH
+            </div>
+</div>
+</article>
+<!-- CARD 2: Trading Brief -->
+<article class="relative flex flex-col justify-between h-[440px] rounded-xl bg-surface-container p-space-md shadow-sm hover:bg-surface-container-high transition-all duration-200 group cursor-pointer">
+<div class="space-y-space-sm z-10">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-gradient-to-r from-on-surface via-tertiary-fixed to-secondary-fixed text-surface-container-lowest font-label-badge text-[10px] uppercase font-bold tracking-wider">
+                LADS+
+              </span>
+<span class="font-label-data text-[11px] text-secondary">MARKET SYNC</span>
+</div>
+<div>
+<span class="font-label-badge text-label-badge text-secondary uppercase tracking-widest">This Week’s Trading Brief</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mt-1 leading-snug group-hover:text-secondary transition-colors">
+                Week 4 Market Call: Fodder Pre-SBC Accumulation
+              </h3>
+</div>
+<div class="flex items-center gap-space-xs pt-1">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center font-label-badge text-[10px] text-on-secondary font-bold">W</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Wessam <span class="text-outline text-[12px] font-label-data">(Market Lead)</span></span>
+</div>
+</div>
+<!-- Bottom Artwork: Coin Graph preview with sparkline -->
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden mt-space-sm p-3 flex flex-col justify-between">
+<div class="flex items-center justify-between text-[11px] font-label-data">
+<span class="text-on-surface-variant uppercase">88+ High-Tier Pool</span>
+<span class="text-secondary font-bold">+28.4% EXP.</span>
+</div>
+<!-- Dynamic Trading Sparkline SVG -->
+<svg class="w-full h-24" fill="none" preserveaspectratio="none" viewbox="0 0 200 80">
+<defs>
+<lineargradient id="tradeGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#78d9b3" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#78d9b3" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<path d="M 0 65 Q 35 60 60 52 T 110 40 T 150 24 L 200 10 L 200 80 L 0 80 Z" fill="url(#tradeGrad)"></path>
+<path d="M 0 65 Q 35 60 60 52 T 110 40 T 150 24 L 200 10" stroke="#78d9b3" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="200" cy="10" fill="#54f6a5" r="3.5"></circle>
+</svg>
+<div class="flex items-center justify-between text-[10px] font-label-data text-outline">
+<span>BUY: 18.5K - 21.0K</span>
+<span>EXIT: THU 18:00</span>
+</div>
+</div>
+</article>
+<!-- CARD 3: 250K Meta Squad -->
+<article class="relative flex flex-col justify-between h-[440px] rounded-xl bg-surface-container p-space-md shadow-sm hover:bg-surface-container-high transition-all duration-200 group cursor-pointer">
+<div class="space-y-space-sm z-10">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-gradient-to-r from-on-surface via-tertiary-fixed to-secondary-fixed text-surface-container-lowest font-label-badge text-[10px] uppercase font-bold tracking-wider">
+                LADS+
+              </span>
+<span class="font-label-data text-[11px] text-tertiary">33/33 CHEM</span>
+</div>
+<div>
+<span class="font-label-badge text-label-badge text-tertiary uppercase tracking-widest">New 250K Meta Squad</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mt-1 leading-snug group-hover:text-tertiary transition-colors">
+                Weekend League Rank 1 Ready Hybrid Formation
+              </h3>
+</div>
+<div class="flex items-center gap-space-xs pt-1">
+<div class="w-6 h-6 rounded-full bg-tertiary-container flex items-center justify-center font-label-badge text-[10px] text-on-tertiary-container font-bold">H</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hobs <span class="text-outline text-[12px] font-label-data">(20-0 Rank 1)</span></span>
+</div>
+</div>
+<!-- Bottom Artwork: Squad Formation Mini Board -->
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden mt-space-sm p-2 flex flex-col justify-center items-center">
+<div class="grid grid-cols-5 gap-1.5 w-full text-center">
+<div class="col-span-5 flex justify-center gap-2">
+<span class="w-7 h-9 rounded bg-surface-container-high flex flex-col items-center justify-center text-[9px] font-label-data text-primary shadow-sm">
+<span>88</span>
+<span class="text-[7px] text-outline">ST</span>
+</span>
+<span class="w-7 h-9 rounded bg-surface-container-high flex flex-col items-center justify-center text-[9px] font-label-data text-primary shadow-sm">
+<span>87</span>
+<span class="text-[7px] text-outline">CF</span>
+</span>
+</div>
+<div class="col-span-5 flex justify-center gap-2 my-1">
+<span class="w-6 h-8 rounded bg-surface-container flex flex-col items-center justify-center text-[8px] font-label-data text-on-surface">CM</span>
+<span class="w-6 h-8 rounded bg-surface-container-highest flex flex-col items-center justify-center text-[8px] font-label-data text-primary">CDM</span>
+<span class="w-6 h-8 rounded bg-surface-container flex flex-col items-center justify-center text-[8px] font-label-data text-on-surface">CM</span>
+</div>
+<div class="col-span-5 flex justify-center gap-1.5">
+<span class="w-6 h-7 rounded bg-surface-container-low flex items-center justify-center text-[7px] font-label-data text-outline">LB</span>
+<span class="w-6 h-7 rounded bg-surface-container-low flex items-center justify-center text-[7px] font-label-data text-outline">CB</span>
+<span class="w-6 h-7 rounded bg-surface-container-low flex items-center justify-center text-[7px] font-label-data text-outline">CB</span>
+<span class="w-6 h-7 rounded bg-surface-container-low flex items-center justify-center text-[7px] font-label-data text-outline">RB</span>
+</div>
+</div>
+<div class="mt-2 text-center">
+<span class="font-label-badge text-[10px] text-tertiary uppercase tracking-wider">BUDGET TOTAL: 247,500 COINS</span>
+</div>
+</div>
+</article>
+<!-- CARD 4: Discord Live Feed -->
+<article class="relative flex flex-col justify-between h-[440px] rounded-xl bg-surface-container p-space-md shadow-sm hover:bg-surface-container-high transition-all duration-200 group cursor-pointer">
+<div class="space-y-space-sm z-10">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-gradient-to-r from-on-surface via-tertiary-fixed to-secondary-fixed text-surface-container-lowest font-label-badge text-[10px] uppercase font-bold tracking-wider">
+                LADS+
+              </span>
+<span class="font-label-data text-[11px] text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> 4m ago
+              </span>
+</div>
+<div>
+<span class="font-label-badge text-label-badge text-on-surface-variant uppercase tracking-widest">Hobs Posted in Discord</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mt-1 leading-snug group-hover:text-primary transition-colors">
+                Live Slider Adjustments for Cutback Recovery
+              </h3>
+</div>
+<div class="flex items-center gap-space-xs pt-1">
+<div class="w-6 h-6 rounded-full bg-surface-variant flex items-center justify-center font-label-badge text-[10px] text-on-surface font-bold">TF</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">TFV Gaming &amp; Hobs</span>
+</div>
+</div>
+<!-- Bottom Artwork: Discord Dark Glass Chat Wave Mockup -->
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden mt-space-sm p-3 flex flex-col justify-between">
+<div class="flex items-center gap-2 pb-1 border-b border-surface-variant/20">
+<span class="text-primary font-label-data text-[11px]">#tactics-room</span>
+<span class="text-outline text-[10px] font-label-data">PRO LOUNGE</span>
+</div>
+<div class="space-y-2 py-1">
+<div class="flex items-start gap-2">
+<div class="w-4 h-4 rounded-full bg-primary mt-0.5"></div>
+<p class="font-body-sm text-[12px] text-on-surface-variant line-clamp-2">
+                  "Drop depth to 58 on defensive transition. Stops center-backs from freezing during cutback pass."
+                </p>
+</div>
+<div class="flex items-center gap-2 pl-6">
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-data text-[10px] text-primary">🔥 42</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-data text-[10px] text-secondary">🧠 18</span>
+</div>
+</div>
+<div class="font-label-badge text-[10px] text-outline uppercase tracking-wider">
+              TAP TO JUMP TO THREAD
+            </div>
+</div>
+</article>
+<!-- CARD 5: Peeking Next Card -->
+<article class="relative flex flex-col justify-between h-[440px] rounded-xl bg-surface-container-low/60 p-space-md opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-surface-variant text-on-surface font-label-badge text-[10px] uppercase font-bold tracking-wider">
+                LADS+
+              </span>
+<span class="font-label-data text-[11px] text-outline">UPCOMING</span>
+</div>
+<div>
+<span class="font-label-badge text-label-badge text-outline uppercase tracking-widest">Corner Routine</span>
+<h3 class="font-headline-md text-headline-md text-on-surface-variant uppercase mt-1 leading-snug">
+                Near-Post Header Glitch Fix &amp; Counter
+              </h3>
+</div>
+</div>
+<div class="w-full h-44 rounded-lg bg-surface-container-lowest/50 flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[32px]">lock</span>
+</div>
+</article>
+</div>
+</section>
+<!-- 3. CONTINUE WATCHING // SAVED TACTICAL SESSIONS -->
+<section class="relative z-10 w-full space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs font-headline-md text-headline-md text-on-surface uppercase tracking-wide">
+<span class="material-symbols-outlined text-primary text-[22px]">play_circle</span>
+<h2>Continue Watching // Saved Tactical Sessions</h2>
+</div>
+<a class="font-label-badge text-label-badge text-primary uppercase tracking-widest hover:underline flex items-center gap-1" href="#">
+<span>View Vault</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Video Card 1 -->
+<div class="group relative rounded-xl bg-surface-container-high overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="relative h-44 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300" data-alt="Close up high-angle view of a competitive esports athlete's tactical controller setup illuminated in mint green stadium mood lighting with tactical diagrams glowing on display screen in a moody dark gaming den." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJ5OERFWlRt1XOnc8hz0DNoRX27wwKIOlzMcoGX0Xf4QIn3fXVyhHqAUykP93rPButBqiuhL8m9vAu1O0i5ugU94JenGZQzihRm8RZIXuax3AH37iBZzzHXfr2Gr6NLZlbwEvR-AhfMhfKRinS8C045mBJBXRpMYw9SBCpOZ_xwGREGwPoUgasI249cbfYbX5NUW-F8c_WG9O-1Q_dIPSCILmFtNI8ctuvRClumUwGV3COw2LdKbhXBQ')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high via-surface-container-high/40 to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all shadow-md">
+<span class="material-symbols-outlined text-[28px] pl-0.5">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-data text-[11px] text-on-surface font-semibold tracking-wider">
+              11:45
+            </div>
+<div class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-primary text-on-primary font-label-badge text-[9px] uppercase font-bold tracking-widest">
+              STEFAN
+            </div>
+</div>
+<div class="p-space-md space-y-space-xs">
+<h4 class="font-headline-md text-[16px] text-on-surface leading-tight uppercase group-hover:text-primary transition-colors">
+              Mastering Driven Trivela Passes Inside The Box
+            </h4>
+<div class="flex items-center justify-between text-outline font-label-data text-[12px] pt-1">
+<span>Watched 7:38</span>
+<span class="text-primary font-bold">65% COMPLETED</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-300" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<!-- Video Card 2 -->
+<div class="group relative rounded-xl bg-surface-container-high overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="relative h-44 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300" data-alt="Esports analyst analyzing defensive football gameplay telemetry on ultra wide monitor displaying defensive vector lines and player speed heatmaps in dark obsidian studio setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAvkieQxiplXDJB_8B9MHz-Ldau4UNQtDPWr-a0L5GZvFcx6VV5DfhvZ0Fi4UcqdsnenpuWj2r6i4a2iv1SNlIbKuK1XhSx9cxI3pb5z7LA_SFczRQfY5gB7Z_U48NSSxsMI_gFZkpZt2G-f8P53NVSRfib61Yam7bqwXZtxh_Lp8zzdJFVUB4tn0Wgo2YZNLOu6gY83_kLkDtFu6R9FuHHrD_v8xe4hK8L8PZYVOS1KCPy2cPS90bq1Q')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high via-surface-container-high/40 to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all shadow-md">
+<span class="material-symbols-outlined text-[28px] pl-0.5">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-data text-[11px] text-on-surface font-semibold tracking-wider">
+              14:10
+            </div>
+<div class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-badge text-[9px] uppercase font-bold tracking-widest">
+              TFV GAMING
+            </div>
+</div>
+<div class="p-space-md space-y-space-xs">
+<h4 class="font-headline-md text-[16px] text-on-surface leading-tight uppercase group-hover:text-primary transition-colors">
+              Defending Cutbacks: Second-Man Contain Timing
+            </h4>
+<div class="flex items-center justify-between text-outline font-label-data text-[12px] pt-1">
+<span>Watched 4:15</span>
+<span class="text-secondary font-bold">30% COMPLETED</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-secondary transition-all duration-300" style="width: 30%;"></div>
+</div>
+</div>
+</div>
+<!-- Video Card 3 -->
+<div class="group relative rounded-xl bg-surface-container-high overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer">
+<div class="relative h-44 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300" data-alt="Dramatic stadium night shot focused on a penalty corner set piece flag illuminated by crisp electric mint stadium floodlights with deep atmospheric black shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDCZxX7KqSEphI74gDtMgatGnQAeKD237_7LcsuKWPO2PLlpIencuMM8sM-TpvigveQ8sIlEW4yzVzPoJfWr96lpg5sMCnKoMptgZA84_wxi2zXNF3x2tV5wwEAMtEihH3qSlgaJi2xJAvN8bPA5ucLP-cGqTMmbqjiT3u49LuA2xzOGDzycaIkpp2McxtfuUVwBvKMI6WlTnDT-8r6A6OF8d3nf_QiG27cw9KEZpbjBhQwhd0l7rqYlg')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high via-surface-container-high/40 to-transparent"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all shadow-md">
+<span class="material-symbols-outlined text-[28px] pl-0.5">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-data text-[11px] text-on-surface font-semibold tracking-wider">
+              8:20
+            </div>
+<div class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-badge text-[9px] uppercase font-bold tracking-widest">
+              HOBS
+            </div>
+</div>
+<div class="p-space-md space-y-space-xs">
+<h4 class="font-headline-md text-[16px] text-on-surface leading-tight uppercase group-hover:text-primary transition-colors">
+              Set-Piece Direct Glitches &amp; Keeper Movement Reads
+            </h4>
+<div class="flex items-center justify-between text-outline font-label-data text-[12px] pt-1">
+<span>Watched 7:05</span>
+<span class="text-primary font-bold">85% COMPLETED</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-300" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4 & 5. BALANCED TWO-COLUMN SECTION & BOTTOM SHORTCUTS -->
+<section class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN: SHORTCUT D-PAD BAR & PANEL A (THIS WEEK IN FC) -->
+<div class="lg:col-span-6 flex flex-col gap-space-lg">
+<!-- PANEL A: THIS WEEK IN FC -->
+<div class="rounded-xl bg-surface-container p-space-lg shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">feed</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">This Week in FC</h3>
+</div>
+<span class="font-label-badge text-[10px] px-2 py-0.5 rounded bg-surface-container-high text-primary font-bold uppercase tracking-wider">
+              PATCH 1.08 NOTEBOOK
+            </span>
+</div>
+<div class="space-y-space-sm">
+<!-- Bullet 1 -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-error text-[18px] mt-0.5">warning</span>
+<div class="space-y-0.5">
+<span class="font-label-data text-[11px] text-error font-bold uppercase tracking-wider">Gameplay Balancer</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+                  Patch 1.08 live: 71-depth auto-press stamina decay increased by 14%. Second-half sprint recovery slowed.
+                </p>
+</div>
+</div>
+<!-- Bullet 2 -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-secondary text-[18px] mt-0.5">tune</span>
+<div class="space-y-0.5">
+<span class="font-label-data text-[11px] text-secondary font-bold uppercase tracking-wider">Shooting Physics</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+                  Trivela outside-the-foot shot accuracy adjusted from 25+ yards out. Green timing now strictly required for dip.
+                </p>
+</div>
+</div>
+<!-- Bullet 3 -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-tertiary text-[18px] mt-0.5">calendar_month</span>
+<div class="space-y-0.5">
+<span class="font-label-data text-[11px] text-tertiary font-bold uppercase tracking-wider">Competition Rules</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+                  New Weekend League PlayStyle+ requirements active starting Friday 18:00 UTC. Max 2 Trickster+ per starting 11.
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM-LEFT GAMEPLAY QUICK ACCESS MENU -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between px-space-xs font-label-badge text-label-badge text-outline uppercase tracking-widest">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sports_esports</span>
+              Tactical Shortcuts
+            </span>
+<span class="flex items-center gap-1 font-label-data text-[11px]">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">D-PAD</kbd>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary">A: SELECT</kbd>
+</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs">
+<!-- Item 1 (Active) -->
+<button class="flex flex-col items-start p-space-sm rounded-lg bg-gradient-to-br from-secondary-container to-primary text-on-primary font-headline-md text-[13px] uppercase tracking-wider shadow-sm transform hover:scale-[1.02] transition-transform text-left">
+<span class="material-symbols-outlined text-[18px] mb-1">trending_up</span>
+<span>Rivals Tips</span>
+<span class="font-label-data text-[9px] text-on-primary/80 normal-case">Div 1 • Meta Metas</span>
+</button>
+<!-- Item 2 -->
+<button class="flex flex-col items-start p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-md text-[13px] uppercase tracking-wider transition-colors text-left">
+<span class="material-symbols-outlined text-outline text-[18px] mb-1">groups</span>
+<span>Squad Builds</span>
+<span class="font-label-data text-[9px] text-outline normal-case">5 Formations</span>
+</button>
+<!-- Item 3 -->
+<button class="flex flex-col items-start p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-md text-[13px] uppercase tracking-wider transition-colors text-left">
+<span class="material-symbols-outlined text-outline text-[18px] mb-1">upgrade</span>
+<span>Evolutions</span>
+<span class="font-label-data text-[9px] text-outline normal-case">3 Chains Active</span>
+</button>
+<!-- Item 4 -->
+<button class="flex flex-col items-start p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-md text-[13px] uppercase tracking-wider transition-colors text-left">
+<span class="material-symbols-outlined text-outline text-[18px] mb-1">monetization_on</span>
+<span>SBC Guides</span>
+<span class="font-label-data text-[9px] text-outline normal-case">Value Ratings</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: PANEL B (YOUR NEXT REVIEW) -->
+<div class="lg:col-span-6 flex flex-col">
+<div class="h-full rounded-xl bg-surface-container p-space-lg shadow-sm flex flex-col justify-between space-y-space-lg relative overflow-hidden">
+<!-- Subtle Glow corner -->
+<div class="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">military_tech</span>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">Your Next Review</h3>
+</div>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-badge text-[10px] uppercase font-bold tracking-wider">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                Book Before 31 Oct
+              </span>
+</div>
+<!-- Coaching Stage Card -->
+<div class="p-space-md rounded-xl bg-surface-container-low space-y-space-sm">
+<div class="flex items-center justify-between font-label-data text-[12px]">
+<span class="text-on-surface uppercase font-bold tracking-wider">1-on-1 Pro Coaching Status</span>
+<span class="text-primary font-bold">1 / 3 STEPS COMPLETED</span>
+</div>
+<!-- 3-Segmented Progress Pipeline -->
+<div class="grid grid-cols-3 gap-2">
+<div class="h-2 rounded-full bg-primary shadow-[0_0_8px_#54f6a5]"></div>
+<div class="h-2 rounded-full bg-surface-container-highest animate-pulse"></div>
+<div class="h-2 rounded-full bg-surface-container-highest/40"></div>
+</div>
+<div class="grid grid-cols-3 text-[10px] font-label-data text-outline pt-1">
+<span class="text-primary">Gameplay Uploaded</span>
+<span class="text-on-surface text-center">Slot Allocation</span>
+<span class="text-right">Live Debrief</span>
+</div>
+</div>
+<!-- Coach Bio Highlight -->
+<div class="flex items-center gap-space-md p-space-md rounded-xl bg-surface-container-lowest">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center relative overflow-hidden">
+<span class="font-headline-md text-headline-md text-primary font-bold">ST</span>
+<div class="absolute bottom-0 inset-x-0 h-1 bg-primary"></div>
+</div>
+<div class="space-y-0.5">
+<span class="font-label-badge text-[10px] text-primary uppercase tracking-wider">Assigned Lead Coach</span>
+<h4 class="font-headline-md text-[17px] text-on-surface uppercase">Stefan</h4>
+<div class="flex items-center gap-space-sm text-outline font-label-data text-[12px]">
+<span>FC Pro Top 100</span>
+<span>•</span>
+<span>CAM Specialist</span>
+<span>•</span>
+<span class="text-secondary font-semibold">4.9/5 Rating</span>
+</div>
+</div>
+</div>
+<!-- Feedback note -->
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Your 20-minute Champs gameplay file has been ingested. Select an open review window to receive personalized controller overlay analysis and custom tactical presets.
+            </p>
+</div>
+<!-- Bottom Action Buttons -->
+<div class="flex items-center gap-space-sm pt-space-sm">
+<button class="flex-1 py-3 px-space-md rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-md text-[14px] uppercase tracking-wider shadow-[0_4px_20px_rgba(84,246,165,0.3)] transition-all duration-150 transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+<span>Continue Slot Selection</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="py-3 px-space-md rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface font-headline-md text-[14px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+<span>Replace File</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div></main><footer class="relative z-10 w-full bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.5)] mt-space-xl"><div class="w-full px-gutter-desktop py-space-md flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">sensors</span><span class="font-label-data text-[12px] text-on-surface-variant uppercase tracking-wider">EU-CENTRAL <span class="text-primary font-label-data text-[12px]">18MS</span></span></div><div class="h-4 w-[1px] bg-surface-variant/50"></div><div class="flex items-center gap-space-md font-label-badge text-label-badge text-outline"><span class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-label-data text-[10px]">L1 / R1</kbd> TAB SWITCH</span><span class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-label-data text-[10px]">X</kbd> SELECT</span></div></div><div class="flex items-center gap-space-md font-body-sm text-body-sm text-outline"><span class="font-label-data text-[11px] text-on-surface-variant uppercase tracking-widest">CORE BUILD v4.8.2</span><span>© 2025 FC LADS+. ALL RIGHTS RESERVED.</span></div></div></footer></body></html>

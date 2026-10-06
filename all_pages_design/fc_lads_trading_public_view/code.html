@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: 'class', theme: { extend: { colors: { 'on-tertiary': '#003061', 'tertiary-fixed-dim': '#a8c8ff', 'outline-variant': '#3c4a40', 'surface-dim': '#111318', 'surface-container-highest': '#333539', 'background': '#111318', 'error-container': '#93000a', 'tertiary-container': '#9bc0ff', 'surface-container-high': '#282a2f', 'surface-container-lowest': '#0c0e12', 'surface': '#111318', 'on-surface-variant': '#bbcbbd', 'surface-tint': '#38e192', 'inverse-primary': '#006d41', 'surface-container-low': '#191c20', 'primary-fixed': '#5efeac', 'primary-fixed-dim': '#38e192', 'on-background': '#e2e2e8', 'secondary': '#78d9b3', 'surface-variant': '#333539', 'tertiary': '#c9dbff', 'on-tertiary-fixed': '#001b3c', 'inverse-on-surface': '#2e3035', 'on-primary-fixed': '#002110', 'on-primary-container': '#005935', 'on-tertiary-fixed-variant': '#004689', 'inverse-surface': '#e2e2e8', 'on-primary-fixed-variant': '#005230', 'on-tertiary-container': '#004d95', 'on-error-container': '#ffdad6', 'secondary-fixed': '#94f5ce', 'secondary-container': '#007a5a', 'error': '#ffb4ab', 'primary-container': '#2bd98b', 'on-secondary-fixed-variant': '#00513b', 'surface-container': '#1d2024', 'on-secondary': '#003828', 'tertiary-fixed': '#d5e3ff', 'primary': '#54f6a5', 'outline': '#859488', 'on-surface': '#e2e2e8', 'on-error': '#690005', 'on-secondary-container': '#9fffd8', 'on-secondary-fixed': '#002116', 'secondary-fixed-dim': '#78d9b3', 'surface-bright': '#37393e', 'on-primary': '#003920' }, borderRadius: { 'DEFAULT': '0.125rem', 'lg': '0.25rem', 'xl': '0.5rem', 'full': '0.75rem' }, spacing: { 'margin-desktop': '3.5rem', 'margin': '1.5rem', 'gutter': '1.5rem', 'space-md': '1rem', 'space-xs': '0.25rem', 'gutter-desktop': '2rem', 'space-lg': '1.5rem', 'space-sm': '0.5rem', 'space-xl': '2.5rem' }, fontFamily: { 'label-data': ['JetBrains Mono'], 'headline-md': ['Sora'], 'hero-display': ['Sora'], 'body-lg': ['Manrope'], 'headline-lg': ['Sora'], 'label-badge': ['Sora'], 'body-md': ['Manrope'], 'headline-xl': ['Sora'], 'body-sm': ['Manrope'], 'hero-display-mobile': ['Sora'] }, fontSize: { 'label-data': ['14px', { lineHeight: '18px', letterSpacing: '0.02em', fontWeight: '600' }], 'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '0.03em', fontWeight: '700' }], 'hero-display': ['80px', { lineHeight: '84px', letterSpacing: '0.06em', fontWeight: '800' }], 'body-lg': ['18px', { lineHeight: '26px', fontWeight: '500' }], 'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '0.04em', fontWeight: '700' }], 'label-badge': ['11px', { lineHeight: '14px', letterSpacing: '0.08em', fontWeight: '700' }], 'body-md': ['16px', { lineHeight: '24px', fontWeight: '500' }], 'headline-xl': ['36px', { lineHeight: '42px', letterSpacing: '0.05em', fontWeight: '800' }], 'body-sm': ['14px', { lineHeight: '20px', fontWeight: '400' }], 'hero-display-mobile': ['44px', { lineHeight: '48px', letterSpacing: '0.04em', fontWeight: '800' }] } } } }</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-sm focus:outline-none" data-path="feed" href="#"><img alt="FC Lads logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1X2uZxYtNWeohRsC--jbMaMyMaUYVZxgPPXS0E15pVhoKdIJs7j63LETs3lc2z9xTJ0q0z-pihzF4qj9o5C8-Ox3GFFEIYQSaliMxP5qVK3fkChGYXweSz7N7cgopS8VFwhbt9TSDhmYm8xVEjckzxFmeOq_ADeAlcJn1rBNElaxLUQZYc9eQaPYyVlkhqoinhzbyez4T4VfArxb4fFLjD02EzaRU45YAwclqg0_IZ6G-5I4tRnHIppdykP"/><span class="font-headline-md text-headline-md tracking-wider text-on-surface uppercase">FC Lads</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-headline-md font-bold shadow-[0_0_16px_rgba(43,217,139,0.35)]"><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="learn" href="#">Learn</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="players" href="#">Players</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="squads" href="#">Squads</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="feed" href="#">Feed</a><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-primary-container text-on-primary-container font-headline-md font-bold shadow-[0_0_16px_rgba(43,217,139,0.35)]" data-path="trading" href="#">Trading</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="creators" href="#">Creators</a><a class="px-space-md py-space-xs rounded-lg font-headline-md text-label-data text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="fc-lads+" href="#">FC Lads+</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-low"><div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div><span class="font-label-data text-label-data text-on-surface-variant uppercase">Patch 1.08 Sync</span><span class="text-outline font-label-data text-label-data">/</span><span class="font-label-data text-label-data text-primary">14ms</span></div><div class="flex items-center gap-space-xs"><span class="px-space-sm py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant font-label-badge text-label-badge uppercase tracking-widest">Free</span><span class="px-space-sm py-0.5 rounded-lg bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase tracking-widest shadow-[0_0_12px_rgba(43,217,139,0.25)]">Lads+</span></div><a class="hidden sm:inline-block font-headline-md text-label-data text-on-surface hover:text-primary transition-colors uppercase tracking-wider px-space-sm py-space-xs" data-path="login" href="#">Log in</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface-container-lowest relative min-h-screen"><div class="flex flex-col w-full">
+<div class="relative w-full overflow-hidden px-gutter-desktop py-space-xl flex flex-col gap-space-xl">
+<!-- Ambient Stadium Pitch Lighting Glows -->
+<div class="absolute -top-32 left-1/4 w-[600px] h-[350px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute top-[480px] -right-20 w-[550px] h-[400px] bg-tertiary-container/10 rounded-full blur-[140px] pointer-events-none"></div>
+<!-- 1. HEADER & TELEMETRY STRIP -->
+<section class="relative z-10 flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-space-xs rounded-lg bg-surface-container-high text-primary font-label-data text-label-data uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            MARKET SCOUT // PATCH 1.08 V1.2
+          </span>
+<span class="px-space-sm py-space-xs rounded-lg bg-surface-container-low text-on-surface-variant font-label-data text-label-data flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">update</span>
+            LIVE SYNC 4M AGO
+          </span>
+<span class="hidden lg:inline-flex items-center gap-1 px-space-sm py-space-xs rounded-lg bg-surface-container-lowest text-outline font-label-data text-label-data">
+            INDEX 100: <span class="text-primary font-bold">1,842.60</span> (+2.1%)
+          </span>
+</div>
+<!-- Mini Gamepad Quick Action Hint -->
+<div class="hidden md:flex items-center gap-space-xs text-outline font-label-badge text-label-badge uppercase tracking-wider">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface">RT</span>
+<span>QUICK FILTER</span>
+<span class="ml-2 px-2 py-0.5 rounded bg-surface-container-high text-on-surface">RS</span>
+<span>CYCLE TELEMETRY</span>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<h1 class="font-headline-xl text-hero-display tracking-tight text-on-surface uppercase drop-shadow-[0_0_24px_rgba(84,246,165,0.15)]">
+            TRADING
+          </h1>
+<p class="font-headline-md text-headline-md text-primary mt-space-xs font-semibold tracking-wide">
+            Follow the market without living on it.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-sm rounded-xl backdrop-blur-md">
+<div class="flex flex-col">
+<span class="font-label-badge text-label-badge uppercase text-on-surface-variant">Market Momentum</span>
+<span class="font-label-data text-label-data text-primary font-bold">BEARISH VOLATILE</span>
+</div>
+<div class="w-px h-8 bg-surface-container-highest mx-space-xs"></div>
+<div class="flex flex-col">
+<span class="font-label-badge text-label-badge uppercase text-on-surface-variant">Fodder Pressure</span>
+<span class="font-label-data text-label-data text-tertiary font-bold">HIGH (88-89 SBC)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. THIS WEEK'S HEADLINE (FREE ACCESS SECTION) -->
+<section class="relative z-10 w-full">
+<div class="relative w-full rounded-xl bg-surface-container/80 backdrop-blur-xl p-space-lg lg:p-space-xl shadow-xl overflow-hidden group">
+<!-- Subtle Accent Line -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-transparent opacity-80"></div>
+<div class="absolute -right-24 -bottom-24 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row gap-space-xl items-stretch justify-between">
+<!-- Analysis Left Block -->
+<div class="flex-1 flex flex-col justify-between gap-space-lg">
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-lg bg-secondary-container/60 text-on-secondary-container font-label-badge text-label-badge uppercase tracking-widest flex items-center gap-1 shadow-[0_0_12px_rgba(0,122,90,0.3)]">
+<span class="material-symbols-outlined text-[13px]">bolt</span>
+                    FREE INTEL
+                  </span>
+<span class="font-label-data text-label-data text-outline font-semibold">WEEK 4 // BRIEF #24</span>
+</div>
+<span class="font-label-data text-label-data text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+                  VERIFIED LIQUIDITY REPORT
+                </span>
+</div>
+<!-- Author / Creator Byline -->
+<div class="flex items-center gap-space-sm pt-space-xs">
+<div class="relative">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high overflow-hidden flex items-center justify-center shadow-md">
+<img class="w-full h-full object-cover" data-alt="Futuristic esports analyst avatar in high contrast dark neon studio lighting with geometric headset, wearing black club jacket with mint accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrBFmhEK2DvpG0FqsyGgNZZstQ_ZzQtadNSURu3vGxzSh6sJPtrzxr1vWjO3IUH3wyVBYfd8jXTVez8-2Q9pEnmXtaMpQu0662X4Bf-reWzcQEfs7H5DKSvrDDcRqkuw_sUMViv3EdX4E16rSDg-sAGScUkJavqayaUxAQmbaIqfwokI8rcKXa67mf7feK_ouBGlY_ey5wNRFxysZAq_NobfpZH5HAPIQhlb6WjhuB8TN7NT8reuOkfg"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center text-surface-container-lowest">
+<span class="material-symbols-outlined text-[11px] font-bold">check</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-body-md text-on-surface font-bold tracking-wide">Wessam</span>
+<span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary-container font-label-badge text-label-badge uppercase font-black">PRO</span>
+</div>
+<span class="font-label-data text-body-sm text-on-surface-variant">Market Lead &amp; Chief Economist</span>
+</div>
+</div>
+<!-- Authoritative Market Call -->
+<blockquote class="font-headline-lg text-headline-md lg:text-headline-lg text-on-surface font-bold leading-snug tracking-tight">
+                "Pre-Weekend League sell-off is peaking earlier than expected—liquidate high-rated out-of-pack informs before Thursday 6PM content drop."
+              </blockquote>
+<!-- Detailed Paragraph Analysis -->
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed max-w-3xl">
+                Heavy tournament supply has cascaded through the 86–88 market tier, driving down top-end meta margins as casual rosters lock in their weekend setups early. SBC requirements for the upcoming Hero upgrade SBC are forecasted to siphon 87+ fodder, yet coins are aggressively rotating out of secondary center-backs directly into 5-star skill meta strikers. Unload mid-tier holdings immediately to preserve maximum coin agility before tomorrow's pack flood triggers panic listing.
+              </p>
+</div>
+<!-- Meta Tags / Key Takeaways -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-sm">
+<span class="px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface font-label-data text-label-data">
+                ACTION: <span class="text-error font-bold">TAKE PROFIT</span>
+</span>
+<span class="px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface font-label-data text-label-data">
+                RISK PROFILE: <span class="text-secondary font-bold">LOW</span>
+</span>
+<span class="px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface font-label-data text-label-data">
+                TARGET WINDOW: <span class="text-on-surface font-bold">NEXT 18 HOURS</span>
+</span>
+</div>
+</div>
+<!-- Featured Mini Player Cards (Right Panel) -->
+<div class="lg:w-[420px] flex flex-col justify-between gap-space-md bg-surface-container-lowest/60 p-space-md rounded-xl backdrop-blur-md">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-badge text-label-badge text-outline uppercase tracking-wider">FEATURED MONITORING ITEMS</span>
+<span class="font-label-data text-label-badge text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+                ACTIVE TICKER
+              </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-space-md">
+<!-- Card 1: Irene Paredes -->
+<div class="relative rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm transition-all duration-300 hover:scale-[1.02] shadow-md group/card">
+<div class="absolute top-2 right-2 flex items-center gap-1 px-space-xs py-0.5 rounded bg-surface-container text-primary font-label-data text-label-badge">
+<span class="material-symbols-outlined text-[14px]">arrow_drop_up</span>
+                  +8.4%
+                </div>
+<div class="flex items-center gap-space-md">
+<!-- Tactical Player Shield Avatar -->
+<div class="relative w-16 h-20 rounded-lg bg-surface-container-high flex flex-col items-center justify-between p-1.5 shadow-inner overflow-hidden">
+<div class="w-full flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface leading-none font-extrabold">88</span>
+<span class="font-label-badge text-label-badge text-primary font-bold">CB</span>
+</div>
+<img class="w-12 h-14 object-cover object-top -mb-1" data-alt="Dynamic cutout portrait of Irene Paredes elite female center-back in athletic jersey with soft rim lighting against dark stadium backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpdPLWMv_DPhjyagVvt4O9R8j2F78vopmFYXzPc7Co22EshuudvKtQq6wVvvcyBVwmWcH-Xb-zoOoyB3Aff8-kz2ZSvlZDjAsG-wwc0eluhj7I3cPC2qxb4dZYkcXS49Ot9Yk-MbmHNWDGA2HYb-o8x0wesIu7y88PWZmdgs_76dxVyUuaG7v5xRBH2m1BIBoBbT0uJ6NSEndvNfj9lqtZpcKv4oAVPzJ8iIxHQj2vDCSPuEb6NSwbhg"/>
+</div>
+<div class="flex-1 flex flex-col min-w-0">
+<span class="font-label-badge text-label-badge text-secondary uppercase font-semibold">FC BARCELONA // SPAIN</span>
+<h2 class="font-headline-md text-body-lg text-on-surface font-bold truncate">Irene Paredes</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Rare Gold Item</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-lowest/40 px-space-sm py-space-xs rounded-lg">
+<span class="font-label-badge text-label-badge text-outline uppercase">Current Index</span>
+<div class="flex items-center gap-1.5">
+<!-- Generic Coin Icon -->
+<svg class="w-4 h-4 text-tertiary-fixed-dim" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" opacity="0.4" r="10" stroke="currentColor" stroke-width="2"></circle>
+<circle cx="12" cy="12" fill="currentColor" r="7"></circle>
+<text fill="#001b3c" font-family="'Sora', sans-serif" font-size="11" font-weight="900" text-anchor="middle" x="12" y="16">C</text>
+</svg>
+<span class="font-label-data text-body-md text-on-surface font-bold">14,250</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Gregor Kobel -->
+<div class="relative rounded-xl bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm transition-all duration-300 hover:scale-[1.02] shadow-md group/card">
+<div class="absolute top-2 right-2 flex items-center gap-1 px-space-xs py-0.5 rounded bg-surface-container text-error font-label-data text-label-badge">
+<span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+                  -3.2%
+                </div>
+<div class="flex items-center gap-space-md">
+<!-- Tactical Player Shield Avatar -->
+<div class="relative w-16 h-20 rounded-lg bg-surface-container-high flex flex-col items-center justify-between p-1.5 shadow-inner overflow-hidden">
+<div class="w-full flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface leading-none font-extrabold">87</span>
+<span class="font-label-badge text-label-badge text-secondary font-bold">GK</span>
+</div>
+<img class="w-12 h-14 object-cover object-top -mb-1" data-alt="Dynamic cutout portrait of Gregor Kobel goalkeeper in yellow jersey focused expression against deep stadium shadows with clean cyber highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARJzGxXdv0_slRWvqPcBTsYZMsndwU0zqZ9hHOfbKAfYo4e6IuTUQm9njbOuPkPKbLnqeSTaQBAuN5g00vRV2qIYhbvGoycEPzrZ2vaeGPjdbyDxaDy5Y0YHeUsTbWpSiqWPiGchiQ327FRyG3zDMWpuULkw9sAiaVbcmoX6r2YHtJJG-raz9nH3TyS7v5wj3ksYYMHIy9--YsmJJ2K0EDTZl_pi-fUkW1ig15AWljD_UB4imj0q5RBw"/>
+</div>
+<div class="flex-1 flex flex-col min-w-0">
+<span class="font-label-badge text-label-badge text-outline uppercase font-semibold">BORUSSIA DORTMUND // SUI</span>
+<h2 class="font-headline-md text-body-lg text-on-surface font-bold truncate">Gregor Kobel</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">UCL RTTK Item</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-lowest/40 px-space-sm py-space-xs rounded-lg">
+<span class="font-label-badge text-label-badge text-outline uppercase">Current Index</span>
+<div class="flex items-center gap-1.5">
+<!-- Generic Coin Icon -->
+<svg class="w-4 h-4 text-tertiary-fixed-dim" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" opacity="0.4" r="10" stroke="currentColor" stroke-width="2"></circle>
+<circle cx="12" cy="12" fill="currentColor" r="7"></circle>
+<text fill="#001b3c" font-family="'Sora', sans-serif" font-size="11" font-weight="900" text-anchor="middle" x="12" y="16">C</text>
+</svg>
+<span class="font-label-data text-body-md text-on-surface font-bold">9,800</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Mini Sparkline Telemetry Graphic -->
+<div class="w-full bg-surface-container-low px-space-md py-space-xs rounded-lg flex items-center justify-between">
+<span class="font-label-badge text-label-badge text-outline uppercase">24H High-Tier Fodder Delta</span>
+<svg class="w-36 h-6 text-primary" fill="none" viewbox="0 0 144 24">
+<path d="M2 18 L24 16 L48 20 L72 10 L96 14 L120 4 L142 8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="142" cy="8" fill="currentColor" r="3"></circle>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. WEEKLY TRADING BRIEF (GATED / MEMBER PREVIEW) -->
+<section class="relative z-10 w-full flex flex-col gap-space-lg">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs mb-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-data text-label-data text-tertiary uppercase tracking-wider font-semibold">EXCLUSIVE REPORT ARCHIVE</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface font-extrabold uppercase tracking-wide">
+            WEEKLY TRADING BRIEF // WEEK 4
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Comprehensive market intelligence for competitive club builders
+          </p>
+</div>
+<div class="flex items-center gap-space-sm font-label-data text-label-data text-outline">
+<span>INDEX COVERAGE: 2,400+ ASSETS</span>
+<span>//</span>
+<span>ESTIMATED ROI: +18.4%</span>
+</div>
+</div>
+<!-- Container with Blurred/Teaser Content and Paywall Overlay -->
+<div class="relative w-full rounded-2xl bg-surface-container-low overflow-hidden shadow-2xl min-h-[720px]">
+<!-- UNDERLYING GHOSTED / SEMI-VISIBLE TEASER CONTENT -->
+<div class="w-full p-space-lg lg:p-space-xl flex flex-col gap-space-xl opacity-40 filter blur-[6px] select-none pointer-events-none transform scale-[0.99] transition-all duration-700">
+<!-- Mock Section 01 -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs bg-surface-container-high px-space-md py-space-sm rounded-lg">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">01 // WHAT WE'RE WATCHING</span>
+<span class="font-label-data text-label-data text-primary">STATUS: CRITICAL LIQUIDITY</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="h-36 bg-surface-container rounded-xl p-space-md flex flex-col justify-between">
+<div class="h-4 w-32 bg-surface-container-highest rounded"></div>
+<div class="h-10 w-full bg-surface-container-high rounded"></div>
+<div class="h-4 w-24 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-36 bg-surface-container rounded-xl p-space-md flex flex-col justify-between">
+<div class="h-4 w-40 bg-surface-container-highest rounded"></div>
+<div class="h-10 w-full bg-surface-container-high rounded"></div>
+<div class="h-4 w-28 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-36 bg-surface-container rounded-xl p-space-md flex flex-col justify-between">
+<div class="h-4 w-28 bg-surface-container-highest rounded"></div>
+<div class="h-10 w-full bg-surface-container-high rounded"></div>
+<div class="h-4 w-20 bg-surface-container-highest rounded"></div>
+</div>
+</div>
+</div>
+<!-- Mock Section 02 -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs bg-surface-container-high px-space-md py-space-sm rounded-lg">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">02 // POTENTIAL OPPORTUNITIES</span>
+<span class="font-label-data text-label-data text-secondary">PROJECTED YIELD: 320,000+ COINS</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+<div class="h-44 bg-surface-container rounded-xl p-space-md flex flex-col items-center justify-center gap-space-sm">
+<div class="w-16 h-20 bg-surface-container-highest rounded-lg"></div>
+<div class="w-24 h-4 bg-surface-container-high rounded"></div>
+<div class="w-16 h-3 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-44 bg-surface-container rounded-xl p-space-md flex flex-col items-center justify-center gap-space-sm">
+<div class="w-16 h-20 bg-surface-container-highest rounded-lg"></div>
+<div class="w-24 h-4 bg-surface-container-high rounded"></div>
+<div class="w-16 h-3 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-44 bg-surface-container rounded-xl p-space-md flex flex-col items-center justify-center gap-space-sm">
+<div class="w-16 h-20 bg-surface-container-highest rounded-lg"></div>
+<div class="w-24 h-4 bg-surface-container-high rounded"></div>
+<div class="w-16 h-3 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-44 bg-surface-container rounded-xl p-space-md flex flex-col items-center justify-center gap-space-sm">
+<div class="w-16 h-20 bg-surface-container-highest rounded-lg"></div>
+<div class="w-24 h-4 bg-surface-container-high rounded"></div>
+<div class="w-16 h-3 bg-surface-container-highest rounded"></div>
+</div>
+</div>
+</div>
+<!-- Mock Section 03 -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs bg-surface-container-high px-space-md py-space-sm rounded-lg">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">03 // UPCOMING EVENTS &amp; PROMO CALENDAR</span>
+<span class="font-label-data text-label-data text-outline">TIMELINES &amp; SCHEDULES</span>
+</div>
+<div class="h-28 bg-surface-container rounded-xl p-space-md flex items-center justify-around">
+<div class="w-1/4 h-12 bg-surface-container-high rounded"></div>
+<div class="w-1/4 h-12 bg-surface-container-high rounded"></div>
+<div class="w-1/4 h-12 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<!-- Mock Section 04 -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs bg-surface-container-high px-space-md py-space-sm rounded-lg">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">04 // OVERALL MARKET TRENDS &amp; INDEX</span>
+<span class="font-label-data text-label-data text-primary">MACRO ANALYSIS</span>
+</div>
+<div class="h-40 bg-surface-container rounded-xl p-space-md flex items-center justify-center">
+<div class="w-full h-24 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<!-- Mock Section 05 -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs bg-surface-container-high px-space-md py-space-sm rounded-lg">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">05 // PLAYERS TO MONITOR</span>
+<span class="font-label-data text-label-data text-secondary">36 CARDS TAGGED</span>
+</div>
+<div class="h-32 bg-surface-container rounded-xl p-space-md flex gap-space-md">
+<div class="w-1/3 h-full bg-surface-container-high rounded"></div>
+<div class="w-1/3 h-full bg-surface-container-high rounded"></div>
+<div class="w-1/3 h-full bg-surface-container-high rounded"></div>
+</div>
+</div>
+</div>
+<!-- 5 VISIBLE FLOATING SECTION NAV TABS (CLEARLY VISIBLE AT TOP) -->
+<div class="absolute top-0 left-0 right-0 z-20 bg-surface-container-low/90 backdrop-blur-md px-space-md py-space-sm flex items-center justify-between overflow-x-auto gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-container-high text-on-surface font-headline-md text-label-badge uppercase whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+              01 // WHAT WE'RE WATCHING
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant font-headline-md text-label-badge uppercase whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+              02 // POTENTIAL OPPORTUNITIES
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant font-headline-md text-label-badge uppercase whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+              03 // UPCOMING EVENTS &amp; PROMO CALENDAR
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant font-headline-md text-label-badge uppercase whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+              04 // OVERALL MARKET TRENDS &amp; INDEX
+            </button>
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant font-headline-md text-label-badge uppercase whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+              05 // PLAYERS TO MONITOR
+            </button>
+</div>
+<span class="hidden xl:inline-flex items-center gap-1 font-label-data text-label-badge text-primary-fixed uppercase tracking-widest pl-space-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span> LOCKED CONTENT
+          </span>
+</div>
+<!-- CENTERED FROSTED DARK-GLASS PAYWALL OVERLAY -->
+<div class="absolute inset-0 z-30 flex items-center justify-center p-space-md pt-16 bg-surface-container-lowest/70 backdrop-blur-md">
+<div class="relative max-w-xl w-full rounded-2xl bg-surface-container/95 p-space-lg sm:p-space-xl flex flex-col items-center text-center gap-space-lg shadow-2xl overflow-hidden">
+<!-- Iridescent Highlight Arc -->
+<div class="absolute -top-20 left-1/2 -translate-x-1/2 w-72 h-36 bg-gradient-to-b from-primary/30 via-tertiary-container/20 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+<!-- Hexagonal Lock & Pro Badge -->
+<div class="relative flex flex-col items-center">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-highest flex items-center justify-center shadow-lg relative group">
+<div class="absolute inset-0 rounded-2xl bg-primary/10 animate-ping opacity-30"></div>
+<span class="material-symbols-outlined text-primary text-[32px]">lock</span>
+</div>
+<div class="mt-space-sm flex items-center gap-1.5 px-space-md py-0.5 rounded-full bg-gradient-to-r from-secondary-container to-surface-container-high text-on-secondary-container font-label-badge text-label-badge uppercase tracking-widest shadow-md">
+<span class="material-symbols-outlined text-[13px] text-primary">diamond</span>
+                FC LADS+ INTEL SUITE
+              </div>
+</div>
+<!-- Paywall Core Copy -->
+<div class="flex flex-col gap-space-xs">
+<h3 class="font-headline-xl text-headline-lg sm:text-headline-xl text-on-surface font-extrabold tracking-tight">
+                Every week we break down what is happening in the FC market.
+              </h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto leading-relaxed">
+                Unlock buy/sell target bands, live SBC fodder calculators, Discord market alert pings, and our full 14-day index telemetry.
+              </p>
+</div>
+<!-- Member Value Checklist -->
+<div class="grid grid-cols-2 gap-space-xs w-full max-w-md text-left py-space-xs">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-data text-body-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Specific buy/sell price tags</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-data text-body-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Instant Discord bot notifications</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-data text-body-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Fodder cycle forecasting</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-data text-body-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+<span>Weekly live trading webinars</span>
+</div>
+</div>
+<!-- CTA Actions -->
+<div class="flex flex-col items-center gap-space-sm w-full max-w-md">
+<!-- Primary Iridescent Button -->
+<a class="w-full py-space-md px-space-lg rounded-xl bg-gradient-to-r from-primary via-primary-container to-secondary text-surface-container-lowest font-headline-md text-label-data font-black uppercase tracking-wider flex items-center justify-between shadow-[0_0_24px_rgba(84,246,165,0.4)] hover:scale-[1.02] active:scale-[0.99] transition-all group" href="#">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                  UNLOCK THE BRIEF
+                </span>
+<span class="px-space-sm py-0.5 rounded bg-surface-container-lowest/20 font-label-data text-label-data font-bold">
+                  $29 / month
+                </span>
+</a>
+<!-- Secondary Login Link -->
+<a class="font-headline-md text-body-sm text-on-surface-variant hover:text-primary transition-colors py-1 flex items-center gap-1 uppercase tracking-wider" href="#">
+<span>Already an FC Lads+ member?</span>
+<span class="text-primary font-bold underline underline-offset-4">Log in to view</span>
+</a>
+</div>
+<!-- Console Controller Fast-Toggle Prompt -->
+<div class="flex items-center gap-space-xs text-outline font-label-badge text-label-badge uppercase pt-space-xs">
+<span class="w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary text-[10px]">A</span>
+<span>CONFIRM MEMBERSHIP</span>
+<span class="mx-1">/</span>
+<span class="w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-error text-[10px]">B</span>
+<span>CANCEL</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. FOOTER DISCLAIMER -->
+<footer class="relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-space-md py-space-md text-outline">
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<p>Trading information is educational and market conditions can change quickly.</p>
+</div>
+<div class="flex items-center gap-space-md font-label-data text-label-badge uppercase tracking-wider">
+<span>FC LADS ECONOMETRIC LABS</span>
+<span>•</span>
+<span>SECURITY ENCRYPTED // 256-BIT</span>
+</div>
+</footer>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest"><div class="w-full px-gutter-desktop py-space-xl flex flex-col gap-space-xl"><div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-wider text-on-surface uppercase">FC Lads</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Play Better. Together.</p></div><nav class="flex flex-wrap items-center gap-space-md" data-active-classes="text-primary font-bold"><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="learn" href="#">Learn</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="players" href="#">Players</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="squads" href="#">Squads</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="feed" href="#">Feed</a><a aria-current="page" class="uppercase tracking-wider transition-colors text-primary font-bold" data-path="trading" href="#">Trading</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="creators" href="#">Creators</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="fc-lads+" href="#">FC Lads+</a><a class="font-headline-md text-label-data uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="login" href="#">Login</a></nav><div class="flex items-center gap-space-md text-on-surface-variant"><a aria-label="YouTube" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">smart_display</span></a><a aria-label="Instagram" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">photo_camera</span></a><a aria-label="X" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">tag</span></a><a aria-label="TikTok" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">music_note</span></a><a aria-label="Discord" class="p-space-xs rounded-lg hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">forum</span></a></div></div><div class="flex flex-col md:flex-row items-center justify-between gap-space-md pt-space-lg bg-surface-container-low/40 rounded-xl px-space-md py-space-sm"><div class="flex flex-wrap items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-high px-space-md py-space-xs rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span><span class="font-label-data text-label-data text-on-surface-variant uppercase tracking-wider">Server: EU-Central (24ms) | Build: 28.1.0</span></div><div class="hidden sm:flex items-center gap-space-sm"><div class="flex items-center gap-space-xs"><span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-data text-label-badge text-primary uppercase">L1</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Prev Tab</span></div><div class="flex items-center gap-space-xs"><span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-data text-label-badge text-primary uppercase">R1</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Next Tab</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-primary">X</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Select</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-error">B</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Back</span></div><div class="flex items-center gap-space-xs"><span class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center font-label-data text-label-badge text-secondary">Y</span><span class="font-label-data text-label-badge text-on-surface-variant uppercase">Chemistry Preview</span></div></div></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 FC Lads. All rights reserved.</p></div></div></footer></body></html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-surface": "#e2e2e8", "secondary-fixed": "#94f5ce", "outline": "#859488", "tertiary-fixed": "#d5e3ff", "on-background": "#e2e2e8", "secondary-container": "#007a5a", "surface-variant": "#333539", "primary-fixed-dim": "#38e192", "surface-container": "#1d2024", "on-secondary-fixed-variant": "#00513b", "on-tertiary-fixed": "#001b3c", "on-surface": "#e2e2e8", "on-surface-variant": "#bbcbbd", "primary-container": "#2bd98b", "inverse-primary": "#006d41", "outline-variant": "#3c4a40", "tertiary": "#c9dbff", "surface-tint": "#38e192", "surface-container-low": "#191c20", "on-tertiary-container": "#004d95", "error": "#ffb4ab", "on-tertiary": "#003061", "on-primary-container": "#005935", "on-error-container": "#ffdad6", "on-primary-fixed-variant": "#005230", "tertiary-container": "#9bc0ff", "secondary-fixed-dim": "#78d9b3", "on-secondary-container": "#9fffd8", "primary-fixed": "#5efeac", "secondary": "#78d9b3", "surface": "#111318", "on-primary-fixed": "#002110", "tertiary-fixed-dim": "#a8c8ff", "background": "#111318", "on-tertiary-fixed-variant": "#004689", "surface-dim": "#111318", "on-secondary": "#003828", "surface-bright": "#37393e", "surface-container-lowest": "#0c0e12", "on-primary": "#003920", "inverse-on-surface": "#2e3035", "surface-container-highest": "#333539", "error-container": "#93000a", "surface-container-high": "#282a2f", "on-secondary-fixed": "#002116", "on-error": "#690005", "primary": "#54f6a5" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter": "1.5rem", "gutter-desktop": "2rem", "margin": "1.5rem", "margin-desktop": "3.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem" }, "fontFamily": { "headline-xl": [ "Sora" ], "hero-display-mobile": [ "Sora" ], "hero-display": [ "Sora" ], "headline-md": [ "Sora" ], "label-badge": [ "Sora" ], "body-lg": [ "Manrope" ], "label-data": [ "JetBrains Mono" ], "body-md": [ "Manrope" ], "body-sm": [ "Manrope" ], "headline-lg": [ "Sora" ] }, "fontSize": { "headline-xl": [ "36px", { "lineHeight": "42px", "letterSpacing": "0.05em", "fontWeight": "800" } ], "hero-display-mobile": [ "44px", { "lineHeight": "48px", "letterSpacing": "0.04em", "fontWeight": "800" } ], "hero-display": [ "80px", { "lineHeight": "84px", "letterSpacing": "0.06em", "fontWeight": "800" } ], "headline-md": [ "20px", { "lineHeight": "26px", "letterSpacing": "0.03em", "fontWeight": "700" } ], "label-badge": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" } ], "body-lg": [ "18px", { "lineHeight": "26px", "fontWeight": "500" } ], "label-data": [ "14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-lg": [ "28px", { "lineHeight": "34px", "letterSpacing": "0.04em", "fontWeight": "700" } ] } } } }</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen relative selection:bg-primary selection:text-on-primary"><div class="fixed inset-0 pointer-events-none z-0 overflow-hidden"><div class="absolute -top-40 -left-40 w-[650px] h-[650px] bg-secondary-container/10 rounded-full blur-[140px]"></div><div class="absolute top-1/4 right-0 w-[550px] h-[550px] bg-primary-container/10 rounded-full blur-[160px]"></div><div class="absolute bottom-0 left-1/3 w-[700px] h-[450px] bg-surface-container-lowest/90 blur-[100px]"></div><div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(43,217,139,0.06),rgba(12,14,18,0.95))]"></div></div><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.45)]"><div class="h-20 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"><span class="material-symbols-outlined text-primary text-[22px]">shield</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wider uppercase text-on-surface">My Lads<span class="text-primary font-headline-md text-headline-md">+</span></span><span class="font-label-badge text-[9px] tracking-[0.2em] text-on-surface-variant uppercase -mt-space-xs">Console HQ</span></div></div><div class="h-7 w-[1px] bg-surface-variant/40"></div><nav class="flex items-center gap-space-xs" data-active-classes="bg-surface-container-high text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="my-feed" href="#">My Feed</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="trading" href="#">Trading</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="gameplay" href="#">Gameplay</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="my-review" href="#">My Review</a><a aria-current="page" class="font-headline-md uppercase tracking-wider px-space-md py-space-sm rounded-lg transition-all duration-150 bg-surface-container-high text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" data-path="discord" href="#">Discord</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="creators" href="#">Creators</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"><span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#54f6a5]"></span><span class="font-label-badge text-label-badge text-primary uppercase">LADS+ ACTIVE</span></div><div class="hidden lg:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"><span class="material-symbols-outlined text-secondary text-[16px]">military_tech</span><span class="font-label-badge text-label-badge text-on-surface-variant uppercase">Review: <span class="text-secondary font-label-badge text-label-badge">1 LEFT</span></span></div><div class="hidden 2xl:flex items-center px-space-sm py-1 rounded bg-surface-container-lowest font-label-data text-[11px] text-outline text-opacity-90 tracking-widest"><span class="text-primary mr-1.5 font-label-data text-[11px]">NET:</span>18MS // SYNCED</div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_6px_#54f6a5] ring-2 ring-surface-container-lowest"></span></div><div class="hidden md:flex flex-col"><span class="font-headline-md text-[13px] leading-tight text-on-surface">Arjun</span><span class="font-label-data text-[10px] text-primary tracking-wider uppercase">ELITE DIV</span></div></div></div></div></header><main class="relative z-10 w-full pt-20 bg-surface/40"><div class="flex flex-col w-full">
+<!-- Interactive Controller / Sound Script (Vanilla JS) -->
+<script>
+    function triggerDiscordLaunch() {
+      const btn = document.getElementById('launch-discord-btn');
+      const badge = document.getElementById('connection-status-pill');
+      if (btn) {
+        btn.classList.add('scale-[0.98]', 'brightness-125');
+        setTimeout(() => {
+          btn.classList.remove('scale-[0.98]', 'brightness-125');
+        }, 180);
+      }
+      if (badge) {
+        badge.classList.add('ring-2', 'ring-primary');
+        setTimeout(() => badge.classList.remove('ring-2', 'ring-primary'), 1000);
+      }
+    }
+    function copyChannelSlug(channelName) {
+      navigator.clipboard?.writeText?.(channelName);
+      const toast = document.getElementById('action-toast');
+      const toastText = document.getElementById('toast-message');
+      if (toast && toastText) {
+        toastText.innerText = 'Copied ' + channelName + ' channel link';
+        toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2200);
+      }
+    }
+  </script>
+<!-- Ambient Backdrop Graphic Ribbon (Stadium Tech Console Atmosphere) -->
+<div class="relative w-full px-gutter-desktop max-w-[1560px] mx-auto pb-space-xl">
+<!-- Top System Ticker (HUD Sub-bar) -->
+<div class="flex items-center justify-between py-space-sm mb-space-md text-outline">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-widest flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+          ENCRYPTED COMMS RELAY // PROTOCOL v8.2
+        </span>
+<span class="text-surface-variant font-label-data text-xs">/</span>
+<span class="font-label-data text-label-data text-on-surface-variant">LADS+ EXCLUSIVE VAULT</span>
+</div>
+<div class="flex items-center gap-space-md font-label-data text-label-data text-on-surface-variant">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-secondary">graphic_eq</span>
+          VOICE BITRATE: 384 KBPS
+        </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">verified</span>
+          ROLE SYNC: VERIFIED ELITE
+        </span>
+</div>
+</div>
+<!-- 1. LARGE GLASS HUB PANEL -->
+<section class="relative w-full rounded-xl bg-surface-container-low/90 backdrop-blur-2xl p-space-xl shadow-xl overflow-hidden mb-space-xl">
+<!-- Ambient Pitch Glow Elements -->
+<div class="absolute -top-32 -right-24 w-96 h-96 bg-primary-container/15 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute -bottom-24 -left-20 w-80 h-80 bg-secondary-container/20 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- High-Tech Watermark Texture -->
+<div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-[0.03] select-none pointer-events-none flex items-center justify-end overflow-hidden pr-6">
+<span class="font-headline-xl text-[240px] leading-none text-on-surface font-black tracking-tighter">COMMS</span>
+</div>
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-space-xl">
+<!-- Left: Hub Identity & Description -->
+<div class="flex flex-col max-w-3xl">
+<div class="flex flex-wrap items-center gap-space-md mb-space-md">
+<!-- Custom Generic Chat Comms Icon (Neon Mint Hologram) -->
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center shadow-lg relative group">
+<div class="absolute inset-0 bg-primary/20 rounded-xl blur-md group-hover:blur-lg transition-all"></div>
+<span class="material-symbols-outlined text-primary text-[32px] relative z-10" style="font-variation-settings: 'FILL' 1;">forum</span>
+</div>
+<!-- Title & Hierarchy -->
+<div class="flex flex-col">
+<span class="font-label-badge text-label-badge text-secondary-fixed uppercase tracking-[0.25em]">SECURE COMM-LINK</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-wider uppercase">PRIVATE FC LADS DISCORD</h1>
+</div>
+<!-- Connected User Status Chip -->
+<div class="ml-0 lg:ml-space-sm flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-highest shadow-md transition-all" id="connection-status-pill">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+</span>
+<span class="font-label-data text-label-data text-primary">Connected as arjun#1234</span>
+<span class="material-symbols-outlined text-primary text-[14px]">check_circle</span>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+            Exclusive VIP lounge for active FC Lads+ members. Instant patch alerts, tactics workshops, and 24/7 creator channels. Synchronized directly with your Division Rivals tier and Console ID.
+          </p>
+<!-- Telemetry Quick Ribbon -->
+<div class="flex flex-wrap items-center gap-space-lg mt-space-lg pt-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">groups</span>
+<span class="font-label-data text-label-data text-on-surface">3,482</span>
+<span class="font-body-sm text-body-sm text-outline">Members Online</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">speed</span>
+<span class="font-label-data text-label-data text-on-surface">&lt; 2s</span>
+<span class="font-body-sm text-body-sm text-outline">Market Alert Latency</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]">lock_open</span>
+<span class="font-label-data text-label-data text-on-surface">Tier 3</span>
+<span class="font-body-sm text-body-sm text-outline">Guild Boost Level</span>
+</div>
+</div>
+</div>
+<!-- Right: Actions Chassis -->
+<div class="flex flex-col sm:flex-row lg:flex-col gap-space-md min-w-[280px]">
+<!-- Primary Iridescent Button -->
+<button class="relative group overflow-hidden px-space-xl py-4 rounded-xl bg-gradient-to-r from-on-surface via-tertiary-fixed to-primary flex items-center justify-center gap-space-sm shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-150" id="launch-discord-btn" onclick="triggerDiscordLaunch()">
+<div class="absolute inset-0 bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity blur-md"></div>
+<span class="material-symbols-outlined text-surface-container-lowest text-[24px]" style="font-variation-settings: 'FILL' 1;">open_in_new</span>
+<span class="font-headline-md text-headline-md text-surface-container-lowest uppercase tracking-wider">OPEN DISCORD</span>
+</button>
+<!-- Secondary Glass Action -->
+<button class="px-space-lg py-3 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-container-highest hover:text-primary transition-all duration-150 flex items-center justify-center gap-space-xs shadow-md">
+<span class="material-symbols-outlined text-outline text-[18px]">settings_ethernet</span>
+<span class="font-label-data text-label-data uppercase tracking-wider">Manage Connected Account</span>
+</button>
+<div class="flex items-center justify-center gap-space-xs text-outline font-label-badge text-label-badge uppercase tracking-widest text-center mt-space-xs">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-data text-[10px]">R2</kbd>
+<span>QUICK-LAUNCH DESKTOP APP</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2-COLUMN MAIN DECK (Left: Channels & Rules, Right: Creators & Live Telemetry) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT 8-COLS: PREVIEW LIST OF CHANNELS -->
+<section class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- Header with Filter / Quick Bar -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-2 h-5 rounded bg-primary"></div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-wide uppercase">PRIORITY CHANNELS</h2>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-data text-label-data text-primary ml-space-xs">5 ACTIVE</span>
+</div>
+<span class="font-label-badge text-label-badge text-outline uppercase tracking-wider">LIVE TELEMETRY STREAMING</span>
+</div>
+<!-- Channels Grid / Tactical Rows -->
+<div class="flex flex-col gap-space-md">
+<!-- Channel 1: tactics-room -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-lg hover:bg-surface-container transition-all duration-150 shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-primary rounded-l transition-all"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="font-headline-md text-headline-md leading-none">#</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide">tactics-room</span>
+<span class="px-2 py-0.5 rounded bg-secondary-container/40 text-secondary-fixed font-label-badge text-label-badge uppercase tracking-wider">METACENTRAL</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                    Deep-dive formations, custom tactical sliders, and meta press counters.
+                  </p>
+</div>
+</div>
+<div class="flex flex-row md:flex-col items-end justify-between md:justify-start gap-space-xs shrink-0 pt-space-xs md:pt-0">
+<div class="flex items-center gap-space-xs font-label-data text-label-data text-primary">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>142 members active</span>
+</div>
+<span class="font-label-data text-[12px] text-outline">24 msgs/min</span>
+</div>
+</div>
+<!-- Channel Telemetry Footer Tag -->
+<div class="mt-space-md pt-space-sm flex items-center justify-between flex-wrap gap-space-sm text-outline-variant">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-data text-label-data">
+<span class="material-symbols-outlined text-primary text-[16px]">push_pin</span>
+<span class="text-on-surface font-medium">Pinned:</span>
+<span class="text-secondary-fixed">Patch 1.08 4-3-2-1 Pro Setup Sliders</span>
+</div>
+<button class="px-space-md py-1 rounded bg-surface-container-high text-on-surface font-label-badge text-label-badge uppercase hover:text-primary transition-colors" onclick="copyChannelSlug('#tactics-room')">
+                JUMP TO CHANNEL
+              </button>
+</div>
+</div>
+<!-- Channel 2: show-your-squad -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-lg hover:bg-surface-container transition-all duration-150 shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-secondary rounded-l transition-all"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="font-headline-md text-headline-md leading-none">#</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide">show-your-squad</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-tertiary-fixed font-label-badge text-label-badge uppercase tracking-wider">COMMUNITY BUILDER</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                    Post squad links, chemistry optimization requests, and budget upgrade paths.
+                  </p>
+</div>
+</div>
+<div class="flex flex-row md:flex-col items-end justify-between md:justify-start gap-space-xs shrink-0 pt-space-xs md:pt-0">
+<div class="flex items-center gap-space-xs font-label-data text-label-data text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>98 members active</span>
+</div>
+<span class="font-label-data text-[12px] text-primary">Live VOD Submissions Open</span>
+</div>
+</div>
+<!-- Channel Telemetry Footer Tag -->
+<div class="mt-space-md pt-space-sm flex items-center justify-between flex-wrap gap-space-sm text-outline-variant">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-data text-label-data">
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+<span>Stefan &amp; Hobs squad audits in progress</span>
+</div>
+<button class="px-space-md py-1 rounded bg-surface-container-high text-on-surface font-label-badge text-label-badge uppercase hover:text-primary transition-colors" onclick="copyChannelSlug('#show-your-squad')">
+                JUMP TO CHANNEL
+              </button>
+</div>
+</div>
+<!-- Channel 3: ask-the-lads -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-lg hover:bg-surface-container transition-all duration-150 shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-primary-container rounded-l transition-all"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="font-headline-md text-headline-md leading-none">#</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide">ask-the-lads</span>
+<span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary-fixed-dim font-label-badge text-label-badge uppercase tracking-wider">CREATOR AMA</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                    Direct Q&amp;A with Stefan, TFV Gaming, Hobs, and Wessam.
+                  </p>
+</div>
+</div>
+<div class="flex flex-row md:flex-col items-end justify-between md:justify-start gap-space-xs shrink-0 pt-space-xs md:pt-0">
+<div class="flex items-center gap-space-xs font-label-data text-label-data text-primary">
+<span class="material-symbols-outlined text-[16px] text-primary">record_voice_over</span>
+<span>4 verified creators online</span>
+</div>
+<span class="font-label-data text-[12px] text-secondary">Instant ping active</span>
+</div>
+</div>
+<!-- Channel Telemetry Footer Tag -->
+<div class="mt-space-md pt-space-sm flex items-center justify-between flex-wrap gap-space-sm text-outline-variant">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-data text-label-data">
+<span class="material-symbols-outlined text-primary text-[16px]">timer</span>
+<span>Avg creator response window: &lt; 9 mins</span>
+</div>
+<button class="px-space-md py-1 rounded bg-surface-container-high text-on-surface font-label-badge text-label-badge uppercase hover:text-primary transition-colors" onclick="copyChannelSlug('#ask-the-lads')">
+                JUMP TO CHANNEL
+              </button>
+</div>
+</div>
+<!-- Channel 4: market-talk -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-lg hover:bg-surface-container transition-all duration-150 shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-tertiary-container rounded-l transition-all"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary-container group-hover:bg-tertiary-container group-hover:text-on-tertiary-container transition-colors">
+<span class="font-headline-md text-headline-md leading-none">#</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide">market-talk</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary-fixed font-label-badge text-label-badge uppercase tracking-wider">TRADING SIGNALS</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                    Live panic-sale alerts, SBC investments, and real-time flip targets from Wessam.
+                  </p>
+</div>
+</div>
+<div class="flex flex-row md:flex-col items-end justify-between md:justify-start gap-space-xs shrink-0 pt-space-xs md:pt-0">
+<div class="flex items-center gap-space-xs font-label-data text-label-data text-tertiary-fixed">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span>215 members active</span>
+</div>
+<span class="font-label-data text-[12px] text-outline">Next alert: Thursday 6PM GMT</span>
+</div>
+</div>
+<!-- Channel Telemetry Footer Tag -->
+<div class="mt-space-md pt-space-sm flex items-center justify-between flex-wrap gap-space-sm text-outline-variant">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-data text-label-data">
+<span class="material-symbols-outlined text-secondary text-[16px]">trending_up</span>
+<span class="text-on-surface font-medium">Active Call:</span>
+<span class="text-primary font-label-data">88-Rated Fodder under 14,250 Coins</span>
+</div>
+<button class="px-space-md py-1 rounded bg-surface-container-high text-on-surface font-label-badge text-label-badge uppercase hover:text-primary transition-colors" onclick="copyChannelSlug('#market-talk')">
+                JUMP TO CHANNEL
+              </button>
+</div>
+</div>
+<!-- Channel 5: help -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-lg hover:bg-surface-container transition-all duration-150 shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-outline rounded-l transition-all"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-outline group-hover:bg-outline group-hover:text-surface-container-lowest transition-colors">
+<span class="font-headline-md text-headline-md leading-none">#</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide">help</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-outline font-label-badge text-label-badge uppercase tracking-wider">OFFICIAL SUPPORT</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                    Account support, Discord role synchronization, and billing assistance.
+                  </p>
+</div>
+</div>
+<div class="flex flex-row md:flex-col items-end justify-between md:justify-start gap-space-xs shrink-0 pt-space-xs md:pt-0">
+<div class="flex items-center gap-space-xs font-label-data text-label-data text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">support_agent</span>
+<span>Staff online 24/7</span>
+</div>
+<span class="font-label-data text-[12px] text-outline">Ticket response &lt; 5m</span>
+</div>
+</div>
+<!-- Channel Telemetry Footer Tag -->
+<div class="mt-space-md pt-space-sm flex items-center justify-between flex-wrap gap-space-sm text-outline-variant">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-data text-label-data">
+<span class="material-symbols-outlined text-outline text-[16px]">info</span>
+<span>Automatic role recovery active for Arjun</span>
+</div>
+<button class="px-space-md py-1 rounded bg-surface-container-high text-on-surface font-label-badge text-label-badge uppercase hover:text-primary transition-colors" onclick="copyChannelSlug('#help')">
+                JUMP TO CHANNEL
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT 4-COLS: CREATORS ONLINE & SERVER RULES -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- 3. CREATORS ONLINE NOW SECTION -->
+<section class="rounded-xl bg-surface-container-low p-space-lg shadow-xl">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-wider uppercase">CREATORS ONLINE NOW</h2>
+</div>
+<span class="font-label-data text-label-data text-primary px-2 py-0.5 rounded bg-surface-container">4/4 LIVE</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Creator 1: Stefan -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high/60 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-11 h-11 rounded-lg object-cover bg-surface-container" data-alt="Close-up esports portrait of Stefan, gaming headphones on, focused lighting in deep navy and vibrant mint ambiance, sleek high-detail digital photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfg5xnGiigPBACzw3Rfo3QTUnGtMfiDT2JBQva054GWaEqEku11eN-kVEFQpnZaHHOPnGyzncBOMlcceYPviaxD4mKbpad4l3uXfWfrpTRMHsa_8pAZ4yQzmdHiIeWCchANSBoClmHk4Mfesuvt3vqvYnhW1_2ZKBqqW62H-5LSlG0Ycny7U7qOXwJI8ImdEzCVogRBCRodLxFWf_Qbjj9iAxplL3RUQOuAE0KnphFIZQzxXRlWLPgeg"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-primary ring-2 ring-surface-container-low shadow-[0_0_8px_#54f6a5]"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-md text-[15px] leading-tight text-on-surface">Stefan</span>
+<span class="font-label-badge text-[9px] px-1 rounded bg-primary text-on-primary font-bold">STAFF</span>
+</div>
+<span class="font-body-sm text-[12px] text-outline">Gameplay Expert</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-right">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-data text-[11px] text-secondary font-semibold">In #tactics-room</span>
+</div>
+</div>
+<!-- Creator 2: TFV Gaming -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high/60 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-11 h-11 rounded-lg object-cover bg-surface-container" data-alt="Portrait of TFV Gaming creator, pro circuit esports jersey, sleek stadium backdrop with cyan and neon rim highlights, 8k professional studio portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEKPftgUp69xzS-m18GuT7jaT4LUXb-sC2mZPUnfrH0HfmXCE8N7SzGNYOuVfz-NP90mlPSFK0CeVkVwKlxAyTpQXLr5u2_rPT-ldv1umICRNu1A0n_j8x2CXTxUFXMm--dRE88V-GL2pASANyJlJTIiMKUxlSsCcqlOK4jB2M6-nbpPBFEx6u7rMz8hcXCqYF36ISs3k3S89xLnwNlhqAmFGXCHBGFxnLMQ1--iFODYlcXU8ZaSk2QQ"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-primary ring-2 ring-surface-container-low shadow-[0_0_8px_#54f6a5]"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-md text-[15px] leading-tight text-on-surface">TFV Gaming</span>
+<span class="font-label-badge text-[9px] px-1 rounded bg-primary text-on-primary font-bold">PRO</span>
+</div>
+<span class="font-body-sm text-[12px] text-outline">Pro Circuit</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-right">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-data text-[11px] text-secondary font-semibold">In #ask-the-lads</span>
+</div>
+</div>
+<!-- Creator 3: Hobs -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high/60 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-11 h-11 rounded-lg object-cover bg-surface-container" data-alt="Portrait of Hobs, competitive football gamer holding elite controller, backlit in dark stadium console room with subtle green luminescent glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjCNKCJEjb7cCvij_QSg92TCkZB83vIl2VvTrCnLlJl7-jX5wW45sh_lot45ZSvrvDj-qrJ3vzYev4AHPKPL1aRcaFwkR-QSqYTD-yxdMx-PdQfMovJg4IK5k-guDgQfH9PjBoJ0FToi7xDg-nF0oBajGdeecQ-EqiK4dG1cqIFT4nGmCIjCXfJp_ISbt4Inci1S23YkPIZlv-5euVeQIX2RtRXoVR8cxC4DQwWdCFElcEy8QBB4WBnQ"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-primary ring-2 ring-surface-container-low shadow-[0_0_8px_#54f6a5]"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-md text-[15px] leading-tight text-on-surface">Hobs</span>
+<span class="font-label-badge text-[9px] px-1 rounded bg-secondary-container text-on-secondary-container font-bold">20-0</span>
+</div>
+<span class="font-body-sm text-[12px] text-outline">20-0 Rank 1 Coach</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-right">
+<span class="material-symbols-outlined text-[14px] text-primary animate-pulse">volume_up</span>
+<span class="font-label-data text-[11px] text-primary font-semibold">Streaming in Voice 1</span>
+</div>
+</div>
+<!-- Creator 4: Wessam -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high/60 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-11 h-11 rounded-lg object-cover bg-surface-container" data-alt="Esports trading analyst Wessam, stylish modern dark streetwear, multi-monitor data charts reflection in glasses, dark cinematic atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw9w0PLw_j1YQB0qXZza6A1lc1g2_6i3c2VWeoAZEnMrqeUw1eYorTTV_RCvbiKFk-ncA0WHsB_Cv-nUOTx-kvihVDDUW2Aw9-K7jKcPtNYVYckhsugqhO6kbJDbNQrRZH7J-3o6p2ZPhU_h9kIKK4485O3GWi-sAvdTNg-vVn4Ve41kD-ywPai9y1rN553qH7PVEQaGo70L8IrtRxwCTbUj4IGTPZhdc6MwXaLAJly0vQ9yZ8_56xcA"/>
+<span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-primary ring-2 ring-surface-container-low shadow-[0_0_8px_#54f6a5]"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-md text-[15px] leading-tight text-on-surface">Wessam</span>
+<span class="font-label-badge text-[9px] px-1 rounded bg-tertiary-container text-on-tertiary-container font-bold">TRADER</span>
+</div>
+<span class="font-body-sm text-[12px] text-outline">Market Lead</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-right">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-data text-[11px] text-tertiary-fixed font-semibold">In #market-talk</span>
+</div>
+</div>
+</div>
+<!-- Direct Ping Shortcut Hint -->
+<div class="mt-space-md p-space-sm rounded bg-surface-container text-center">
+<span class="font-label-data text-[11px] text-on-surface-variant">
+              Type <code class="text-primary font-bold">@CreatorTeam</code> in #ask-the-lads for coaching reviews
+            </span>
+</div>
+</section>
+<!-- 4. SERVER RULES CARD -->
+<section class="rounded-xl bg-surface-container-low p-space-lg shadow-xl relative overflow-hidden">
+<!-- Subtle Accent Stripe -->
+<div class="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+<div class="flex items-center gap-space-sm mb-space-md">
+<span class="material-symbols-outlined text-secondary text-[22px]">gavel</span>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-wider uppercase">SERVER PROTOCOLS</h2>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Rule 1 -->
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded bg-surface-container-highest flex items-center justify-center font-label-data text-label-data text-primary shrink-0 mt-0.5">1</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Keep it respectful</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">We are all here to improve our gameplay. No toxic banter or post-match griefing.</span>
+</div>
+</div>
+<!-- Rule 2 -->
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded bg-surface-container-highest flex items-center justify-center font-label-data text-label-data text-primary shrink-0 mt-0.5">2</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Zero grey-market tolerance</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">No coin selling, buying, third-party software, or black market account transfers. Instant permaban.</span>
+</div>
+</div>
+<!-- Rule 3 -->
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded bg-surface-container-highest flex items-center justify-center font-label-data text-label-data text-primary shrink-0 mt-0.5">3</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Keep topics strictly focused</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Post squad queries in <code class="text-secondary font-label-data">#show-your-squad</code> and SBC investments only in <code class="text-tertiary-fixed font-label-data">#market-talk</code>.</span>
+</div>
+</div>
+<!-- Rule 4 -->
+<div class="flex items-start gap-space-sm">
+<span class="w-5 h-5 rounded bg-surface-container-highest flex items-center justify-center font-label-data text-label-data text-primary shrink-0 mt-0.5">4</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Creator ping etiquette</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Use <code class="text-primary font-label-data">@AskTheLads</code> for general inquiries; respect coaches' scheduled 1-on-1 review windows.</span>
+</div>
+</div>
+</div>
+<!-- Bottom Security Status Badge -->
+<div class="mt-space-lg pt-space-sm flex items-center justify-between font-label-badge text-label-badge text-outline">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">security</span>
+              BOT AUTOMOD ENABLED
+            </span>
+<span class="uppercase tracking-widest text-[9px]">ENFORCED BY STAFF</span>
+</div>
+</section>
+<!-- Voice & Activity Widget (Tactical Clubhouse Atmosphere) -->
+<div class="rounded-xl bg-surface-container-low p-space-md shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">headset_mic</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-[13px] leading-tight text-on-surface">Voice Lounge 1 (Weekend League Prep)</span>
+<span class="font-label-data text-[11px] text-on-surface-variant">14 Lads Connected</span>
+</div>
+</div>
+<button class="px-space-sm py-1 rounded bg-secondary-container text-on-secondary-container font-label-badge text-label-badge uppercase hover:bg-primary hover:text-on-primary transition-colors">
+            JOIN VOICE
+          </button>
+</div>
+</div>
+</div>
+<!-- Interactive Floating Notification Toast -->
+<div class="fixed bottom-12 right-12 z-50 transform translate-y-4 opacity-0 pointer-events-none transition-all duration-200 px-space-lg py-space-sm rounded-lg bg-surface-container-highest shadow-2xl flex items-center gap-space-sm" id="action-toast">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-label-data text-label-data text-on-surface" id="toast-message">Notification message</span>
+</div>
+</div>
+</div></main><footer class="relative z-10 w-full bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.5)] mt-space-xl"><div class="w-full px-gutter-desktop py-space-md flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">sensors</span><span class="font-label-data text-[12px] text-on-surface-variant uppercase tracking-wider">EU-CENTRAL <span class="text-primary font-label-data text-[12px]">18MS</span></span></div><div class="h-4 w-[1px] bg-surface-variant/50"></div><div class="flex items-center gap-space-md font-label-badge text-label-badge text-outline"><span class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-label-data text-[10px]">L1 / R1</kbd> TAB SWITCH</span><span class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-label-data text-[10px]">X</kbd> SELECT</span></div></div><div class="flex items-center gap-space-md font-body-sm text-body-sm text-outline"><span class="font-label-data text-[11px] text-on-surface-variant uppercase tracking-widest">CORE BUILD v4.8.2</span><span>© 2025 FC LADS+. ALL RIGHTS RESERVED.</span></div></div></footer></body></html>

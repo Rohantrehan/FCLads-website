@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/*
+ * Apex Pitch UI — design tokens
+ * Source of truth: all_pages_design/apex_pitch_ui/DESIGN.md + the Home page palette.
+ * Use these via Tailwind classes (e.g. bg-surface, text-primary, font-display).
+ */
+@theme {
+  /* Surfaces (darkest → lightest) */
+  --color-canvas: #07090d;
+  --color-surface: #0c1017;
+  --color-surface-container: #111722;
+  --color-surface-high: #18202f;
+  --color-surface-highest: #212b3e;
+  --color-navy: #0b1220;
+  --color-teal-deep: #0a1f1c;
+
+  /* Text */
+  --color-on-surface: #f0f4fa;
+  --color-muted: #a7b0bc;
+  --color-outline: #859488;
+
+  /* Brand */
+  --color-primary: #2bd98b;
+  --color-primary-bright: #38e192;
+  --color-on-primary: #003920;
+  --color-mint: #8ff0c9;
+  --color-secondary: #78d9b3;
+  --color-pitch-green: #0e2a22;
+
+  /* Accents */
+  --color-azure: #1e8bff;
+  --color-azure-dark: #0b326b;
+  --color-gold: #d8b25a;
+  --color-danger: #ff5c6c;
+  --color-danger-soft: #ffb4ab;
+
+  /* Fonts (CSS variables are set by next/font in layout.tsx) */
+  --font-display: var(--font-sora), sans-serif;
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+  --font-logo: var(--font-unbounded), var(--font-sora), sans-serif;
+
+  /* Radius — tight, technical (DESIGN.md: 4–8px) */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* Effects */
+  --shadow-glow: 0 0 0 2px #8ff0c9, 0 8px 30px rgb(143 240 201 / 0.35);
+  --shadow-rim: inset 0 1px 0 rgb(255 255 255 / 0.15);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-canvas);
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-canvas);
+    background-image:
+      radial-gradient(ellipse at top left, rgb(11 18 32 / 0.9), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgb(10 31 28 / 0.9), transparent 55%);
+    background-attachment: fixed;
+    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-mint);
+    color: var(--color-canvas);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-mint);
+    outline-offset: 2px;
+  }
+}
+
+/* Reusable surface + shape utilities from DESIGN.md */
+@utility glass {
+  background: rgb(15 20 27 / 0.8);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(20px);
+}
+
+@utility glass-subtle {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+
+@utility bg-iridescent {
+  background: linear-gradient(90deg, #ffffff 0%, #e4dcff 48%, #c9f5e6 100%);
+}
+
+@utility bg-promo {
+  background: linear-gradient(135deg, #0e2a22 0%, #08160f 100%);
+}
+
+@utility skew-tag {
+  transform: skewX(-12deg);
+}
+
+@utility unskew {
+  transform: skewX(12deg);
+}
+
+@utility text-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 2.75rem;
+  line-height: 1.09;
+  letter-spacing: 0.04em;
+
+  @media (width >= 64rem) {
+    font-size: 5rem;
+    line-height: 1.05;
+    letter-spacing: 0.06em;
+  }
+}
+
+@utility text-headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+
+  @media (width >= 64rem) {
+    font-size: 2.25rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+@utility text-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+  letter-spacing: 0.08em;
+}
+
+@utility tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

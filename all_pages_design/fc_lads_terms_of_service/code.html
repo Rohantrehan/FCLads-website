@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&amp;family=Manrope:wght@400;500;700&amp;family=Sora:wght@700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface": "#111318", "on-secondary-fixed-variant": "#00513b", "tertiary-container": "#9bc0ff", "on-surface-variant": "#bbcbbd", "surface-container-lowest": "#0c0e12", "outline": "#859488", "on-tertiary-fixed-variant": "#004689", "on-primary": "#003920", "secondary-fixed": "#94f5ce", "primary-fixed": "#5efeac", "surface-dim": "#111318", "surface-bright": "#37393e", "primary-container": "#2bd98b", "tertiary": "#c9dbff", "secondary-fixed-dim": "#78d9b3", "on-tertiary-container": "#004d95", "surface-container": "#1d2024", "secondary": "#78d9b3", "on-surface": "#e2e2e8", "background": "#111318", "surface-tint": "#38e192", "on-primary-fixed": "#002110", "on-tertiary-fixed": "#001b3c", "inverse-on-surface": "#2e3035", "inverse-primary": "#006d41", "error": "#ffb4ab", "surface-container-high": "#282a2f", "surface-container-highest": "#333539", "on-secondary": "#003828", "on-error-container": "#ffdad6", "outline-variant": "#3c4a40", "surface-variant": "#333539", "primary": "#54f6a5", "tertiary-fixed-dim": "#a8c8ff", "on-primary-container": "#005935", "on-background": "#e2e2e8", "on-tertiary": "#003061", "secondary-container": "#007a5a", "on-primary-fixed-variant": "#005230", "on-secondary-fixed": "#002116", "inverse-surface": "#e2e2e8", "error-container": "#93000a", "on-secondary-container": "#9fffd8", "primary-fixed-dim": "#38e192", "surface-container-low": "#191c20", "on-error": "#690005", "tertiary-fixed": "#d5e3ff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "space-xl": "2.5rem", "space-xs": "0.25rem", "gutter": "1.5rem", "space-md": "1rem", "space-lg": "1.5rem", "margin-desktop": "3.5rem", "gutter-desktop": "2rem", "margin": "1.5rem" }, "fontFamily": { "hero-display": [ "Sora" ], "label-badge": [ "Sora" ], "label-data": [ "JetBrains Mono" ], "body-lg": [ "Manrope" ], "headline-md": [ "Sora" ], "headline-lg": [ "Sora" ], "body-md": [ "Manrope" ], "body-sm": [ "Manrope" ], "hero-display-mobile": [ "Sora" ], "headline-xl": [ "Sora" ] }, "fontSize": { "hero-display": [ "80px", { "lineHeight": "84px", "letterSpacing": "0.06em", "fontWeight": "800" } ], "label-badge": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" } ], "label-data": [ "14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-lg": [ "18px", { "lineHeight": "26px", "fontWeight": "500" } ], "headline-md": [ "20px", { "lineHeight": "26px", "letterSpacing": "0.03em", "fontWeight": "700" } ], "headline-lg": [ "28px", { "lineHeight": "34px", "letterSpacing": "0.04em", "fontWeight": "700" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "hero-display-mobile": [ "44px", { "lineHeight": "48px", "letterSpacing": "0.04em", "fontWeight": "800" } ], "headline-xl": [ "36px", { "lineHeight": "42px", "letterSpacing": "0.05em", "fontWeight": "800" } ] } } } };</script></head><body class="bg-surface-container-lowest text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full max-w-[1440px] mx-auto px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-sm group" href="#"><img alt="Brand logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1X2uZxYtNWeohRsC--jbMaMyMaUYVZxgPPXS0E15pVhoKdIJs7j63LETs3lc2z9xTJ0q0z-pihzF4qj9o5C8-Ox3GFFEIYQSaliMxP5qVK3fkChGYXweSz7N7cgopS8VFwhbt9TSDhmYm8xVEjckzxFmeOq_ADeAlcJn1rBNElaxLUQZYc9eQaPYyVlkhqoinhzbyez4T4VfArxb4fFLjD02EzaRU45YAwclqg0_IZ6G-5I4tRnHIppdykP"/><span class="font-headline-md text-headline-md tracking-wider text-on-surface uppercase">FC LADS</span></a><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary font-bold"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="learn" href="#">Learn</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="players" href="#">Players</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="squads" href="#">Squads</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="feed" href="#">Feed</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="trading" href="#">Trading</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="creators" href="#">Creators</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="fc-lads-plus" href="#">FC Lads+</a></nav></div><div class="flex items-center gap-space-md"><span class="px-space-sm py-space-xs rounded-full bg-surface-container-high text-secondary font-label-badge text-label-badge uppercase tracking-widest hidden sm:inline-block">Free</span><a class="px-space-md py-space-sm rounded-lg bg-primary text-on-primary font-headline-md text-label-data uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(84,246,165,0.35)] hover:bg-primary-fixed hover:text-on-primary-fixed" data-path="fc-lads-plus" href="#">JOIN FC LADS+</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface tracking-wider transition-colors px-space-xs" data-path="login" href="#">Log in</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<!-- Atmospheric Telemetry Banner -->
+<section class="relative w-full overflow-hidden bg-surface-container-lowest py-space-xl">
+<!-- Ambient Stadium Lighting Scrim -->
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest via-surface-container-low to-surface-container-lowest opacity-90 pointer-events-none"></div>
+<div class="absolute -top-32 left-1/4 w-96 h-96 rounded-full bg-secondary-container/20 blur-[120px] pointer-events-none"></div>
+<div class="absolute -bottom-24 right-1/4 w-[30rem] h-[30rem] rounded-full bg-primary-container/10 blur-[140px] pointer-events-none"></div>
+<div class="relative w-full max-w-[1440px] mx-auto px-gutter-desktop flex flex-col gap-space-md">
+<!-- Telemetry Meta Header -->
+<div class="flex flex-wrap items-center gap-space-sm text-secondary">
+<span class="font-label-data text-label-data tracking-widest uppercase">// LEGAL ARCHIVE // GOVERNANCE PROTOCOL v2.4</span>
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-badge text-label-badge text-on-surface-variant uppercase tracking-wider">CONSOLE HUD SECURE FEED</span>
+</div>
+<!-- Hero Header -->
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-hero-display text-headline-xl lg:text-[48px] lg:leading-[52px] font-extrabold uppercase tracking-wide text-on-surface">
+          TERMS OF SERVICE
+        </h1>
+<p class="font-label-data text-label-data text-on-surface-variant flex items-center gap-space-xs">
+<span>Last updated: 1 October 2026</span>
+<span class="text-outline">•</span>
+<span class="text-secondary font-bold">Effective immediately</span>
+<span class="text-outline">•</span>
+<span>Ref ID: FCL-LGL-2026-OCT</span>
+</p>
+</div>
+<!-- Document Switcher Tabs -->
+<div class="pt-space-md flex flex-wrap items-center gap-space-sm">
+<!-- Active Tab: Terms of Service -->
+<a class="group relative px-space-md py-space-sm rounded-lg bg-surface-container-high text-on-primary font-headline-md text-label-data uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(84,246,165,0.25)] flex items-center gap-space-sm overflow-hidden" href="#">
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary-container to-secondary opacity-95"></div>
+<span class="relative z-10 material-symbols-outlined text-[18px]">gavel</span>
+<span class="relative z-10 font-bold">Terms of Service</span>
+</a>
+<!-- Inactive Tab: Privacy Policy -->
+<a class="px-space-md py-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-headline-md text-label-data uppercase tracking-wider transition-all flex items-center gap-space-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+<span>Privacy Policy</span>
+</a>
+<!-- Inactive Tab: Trading & Market Disclaimer -->
+<a class="px-space-md py-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-headline-md text-label-data uppercase tracking-wider transition-all flex items-center gap-space-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">query_stats</span>
+<span>Trading &amp; Market Disclaimer</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Main Legal Document Body -->
+<section class="w-full bg-surface-container-lowest pb-space-xl">
+<div class="w-full max-w-[1440px] mx-auto px-gutter-desktop grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT COLUMN: Sticky Table of Contents (3 cols) -->
+<aside class="lg:col-span-4 xl:col-span-3 sticky top-28 self-start flex flex-col gap-space-md">
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-md shadow-xl backdrop-blur-xl">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-badge text-label-badge uppercase tracking-widest text-outline">Table of Contents</span>
+<span class="font-label-data text-label-badge text-secondary font-bold">10 SECTIONS</span>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1" id="toc-nav">
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg bg-surface-container text-primary font-body-sm text-body-sm transition-all group" href="#section-01">
+<span class="font-label-data text-label-badge text-primary group-hover:text-primary-fixed">01</span>
+<span class="truncate font-semibold text-on-surface">Acceptance of Terms</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-02">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">02</span>
+<span class="truncate">Account Registration &amp; Security</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-03">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">03</span>
+<span class="truncate">FC Lads+ Subscriptions</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-04">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">04</span>
+<span class="truncate">Virtual Economy &amp; Signals</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-05">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">05</span>
+<span class="truncate">Intellectual Property</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-06">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">06</span>
+<span class="truncate">Coaching &amp; VOD Reviews</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-07">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">07</span>
+<span class="truncate">Third-Party Links &amp; Discord</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-08">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">08</span>
+<span class="truncate">Limitation of Liability</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-09">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">09</span>
+<span class="truncate">Termination &amp; Cancellation</span>
+</a>
+<a class="toc-item flex items-center gap-space-sm px-space-sm py-2 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all group" href="#section-10">
+<span class="font-label-data text-label-badge text-outline group-hover:text-secondary">10</span>
+<span class="truncate">Governing Law &amp; Arbitration</span>
+</a>
+</nav>
+<!-- Download Action Module -->
+<div class="pt-space-xs mt-space-xs bg-surface-container-high/40 p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">download</span>
+<span class="font-label-data text-label-data text-on-surface uppercase">PDF Version</span>
+</div>
+<button class="px-space-sm py-1 rounded bg-surface-container-highest hover:bg-primary hover:text-on-primary font-label-badge text-label-badge text-on-surface-variant uppercase transition-colors" onclick="window.print()" title="Export legal document">
+              EXPORT
+            </button>
+</div>
+</div>
+<!-- System Status Mini-Card -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-xs shadow-md">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-badge text-label-badge uppercase tracking-wider">LEGAL REVISION STATUS</span>
+<span class="font-label-data text-label-badge text-secondary">ACTIVE</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            All players accessing FC Lads or executing FC Lads+ transactions consent to automated updates under Protocol v2.4.
+          </p>
+</div>
+</aside>
+<!-- RIGHT COLUMN: Primary Legal Clauses (8 or 9 cols, max-w-[760px]) -->
+<main class="lg:col-span-8 xl:col-span-9 max-w-[760px] flex flex-col gap-space-xl">
+<!-- Document Introduction Note -->
+<div class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center gap-space-sm text-secondary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span class="font-headline-md text-headline-md uppercase tracking-wider text-on-surface">Platform Operational Statement</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Please review these Terms of Service thoroughly before accessing our competitive databases, tactician frameworks, automated market radar, or community spaces. By browsing, authenticating via OAuth, or engaging with FC Lads services, you execute an enforceable agreement governed by these binding operational protocols.
+          </p>
+</div>
+<!-- 01. Acceptance of Terms -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-01">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">01</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Acceptance of Terms &amp; Scope</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              These Terms of Service (“Terms”) form a legally enforceable contract between you (“User,” “Player,” or “Subscriber”) and FC LADS Media Ltd. (“FC Lads,” “we,” “our,” or “us”), governing access to and usage of the fclads.com domain, our proprietary tactical web software, trading bots, community Discord integrations, and any companion application layers.
+            </p>
+<p>
+<strong class="text-on-surface font-semibold">Independent Fan Initiative:</strong> FC Lads is an independent analytical coaching and gaming performance resource platform. We are not affiliated with, endorsed by, sponsored by, or directly associated with Electronic Arts Inc., EA SPORTS, FIFA, UEFA, or any official football association. All product titles, player likenesses, club badges, and virtual franchise elements cited across our HUD belong strictly to their registered trademark proprietors.
+            </p>
+<p>
+              Continued interaction with the platform signifies unconditional agreement to these terms. If you dissent from any portion of these governance terms, your right to use FC Lads services terminates instantaneously.
+            </p>
+</div>
+</article>
+<!-- 02. Account Registration & Security -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-02">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">02</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Account Registration &amp; Security</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              To access specific competitive toolsets, user matchmaking, or FC Lads+ analytical tiers, you must establish an account profile. You warrant that all credentials submitted during onboarding are truthful, current, and verified.
+            </p>
+<ul class="list-disc pl-space-lg flex flex-col gap-space-xs text-on-surface-variant">
+<li><strong class="text-on-surface">Console Gamertags:</strong> Users may voluntarily pair PlayStation Network IDs, Xbox Gamertags, or EA App identifiers to display rank verification and chemistry profiles. You confirm you hold verified ownership of linked handles.</li>
+<li><strong class="text-on-surface">Authentication Integrity:</strong> You remain solely accountable for maintaining secret authentication tokens, passwords, and 2-Factor Authentication (2FA) codes. FC Lads will never ask for your primary console account credentials or game passwords.</li>
+<li><strong class="text-on-surface">Unauthorized Infiltration:</strong> Any suspicious transaction, breach notice, or account compromise must be declared to FC Lads immediately via our dispatch desk.</li>
+</ul>
+</div>
+</article>
+<!-- 03. FC Lads+ Subscriptions -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-03">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">03</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">FC Lads+ Membership &amp; Subscriptions</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              FC Lads+ constitutes our premium operational membership, delivering real-time transfer tracking alerts, proprietary tactical code builders, and Discord elite voice access.
+            </p>
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-xs my-space-xs">
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-widest">BILLING ARCHITECTURE SPECIFICATION</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+                Subscriptions run on recurring cycles (standard: <strong class="text-secondary font-label-data">$29.00 USD / month</strong> or annual equivalents). Subscriptions renew automatically at the onset of each billing increment unless cancelled minimum 24 hours prior through your Member Console.
+              </p>
+</div>
+<p>
+<strong class="text-on-surface font-semibold">Refund Guidelines &amp; Grace Periods:</strong> Due to immediate telemetry delivery and live intellectual data access, membership fees are non-refundable once an active billing cycle has processed. If a duplicate charge occurs due to payment gateway desynchronization, requests submitted within 7 calendar days will be reviewed by operations.
+            </p>
+</div>
+</article>
+<!-- 04. Virtual Economy & Trading Signals Disclaimer -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-04">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">04</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Virtual Economy &amp; Trading Signals Disclaimer</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<div class="p-space-md rounded-lg bg-surface-container flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px] shrink-0">warning</span>
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-md text-label-data text-on-surface uppercase tracking-wider">Strictly Game Analytical Forecasts</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Market alerts, investment alerts, fodder price projections, and Squad Building Challenge (SBC) cost calculations are educational fan opinions based on in-game simulated market telemetry.
+                </p>
+</div>
+</div>
+<p>
+<strong class="text-on-surface font-semibold">Not Real-World Financial Advisory:</strong> Virtual coins, cards, and draft tokens carry zero real-world monetary redemption value. Nothing published within the FC Lads framework qualifies as real-world financial advice, securities speculation, or currency exchange brokerage.
+            </p>
+<p>
+<strong class="text-on-surface font-semibold">Developer Policy Compliance:</strong> Users remain independently bound by the terms of service enacted by primary game developers. FC Lads strictly condemns and prohibits automated coin farming, unauthorized secondary market coin-buying/selling, or any external exploits that violate EA’s User Agreement. You engage with in-game trading methods at your personal operational risk.
+            </p>
+</div>
+</article>
+<!-- 05. Intellectual Property & Community Guidelines -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-05">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">05</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Intellectual Property &amp; Community Rights</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              All tactical preset matrices, custom depth slider guides, algorithmic squad chemistry solvers, graphic animations, brand emblems, and software interfaces developed by FC Lads are protected under international copyright, trademark, and proprietary intellectual property laws.
+            </p>
+<p>
+              Users are granted a limited, personal, non-commercial, revocable license to utilize platform data for personal gameplay optimization. You agree not to scrape, reverse engineer, mirror, repackage, or distribute paid FC Lads+ guide files onto third-party file repositories or community forums without written consent.
+            </p>
+</div>
+</article>
+<!-- 06. Gameplay Coaching & VOD Reviews -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-06">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">06</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Gameplay Coaching &amp; VOD Reviews</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              FC Lads connects players with verified elite competitors and tactical coaches for one-on-one sessions and asynchronous video analysis (“VOD Reviews”).
+            </p>
+<ul class="list-disc pl-space-lg flex flex-col gap-space-xs text-on-surface-variant">
+<li><strong class="text-on-surface">Turnaround Service Level:</strong> Standard VOD evaluations maintain an operational delivery target of 48 to 72 hours from match footage upload confirmation.</li>
+<li><strong class="text-on-surface">Rescheduling Windows:</strong> Live interactive tactical sessions must be rescheduled minimum 12 hours in advance. Missed appointments without prior notification forfeit session entitlements.</li>
+<li><strong class="text-on-surface">Conduct Protocol:</strong> Intimidation, hate speech, or harassment toward coaches or peers during review streams results in instantaneous platform expulsion.</li>
+</ul>
+</div>
+</article>
+<!-- 07. Third-Party Links & Discord Community -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-07">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">07</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Third-Party Platforms &amp; Discord Server</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              The platform interfaces with external applications, notably the FC Lads Discord Community, YouTube match broadcasts, and Twitch tactical clinics. We do not command or oversee third-party technical uptime, terms, or privacy mechanisms.
+            </p>
+<p>
+              Participation in our verified Discord server mandates adherence to our Server Rules alongside Discord Inc.’s Universal Community Standards. Server moderators reserve unilateral rights to restrict, mute, or purge accounts engaged in bad-faith behavior or unverified marketplace solicitation.
+            </p>
+</div>
+</article>
+<!-- 08. Limitation of Liability -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-08">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">08</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Limitation of Liability &amp; Disclaimers</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              THE FC LADS ENVIRONMENT IS PROVIDED “AS IS” AND “AS AVAILABLE” WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESSED OR IMPLIED. WE DO NOT GUARANTEE THAT PLATFORM SERVERS WILL BE UNINTERRUPTED, BUG-FREE, OR FREE FROM DATA LATENCY DISCREPANCIES.
+            </p>
+<p>
+<strong class="text-on-surface font-semibold">Game Title Tuning Patches:</strong> Game developers routinely deploy gameplay tuning adjustments, balance title updates, and market regulation shifts. FC Lads holds no liability for sudden meta gameplay changes, player price fluctuations, or squad value depreciation resulting from official studio patches.
+            </p>
+<p>
+              To the fullest limit permitted by applicable law, FC Lads Media Ltd. shall not be held liable for indirect, incidental, punitive, or consequential damages resulting from platform downtime or third-party server errors.
+            </p>
+</div>
+</article>
+<!-- 09. Termination & Cancellation -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-09">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">09</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Termination &amp; Account Cancellation</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              You may terminate your account and cancel active subscriptions at any time directly through the <span class="font-label-data text-on-surface text-label-data">User Dashboard &gt; Membership &amp; Billing</span> panel. Upon cancellation, your FC Lads+ benefits remain operative until the conclusion of the paid billing interval.
+            </p>
+<p>
+              FC Lads reserves unilateral prerogative to temporarily suspend or permanently decommission accounts that enact code cracking attempts, database intrusion, credential spoofing, hate speech, or abuse against platform staff without advance liability or prior notice.
+            </p>
+</div>
+</article>
+<!-- 10. Governing Law & Dispute Resolution -->
+<article class="scroll-mt-28 flex flex-col gap-space-md bg-surface-container-low/40 p-space-lg rounded-xl" id="section-10">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest font-label-data text-label-data text-primary font-bold">10</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase tracking-wide">Governing Law &amp; Dispute Resolution</h2>
+</div>
+<div class="flex flex-col gap-space-sm font-body-md text-body-md text-on-surface-variant leading-[1.7]">
+<p>
+              These Terms and any operational disputes stemming from platform interactions shall be governed by and construed under the laws of the United Kingdom and relevant European digital consumer frameworks, without regard to conflict of law principles.
+            </p>
+<p>
+<strong class="text-on-surface font-semibold">Informal Resolution First:</strong> Before submitting formal legal arbitration claims, you agree to seek amicable resolution by contacting our operational team directly. If unresolved after 45 days, disputes shall be finalized under binding neutral arbitration protocols.
+            </p>
+</div>
+</article>
+<!-- QUESTIONS / CONTACT BOX -->
+<div class="mt-space-lg p-space-lg rounded-xl bg-surface-container-low relative overflow-hidden shadow-2xl flex flex-col gap-space-md">
+<div class="absolute -right-16 -bottom-16 w-56 h-56 rounded-full bg-secondary-container/20 blur-[80px] pointer-events-none"></div>
+<div class="flex items-start gap-space-md relative z-10">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[28px]">support_agent</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<h3 class="font-headline-lg text-headline-md text-on-surface uppercase tracking-wide">Questions About Our Terms?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                If you have questions, regulatory feedback, or require clarification regarding our service agreements, reach our legal and operations team at:
+              </p>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-space-xs relative z-10">
+<!-- Email Pill with Click-to-copy -->
+<button class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-all group cursor-pointer text-left" id="copy-email-btn" onclick="copyContactEmail()">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">mail</span>
+<span class="font-label-data text-label-data text-on-surface tracking-wide" id="contact-email-text">hello@fclads.com</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container font-label-badge text-label-badge text-secondary uppercase" id="copy-status-badge">CLICK TO COPY</span>
+</button>
+<!-- Response SLA Badge -->
+<div class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-high">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-data text-label-badge text-on-surface-variant uppercase tracking-wider">Avg. response: &lt; 24h</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</section>
+<!-- Interactive Logic for Active Section Spy & Copy Feedback -->
+<script>
+    function copyContactEmail() {
+      const email = 'hello@fclads.com';
+      navigator.clipboard.writeText(email).then(() => {
+        const badge = document.getElementById('copy-status-badge');
+        if (badge) {
+          const originalText = badge.innerText;
+          badge.innerText = 'COPIED!';
+          badge.classList.remove('text-secondary');
+          badge.classList.add('text-primary-fixed');
+          setTimeout(() => {
+            badge.innerText = originalText;
+            badge.classList.remove('text-primary-fixed');
+            badge.classList.add('text-secondary');
+          }, 2500);
+        }
+      }).catch(err => {
+        console.error('Clipboard copy failed: ', err);
+      });
+    }
+
+    // Dynamic ScrollSpy for Table of Contents
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('article[id]');
+      const navLinks = document.querySelectorAll('#toc-nav a');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-100px 0px -70% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const currentId = entry.target.getAttribute('id');
+            navLinks.forEach((link) => {
+              if (link.getAttribute('href') === `#${currentId}`) {
+                link.classList.add('bg-surface-container', 'text-primary');
+                link.classList.remove('text-on-surface-variant');
+                const badge = link.querySelector('span:first-child');
+                if (badge) {
+                  badge.classList.remove('text-outline');
+                  badge.classList.add('text-primary');
+                }
+              } else {
+                link.classList.remove('bg-surface-container', 'text-primary');
+                link.classList.add('text-on-surface-variant');
+                const badge = link.querySelector('span:first-child');
+                if (badge) {
+                  badge.classList.remove('text-primary');
+                  badge.classList.add('text-outline');
+                }
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach((section) => observer.observe(section));
+    });
+  </script>
+</div></main><footer class="w-full bg-surface-container-low"><div class="w-full max-w-[1440px] mx-auto px-gutter-desktop py-space-xl flex flex-col gap-space-xl"><div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg"><div class="flex flex-col gap-space-xs"><div class="flex items-center gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-wider text-on-surface uppercase">FC LADS</span></div><p class="font-body-md text-body-md text-on-surface-variant">Play Better. Together.</p></div><div class="flex items-center gap-space-md text-on-surface-variant"><a aria-label="YouTube" class="w-10 h-10 rounded-lg bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" href="#"><span class="material-symbols-outlined text-[20px]">smart_display</span></a><a aria-label="Instagram" class="w-10 h-10 rounded-lg bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" href="#"><span class="material-symbols-outlined text-[20px]">photo_camera</span></a><a aria-label="X" class="w-10 h-10 rounded-lg bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" href="#"><span class="material-symbols-outlined text-[20px]">tag</span></a><a aria-label="TikTok" class="w-10 h-10 rounded-lg bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" href="#"><span class="material-symbols-outlined text-[20px]">music_note</span></a><a aria-label="Discord" class="w-10 h-10 rounded-lg bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center transition-colors text-on-surface-variant hover:text-on-surface" href="#"><span class="material-symbols-outlined text-[20px]">forum</span></a></div></div><div class="flex flex-wrap items-center justify-between gap-space-md"><nav class="flex flex-wrap items-center gap-x-space-lg gap-y-space-xs"><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="learn" href="#">Learn</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="trading" href="#">Trading</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="creators" href="#">Creators</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="fc-lads-plus" href="#">FC Lads+</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="discord" href="#">Discord</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="terms-of-service" href="#">Terms of Service</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="privacy-policy" href="#">Privacy Policy</a></nav><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-highest"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-data text-label-data text-on-surface uppercase">EU-CENTRAL 18MS</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-highest"><span class="material-symbols-outlined text-secondary text-[16px]">terminal</span><span class="font-label-data text-label-data text-on-surface-variant uppercase">BUILD: v4.8.2-PROD</span></div></div></div><div class="flex items-center justify-between text-on-surface-variant pt-space-xs"><span class="font-label-badge text-label-badge uppercase tracking-wider text-outline">© 2026 FC LADS+. ALL RIGHTS RESERVED.</span><span class="font-label-badge text-label-badge uppercase tracking-wider text-outline hidden sm:inline-block">OFFICIAL GAMING COMPANION PLATFORM</span></div></div></footer></body></html>

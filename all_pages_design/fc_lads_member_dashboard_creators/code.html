@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-surface": "#e2e2e8", "secondary-fixed": "#94f5ce", "outline": "#859488", "tertiary-fixed": "#d5e3ff", "on-background": "#e2e2e8", "secondary-container": "#007a5a", "surface-variant": "#333539", "primary-fixed-dim": "#38e192", "surface-container": "#1d2024", "on-secondary-fixed-variant": "#00513b", "on-tertiary-fixed": "#001b3c", "on-surface": "#e2e2e8", "on-surface-variant": "#bbcbbd", "primary-container": "#2bd98b", "inverse-primary": "#006d41", "outline-variant": "#3c4a40", "tertiary": "#c9dbff", "surface-tint": "#38e192", "surface-container-low": "#191c20", "on-tertiary-container": "#004d95", "error": "#ffb4ab", "on-tertiary": "#003061", "on-primary-container": "#005935", "on-error-container": "#ffdad6", "on-primary-fixed-variant": "#005230", "tertiary-container": "#9bc0ff", "secondary-fixed-dim": "#78d9b3", "on-secondary-container": "#9fffd8", "primary-fixed": "#5efeac", "secondary": "#78d9b3", "surface": "#111318", "on-primary-fixed": "#002110", "tertiary-fixed-dim": "#a8c8ff", "background": "#111318", "on-tertiary-fixed-variant": "#004689", "surface-dim": "#111318", "on-secondary": "#003828", "surface-bright": "#37393e", "surface-container-lowest": "#0c0e12", "on-primary": "#003920", "inverse-on-surface": "#2e3035", "surface-container-highest": "#333539", "error-container": "#93000a", "surface-container-high": "#282a2f", "on-secondary-fixed": "#002116", "on-error": "#690005", "primary": "#54f6a5" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-xl": "2.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter": "1.5rem", "gutter-desktop": "2rem", "margin": "1.5rem", "margin-desktop": "3.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem" }, "fontFamily": { "headline-xl": [ "Sora" ], "hero-display-mobile": [ "Sora" ], "hero-display": [ "Sora" ], "headline-md": [ "Sora" ], "label-badge": [ "Sora" ], "body-lg": [ "Manrope" ], "label-data": [ "JetBrains Mono" ], "body-md": [ "Manrope" ], "body-sm": [ "Manrope" ], "headline-lg": [ "Sora" ] }, "fontSize": { "headline-xl": [ "36px", { "lineHeight": "42px", "letterSpacing": "0.05em", "fontWeight": "800" } ], "hero-display-mobile": [ "44px", { "lineHeight": "48px", "letterSpacing": "0.04em", "fontWeight": "800" } ], "hero-display": [ "80px", { "lineHeight": "84px", "letterSpacing": "0.06em", "fontWeight": "800" } ], "headline-md": [ "20px", { "lineHeight": "26px", "letterSpacing": "0.03em", "fontWeight": "700" } ], "label-badge": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "700" } ], "body-lg": [ "18px", { "lineHeight": "26px", "fontWeight": "500" } ], "label-data": [ "14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "500" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "headline-lg": [ "28px", { "lineHeight": "34px", "letterSpacing": "0.04em", "fontWeight": "700" } ] } } } }</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen relative selection:bg-primary selection:text-on-primary"><div class="fixed inset-0 pointer-events-none z-0 overflow-hidden"><div class="absolute -top-40 -left-40 w-[650px] h-[650px] bg-secondary-container/10 rounded-full blur-[140px]"></div><div class="absolute top-1/4 right-0 w-[550px] h-[550px] bg-primary-container/10 rounded-full blur-[160px]"></div><div class="absolute bottom-0 left-1/3 w-[700px] h-[450px] bg-surface-container-lowest/90 blur-[100px]"></div><div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(43,217,139,0.06),rgba(12,14,18,0.95))]"></div></div><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.45)]"><div class="h-20 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"><span class="material-symbols-outlined text-primary text-[22px]">shield</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wider uppercase text-on-surface">My Lads<span class="text-primary font-headline-md text-headline-md">+</span></span><span class="font-label-badge text-[9px] tracking-[0.2em] text-on-surface-variant uppercase -mt-space-xs">Console HQ</span></div></div><div class="h-7 w-[1px] bg-surface-variant/40"></div><nav class="flex items-center gap-space-xs" data-active-classes="bg-surface-container-high text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="my-feed" href="#">My Feed</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="trading" href="#">Trading</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="gameplay" href="#">Gameplay</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="my-review" href="#">My Review</a><a class="font-headline-md text-[13px] uppercase tracking-wider px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150" data-path="discord" href="#">Discord</a><a aria-current="page" class="font-headline-md uppercase tracking-wider px-space-md py-space-sm rounded-lg transition-all duration-150 bg-surface-container-high text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]" data-path="creators" href="#">Creators</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"><span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#54f6a5]"></span><span class="font-label-badge text-label-badge text-primary uppercase">LADS+ ACTIVE</span></div><div class="hidden lg:flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"><span class="material-symbols-outlined text-secondary text-[16px]">military_tech</span><span class="font-label-badge text-label-badge text-on-surface-variant uppercase">Review: <span class="text-secondary font-label-badge text-label-badge">1 LEFT</span></span></div><div class="hidden 2xl:flex items-center px-space-sm py-1 rounded bg-surface-container-lowest font-label-data text-[11px] text-outline text-opacity-90 tracking-widest"><span class="text-primary mr-1.5 font-label-data text-[11px]">NET:</span>18MS // SYNCED</div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_6px_#54f6a5] ring-2 ring-surface-container-lowest"></span></div><div class="hidden md:flex flex-col"><span class="font-headline-md text-[13px] leading-tight text-on-surface">Arjun</span><span class="font-label-data text-[10px] text-primary tracking-wider uppercase">ELITE DIV</span></div></div></div></div></header><main class="relative z-10 w-full pt-20 bg-surface/40"><div class="flex flex-col w-full">
+<div class="w-full px-gutter-desktop py-space-lg flex flex-col gap-space-lg">
+<!-- TOP META BAR & GAMER CONSOLE STATUS -->
+<div class="flex flex-wrap items-center justify-between gap-space-md bg-surface-container-low/60 backdrop-blur-xl p-space-md rounded-xl shadow-lg">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-highest">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="font-headline-md text-[12px] uppercase tracking-wider text-on-surface">Verified Pro Stream</span>
+</div>
+<div class="h-4 w-[1px] bg-surface-variant"></div>
+<div class="flex items-center gap-space-xs font-label-data text-body-sm text-on-surface-variant">
+<span class="text-primary font-bold">LIVE TELEMETRY:</span>
+<span>CREATOR HQ ACTIVE</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg font-label-data text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span> <strong class="text-on-surface">4</strong> PRO CREATORS</span>
+<span class="text-outline-variant">//</span>
+<span><strong class="text-primary">12</strong> POSTS LOGGED TODAY</span>
+<span class="text-outline-variant">//</span>
+<span class="text-secondary font-bold">NEXT BRIEFING: 18:00 UTC</span>
+</div>
+</div>
+<!-- FILTER ROW OF CREATOR AVATAR CHIPS -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-xs overflow-x-auto">
+<div class="flex items-center gap-space-sm min-w-max" id="creator-filter-group">
+<!-- All Creators Active -->
+<button class="creator-filter-chip group relative px-space-lg py-2.5 rounded-full bg-surface-container-high text-primary shadow-[0_0_20px_rgba(84,246,165,0.25)] flex items-center gap-space-sm transition-all duration-200">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#54f6a5]"></span>
+<span class="font-headline-md text-[13px] uppercase tracking-widest text-on-surface group-hover:text-primary font-bold">All Creators</span>
+<span class="font-label-data text-[11px] px-1.5 py-0.2 rounded bg-surface-container-lowest text-primary">12</span>
+</button>
+<!-- TFV Gaming -->
+<button class="creator-filter-chip group px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high transition-all flex items-center gap-space-sm shadow-sm">
+<div class="w-6 h-6 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Close up sharp esports portrait of creator TFV Gaming wearing black competitive jersey with subtle cyan lighting in a futuristic studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd3D66uWlchHUqQu8to65OTn7GHsJIiLIi3u34vn08bMFIimfhmaBRrD0ehmFvPNabhMqP6yyoIomQhteUvYTPbkWBhFzxqmh3xoKdz4Kz1r4a8nmFZgtqO_E9J7TKCaHcw8UCWUx-5tQML6AK0cQ5w6P2SMHrCdCBRZouzx6b1dMLX5ntz07MyiVKl3ffVk2vQnzoq1qvdfOhH9QeC9Sh143T5fKktdcNYQ4RzpMyTrASydaEVMC8nA"/>
+</div>
+<span class="font-headline-md text-[12px] uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface">TFV Gaming</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+</button>
+<!-- Stefan -->
+<button class="creator-filter-chip group px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high transition-all flex items-center gap-space-sm shadow-sm">
+<div class="w-6 h-6 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="High contrast studio profile headshot of FIFA coach Stefan wearing tactical headset with soft green rim light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnGyeGsGuqu5i4wNf8dr9TLv-4473n9ASzzFTeNUO6HI-rUOe4QKekYbS7n_-jr0uXEk5Ljv5slxSRv5UEA-oOo4dkweWxAs89A8rLTHUZDU0vPEQPnKdFTMCjByO-rYZSkcxIcmISgQyHIqYoV9gi1yyjHiHC9rD6yVF1nGWveDIiUD7DN_RXlmbFwBAhgLpKATK4NYE6NBuD0dC7wmgdU60kISM-3HvlD3QzbrF12Zegm4fFVPSFHw"/>
+</div>
+<span class="font-headline-md text-[12px] uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface">Stefan</span>
+<span class="font-label-badge text-[9px] px-1 py-0.2 rounded bg-secondary-container text-on-secondary-container">COACH</span>
+</button>
+<!-- Hobs -->
+<button class="creator-filter-chip group px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high transition-all flex items-center gap-space-sm shadow-sm">
+<div class="w-6 h-6 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Esports gamer Hobs cinematic portrait with neon green accents on dark gaming background with focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhW5_6VnkVtvvouKGzBZ5WCzwlNmOFtuAX1jsBEgED5yNG0hdGNva0A1QjvfwEFs7OM3vk6dwUunkdHdJVWI-w0Yno2qJYAJZhDkv1CxHs_1jz7tXA6DEqdEutME84PFXcDOYlnEpt0f8odBSloe0ocHZGbwvDnR6yQqDVQDWzwGH2Z_lZyA42RE6otbuqChxN4rSg0_FCHMLxDnBKx_WwopelC7kq822vTTkU6Xs0UpncpdQWowC5AQ"/>
+</div>
+<span class="font-headline-md text-[12px] uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface">Hobs</span>
+<span class="font-label-badge text-[9px] px-1 py-0.2 rounded bg-primary-container/20 text-primary">20-0</span>
+</button>
+<!-- Wessam -->
+<button class="creator-filter-chip group px-space-md py-2 rounded-full bg-surface-container-low hover:bg-surface-container-high transition-all flex items-center gap-space-sm shadow-sm">
+<div class="w-6 h-6 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Market trader creator Wessam looking at camera with sleek dark sports clubhouse ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6-NwH6390T_ydVYTtxkpXBVNIoIu3TGTKHLRrC5_8NEGQ6czAUC84IjUYWo6gfwK65GrcnaWpptfZ2ARaowu1Sh2XGub0RNhQY1yy5J6l2T3zf5ZWbMLnW30blEf1xZvAKgZ-jMuC0GzQtNwNXtvgTlJQaQjZzpTnS268tfSgXzLwVWlnu-_tiBpQV0w5D05uyrVgWx0YE8c4iVOBUXzqAKopVhSczzaDVDNFVldhmA26_k0OrIMVjQ"/>
+</div>
+<span class="font-headline-md text-[12px] uppercase tracking-wider text-on-surface-variant group-hover:text-on-surface">Wessam</span>
+<span class="font-label-badge text-[9px] px-1 py-0.2 rounded bg-tertiary-container/30 text-tertiary">FINANCE</span>
+</button>
+</div>
+<!-- Shortcut helper indicator -->
+<div class="hidden xl:flex items-center gap-space-sm font-label-data text-[11px] text-outline">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">L2 / R2</span>
+<span>CYCLE CREATORS</span>
+</div>
+</div>
+<!-- MAIN TWO-COLUMN VIEWPORT -->
+<div class="w-full grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- MAIN CREATOR ACTIVITY STREAM (68% ~ 8 cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- POST 1: Stefan (Tactical Pitch Analysis) -->
+<article class="bg-surface-container-low/75 backdrop-blur-2xl rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-200 hover:shadow-2xl">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Creator Header -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant ring-2 ring-primary/40">
+<img class="w-full h-full object-cover" data-alt="Sharp portrait of pro coach Stefan with headset in esports gaming environment with cyan and mint lighting accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByqk6ALeG8D5wIEz3QQholbCgkRfdSK-PksUAaldi2yLp443HkAJzABb6wOJhycuZX_lVvJzVs-KC0kFzTtJV-fcD8L52pKmWnN33HnvqfMniAlgy0mttKSaKHeo8FftoRJQdtKeUXqP2NUvOdz7drZOYb71jfwlA1a0DKaMfo-umr2kBdT3_g9E6P-tTMIit3M5HZ_PjoEEn1KtZPYttDL1B6uuBIiXkG-KpvCEcx9Jw8bNtQcKr6jQ"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center text-on-primary text-[10px]">
+<span class="material-symbols-outlined text-[12px]">sports_soccer</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">Stefan</span>
+<span class="font-label-badge text-[10px] tracking-wider px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container uppercase">PRO COACH</span>
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-data text-body-sm text-outline">42 MIN AGO // QUALIFIERS META</span>
+</div>
+</div>
+<!-- Controller action helper -->
+<button class="p-space-xs rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<!-- Body Text -->
+<p class="font-body-lg text-body-lg text-on-surface mb-space-lg leading-relaxed">
+            For anyone struggling against the 5-back in Weekend League qualifiers: switch your attacking width to <span class="text-primary font-bold">65</span> and set both wingers to <span class="bg-surface-container-highest px-1.5 py-0.5 rounded text-on-surface font-label-data text-[13px]">'Stay Wide'</span>. It completely stretches the opposing central CBs and creates free trivela pockets.
+          </p>
+<!-- Attached Media: Tactical Pitch Diagram -->
+<div class="relative w-full rounded-xl overflow-hidden bg-surface-container-lowest p-space-md mb-space-lg shadow-inner">
+<div class="flex items-center justify-between pb-space-sm text-on-surface-variant font-label-data text-[11px] uppercase tracking-wider">
+<span class="flex items-center gap-1.5 text-primary"><span class="material-symbols-outlined text-[14px]">tune</span> Formation Override: 4-3-2-1 vs 5-2-1-2</span>
+<span class="text-outline">STRETCH RADIUS: +24%</span>
+</div>
+<div class="relative w-full h-64 md:h-72 rounded-lg bg-surface-container-high/40 overflow-hidden flex items-center justify-center">
+<img class="absolute inset-0 w-full h-full object-cover opacity-85" data-alt="Tactical electronic football pitch board diagram top down view with glowing mint player vectors spreading wide against compact defensive line with illuminated pass trajectory arcs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhmTHrH6ksWp-HHGBrSTETMhQ6mhvT8Z5qnYbjiC1twLNvTCUzO1qg0JFLCguna3u1JuBqKHrO77zjlQiGdze3oyXQQ5FN7sg8f-FOX0Yfc403dtzRJ_CBDAyf6O4eCytVnqUrIuhRxxklOi2rz9GEY8w5BNC5Z8mSo2mKlAR83u09bB6NFRuKCwzpTZjvN26xibPNhpxXqSRyqjxl2Db1Og1b3VEnS3amOY5T314fc_2VNqlIi1u7FA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<!-- Diagram Overlay HUD -->
+<div class="absolute bottom-3 left-3 flex items-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-md px-3 py-1.5 rounded text-on-surface text-[12px] font-label-data">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>TARGET ZONE: ZONE 14 &amp; HALF-SPACES OPEN</span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded text-primary font-label-data text-[11px]">
+                SLIDER: WIDTH 65
+              </div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-between pt-space-xs">
+<a class="inline-flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-primary hover:text-primary-fixed transition-all text-body-md font-bold" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span>Discuss in Discord</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-data text-[13px]">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+<span>24</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
+<span>8</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+</article>
+<!-- POST 2: Wessam (Market Alert & Fodder Target) -->
+<article class="bg-surface-container-low/75 backdrop-blur-2xl rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-200 hover:shadow-2xl">
+<div class="absolute top-0 right-0 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Creator Header -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant ring-2 ring-tertiary/40">
+<img class="w-full h-full object-cover" data-alt="Portrait of financial gaming strategist Wessam in dark room with multiple high tech stock style football market monitoring screens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzfjJNSfo_Cv4lOhKqrla9K2ZNYzqYhxQBvX7ThXRNYKFle4RQGCYSL46vjfRnlXfX1kmKeqqAizzIUPGCFmCeBEuEqEFUZMYBUc8o6ts8uMegdZ6jirhgqDb0FCoFBcAU7qQQEXbrvK44VYOPjtVjBH0dU9gS6aRCMOrh_lRtLHz9hVhip3GjRAWEjGzgqz01ncpoojh-9-QH2IiAcrtKj7rqjSqX-3iW9ecoyzygPZQ3NcfY4-hLUQ"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-tertiary flex items-center justify-center text-on-tertiary text-[10px]">
+<span class="material-symbols-outlined text-[12px]">trending_up</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">Wessam</span>
+<span class="font-label-badge text-[10px] tracking-wider px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary uppercase">MARKET LEAD</span>
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-data text-body-sm text-outline">2 HOURS AGO // TRANSFER MARKET DESK</span>
+</div>
+</div>
+<div class="px-space-sm py-1 rounded bg-error-container/20 text-error font-label-badge text-[10px] tracking-wider uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span> TIME SENSITIVE
+            </div>
+</div>
+<!-- Body Text -->
+<p class="font-body-lg text-body-lg text-on-surface mb-space-lg leading-relaxed">
+            Emergency market update: High-rated fodder (87-89) just took another <span class="text-error font-bold">5% dip</span> due to lightning promo packs. If you have liquid coins, this is the prime accumulation window before the <span class="text-tertiary font-bold">88+ Hero SBC</span> drops tomorrow.
+          </p>
+<!-- Attached Media: Mini Player Card Recommendation -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md mb-space-lg shadow-inner flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md w-full md:w-auto">
+<!-- Mini FUT Card representation -->
+<div class="w-20 h-28 rounded-lg bg-gradient-to-b from-surface-bright via-surface-container-high to-surface-container-lowest p-1.5 flex flex-col justify-between shadow-lg relative overflow-hidden group">
+<div class="absolute -top-6 -right-6 w-12 h-12 bg-primary/20 rounded-full blur-md"></div>
+<div class="flex items-start justify-between">
+<div>
+<div class="font-headline-md text-[18px] leading-tight text-on-surface font-extrabold">88</div>
+<div class="font-label-data text-[10px] text-primary">CB</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[14px]">shield</span>
+</div>
+<div class="w-full text-center">
+<div class="font-headline-md text-[11px] uppercase tracking-tighter truncate text-on-surface">Paredes</div>
+<div class="font-label-data text-[9px] text-outline">FC BARCELONA</div>
+</div>
+<div class="w-full bg-surface-container-lowest/80 rounded py-0.5 text-center font-label-data text-[9px] text-primary">
+                  CHEM 3/3
+                </div>
+</div>
+<!-- Recommendation Details -->
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Irene Paredes</span>
+<span class="font-label-badge text-[10px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">88 CB</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Optimal high-rated SBC anchor &amp; live gameplay staple</span>
+<div class="flex items-center gap-3 mt-1">
+<span class="font-label-data text-body-md text-primary font-bold">14,250 COINS</span>
+<span class="font-label-data text-[12px] text-secondary flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> PROJECTED: 18,500
+                  </span>
+</div>
+</div>
+</div>
+<!-- Mini Projection Graph / Buy Indicator -->
+<div class="flex items-center gap-space-md w-full md:w-auto justify-end">
+<div class="hidden sm:flex flex-col text-right">
+<span class="font-label-data text-[11px] text-outline">RISK COEFFICIENT</span>
+<span class="font-headline-md text-[14px] text-primary">LOW // 1.2x GAIN</span>
+</div>
+<button class="px-space-md py-2.5 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-headline-md text-[12px] uppercase tracking-wider font-bold shadow-lg transition-transform hover:scale-[1.02]">
+                Track In Market
+              </button>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-between pt-space-xs">
+<a class="inline-flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-primary hover:text-primary-fixed transition-all text-body-md font-bold" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span>Discuss in Discord</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-data text-[13px]">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+<span>45</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
+<span>19</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+</article>
+<!-- POST 3: Hobs (10-0 Hybrid Squad Build) -->
+<article class="bg-surface-container-low/75 backdrop-blur-2xl rounded-xl p-space-lg shadow-xl relative overflow-hidden transition-all duration-200 hover:shadow-2xl">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Creator Header -->
+<div class="flex items-start justify-between gap-space-md mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant ring-2 ring-primary/40">
+<img class="w-full h-full object-cover" data-alt="Rank one tournament champion Hobs portrait in sports esports team jacket with green arena light flare in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADLgma7tywlhgpcpeZvneXA3mHeQYbmQmaihcdD9eqoCT2GSoL2HXINYbX2XpEz46BMjuM1jP-r0BXqo830-FbRKXxYw774V2mJnsEeyojcoY-h-KYhbrFIWsnlMDyIti_eVodaVNDmCpSa8R7UNRdBrc0hJ1RjJHrLypklykYLILmC5PHv6l7k0H0pRJaH-wtE7P76s_Rwbib0P2rcmBljsPUPYQxuOsdxrwH-5alJX-HSnaCbc-FjQ"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center text-on-primary text-[10px]">
+<span class="material-symbols-outlined text-[12px]">military_tech</span>
+</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">Hobs</span>
+<span class="font-label-badge text-[10px] tracking-wider px-2 py-0.5 rounded bg-primary-container/20 text-primary uppercase">20-0 RANK 1</span>
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-data text-body-sm text-outline">5 HOURS AGO // SQUAD BLUEPRINTS</span>
+</div>
+</div>
+<span class="font-label-data text-[12px] px-2 py-1 rounded bg-surface-container text-secondary">
+              PLAYOFF TESTED
+            </span>
+</div>
+<!-- Body Text -->
+<p class="font-body-lg text-body-lg text-on-surface mb-space-lg leading-relaxed">
+            Just finished testing the new <span class="text-primary font-bold">250K hybrid squad build</span>. Went 10-0 in Playoffs with <span class="text-on-surface font-semibold underline decoration-primary decoration-2 underline-offset-4">Marco Velardi</span> leading the line. His left-stick dribble exit speed is unmatched for the price point.
+          </p>
+<!-- Attached Media: Full Squad Screenshot Card -->
+<div class="rounded-xl overflow-hidden bg-surface-container-lowest p-space-md mb-space-lg shadow-inner">
+<div class="flex flex-wrap items-center justify-between pb-space-sm gap-2">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-label-data text-[11px] font-bold">33/33 CHEM</span>
+<span class="font-headline-md text-[13px] text-on-surface tracking-wide">4-2-2-2 COMPACT HYBRID</span>
+</div>
+<div class="font-label-data text-body-sm text-primary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">toll</span>
+<span>EST. COST ~ 248,000 COINS</span>
+</div>
+</div>
+<!-- Squad Preview Banner -->
+<div class="relative w-full h-56 rounded-lg overflow-hidden bg-surface-container-high flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Tactical squad formation lineup screen featuring 11 player cards with connecting green chemistry links and team rating 89 displayed in high end dark gaming dashboard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_ST3KgNXLNy7H9FNfjsrwFwOU6SggJMBlW1zvjeqX2m7metPGCnnxL4Ae5AQee8DgSASDxiAIWUHGvXABpI0chMApKr8OwfzsWUDGxr919PtMKJVeShKMijyDsa9NIawzbxDfhZFGc95stuF_7ptxZQ3xJ-xFvzlE7KEPkKF6qJEsCE2WqgLG0YotfbQhlLwkQCAtgrlCb-MJ3i8fcNY9GjTU9pBkLuEZHTOy2lrnisVRGjUkinVptA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent"></div>
+<!-- Floating stats badges over squad render -->
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-surface-container-lowest/90 backdrop-blur-md text-on-surface text-[12px] font-label-data">
+                    LEAD: <strong class="text-primary">VELARDI (91)</strong>
+</span>
+<span class="hidden md:inline px-2 py-1 rounded bg-surface-container-lowest/90 backdrop-blur-md text-on-surface text-[12px] font-label-data">
+                    PACE AVG: <strong>89</strong>
+</span>
+</div>
+<button class="px-3 py-1 rounded bg-surface-container-high/90 hover:bg-surface-container-highest text-primary text-[12px] font-label-data flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span> Copy Tactics Code
+                </button>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-between pt-space-xs">
+<a class="inline-flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-primary hover:text-primary-fixed transition-all text-body-md font-bold" href="#">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span>Discuss in Discord</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-data text-[13px]">
+<button class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+<span>62</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
+<span>31</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- RIGHT RAIL - "RECOMMENDED THIS WEEK" (32% ~ 4 cols) -->
+<aside class="xl:col-span-4 flex flex-col gap-space-lg xl:sticky xl:top-24">
+<!-- Curated Endorsements Glass Panel -->
+<div class="bg-surface-container-low/80 backdrop-blur-2xl rounded-xl p-space-lg shadow-xl relative overflow-hidden">
+<!-- Top Accent Light -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary/20"></div>
+<!-- Section Header -->
+<div class="flex flex-col gap-space-xs mb-space-lg">
+<div class="flex items-center justify-between">
+<span class="font-label-badge text-label-badge tracking-widest text-primary uppercase">SCOUT RADAR</span>
+<span class="font-label-data text-[11px] text-outline">WEEK 24 CURATION</span>
+</div>
+<h2 class="font-headline-md text-headline-md tracking-wide text-on-surface uppercase flex items-center gap-2">
+<span>Recommended</span>
+<span class="text-primary font-headline-md text-headline-md">This Week</span>
+</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Top meta assets vetted by pro creators for competitive Weekend League performance.</p>
+</div>
+<!-- List of Creator Picks -->
+<div class="flex flex-col gap-space-md">
+<!-- Pick 1: Marco Velardi -->
+<div class="bg-surface-container/70 hover:bg-surface-container transition-all duration-150 rounded-xl p-space-md flex flex-col gap-space-sm relative group shadow-sm hover:shadow-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<!-- Player Mini Badge -->
+<div class="w-12 h-14 rounded bg-surface-container-highest flex flex-col items-center justify-center p-1 text-center shadow-inner group-hover:scale-105 transition-transform">
+<span class="font-headline-md text-[16px] leading-none text-primary font-bold">91</span>
+<span class="font-label-data text-[10px] text-on-surface-variant font-bold">ST</span>
+<span class="material-symbols-outlined text-[12px] text-secondary">bolt</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] leading-tight text-on-surface group-hover:text-primary transition-colors">Marco Velardi</h3>
+<div class="flex items-center gap-1.5 font-label-data text-[11px] text-secondary mt-0.5">
+<span class="material-symbols-outlined text-[13px]">person_check</span>
+<span>Endorsed by Stefan</span>
+</div>
+</div>
+</div>
+<!-- Price Tag -->
+<div class="text-right">
+<div class="font-label-data text-[13px] font-bold text-on-surface">420,000</div>
+<div class="font-label-badge text-[9px] text-outline uppercase">COINS</div>
+</div>
+</div>
+<!-- Note Quote -->
+<div class="bg-surface-container-lowest/80 rounded-lg p-space-sm text-on-surface font-body-sm text-[13px] leading-snug">
+<span class="text-primary font-bold">"</span>Best responsive left-stick exit angle in the game.<span class="text-primary font-bold">"</span>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-data text-[11px] text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> META RANK S+
+                </span>
+<button class="font-label-badge text-[11px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface flex items-center gap-1">
+                  View Card <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Pick 2: Antoine Valere -->
+<div class="bg-surface-container/70 hover:bg-surface-container transition-all duration-150 rounded-xl p-space-md flex flex-col gap-space-sm relative group shadow-sm hover:shadow-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<!-- Player Mini Badge -->
+<div class="w-12 h-14 rounded bg-surface-container-highest flex flex-col items-center justify-center p-1 text-center shadow-inner group-hover:scale-105 transition-transform">
+<span class="font-headline-md text-[16px] leading-none text-primary font-bold">90</span>
+<span class="font-label-data text-[10px] text-on-surface-variant font-bold">CF</span>
+<span class="material-symbols-outlined text-[12px] text-tertiary">stars</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] leading-tight text-on-surface group-hover:text-primary transition-colors">Antoine Valere</h3>
+<div class="flex items-center gap-1.5 font-label-data text-[11px] text-secondary mt-0.5">
+<span class="material-symbols-outlined text-[13px]">person_check</span>
+<span>Endorsed by Hobs</span>
+</div>
+</div>
+</div>
+<!-- Price Tag -->
+<div class="text-right">
+<div class="font-label-data text-[13px] font-bold text-on-surface">145,000</div>
+<div class="font-label-badge text-[9px] text-outline uppercase">COINS</div>
+</div>
+</div>
+<!-- Note Quote -->
+<div class="bg-surface-container-lowest/80 rounded-lg p-space-sm text-on-surface font-body-sm text-[13px] leading-snug">
+<span class="text-primary font-bold">"</span>Finesse Shot+ is essentially automated from 25 yards.<span class="text-primary font-bold">"</span>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-data text-[11px] text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> PLAYSTYLE+ FOCUS
+                </span>
+<button class="font-label-badge text-[11px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface flex items-center gap-1">
+                  View Card <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Pick 3: Irene Paredes -->
+<div class="bg-surface-container/70 hover:bg-surface-container transition-all duration-150 rounded-xl p-space-md flex flex-col gap-space-sm relative group shadow-sm hover:shadow-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<!-- Player Mini Badge -->
+<div class="w-12 h-14 rounded bg-surface-container-highest flex flex-col items-center justify-center p-1 text-center shadow-inner group-hover:scale-105 transition-transform">
+<span class="font-headline-md text-[16px] leading-none text-primary font-bold">88</span>
+<span class="font-label-data text-[10px] text-on-surface-variant font-bold">CB</span>
+<span class="material-symbols-outlined text-[12px] text-secondary">shield</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] leading-tight text-on-surface group-hover:text-primary transition-colors">Irene Paredes</h3>
+<div class="flex items-center gap-1.5 font-label-data text-[11px] text-secondary mt-0.5">
+<span class="material-symbols-outlined text-[13px]">person_check</span>
+<span>Endorsed by Wessam</span>
+</div>
+</div>
+</div>
+<!-- Price Tag -->
+<div class="text-right">
+<div class="font-label-data text-[13px] font-bold text-on-surface">14,250</div>
+<div class="font-label-badge text-[9px] text-outline uppercase">COINS</div>
+</div>
+</div>
+<!-- Note Quote -->
+<div class="bg-surface-container-lowest/80 rounded-lg p-space-sm text-on-surface font-body-sm text-[13px] leading-snug">
+<span class="text-primary font-bold">"</span>Anticipate+ magnetizes interceptions; unbeatable value floor.<span class="text-primary font-bold">"</span>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-data text-[11px] text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> VALUE ANCHOR
+                </span>
+<button class="font-label-badge text-[11px] uppercase tracking-wider text-on-surface-variant hover:text-on-surface flex items-center gap-1">
+                  View Card <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pro Tip Callout Card -->
+<div class="mt-space-md p-space-md rounded-xl bg-surface-container-lowest/90 flex flex-col gap-space-xs shadow-inner">
+<div class="flex items-center gap-space-xs text-primary font-headline-md text-[13px] uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Creator Guarantee</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Every card endorsed is stress-tested in Division Rivals Elite Tier and 16+ win Weekend League runs before appearing on this radar.
+            </p>
+</div>
+</div>
+<!-- VIP SQUAD REVIEW PROMPT TILE -->
+<div class="bg-gradient-to-br from-surface-container-high/90 to-surface-container-lowest p-space-lg rounded-xl shadow-xl flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-badge text-label-badge text-primary uppercase tracking-widest">LADS+ EXCLUSIVE</span>
+<span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
+</div>
+<div>
+<h4 class="font-headline-md text-[18px] text-on-surface uppercase tracking-wide">Need Custom Squad Diagnosis?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Submit your 11 to Stefan or Hobs for a personalized 1-on-1 tactics overhaul video review.</p>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex flex-col">
+<span class="font-label-data text-[11px] text-outline">MONTHLY BALANCE</span>
+<span class="font-headline-md text-[14px] text-primary">1 REVIEW CREDITED</span>
+</div>
+<button class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary hover:text-on-primary text-on-surface font-headline-md text-[11px] uppercase tracking-wider transition-all">
+              Request Review
+            </button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic filter chip micro-interaction
+  document.querySelectorAll('.creator-filter-chip').forEach(button => {
+    button.addEventListener('click', function() {
+      document.querySelectorAll('.creator-filter-chip').forEach(b => {
+        b.classList.remove('bg-surface-container-high', 'text-primary', 'shadow-[0_0_20px_rgba(84,246,165,0.25)]');
+        b.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+      });
+      this.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+      this.classList.add('bg-surface-container-high', 'text-primary', 'shadow-[0_0_20px_rgba(84,246,165,0.25)]');
+    });
+  });
+</script></main><footer class="relative z-10 w-full bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.5)] mt-space-xl"><div class="w-full px-gutter-desktop py-space-md flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">sensors</span><span class="font-label-data text-[12px] text-on-surface-variant uppercase tracking-wider">EU-CENTRAL <span class="text-primary font-label-data text-[12px]">18MS</span></span></div><div class="h-4 w-[1px] bg-surface-variant/50"></div><div class="flex items-center gap-space-md font-label-badge text-label-badge text-outline"><span class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-label-data text-[10px]">L1 / R1</kbd> TAB SWITCH</span><span class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-label-data text-[10px]">X</kbd> SELECT</span></div></div><div class="flex items-center gap-space-md font-body-sm text-body-sm text-outline"><span class="font-label-data text-[11px] text-on-surface-variant uppercase tracking-widest">CORE BUILD v4.8.2</span><span>© 2025 FC LADS+. ALL RIGHTS RESERVED.</span></div></div></footer></body></html>
