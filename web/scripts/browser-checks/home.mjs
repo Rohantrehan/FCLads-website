@@ -93,7 +93,6 @@ await send("Input.dispatchKeyEvent", { type: "keyUp", key: "ArrowUp", code: "Arr
 await sleep(900);
 check("ArrowUp moves to problem 4", (await panelTitle()) === "Updated tactics and slider codes.", await panelTitle());
 
-const errors = await evaluate(`window.__errs || []`);
 console.log(results.join("\n"));
 ws.close(); edge.kill();
 process.exit(0);
