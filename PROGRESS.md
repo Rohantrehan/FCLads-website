@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. Build 2–4 public pages with mock data, then decide hosting and answer the open questions.
-**Next action:** Step 5b — Learn library page (`/learn`): search, category filters, featured guide, guide grid. Expand mock guides to the full set first. User to review the Home page.
+**Next action:** Step 5c — Guide article page (`/guides/[slug]`): article template, YouTube embed, steps, pro-tip callouts, partial paywall for Lads+ content. User to review `/learn` first.
 
 ---
 
@@ -78,7 +78,8 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 ### Step 4 — Mock data 🟡
 - ✅ Types in `src/types/index.ts`: Player, Creator, Guide, AccessTier, Position (FeedPost still to add)
 - ✅ `src/data/creators.ts` (4 Lads, with `highlight` stat), `guides.ts` (4 guides), `players.ts` (7 fictional players from the designs), `ladsPlus.ts` (price + 5 perks)
-- ⬜ Expand guides to the full Learn library set; add feed posts
+- ✅ Guides expanded to 16 across all categories (1 featured, 4 Lads+); `queryGuides()` mimics the future `GET /guides` API (category + search + limit)
+- ⬜ Add feed posts (for the Feed page later)
 
 ### Step 5 — First pages 🟡
 Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayersSection (position filter, carousel, empty state), HardTruth, LearnSection, LadsPlusTeaser, MeetTheLads (+ `cards/CreatorTile`, `OpenSlotTile`), FeedPreview, MembershipCta (+ log-in strip). Checked at 1440px and 375px.
@@ -86,7 +87,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 | Page | Design reference | Status |
 |---|---|---|
 | Home | `fc_lads_home_page` | ✅ built; feedback round 1 done (auto-scroll + interactive hard truth) |
-| Learn library | `fc_lads_learn_free_guides_library` | ⬜ |
+| Learn library | `fc_lads_learn_free_guides_library` | ✅ built, awaiting user review |
 | Guide article | `fc_lads_guide_article_beat_the_high_press` | ⬜ |
 | Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ⬜ |
 
@@ -140,6 +141,17 @@ User feedback on Home → implemented:
 ### 2026-10-06 — Home feedback round 2
 - "Hard truth" is now **hover-only and sticky**: the answer changes where the cursor rests (120ms hover-intent, so sweeping across doesn't flash answers) and **stays** after the cursor leaves. No click-to-pin. Tap (phones) and arrow keys still work. Interaction test 13/13 pass.
 
+### 2026-10-06 — Learn page
+- Built **`/learn`** (`app/(site)/learn/page.tsx`, components in `components/learn/`):
+  - Header: "Learn FC", patch badge, **search** (plain GET form → works without JS, shareable URLs) with popular terms and a clear button.
+  - **Category nav**: sidebar with counts on desktop, horizontal pills on phones; empty categories hidden.
+  - **Featured guide** (only on the unfiltered view) with Watch button and **Share** button (native share sheet on phones, copy link on desktop).
+  - **Guide grid** (3/2/1 columns), Lads+ cards show a gold lock, **Pro-tier banner** after 6 cards, **Load more** (+9, keeps scroll position), empty state, Discord request widget.
+  - All filter state lives in the URL: `?category=`, `?q=`, `?limit=`. Invalid values are ignored. Per-category page titles + canonical URLs for SEO.
+- Home "Learn FC" row now shows only free, non-featured guides.
+- Interaction test (headless Edge/CDP): **9/9 Learn checks pass** (count, load more, scroll kept, category filter + active state, search keeps category, results, clear search, deep link from Home chip). Home regression still 13/13.
+- `/learn` renders on each request (reads URL filters). Fine now; add caching when the real API arrives.
+
 ## How to run locally
 
 ```bash
@@ -150,4 +162,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides library), `/design-system` (component preview). Every other nav link shows the styled 404 until built.

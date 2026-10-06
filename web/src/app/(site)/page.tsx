@@ -27,7 +27,7 @@ export default function HomePage() {
       <Hero cards={heroCards} patch={CURRENT_PATCH} />
       <MetaPlayersSection players={players} week={CURRENT_WEEK} />
       <HardTruth />
-      <LearnSection guides={guides.slice(0, 4)} />
+      <LearnSection guides={guides.filter((guide) => guide.access === "free" && !guide.isFeatured).slice(0, 4)} />
       <LadsPlusTeaser />
       <MeetTheLads creators={creators} />
       <FeedPreview />

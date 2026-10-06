@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Play } from "lucide-react";
+import { Lock, Play } from "lucide-react";
 import { CornerTag } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/DataBits";
 import { cn } from "@/lib/cn";
@@ -52,7 +52,14 @@ export function GuideCard({ guide, author, className }: GuideCardProps) {
         ) : (
           <PitchPlaceholder />
         )}
-        {isVideo && (
+        {guide.access === "plus" ? (
+          <span
+            aria-hidden
+            className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-canvas/70 text-gold ring-1 ring-gold/50 shadow-[0_0_24px_rgb(216_178_90/0.35)] backdrop-blur-md"
+          >
+            <Lock className="size-5" />
+          </span>
+        ) : isVideo && (
           <span
             aria-hidden
             className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-canvas/70 text-mint ring-1 ring-mint/40 backdrop-blur-md transition-transform group-hover:scale-110"
@@ -74,6 +81,7 @@ export function GuideCard({ guide, author, className }: GuideCardProps) {
             {/* Stretched link: whole card is clickable, but only one link in the tab order. */}
             <Link href={`/guides/${guide.slug}`} className="after:absolute after:inset-0">
               {guide.title}
+              {guide.access === "plus" && <span className="sr-only"> (FC Lads+ members)</span>}
             </Link>
           </h3>
           <p className="mt-2 line-clamp-2 text-sm text-muted">{guide.excerpt}</p>
