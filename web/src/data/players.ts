@@ -1,0 +1,82 @@
+import type { Player } from "@/types";
+
+// Mock data with the fictional players used in the designs. Real player names/likenesses
+// are on hold until the licensing question is answered (PROGRESS.md open question #2).
+export const players: Player[] = [
+  {
+    slug: "kai-vanderbilt",
+    name: "Kai Vanderbilt",
+    ovr: 94,
+    position: "ST",
+    nation: "NED",
+    club: "Club FC",
+    stats: { pac: 96, sho: 93, pas: 88, dri: 94, def: 48, phy: 89 },
+    price: 420_000,
+    trend: 18.4,
+    metaRank: 1,
+    metaTag: "META S+",
+    playstyles: ["Finesse+", "Quick Step+", "Rapid", "Technical"],
+    verdict: "Unstoppable on the turn after the latest patch. Quick step trigger is broken.",
+    matchUsage: "1.4M matches",
+  },
+  {
+    slug: "antoine-valere",
+    name: "Antoine Valere",
+    ovr: 93,
+    position: "CF",
+    nation: "FRA",
+    club: "Apex Madrid",
+    stats: { pac: 92, sho: 94, pas: 86, dri: 93, def: 41, phy: 80 },
+    price: 280_000,
+    trend: 11.2,
+    metaRank: 2,
+    playstyles: ["Trivela+", "Finesse Shot", "First Touch"],
+    verdict: "Broken trivela angle from 25 yards. Finesse shot+ animation is elite in 1.08.",
+    matchUsage: "980K matches",
+  },
+  {
+    slug: "rafael-san",
+    name: "Rafael San",
+    ovr: 91,
+    position: "RW",
+    nation: "BRA",
+    club: "Apex FC",
+    stats: { pac: 95, sho: 89, pas: 84, dri: 91, def: 39, phy: 72 },
+    price: 145_000,
+    trend: 8.5,
+    metaRank: 3,
+    playstyles: ["Rapid+", "Acrobatic", "Relentless"],
+    verdict: "Pure recovery speed against high lines. Effortlessly slips past fullbacks.",
+    matchUsage: "730K matches",
+  },
+  {
+    slug: "mateo-silva",
+    name: "Mateo Silva",
+    cardName: "M. Silva",
+    ovr: 92,
+    position: "CM",
+    nation: "POR",
+    club: "Lads FC",
+    stats: { pac: 88, sho: 87, pas: 94, dri: 93, def: 80, phy: 84 },
+    price: 310_000,
+    trend: 4.1,
+    metaTag: "FEATURED",
+  },
+  {
+    slug: "darius-okonkwo",
+    name: "Darius Okonkwo",
+    cardName: "Okonkwo",
+    ovr: 90,
+    position: "CB",
+    nation: "NGA",
+    club: "Lads FC",
+    stats: { pac: 86, sho: 62, pas: 78, dri: 81, def: 92, phy: 93 },
+    price: 96_000,
+    trend: -2.8,
+    metaTag: "GOLD",
+  },
+];
+
+export function getPlayer(slug: string) {
+  return players.find((player) => player.slug === slug);
+}

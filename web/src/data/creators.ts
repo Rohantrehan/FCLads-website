@@ -1,0 +1,68 @@
+import type { Creator } from "@/types";
+
+// Mock data taken from the designs. Replace with API/CMS data in the backend phase.
+export const creators: Creator[] = [
+  {
+    slug: "tfv-gaming",
+    name: "TFV Gaming",
+    initials: "TF",
+    role: "Gameplay Coach",
+    tagline: "Founding creator // Pro circuit",
+    country: "United Kingdom",
+    countryCode: "GBR",
+    ovr: 99,
+    cardPosition: "ST / CREATOR",
+    ratings: { gam: 98, tac: 96, trd: 88, meta: 99 },
+    badge: "Founding",
+    rankLabel: "GLOBAL #01",
+    bio: "Competing at the highest division levels since 2017, TFV breaks pro animation cancels, skill moves and in-game mechanics down into simple, actionable steps.",
+    socials: { youtube: "#", x: "#", instagram: "#", tiktok: "#" },
+  },
+  {
+    slug: "stefan",
+    name: "Stefan",
+    initials: "ST",
+    role: "Tactics Analyst",
+    tagline: "Gameplay expert // Tactical",
+    country: "Germany",
+    countryCode: "GER",
+    ovr: 96,
+    cardPosition: "CAM / EXPERT",
+    ratings: { gam: 94, tac: 99, trd: 82, meta: 95 },
+    rankLabel: "TACTICAL #02",
+    bio: "Elite division tactician and Top 100 competitive player specialising in press counters and bespoke custom tactics.",
+    socials: { youtube: "#", x: "#", instagram: "#" },
+  },
+  {
+    slug: "hobs",
+    name: "Hobs",
+    initials: "HB",
+    role: "Pro Competitor",
+    tagline: "Community // 20-0 Rank 1",
+    country: "United Kingdom",
+    countryCode: "UK",
+    ovr: 95,
+    cardPosition: "RW / RANK 1",
+    ratings: { gam: 99, tac: 92, trd: 79, meta: 97 },
+    rankLabel: "FINISHER #03",
+    socials: { youtube: "#", x: "#", twitch: "#" },
+  },
+  {
+    slug: "wessam",
+    name: "Wessam",
+    initials: "WS",
+    role: "Market Strategist",
+    tagline: "Market lead & economist",
+    country: "Middle East",
+    countryCode: "ME",
+    ovr: 94,
+    cardPosition: "CM / TRADER",
+    ratings: { gam: 88, tac: 86, trd: 99, meta: 93 },
+    rankLabel: "ECONOMY #04",
+    socials: { youtube: "#", x: "#" },
+  },
+];
+
+export function getCreator(slug: string) {
+  return creators.find((creator) => creator.slug === slug);
+}

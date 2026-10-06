@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. Build 2–4 public pages with mock data, then decide hosting and answer the open questions.
-**Next action:** Step 2 — build the core UI components (Button, Badge, GlassPanel, PlayerCard, GuideCard, CreatorCard, Paywall) and a `/design-system` preview page.
+**Next action:** Step 3 — site layout: top nav (+ mobile menu) and footer, then start the Home page. User to review `/design-system` first.
 
 ---
 
@@ -52,25 +52,29 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 - ✅ Lint + production build pass
 - ✅ Git repository initialised
 
-### Step 2 — Design system components ⬜
-- ⬜ Button (iridescent master CTA, primary green, secondary glass)
-- ⬜ Badge / tag (FREE, LADS+, skewed category tag, azure position chip)
-- ⬜ GlassPanel, SectionHeading
-- ⬜ PlayerCard (OVR, position, nation, 6 stats)
-- ⬜ GuideCard (thumbnail, FREE/LADS+, duration, category, author)
-- ⬜ CreatorCard
-- ⬜ StatBar, PriceChip / trend arrow
-- ⬜ Paywall block
-- ⬜ `/design-system` preview page
+### Step 2 — Design system components ✅
+- ✅ `ui/Button` — variants: iridescent (master CTA), primary (green), glass, ghost, danger; sizes sm/md/lg; renders a Next `Link` when given `href`
+- ✅ `ui/Badge` — `Badge` (tones: neutral, mint, azure, gold, danger, solid), `TierBadge` (FREE / LADS+), `CornerTag`, `SkewTag`
+- ✅ `ui/FilterPills` — accessible radio group; active pill = skewed green parallelogram
+- ✅ `ui/Panel` — `GlassPanel`, `SectionHeading` (eyebrow + title + description + action)
+- ✅ `ui/DataBits` — `Trend` (▲/▼ %), `CoinPrice` (gold, compact option), `StatBar` (meter), `Avatar` (initials)
+- ✅ `ui/Paywall` — FC Lads+ upsell block (presentation only; gating must be server-side)
+- ✅ `cards/PlayerCard` — `CollectibleCard` (hero / gold / special frames) + `MetaPlayerCard` (ranking carousel, active glow)
+- ✅ `cards/GuideCard` — thumbnail or pitch-lines placeholder, play icon for videos, FREE/LADS+ corner tag, author row, whole-card link
+- ✅ `cards/CreatorCard` — FUT-style creator card with GAM/TAC/TRD/META, featured glow
+- ✅ `layout/Logo` — inline shield SVG + wordmark
+- ✅ `/design-system` preview page (noindex) — checked at 1440px and 375px, no horizontal overflow
+- ✅ Utilities added: `scrollbar-none`; helpers `lib/format.ts` (numbers, compact, %, category labels)
 
 ### Step 3 — Site layout ⬜
 - ⬜ Top nav (Learn, Players, Squads, Feed, Trading, Creators, FC Lads+, Log in) + mobile menu
 - ⬜ Footer
 - ⬜ Logo component
 
-### Step 4 — Mock data ⬜
-- ⬜ Types for Guide, Creator, Player, FeedPost
-- ⬜ JSON/TS data files (creators, guides, players)
+### Step 4 — Mock data 🟡
+- ✅ Types in `src/types/index.ts`: Player, Creator, Guide, AccessTier, Position (FeedPost still to add)
+- ✅ `src/data/creators.ts` (4 Lads), `guides.ts` (4 guides), `players.ts` (5 fictional players from the designs)
+- ⬜ Expand guides to the full Learn library set; add feed posts
 
 ### Step 5 — First pages ⬜
 | Page | Design reference | Status |
@@ -106,6 +110,12 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 - Completed **Step 1 (project setup)**.
 - Notes: `npm audit` reports 5 "high" issues in dev-only tooling (`braces` via build/lint deps) — not shipped to users; revisit on next dependency update.
 
+### 2026-10-06 — Session 1 (continued)
+- Completed **Step 2 (design system components)** + `/design-system` preview page.
+- Started Step 4 (types + small mock data sets).
+- Placeholders used instead of player/creator photos (licensing + real photos pending).
+- Testing note: the Chrome extension cannot reach `localhost` on this PC. Visual checks are done with headless Edge. Headless Edge's minimum viewport is 496px, so phone width (375px) is tested by loading the page inside a 375px iframe.
+
 ## How to run locally
 
 ```bash
@@ -115,3 +125,5 @@ npm run dev        # http://localhost:3000
 npm run lint
 npm run build
 ```
+
+Pages so far: `/` (placeholder), `/design-system` (component preview).

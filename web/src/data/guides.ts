@@ -1,0 +1,50 @@
+import type { Guide } from "@/types";
+
+// Mock data taken from the designs. Replace with API/CMS data in the backend phase.
+export const guides: Guide[] = [
+  {
+    slug: "beat-the-high-press",
+    title: "Beat the high press",
+    excerpt: "Second-man trigger positioning and diagonal escape angles that dismantle the 71-depth trap.",
+    category: "tactics",
+    format: "article",
+    minutes: 8,
+    access: "free",
+    authorSlug: "stefan",
+    publishedAt: "2025-10-14",
+  },
+  {
+    slug: "5-skill-moves-that-still-work",
+    title: "5 skill moves that still work",
+    excerpt: "The only animations that register instant acceleration boosts post-patch without stun delays.",
+    category: "skill-moves",
+    format: "video",
+    minutes: 14,
+    access: "free",
+    authorSlug: "tfv-gaming",
+    publishedAt: "2025-10-12",
+    isNew: true,
+  },
+  {
+    slug: "best-custom-tactics-this-patch",
+    title: "Best custom tactics this patch",
+    excerpt: "Exact instructions for 4-3-2-1 and 4-4-2 setups designed to crack defensive auto-blocks.",
+    category: "tactics",
+    format: "video",
+    minutes: 24,
+    access: "free",
+    authorSlug: "hobs",
+    publishedAt: "2025-10-10",
+  },
+  {
+    slug: "fut-champs-your-first-10-games",
+    title: "FUT Champs: your first 10 games",
+    excerpt: "Reset routines and matchmaking timing to protect your rank through the early games.",
+    category: "fut-champs",
+    format: "video",
+    minutes: 22,
+    access: "plus",
+    authorSlug: "hobs",
+    publishedAt: "2025-10-08",
+  },
+];
