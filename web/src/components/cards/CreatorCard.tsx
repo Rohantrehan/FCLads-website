@@ -14,14 +14,17 @@ const ratingLabels = [
 export function CreatorCard({
   creator,
   featured,
+  showProfileLink = true,
   className,
 }: {
   creator: Creator;
   featured?: boolean;
+  /** Hide on the creator's own profile page. */
+  showProfileLink?: boolean;
   className?: string;
 }) {
   return (
-    <article className={cn("group relative flex flex-col transition-transform duration-300 hover:-translate-y-2", className)}>
+    <article className={cn("group relative flex flex-col transition-transform duration-300", showProfileLink && "hover:-translate-y-2", className)}>
       {featured && (
         <div
           aria-hidden
@@ -82,6 +85,7 @@ export function CreatorCard({
           <span className="tabular text-xs text-muted">
             {creator.countryCode} · {creator.role}
           </span>
+          {showProfileLink && (
           <Link
             href={`/creators/${creator.slug}`}
             className="text-label flex items-center gap-1 text-primary transition-colors after:absolute after:inset-0 hover:text-on-surface"
@@ -89,6 +93,7 @@ export function CreatorCard({
             Profile
             <ArrowRight aria-hidden className="size-3.5" />
           </Link>
+          )}
         </div>
       </div>
     </article>

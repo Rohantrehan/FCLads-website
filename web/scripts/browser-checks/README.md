@@ -9,6 +9,7 @@ npm run dev                                     # in another terminal
 node scripts/browser-checks/home.mjs  ./.checks # 13 checks: carousel, hard-truth tabs
 node scripts/browser-checks/learn.mjs ./.checks #  9 checks: search, categories, load more
 node scripts/browser-checks/guide.mjs ./.checks #  5 checks: TOC, copy code, paywall link
+node scripts/browser-checks/creators.mjs ./.checks # 6 checks: roster hover panel, profile tabs
 ```
 
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).

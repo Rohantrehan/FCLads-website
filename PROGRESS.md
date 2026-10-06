@@ -5,8 +5,8 @@
 > Designs (reference only): [`all_pages_design/`](all_pages_design/)
 
 **Last updated:** 6 Oct 2026
-**Current phase:** Frontend-first. Build 2–4 public pages with mock data, then decide hosting and answer the open questions.
-**Next action:** Step 5d — Meet the Lads (`/creators`) + creator profile template (`/creators/[slug]`). This is the 4th and last page before the Step 6 review checkpoint. User to review a guide page first (e.g. `/guides/beat-the-high-press`).
+**Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
+**Next action:** Step 6 review checkpoint — user reviews all pages on desktop + phone; then Lighthouse performance pass; then Step 7 (answer open questions, choose hosting, start backend). Alternatively continue with more frontend pages (FC Lads+ pricing, Players, Squads, Feed, Trading, Login/Sign up) if the user prefers.
 
 ---
 
@@ -81,7 +81,7 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 - ✅ Guides expanded to 16 across all categories (1 featured, 4 Lads+); `queryGuides()` mimics the future `GET /guides` API (category + search + limit)
 - ⬜ Add feed posts (for the Feed page later)
 
-### Step 5 — First pages 🟡
+### Step 5 — First pages ✅
 Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayersSection (position filter, carousel, empty state), HardTruth, LearnSection, LadsPlusTeaser, MeetTheLads (+ `cards/CreatorTile`, `OpenSlotTile`), FeedPreview, MembershipCta (+ log-in strip). Checked at 1440px and 375px.
 
 | Page | Design reference | Status |
@@ -89,7 +89,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 | Home | `fc_lads_home_page` | ✅ built; feedback round 1 done (auto-scroll + interactive hard truth) |
 | Learn library | `fc_lads_learn_free_guides_library` | ✅ built, awaiting user review |
 | Guide article | `fc_lads_guide_article_beat_the_high_press` | ✅ built, awaiting user review |
-| Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ⬜ |
+| Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ✅ built, awaiting user review |
 
 ### Step 6 — Review checkpoint ⬜
 - ⬜ Desktop + mobile (375px) review by user
@@ -165,6 +165,14 @@ User feedback on Home → implemented:
 - Browser checks: guide 5/5 (TOC, locked links, copy code + clipboard, scroll to paywall), 404 for unknown slug; Home 13/13 and Learn 9/9 still pass.
 - **Browser check scripts saved to `web/scripts/browser-checks/`** (home, learn, guide) with a README, so they survive between sessions.
 
+### 2026-10-06 — Meet the Lads + creator profiles (Step 5 complete)
+- Built **`/creators`** (`app/(site)/creators/page.tsx`): hero with 3 stat tiles, **interactive roster** (`components/creators/CreatorRoster.tsx`) — resting the cursor on / tabbing to a card shows that creator in the detail panel (stays after leaving, same pattern as Home "hard truth"); click opens the profile. Phones: swipeable card row; tablet+: grid. Open-slot card links to `/creators/apply` (not built → 404). "One obsession" statement + Discord CTA.
+- Built **`/creators/[slug]`** (4 profiles pre-built as static HTML): creator card, role/country/rank badges, bio, **audience stats** per platform, Ask-in-Discord + YouTube buttons, sticky quick-jump tabs, latest videos, **player picks with verdicts** (`PickCard`), all guides, **squads** (`SquadCard` + `FormationPitch` that draws any formation string), review CTA.
+- New data: creator `audience`, `since`, `picks`, bios for Hobs/Wessam; `data/squads.ts` (4 squads); `getGuidesByAuthor()`.
+- Real footballer in the design (Irene Paredes) replaced with fictional Darius Okonkwo.
+- ⚠️ **Placeholder numbers**: follower counts for Hobs and Wessam, X/TikTok/Twitch counts, "1.2M+ total audience", start years — invented for layout. Need real numbers from the client before launch.
+- Browser checks: creators 6/6 (hover panel, stays, click → profile, tabs jump below sticky bar). All suites: Home 13, Learn 9, Guide 5, Creators 6 = **33/33 pass**.
+
 ## How to run locally
 
 ```bash
@@ -175,4 +183,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides library), `/guides/[slug]` (16 guide articles), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides library), `/guides/[slug]` (16 guide articles), `/creators` (Meet the Lads), `/creators/[slug]` (4 profiles), `/design-system` (component preview). Every other nav link shows the styled 404 until built.

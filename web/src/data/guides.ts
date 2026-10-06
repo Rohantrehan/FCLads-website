@@ -229,3 +229,8 @@ export function countByCategory() {
 export function isGuideCategory(value: unknown): value is GuideCategory {
   return typeof value === "string" && value in categoryLabels;
 }
+
+/** All guides by one creator, newest first. */
+export function getGuidesByAuthor(slug: string) {
+  return guides.filter((guide) => guide.authorSlug === slug);
+}

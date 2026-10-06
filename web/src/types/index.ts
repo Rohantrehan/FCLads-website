@@ -60,6 +60,8 @@ export interface CreatorSocials {
   twitch?: string;
 }
 
+export type SocialPlatform = "youtube" | "x" | "instagram" | "tiktok" | "twitch";
+
 export interface Creator {
   slug: string;
   name: string;
@@ -80,6 +82,12 @@ export interface Creator {
   highlight?: { label: string; value: string };
   bio?: string;
   socials: CreatorSocials;
+  /** Follower counts per platform, e.g. { platform: "youtube", count: "240K" }. */
+  audience?: { platform: SocialPlatform; count: string }[];
+  /** Year they started competing / making FC content. */
+  since?: number;
+  /** Players this creator endorses, with their one-line verdict. */
+  picks?: { playerSlug: string; verdict: string }[];
   image?: string;
 }
 
@@ -148,4 +156,21 @@ export interface GuideContent {
   presetCode?: string;
   /** Players mentioned, shown in the sidebar. */
   playerSlugs?: string[];
+}
+
+export interface Squad {
+  slug: string;
+  name: string;
+  /** Short tier label, e.g. "Budget meta starter". */
+  tier: string;
+  budget: number;
+  formation: string;
+  chemistry: number;
+  width: number;
+  depth: number;
+  buildUp: string;
+  keyPlaystyles: string;
+  authorSlug: string;
+  /** Creator's note on why it works / their record with it. */
+  note: string;
 }
