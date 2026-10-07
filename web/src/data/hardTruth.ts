@@ -31,7 +31,7 @@ export const hardTruth: HardTruthItem[] = [
     answerTitle: "Tested before you spend.",
     answer:
       "We put them through real Champs games, tell you if they're worth the coins, and show cheaper alternatives that play almost the same.",
-    creatorSlug: "tfv-gaming",
+    creatorSlug: "hobs",
     cta: { label: "View player reviews", href: "/players" },
   },
   {

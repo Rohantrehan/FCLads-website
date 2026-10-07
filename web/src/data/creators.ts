@@ -1,9 +1,11 @@
 import type { Creator } from "@/types";
 
 // Mock data taken from the designs. Replace with API/CMS data in the backend phase.
-export const creators: Creator[] = [
+// Set `hidden: true` to switch a creator off everywhere without deleting their data.
+const allCreators: Creator[] = [
   {
     slug: "tfv-gaming",
+    hidden: true, // Switched off for now (client request, Oct 2026). Remove this line to bring TFV back.
     name: "TFV Gaming",
     initials: "TF",
     role: "Gameplay Coach",
@@ -108,6 +110,14 @@ export const creators: Creator[] = [
   },
 ];
 
+/** Creators shown on the site (hidden ones removed). */
+export const creators = allCreators.filter((creator) => !creator.hidden);
+
 export function getCreator(slug: string) {
   return creators.find((creator) => creator.slug === slug);
+}
+
+/** True when the creator exists and is not hidden. Used to filter their guides and squads. */
+export function isVisibleCreator(slug: string) {
+  return creators.some((creator) => creator.slug === slug);
 }

@@ -64,6 +64,8 @@ export type SocialPlatform = "youtube" | "x" | "instagram" | "tiktok" | "twitch"
 
 export interface Creator {
   slug: string;
+  /** Temporarily switched off: hidden everywhere (profile, roster, their guides and squads). */
+  hidden?: boolean;
   name: string;
   /** 2-letter monogram used when there is no photo, e.g. "TF". */
   initials: string;
@@ -173,4 +175,32 @@ export interface Squad {
   authorSlug: string;
   /** Creator's note on why it works / their record with it. */
   note: string;
+}
+
+export type CollectionBadge = "start" | "in-order" | "meta" | "archive";
+
+export interface CollectionEpisode {
+  title: string;
+  minutes: number;
+  /** Links to the guide page when the episode is also a guide on the site. */
+  guideSlug?: string;
+}
+
+/** A video series (YouTube playlist) in the Learn section, watched in order. */
+export interface Collection {
+  slug: string;
+  title: string;
+  description: string;
+  season: string;
+  /** Total videos in the playlist (from YouTube later; placeholder for now). */
+  videoCount: number;
+  badge?: CollectionBadge;
+  /** Step number in the "Start here" learning path. */
+  pathStep?: number;
+  /** Matching guide category, used to link to related guides. */
+  category?: GuideCategory;
+  /** YouTube playlist ID, once known. */
+  youtubePlaylistId?: string;
+  /** The first episodes shown on the collection page. */
+  episodes: CollectionEpisode[];
 }

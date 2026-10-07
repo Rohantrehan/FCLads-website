@@ -173,6 +173,20 @@ User feedback on Home → implemented:
 - ⚠️ **Placeholder numbers**: follower counts for Hobs and Wessam, X/TikTok/Twitch counts, "1.2M+ total audience", start years — invented for layout. Need real numbers from the client before launch.
 - Browser checks: creators 6/6 (hover panel, stays, click → profile, tabs jump below sticky bar). All suites: Home 13, Learn 9, Guide 5, Creators 6 = **33/33 pass**.
 
+### 2026-10-07 — TFV hidden + Learn › Collections
+**Client/user decisions:**
+- **TFV Gaming hidden for now** (to be added back later). Implemented as `hidden: true` on the creator in `data/creators.ts` — remove that one line to bring him back. Hidden creators are filtered at the data level (`creators`, `guides`, `squads` exports), so every page updates automatically: Home "Meet the Lads" and `/creators` show 3 creators (Stefan first), `/creators/tfv-gaming` → 404, his **5 guides are hidden too** (option a; Learn now 11 guides, Stefan's "Beat the high press" became the featured guide via fallback), his squad hidden, Home "hard truth" problem 3 now credited to Hobs, `/creators` meta description built from the list.
+- **Collections ≠ Guides, but both live under Learn.** Guides = single items by topic; Collections = ordered video series (YouTube playlists). Learn now has two tabs: **Guides** (`/learn`) and **Collections** (`/learn/collections`).
+- **Only FC 27** collections for now (no FC 26/25/24). Names/descriptions rewritten in our own words from a reference channel's playlist list; no "School" branding, no external links (fifa.school, Futbin).
+
+**Built:**
+- `data/collections.ts`: 14 FC 27 collections (title, description, placeholder `videoCount`, badge, `pathStep`, matching guide category, first episodes; episodes link to guide pages when they exist). Types `Collection`, `CollectionEpisode`, `CollectionBadge`.
+- `components/learn/LearnTabs.tsx` (Guides | Collections) on both pages.
+- **`/learn/collections`**: header, **"Start here" path** (5 numbered steps: Start Here → Core Skills → Defending → Attacking → What's Working Now), grid of 14 playlist-style cards (`components/collections/CollectionCard.tsx`, `LearningPath.tsx`).
+- **`/learn/collections/[slug]`** (14 pages, static): breadcrumb, playlist thumb, badges incl. "Step N of 5", Play first video / Open on YouTube, path with current step highlighted, ordered video list (guide links or YouTube), "+N more on YouTube", **Next in the path**, related guides from the matching category, more collections.
+- Placeholders: video counts are from the reference list; YouTube links go to the channel until real playlist IDs are added (`youtubePlaylistId`).
+- Browser checks: new `collections.mjs` 8/8; Learn 9/9 and Creators 7/7 updated for TFV hidden; Home 13/13; Guide 5/5.
+
 ## How to run locally
 
 ```bash
@@ -183,4 +197,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides library), `/guides/[slug]` (16 guide articles), `/creators` (Meet the Lads), `/creators/[slug]` (4 profiles), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (3 visible profiles), `/design-system` (component preview). Every other nav link shows the styled 404 until built.

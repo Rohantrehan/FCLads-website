@@ -8,7 +8,7 @@ import { ladsPlus } from "@/data/ladsPlus";
 
 export const metadata: Metadata = {
   title: "Meet the Lads",
-  description: "The FC creators, analysts and competitors behind FC Lads: TFV Gaming, Stefan, Hobs and Wessam.",
+  description: `The FC creators, analysts and competitors behind FC Lads: ${creators.map((creator) => creator.name).join(", ")}.`,
   alternates: { canonical: "/creators" },
 };
 

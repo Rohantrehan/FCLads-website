@@ -1,10 +1,10 @@
-import { getCreator } from "@/data/creators";
+import { getCreator, isVisibleCreator } from "@/data/creators";
 import { categoryLabels } from "@/lib/format";
 import type { Guide, GuideCategory } from "@/types";
 
 // Mock data taken from the designs. Replace with API/CMS data in the backend phase.
 // Sorted newest first.
-export const guides: Guide[] = [
+const allGuides: Guide[] = [
   {
     slug: "hybrid-overload-custom-tactic",
     title: "The custom tactic every Lad is using this patch",
@@ -187,6 +187,9 @@ export const guides: Guide[] = [
   },
 ];
 
+/** Guides shown on the site: guides by hidden creators are left out. */
+export const guides = allGuides.filter((guide) => isVisibleCreator(guide.authorSlug));
+
 export const PAGE_SIZE = 9;
 
 export interface GuideQuery {
@@ -211,8 +214,9 @@ export function queryGuides({ category, q, limit = PAGE_SIZE }: GuideQuery) {
   return { items: matches.slice(0, limit), total: matches.length };
 }
 
+/** The featured guide, or the newest free guide if the featured one is hidden. */
 export function getFeaturedGuide() {
-  return guides.find((guide) => guide.isFeatured);
+  return guides.find((guide) => guide.isFeatured) ?? guides.find((guide) => guide.access === "free");
 }
 
 export function getGuide(slug: string) {

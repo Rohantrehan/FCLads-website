@@ -1,7 +1,8 @@
+import { isVisibleCreator } from "@/data/creators";
 import type { Squad } from "@/types";
 
 // Mock squad blueprints. The full Squads page comes later; profiles show each creator's squads.
-export const squads: Squad[] = [
+const allSquads: Squad[] = [
   {
     slug: "50k-weekend-league-starter",
     name: "50K Weekend League starter",
@@ -59,6 +60,9 @@ export const squads: Squad[] = [
     note: "Two strikers who both drop short. Went 10-0 in Playoffs with this.",
   },
 ];
+
+/** Squads shown on the site: squads by hidden creators are left out. */
+export const squads = allSquads.filter((squad) => isVisibleCreator(squad.authorSlug));
 
 export function getSquadsByAuthor(slug: string) {
   return squads.filter((squad) => squad.authorSlug === slug);

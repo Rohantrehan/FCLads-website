@@ -39,19 +39,19 @@ await send("Page.navigate", { url: "http://localhost:3000/learn" });
 await sleep(3500);
 const url = () => evaluate("location.pathname + location.search");
 const count = () => evaluate(`document.querySelector('#guide-count').textContent.replace(/\s+/g,' ').trim()`);
-check("initial count", (await count()) === "Showing 9 of 16", await count());
+check("initial count", (await count()) === "Showing 9 of 11", await count());
 // Load more (client-side navigation, should keep scroll)
 const lm = await evaluate(`(() => { const a=[...document.querySelectorAll('a')].find(a=>/Load more/.test(a.textContent)); a.scrollIntoView({block:'center'}); const r=a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
 const before = await evaluate("scrollY");
 await click(lm.x, lm.y); await sleep(1500);
-check("load more shows all", (await count()) === "Showing 16 of 16", (await url()) + " | " + (await count()));
+check("load more shows all", (await count()) === "Showing 11 of 11", (await url()) + " | " + (await count()));
 const after = await evaluate("scrollY");
 check("load more keeps scroll position", Math.abs(after - before) < 50, `${before} -> ${after}`);
 // Category click
 await evaluate("scrollTo(0,0)"); await sleep(300);
 const cat = await evaluate(`(() => { const a=[...document.querySelectorAll('nav[aria-label="Guide categories"] a')].find(a=>a.textContent.startsWith('Tactics')); const r=a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
 await click(cat.x, cat.y); await sleep(1500);
-check("category click filters", (await url()) === "/learn?category=tactics" && (await count()) === "Showing 3 of 3", (await url()) + " | " + (await count()));
+check("category click filters", (await url()) === "/learn?category=tactics" && (await count()) === "Showing 2 of 2", (await url()) + " | " + (await count()));
 const cur = await evaluate(`document.querySelector('nav[aria-label="Guide categories"] [aria-current=page]').textContent`);
 check("active category marked", /Tactics/.test(cur), cur);
 // Search within category
@@ -62,7 +62,7 @@ await send("Input.dispatchKeyEvent", { type: "keyDown", key: "Enter", code: "Ent
 await send("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
 await sleep(2500);
 check("search keeps category", (await url()) === "/learn?category=tactics&q=4-3-2-1", await url());
-check("search results", (await count()) === "Showing 2 of 2", await count());
+check("search results", (await count()) === "Showing 1 of 1", await count());
 await shot("learn-search-results");
 // Clear search
 const clr = await evaluate(`(() => { const r=document.querySelector('[aria-label="Clear search"]').getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);

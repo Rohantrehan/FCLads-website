@@ -8,6 +8,7 @@ import { FeaturedGuide } from "@/components/learn/FeaturedGuide";
 import { DiscordRequest, PlusBanner } from "@/components/learn/LearnAside";
 import { learnHref } from "@/components/learn/learnHref";
 import { LearnSearch } from "@/components/learn/LearnSearch";
+import { LearnTabs } from "@/components/learn/LearnTabs";
 import { Button } from "@/components/ui/Button";
 import { getCreator } from "@/data/creators";
 import { countByCategory, getFeaturedGuide, guides, isGuideCategory, PAGE_SIZE, queryGuides } from "@/data/guides";
@@ -67,6 +68,9 @@ export default async function LearnPage({ searchParams }: { searchParams: Search
             Learn <span className="text-primary">FC</span>
           </h1>
           <p className="text-lg font-semibold text-primary">Free guides. You don&apos;t need to pay us to get better.</p>
+          <div className="pt-3">
+            <LearnTabs active="guides" />
+          </div>
         </div>
         <LearnSearch q={q} category={category} />
       </header>
