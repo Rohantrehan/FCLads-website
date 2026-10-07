@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Step 6 review checkpoint — user reviews all pages on desktop + phone; then Lighthouse performance pass; then Step 7 (answer open questions, choose hosting, start backend). Alternatively continue with more frontend pages (FC Lads+ pricing, Players, Squads, Feed, Trading, Login/Sign up) if the user prefers.
+**Next action:** User approved all built pages (2026-10-07). Waiting for the user to choose: (1) Lighthouse speed pass, (2) more frontend pages — recommended next: FC Lads+ pricing + Log in / Sign up, or (3) Step 7: answer open questions, choose hosting, start backend.
 
 ---
 
@@ -86,13 +86,13 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 
 | Page | Design reference | Status |
 |---|---|---|
-| Home | `fc_lads_home_page` | ✅ built; feedback round 1 done (auto-scroll + interactive hard truth) |
-| Learn library | `fc_lads_learn_free_guides_library` | ✅ built, awaiting user review |
-| Guide article | `fc_lads_guide_article_beat_the_high_press` | ✅ built, awaiting user review |
-| Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ✅ built, awaiting user review |
+| Home | `fc_lads_home_page` | ✅ approved by user (2026-10-07) |
+| Learn library | `fc_lads_learn_free_guides_library` | ✅ approved by user (2026-10-07) |
+| Guide article | `fc_lads_guide_article_beat_the_high_press` | ✅ approved by user (2026-10-07) |
+| Meet the Lads (+ creator profile) | `fc_lads_meet_the_lads_creators`, `fc_lads_creator_profile_stefan` | ✅ approved by user (2026-10-07) |
 
-### Step 6 — Review checkpoint ⬜
-- ⬜ Desktop + mobile (375px) review by user
+### Step 6 — Review checkpoint 🟡
+- ✅ Desktop + mobile review by user — **approved 2026-10-07** ("all things good and show perfect"): Home, Learn (Guides + Collections), Guide articles, Meet the Lads, creator profiles
 - ⬜ Lighthouse performance pass
 - ⬜ Optional preview deploy for the client
 
