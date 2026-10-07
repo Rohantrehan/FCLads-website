@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User approved all built pages (2026-10-07). Waiting for the user to choose: (1) Lighthouse speed pass, (2) more frontend pages — recommended next: FC Lads+ pricing + Log in / Sign up, or (3) Step 7: answer open questions, choose hosting, start backend.
+**Next action:** User to review the new FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
 
 ---
 
@@ -187,6 +187,18 @@ User feedback on Home → implemented:
 - Placeholders: video counts are from the reference list; YouTube links go to the channel until real playlist IDs are added (`youtubePlaylistId`).
 - Browser checks: new `collections.mjs` 8/8; Learn 9/9 and Creators 7/7 updated for TFV hidden; Home 13/13; Guide 5/5.
 
+### 2026-10-07 — FC Lads+ pricing page + Log in / Sign up
+- **`/lads-plus`** (`app/(site)/lads-plus/page.tsx`, components in `components/plus/`): hero with price box + decorative membership card; **"Your membership includes"** perk list + preview panel (hover-and-stay, keyboard arrows, tap on phones); benefit rows for Private Discord, Creator access (from the visible creators list, so TFV stays hidden), Weekly trading brief (with educational disclaimer), Monthly gameplay review (3 steps + example coach note); "One membership" summary; **Free vs FC Lads+ table**; **FAQ** (native `<details>`, works without JS).
+  - Left out / softened on purpose (open client questions): "14-day refund guarantee", "2,418 active champions / +4 WL wins", "review within 48 hours", specific payment methods (FAQ just says card via a secure provider).
+  - All "Join FC Lads+" buttons on this page go to **`/signup?plan=plus`**.
+- **Log in / Sign up** (`app/(auth)/` with a focused layout: logo + "Back to site", no full nav):
+  - `/login`: email, password (show/hide), stay signed in, forgot-password link (`/forgot-password`, not built), Google + Discord buttons.
+  - `/signup`: display name, email, password with **live strength meter**, terms + privacy checkbox. With `?plan=plus`: "Join FC Lads+ — step 1 of 2", plan box, "Create account & continue".
+  - **No backend yet:** forms validate in the browser only; on a valid submit (or Google/Discord click) they show an honest "isn't switched on yet — nothing was sent or saved" message. Replace `handleSubmit` in `components/auth/LoginForm.tsx` / `SignupForm.tsx` when auth is built.
+  - Bug found by tests and fixed: field errors now clear as soon as you edit that field (previously the password error hid the strength meter until the next submit).
+- Phone fix: the comparison table pushed the page sideways and hid the FC Lads+ column at 375px; rebuilt to fit (narrow columns, shorter header on phones).
+- New check scripts: `plus-auth.mjs` (18/18) and **`overflow.mjs`** (real 375px emulation; finds what makes a page scroll sideways). All suites pass: Home 13, Learn 9, Guide 5, Creators 7, Collections 8, Plus/Auth 18 = **60/60**; no sideways scrolling on 10 key pages.
+
 ## How to run locally
 
 ```bash
@@ -197,4 +209,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (3 visible profiles), `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (3 visible profiles), `/lads-plus` (FC Lads+), `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.
