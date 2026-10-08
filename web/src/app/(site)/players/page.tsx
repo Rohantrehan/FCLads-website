@@ -134,7 +134,7 @@ export default async function PlayersPage({ searchParams }: { searchParams: Sear
           ) : (
             <>
               {podium.length === 3 && (
-                <section aria-label="Top three" className="grid grid-cols-1 gap-4 pt-2 md:grid-cols-3 md:items-start">
+                <section aria-label="Top three" className="grid grid-cols-1 gap-4 md:grid-cols-3 md:items-stretch">
                   <PodiumCard player={podium[1]} place={2} showRank className="md:order-1" />
                   <PodiumCard player={podium[0]} place={1} showRank className="order-first md:order-2" />
                   <PodiumCard player={podium[2]} place={3} showRank className="md:order-3" />

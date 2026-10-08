@@ -9,17 +9,10 @@ import { cn } from "@/lib/cn";
 import { formatCompact } from "@/lib/format";
 import type { Player } from "@/types";
 
-function initials(player: Player) {
-  return (player.cardName ?? player.name)
-    .replace(/^[A-Z]\.\s*/, "")
-    .split(/[\s-]+/)
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
-
-/** One of the top three cards. `place` 1 is the larger, glowing centre card. */
+/**
+ * One of the top three cards: rank, OVR, full name, three key stats, a short verdict and the price.
+ * `place` 1 gets the green glow. The whole card is one link (stretched from the name).
+ */
 export function PodiumCard({
   player,
   place,
@@ -32,106 +25,71 @@ export function PodiumCard({
   className?: string;
 }) {
   const first = place === 1;
-  const stats = first ? (["pac", "sho", "pas", "dri", "def", "phy"] as const) : (["pac", "sho", "dri"] as const);
-  const tags = [...(player.playstylesPlus ?? []), ...(player.playstyles ?? [])].slice(0, first ? 4 : 3);
 
   return (
     <article
       className={cn(
-        "relative flex flex-col gap-4 rounded-2xl p-4 transition-all duration-200 hover:-translate-y-1",
+        "group relative flex flex-col gap-4 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-1",
         first
-          ? "border border-primary/60 bg-gradient-to-b from-pitch-green to-[#0f141b] shadow-[0_0_40px_rgb(43_217_139/0.25)] md:-mt-4"
+          ? "border border-primary/60 bg-gradient-to-b from-pitch-green to-[#0f141b] shadow-[0_0_36px_rgb(43_217_139/0.22)]"
           : "border border-white/8 bg-[#0f141b] hover:border-primary/40",
         className,
       )}
     >
       <div className="flex items-center justify-between gap-2">
-        <Badge tone={first ? "solid" : "neutral"}>
-          {first && <Crown aria-hidden className="size-3" />}
-          {showRank ? `#${place} meta pick` : `#${place}`}
-        </Badge>
-        {player.trend !== undefined && <Trend value={player.trend} />}
+        <span
+          className={cn(
+            "tabular flex items-center gap-1.5 text-[11px] font-bold whitespace-nowrap uppercase",
+            first ? "text-mint" : "text-muted",
+          )}
+        >
+          {first && <Crown aria-hidden className="size-3.5" />}
+          {showRank ? `#${place} pick` : `#${place}`}
+        </span>
+        {player.trend !== undefined && <Trend value={player.trend} className="text-[11px]" />}
       </div>
 
-      <div className="relative flex min-h-44 flex-col justify-between gap-6 overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-surface-high via-surface-container to-canvas p-3">
-        <div
-          aria-hidden
-          className="absolute -right-6 -bottom-6 flex size-32 items-center justify-center rounded-full bg-primary/10 font-display text-5xl font-extrabold text-mint/25"
+      <div className="flex flex-col items-center gap-3 text-center">
+        <span
+          className={cn(
+            "flex size-16 flex-col items-center justify-center rounded-2xl leading-none",
+            first ? "bg-primary text-on-primary shadow-[0_0_24px_rgb(43_217_139/0.45)]" : "bg-surface-highest text-mint",
+          )}
         >
-          {initials(player)}
-        </div>
-        <p className="relative">
-          <span
-            className={cn("block font-display leading-none font-extrabold", first ? "text-4xl text-mint" : "text-3xl")}
-          >
-            {player.ovr}
+          <span className="font-display text-3xl font-extrabold">{player.ovr}</span>
+          <span className={cn("tabular text-[10px] font-bold", first ? "text-on-primary/80" : "text-muted")}>
+            {player.position}
           </span>
-          <span className="tabular text-xs font-bold">{player.position}</span>
-        </p>
-        <div className="relative">
-          <h3 className="font-display text-lg leading-tight font-extrabold break-words uppercase">
-            <Link href={`/players/${player.slug}`} className="hover:text-mint">
-              {player.cardName ?? player.name}
+        </span>
+        <div className="min-w-0">
+          <h3 className="font-display text-base leading-tight font-extrabold uppercase transition-colors group-hover:text-mint">
+            <Link href={`/players/${player.slug}`} className="after:absolute after:inset-0">
+              {player.name}
             </Link>
           </h3>
-          <p className="tabular text-[10px] text-muted uppercase">
+          <p className="tabular mt-1 text-[11px] text-muted uppercase">
             {player.nation} · {player.club}
           </p>
         </div>
-        {player.metaTag && first && (
-          <Badge tone="mint" className="absolute top-3 right-3">
-            {player.metaTag}
-          </Badge>
-        )}
       </div>
 
-      <dl className={cn("grid gap-1 rounded-lg bg-canvas/60 p-2 text-center", first ? "grid-cols-6" : "grid-cols-3")}>
-        {stats.map((key) => (
+      <dl className="grid grid-cols-3 divide-x divide-white/8 rounded-lg bg-canvas/60 py-2 text-center">
+        {(["pac", "sho", "dri"] as const).map((key) => (
           <div key={key} className="flex flex-col-reverse">
-            <dt className="tabular text-[9px] text-muted uppercase">{key}</dt>
-            <dd className={cn("tabular text-sm font-bold", player.stats[key] >= 85 ? "text-mint" : "text-white/70")}>
-              {player.stats[key]}
-            </dd>
+            <dt className="tabular text-[10px] text-muted uppercase">{key}</dt>
+            <dd className="tabular text-sm font-bold text-white">{player.stats[key]}</dd>
           </div>
         ))}
       </dl>
 
-      {player.verdict && <p className="text-sm text-white/85 italic">&ldquo;{player.verdict}&rdquo;</p>}
+      {player.verdict && <p className="line-clamp-2 text-center text-sm text-muted">{player.verdict}</p>}
 
-      {tags.length > 0 && (
-        <ul className="flex flex-wrap gap-1.5" aria-label="PlayStyles">
-          {tags.map((tag) => (
-            <li
-              key={tag}
-              className={cn(
-                "rounded px-2 py-0.5 text-[10px] font-bold",
-                tag.endsWith("+") ? "bg-primary/90 text-on-primary" : "bg-white/8 text-white/80",
-              )}
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <div className="mt-auto flex items-end justify-between gap-3 border-t border-white/8 pt-3">
-        <div>
-          <p className="text-label text-muted">Price</p>
-          {player.price !== undefined && <CoinPrice value={player.price} compact className="text-base" />}
-        </div>
-        <Link
-          href={`/players/${player.slug}`}
-          className={cn(
-            "tabular flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-[11px] font-bold whitespace-nowrap uppercase transition-colors",
-            first
-              ? "bg-white text-canvas hover:bg-mint"
-              : "border border-white/10 text-white/80 hover:border-primary/40 hover:text-white",
-          )}
-        >
-          {first ? "Inspect card" : "View"}
-          <span className="sr-only"> {player.name}</span>
-          <ArrowRight aria-hidden className="size-3.5" />
-        </Link>
+      <div className="mt-auto flex items-center justify-between gap-3 border-t border-white/8 pt-3">
+        {player.price !== undefined && <CoinPrice value={player.price} compact className="text-base" />}
+        <span className="text-label flex items-center gap-1 text-muted group-hover:text-mint">
+          View
+          <ArrowRight aria-hidden className="size-3.5 transition-transform group-hover:translate-x-1" />
+        </span>
       </div>
     </article>
   );

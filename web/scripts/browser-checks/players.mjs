@@ -36,7 +36,6 @@ const check = (name, ok, detail) => results.push(`${ok ? "PASS" : "FAIL"}  ${nam
 
 await send("Page.enable");
 await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
-const url = () => evaluate("location.pathname");
 const pos = (expr) => evaluate(`(() => { const el=${expr}; el.scrollIntoView({block:'center'}); const r=el.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
 const key = (k, code) => send("Input.dispatchKeyEvent", { type: "keyDown", key: k, code, windowsVirtualKeyCode: code === "ArrowLeft" ? 37 : 39 }).then(() => send("Input.dispatchKeyEvent", { type: "keyUp", key: k, code }));
 const text = (sel) => evaluate(`document.querySelector(${JSON.stringify(sel)})?.textContent ?? ""`);
@@ -44,7 +43,7 @@ const href = () => evaluate("location.pathname + location.search");
 
 await send("Page.navigate", { url: "http://localhost:3000/players" }); await sleep(3500);
 check("podium has 3 cards", (await evaluate(`document.querySelectorAll('section[aria-label="Top three"] article').length`)) === 3);
-check("#1 meta pick is Vanderbilt", /VANDERBILT/i.test(await evaluate(`[...document.querySelectorAll('section[aria-label="Top three"] article')].find(a=>/#1 meta pick/i.test(a.textContent))?.textContent ?? ""`)));
+check("#1 meta pick is Vanderbilt", /VANDERBILT/i.test(await evaluate(`[...document.querySelectorAll('section[aria-label="Top three"] article')].find(a=>/#1 pick/i.test(a.textContent))?.textContent ?? ""`)));
 check("ranking shows ranks 4-10", /ranks 4–10/i.test(await text("#ranking-heading")), await text("#ranking-heading"));
 check("locked rows behind paywall", /22 more ranked players/i.test(await evaluate("document.body.textContent")));
 check("locked players not sent", !(await evaluate(`document.documentElement.outerHTML.includes('Santi Arismendi')`)));
