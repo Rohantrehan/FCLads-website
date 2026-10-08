@@ -638,6 +638,22 @@ const allPlayers: Player[] = [
     verdict: "Gets up and down the left all game. Great value.",
     matches: 240_000,
   },
+  // ── Budget squad players ────────────────────────────────────────────────────
+  // Cheap cards used in the squad blueprints. No `metaScore`, so they are not in the meta ranking.
+  { slug: "bruno-matos", name: "Bruno Matos", cardName: "B. Matos", ovr: 83, position: "GK", nation: "BRA", club: "Atlantic SC", league: "Serie A", stats: { pac: 84, sho: 81, pas: 78, dri: 85, def: 52, phy: 82 }, price: 3_200, trend: 1.2, verdict: "Big frame, quick reactions. The best keeper under 5K." },
+  { slug: "tom-ward", name: "Tom Ward", cardName: "T. Ward", ovr: 82, position: "GK", nation: "ENG", club: "Harbour City", league: "Premier League", stats: { pac: 82, sho: 80, pas: 81, dri: 83, def: 55, phy: 80 }, price: 2_100, trend: 0.4, verdict: "Comes off his line well. Good back-up keeper." },
+  { slug: "lucas-moreau", name: "Lucas Moreau", cardName: "L. Moreau", ovr: 83, position: "CB", nation: "FRA", club: "Riviera SC", league: "Ligue 1", stats: { pac: 78, sho: 45, pas: 70, dri: 68, def: 84, phy: 85 }, price: 4_400, trend: 2.0, playstyles: ["Block"], verdict: "Strong and reads the game. Wins most duels." },
+  { slug: "sean-doyle", name: "Sean Doyle", cardName: "S. Doyle", ovr: 82, position: "CB", nation: "IRL", club: "Harbour City", league: "Premier League", stats: { pac: 80, sho: 42, pas: 66, dri: 64, def: 83, phy: 84 }, price: 3_100, trend: -0.8, verdict: "Quick enough for a high line on a tiny budget." },
+  { slug: "gianni-rossi", name: "Gianni Rossi", cardName: "G. Rossi", ovr: 81, position: "CB", nation: "ITA", club: "Apex Milano", league: "Serie A", stats: { pac: 82, sho: 40, pas: 64, dri: 63, def: 82, phy: 80 }, price: 2_500, trend: 0.6, verdict: "Recovery pace for a cheap centre-back." },
+  { slug: "ryo-tanaka", name: "Ryo Tanaka", cardName: "R. Tanaka", ovr: 81, position: "LB", nation: "JPN", club: "Tokyo Bay", league: "Bundesliga", stats: { pac: 88, sho: 58, pas: 76, dri: 80, def: 78, phy: 70 }, price: 1_900, trend: 1.0, verdict: "High work rates both ways. Always back in time." },
+  { slug: "pablo-ortega", name: "Pablo Ortega", cardName: "P. Ortega", ovr: 82, position: "RB", nation: "ESP", club: "Valencia Port", league: "LaLiga", stats: { pac: 86, sho: 60, pas: 77, dri: 79, def: 80, phy: 74 }, price: 2_200, trend: 0.9, verdict: "Overlaps well and recovers fast." },
+  { slug: "aidan-kelly", name: "Aidan Kelly", cardName: "A. Kelly", ovr: 80, position: "LB", nation: "IRL", club: "Highland FC", league: "Premier League", stats: { pac: 85, sho: 55, pas: 74, dri: 77, def: 77, phy: 72 }, price: 1_600, trend: -0.3, verdict: "Reliable cover at left-back." },
+  { slug: "felipe-costa", name: "Felipe Costa", cardName: "F. Costa", ovr: 83, position: "CM", nation: "BRA", club: "Riverside FC", league: "Premier League", stats: { pac: 76, sho: 72, pas: 84, dri: 81, def: 79, phy: 82 }, price: 3_600, trend: 1.8, playstyles: ["Intercept"], verdict: "Box-to-box engine who can play as a holding mid." },
+  { slug: "samu-nilsen", name: "Samu Nilsen", cardName: "S. Nilsen", ovr: 80, position: "CDM", nation: "NOR", club: "Fjord FC", league: "Bundesliga", stats: { pac: 70, sho: 62, pas: 76, dri: 72, def: 81, phy: 83 }, price: 1_400, trend: 0.2, verdict: "Sits deep and breaks up play. Cheap bench anchor." },
+  { slug: "marco-bellini", name: "Marco Bellini", cardName: "M. Bellini", ovr: 83, position: "LM", nation: "ITA", club: "Apex FC", league: "Serie A", stats: { pac: 90, sho: 79, pas: 80, dri: 85, def: 40, phy: 68 }, price: 3_400, trend: 2.6, playstyles: ["Rapid"], verdict: "Fast down the left and cuts inside on his right foot." },
+  { slug: "jamal-hart", name: "Jamal Hart", cardName: "J. Hart", ovr: 82, position: "RM", nation: "ENG", club: "Nordic United", league: "Premier League", stats: { pac: 89, sho: 77, pas: 79, dri: 84, def: 38, phy: 66 }, price: 2_800, trend: 1.4, verdict: "Direct winger. Great with early crosses." },
+  { slug: "omar-haddad", name: "Omar Haddad", cardName: "O. Haddad", ovr: 84, position: "ST", nation: "MAR", club: "Atlas FC", league: "Ligue 1", stats: { pac: 89, sho: 83, pas: 70, dri: 82, def: 35, phy: 79 }, price: 6_800, trend: 3.1, playstyles: ["Quick Step"], verdict: "Pace and finishing for the price of a pack." },
+  { slug: "anders-kvist", name: "Anders Kvist", cardName: "A. Kvist", ovr: 89, position: "GK", nation: "DEN", club: "Baltic United", league: "Premier League", stats: { pac: 88, sho: 86, pas: 84, dri: 90, def: 58, phy: 87 }, price: 38_000, trend: 1.1, verdict: "Elite reactions. The keeper most pros use." },
 ];
 
 /** Players with `metaRank` filled in: their place in the meta ranking of their position group. */
@@ -645,12 +661,16 @@ export const players: Player[] = (() => {
   const ranked = [...allPlayers].sort((a, b) => (b.metaScore ?? 0) - (a.metaScore ?? 0));
   const counters = new Map<string, number>();
   return ranked.map((player) => {
+    if (player.metaScore === undefined) return player;
     const group = groupOf(player.position);
     const rank = (counters.get(group) ?? 0) + 1;
     counters.set(group, rank);
     return { ...player, metaRank: rank };
   });
 })();
+
+/** Players in the weekly meta ranking (those with a `metaScore`). */
+export const rankedPlayers = players.filter((player) => player.metaScore !== undefined);
 
 export function getPlayer(slug: string) {
   return players.find((player) => player.slug === slug);

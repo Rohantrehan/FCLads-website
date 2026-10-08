@@ -7,16 +7,8 @@ import { Button } from "@/components/ui/Button";
 import { Avatar, CoinPrice } from "@/components/ui/DataBits";
 import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
-import type { ChemistryStyle, Creator, DetailedAttributes, FaceStats, Player, PlayerReview } from "@/types";
-
-const faceLabels: Record<keyof FaceStats, string> = {
-  pac: "Pace",
-  sho: "Shooting",
-  pas: "Passing",
-  dri: "Dribbling",
-  def: "Defending",
-  phy: "Physicality",
-};
+import { statLabels, statNames } from "@/lib/positions";
+import type { ChemistryStyle, Creator, DetailedAttributes, FaceStats, Player, PlayerReview, Position } from "@/types";
 
 const barTone = (value: number) =>
   value >= 85 ? "bg-primary" : value >= 70 ? "bg-mint/60" : value >= 50 ? "bg-gold" : "bg-danger";
@@ -46,11 +38,12 @@ export function AttributeBar({ label, value, strong }: { label: string; value: n
   );
 }
 
-export function FaceStatBars({ stats }: { stats: FaceStats }) {
+export function FaceStatBars({ stats, position }: { stats: FaceStats; position: Position }) {
+  const names = statNames(position);
   return (
     <div className="grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-2">
-      {(Object.keys(faceLabels) as (keyof FaceStats)[]).map((key) => (
-        <AttributeBar key={key} label={faceLabels[key]} value={stats[key]} strong />
+      {(Object.keys(names) as (keyof FaceStats)[]).map((key) => (
+        <AttributeBar key={key} label={names[key]} value={stats[key]} strong />
       ))}
     </div>
   );
@@ -274,9 +267,15 @@ export function AlternativeCard({ player }: { player: Player }) {
       </div>
       {player.verdict && <p className="line-clamp-3 text-sm text-muted">{player.verdict}</p>}
       <p className="tabular mt-auto flex gap-3 border-t border-white/8 pt-3 text-[11px] font-bold text-white/80">
-        <span>{player.stats.pac} PAC</span>
-        <span>{player.stats.sho} SHO</span>
-        <span>{player.stats.dri} DRI</span>
+        <span>
+          {player.stats.pac} {statLabels(player.position).pac}
+        </span>
+        <span>
+          {player.stats.sho} {statLabels(player.position).sho}
+        </span>
+        <span>
+          {player.stats.dri} {statLabels(player.position).dri}
+        </span>
       </p>
     </article>
   );

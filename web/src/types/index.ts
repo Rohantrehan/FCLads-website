@@ -219,21 +219,45 @@ export interface GuideContent {
   playerSlugs?: string[];
 }
 
+export interface SquadSlot {
+  playerSlug: string;
+  /** Chemistry style the Lads use on this player in this squad. */
+  chem?: string;
+}
+
 export interface Squad {
   slug: string;
   name: string;
   /** Short tier label, e.g. "Budget meta starter". */
   tier: string;
+  /** Budget tab label, e.g. "50K" or "1.5M". */
+  budgetLabel: string;
+  /** Total coins for the starting XI plus bench (worked out from player prices). */
   budget: number;
   formation: string;
   chemistry: number;
   width: number;
   depth: number;
   buildUp: string;
+  defensiveStyle: string;
+  chanceCreation: string;
   keyPlaystyles: string;
   authorSlug: string;
   /** Creator's note on why it works / their record with it. */
   note: string;
+  /** e.g. "18-2 in Weekend League testing". */
+  record?: string;
+  /** Starting XI in the formation's slot order (see lib/formations.ts). */
+  lineup: SquadSlot[];
+  bench: { playerSlug: string; role: string }[];
+  /** The player shown first in the pitch dossier. */
+  keyPlayerSlug: string;
+  reasons: { title: string; text: string }[];
+  upgrades: { fromSlug: string; toSlug: string; gain: string }[];
+  /** Custom tactic share code for the in-game Tactics menu. */
+  tacticCode?: string;
+  /** Guide that breaks this squad down (FC Lads+). */
+  guideSlug?: string;
 }
 
 export type CollectionBadge = "start" | "in-order" | "meta" | "archive";

@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User to review Meta Players (`/players`) and player pages (`/players/marco-velardi`). Next design pages: Squads, Feed, Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
+**Next action:** User to review Squads (`/squads`, `/squads/50k-weekend-league-starter`). Before that: Meta Players + player pages. Next design pages: Feed, Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
 
 ---
 
@@ -221,6 +221,15 @@ User feedback on Home → implemented:
 - ⚠️ Placeholders: all players, stats, prices, match counts, win rates and price history are invented (price history is generated in `lib/priceHistory.ts`). Real data needs the game-data source decision (open question).
 - Left out from the design: "Ranked ahead of Mbappé & Haaland" and other real-player names, "LIVE OPTA STATS FEED", server/build telemetry, the "Free tier / Lads+ preview" toggle.
 - Tests: new `players.mjs` (22) pass; home 13, learn 9, guide 5, collections 13, creators 7, plus-auth 18 pass; no sideways scroll at 375px. Test scripts now resolve the output folder to an absolute path (Edge rejects a relative profile path), and lint ignores `.checks/`.
+
+### 2026-10-08 — Squads
+- Meta Players top-3 cards simplified after user feedback (rating tile, full name, 3 stats, 2-line verdict, price + View; whole card clickable).
+- **`/squads`**: header, **budget tabs** (50K · 100K · 250K · 500K · 1.5M, each links to that squad), grid of squad tiles (budget, creator, formation, rating, note, mini pitch, cost), "how we build squads" strip.
+- **`/squads/[slug]`** (static, 5 pages): summary panel (tier, record, creator, squad rating, chemistry, total cost split XI/bench, league & nation links, **custom tactic code** copy, breakdown guide link with Lads+ lock), **vertical pitch** with the starting XI (`lib/formations.ts`: 4-2-3-1, 4-3-2-1, 4-4-2, 4-3-3) and a **hover-and-stay player panel** (stats, PlayStyles, chem style, verdict, link), bench, "why this squad works" + custom tactics, **upgrade path**, more squads. Phones: pitch first, then player panel, then summary.
+- Data: `Squad` type extended (lineup with chem styles, bench with roles, reasons, upgrades, tactics, tactic code). 5 visible squads (Stefan 50K + 500K, Hobs 100K + 1.5M, Wessam 250K); TFV's squad stays hidden. Costs are worked out from player prices. 14 cheap "budget squad" players added (no meta score, so not in the meta ranking). Goalkeepers show DIV/HAN/KIC/REF/SPD/POS (`statLabels` in `lib/positions.ts`).
+- Design changes: "Copy squad code" became "Copy tactic code" (FC has tactic share codes, not squad codes); controller hints, "Verified WL rank 1 ready" and server/build labels left out.
+- ⚠️ Placeholders: squads, records, tactic codes and prices are invented.
+- Tests: new `squads.mjs` (14) pass; all other suites pass (home 13, learn 9, guide 5, collections 13, creators 7, plus-auth 18, players 22); no sideways scroll at 375px.
 
 ## How to run locally
 

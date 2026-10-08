@@ -29,3 +29,32 @@ export function groupOf(position: Position): PositionGroup {
     positionGroupKeys.find((key) => (positionGroups[key].positions as Position[]).includes(position)) ?? "strikers"
   );
 }
+
+const outfieldLabels = { pac: "PAC", sho: "SHO", pas: "PAS", dri: "DRI", def: "DEF", phy: "PHY" } as const;
+const keeperLabels = { pac: "DIV", sho: "HAN", pas: "KIC", dri: "REF", def: "SPD", phy: "POS" } as const;
+const outfieldNames = {
+  pac: "Pace",
+  sho: "Shooting",
+  pas: "Passing",
+  dri: "Dribbling",
+  def: "Defending",
+  phy: "Physicality",
+} as const;
+const keeperNames = {
+  pac: "Diving",
+  sho: "Handling",
+  pas: "Kicking",
+  dri: "Reflexes",
+  def: "Speed",
+  phy: "Positioning",
+} as const;
+
+/** Short face-stat labels. Goalkeepers use DIV/HAN/KIC/REF/SPD/POS in the same six slots. */
+export function statLabels(position: Position) {
+  return position === "GK" ? keeperLabels : outfieldLabels;
+}
+
+/** Full face-stat names, e.g. "Pace" or, for goalkeepers, "Diving". */
+export function statNames(position: Position) {
+  return position === "GK" ? keeperNames : outfieldNames;
+}

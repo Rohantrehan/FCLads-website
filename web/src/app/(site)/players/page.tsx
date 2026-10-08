@@ -9,7 +9,7 @@ import { SortSelect } from "@/components/players/SortSelect";
 import { Button } from "@/components/ui/Button";
 import { getCreator } from "@/data/creators";
 import { CURRENT_PATCH, CURRENT_WEEK, metaAnalystSlug, patchImpact, patchNerfs, proPick } from "@/data/meta";
-import { getPlayer, players } from "@/data/players";
+import { getPlayer, rankedPlayers } from "@/data/players";
 import {
   type BudgetKey,
   budgets,
@@ -85,7 +85,7 @@ export default async function PlayersPage({ searchParams }: { searchParams: Sear
         <div className="flex min-w-0 flex-col gap-6 lg:col-span-3 xl:col-span-3">
           <div className="lg:sticky lg:top-28 lg:flex lg:flex-col lg:gap-6">
             <div className="lg:rounded-2xl lg:border lg:border-white/8 lg:bg-[#0f141b] lg:p-4">
-              <PositionNav active={query.group} counts={countByGroup()} total={players.length} state={state} />
+              <PositionNav active={query.group} counts={countByGroup()} total={rankedPlayers.length} state={state} />
             </div>
             <div className="hidden lg:block">
               <PatchImpactCard patch={CURRENT_PATCH} {...patchImpact} />

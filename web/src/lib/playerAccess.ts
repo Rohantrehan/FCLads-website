@@ -1,6 +1,6 @@
 import "server-only";
 
-import { players } from "@/data/players";
+import { rankedPlayers } from "@/data/players";
 import { playerReviews } from "@/data/playerReviews";
 import { groupOf, type PositionGroup, positionGroups } from "@/lib/positions";
 import type { Viewer } from "@/lib/viewer";
@@ -73,7 +73,7 @@ export interface PlayerList {
  * only the count is returned, so locked players never reach their browser.
  */
 export function queryPlayers(query: PlayerQuery, viewer: Viewer): PlayerList {
-  const all = players
+  const all = rankedPlayers
     .filter((player) => !query.group || groupOf(player.position) === query.group)
     .filter((player) => inBudget(player, query.budget))
     .filter((player) => matchesSearch(player, query.q))
@@ -91,12 +91,12 @@ export function countByGroup() {
     PositionGroup,
     number
   >;
-  for (const player of players) counts[groupOf(player.position)] += 1;
+  for (const player of rankedPlayers) counts[groupOf(player.position)] += 1;
   return counts;
 }
 
 export function countByBudget(group?: PositionGroup) {
-  const pool = players.filter((player) => !group || groupOf(player.position) === group);
+  const pool = rankedPlayers.filter((player) => !group || groupOf(player.position) === group);
   return Object.fromEntries(
     (Object.keys(budgets) as BudgetKey[]).map((key) => [key, pool.filter((player) => inBudget(player, key)).length]),
   ) as Record<BudgetKey, number>;

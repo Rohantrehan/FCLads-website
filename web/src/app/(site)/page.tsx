@@ -9,7 +9,7 @@ import { MetaPlayersSection } from "@/components/home/MetaPlayersSection";
 import { creators } from "@/data/creators";
 import { guides } from "@/data/guides";
 import { CURRENT_PATCH, CURRENT_WEEK } from "@/data/meta";
-import { getPlayer, players } from "@/data/players";
+import { getPlayer, rankedPlayers } from "@/data/players";
 import type { Player } from "@/types";
 
 
@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <>
       <Hero cards={heroCards} patch={CURRENT_PATCH} />
-      <MetaPlayersSection players={players} week={CURRENT_WEEK} />
+      <MetaPlayersSection players={rankedPlayers} week={CURRENT_WEEK} />
       <HardTruth />
       <LearnSection guides={guides.filter((guide) => !guide.isFeatured).slice(0, 4)} />
       <LadsPlusTeaser />

@@ -202,7 +202,7 @@ export default async function PlayerPage({ params }: { params: Params }) {
               </p>
             </div>
 
-            <FaceStatBars stats={player.stats} />
+            <FaceStatBars stats={player.stats} position={player.position} />
             <PlayerFacts player={player} />
 
             <div className="flex flex-wrap gap-3 pt-1">

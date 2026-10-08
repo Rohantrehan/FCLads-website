@@ -4,17 +4,26 @@ import { Badge } from "@/components/ui/Badge";
 import { CoinPrice, Trend } from "@/components/ui/DataBits";
 import { cn } from "@/lib/cn";
 import { formatCompact } from "@/lib/format";
+import { statLabels } from "@/lib/positions";
 import type { FaceStats, Player } from "@/types";
 
 const statKeys: (keyof FaceStats)[] = ["pac", "sho", "pas", "dri", "def", "phy"];
 
 /** 2×3 grid of PAC/SHO/PAS/DRI/DEF/PHY. Low values are dimmed. */
-function StatGrid({ stats, highlight = "text-mint" }: { stats: FaceStats; highlight?: string }) {
+function StatGrid({
+  stats,
+  labels,
+  highlight = "text-mint",
+}: {
+  stats: FaceStats;
+  labels: Record<keyof FaceStats, string>;
+  highlight?: string;
+}) {
   return (
     <dl className="grid grid-cols-3 gap-2 border-t border-white/10 pt-3">
       {statKeys.map((key) => (
         <div key={key} className="flex flex-col-reverse">
-          <dt className="tabular text-[10px] uppercase text-muted">{key}</dt>
+          <dt className="tabular text-[10px] uppercase text-muted">{labels[key]}</dt>
           <dd className={cn("tabular text-sm font-bold", stats[key] < 60 ? "text-white/60" : highlight)}>
             {stats[key]}
           </dd>
@@ -89,7 +98,7 @@ export function CollectibleCard({
       </div>
 
       <div className="relative">
-        <StatGrid stats={player.stats} highlight={highlight} />
+        <StatGrid stats={player.stats} labels={statLabels(player.position)} highlight={highlight} />
       </div>
     </article>
   );
