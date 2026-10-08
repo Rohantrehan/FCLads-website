@@ -1,29 +1,48 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { Clock, Play } from "lucide-react";
+import { Clock, Lock, Play } from "lucide-react";
+import type { VideoSource } from "@/types";
 
 interface VideoFacadeProps {
-  youtubeId?: string;
+  /** Only passed for members. Undefined = locked or not uploaded yet. */
+  video?: VideoSource;
   title: string;
   minutes: number;
+  /** Non-member view: shows a lock and a link to the paywall instead of a play button. */
+  locked?: boolean;
+  lockedHref?: string;
+  /** Start the player straight away (e.g. after picking an episode from a list). */
+  autoPlay?: boolean;
+}
+
+const SAFE_ID = /^[A-Za-z0-9_-]+$/;
+
+/** Embed URL for a Loom or (unlisted) YouTube video. YouTube uses the privacy-friendly nocookie domain. */
+function embedUrl(video: VideoSource) {
+  if (!SAFE_ID.test(video.id)) return undefined;
+  return video.provider === "loom"
+    ? `https://www.loom.com/embed/${video.id}?autoplay=1&hide_owner=true&hide_share=true`
+    : `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`;
 }
 
 /**
- * Lightweight YouTube player: shows a static poster first and only loads the real player
- * (from the privacy-friendly youtube-nocookie.com domain) when the user presses play.
- * Saves ~1MB of scripts per page and sets no YouTube cookies until then.
+ * Lightweight video player for Loom and unlisted YouTube videos: shows a static poster first and
+ * only loads the real player when the user presses play. Saves ~1MB of scripts per page and sets
+ * no third-party cookies until then.
  */
-export function VideoFacade({ youtubeId, title, minutes }: VideoFacadeProps) {
-  const [playing, setPlaying] = useState(false);
+export function VideoFacade({ video, title, minutes, locked, lockedHref = "#members-only", autoPlay }: VideoFacadeProps) {
+  const [playing, setPlaying] = useState(!!autoPlay);
+  const src = video && !locked ? embedUrl(video) : undefined;
 
-  if (playing && youtubeId) {
+  if (playing && src) {
     return (
       <div className="aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
         <iframe
-          src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+          src={src}
           title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture"
           allowFullScreen
           className="size-full"
         />
@@ -44,7 +63,20 @@ export function VideoFacade({ youtubeId, title, minutes }: VideoFacadeProps) {
       </svg>
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent" />
 
-      {youtubeId ? (
+      {locked ? (
+        <Link
+          href={lockedHref}
+          className="group absolute inset-0 flex flex-col items-center justify-center gap-3 px-4 text-center"
+        >
+          <span className="flex size-16 items-center justify-center rounded-full bg-canvas/70 text-gold ring-1 ring-gold/50 shadow-[0_0_30px_rgb(216_178_90/0.35)] backdrop-blur-md transition-transform group-hover:scale-110 sm:size-20">
+            <Lock aria-hidden className="size-6 sm:size-7" />
+          </span>
+          <span className="tabular text-xs font-bold tracking-widest text-gold uppercase">
+            FC Lads+ members only
+            <span className="sr-only">: {title}. Find out how to unlock it.</span>
+          </span>
+        </Link>
+      ) : src ? (
         <button
           type="button"
           onClick={() => setPlaying(true)}

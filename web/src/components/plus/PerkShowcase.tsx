@@ -50,9 +50,9 @@ function Stat({ label, value }: { label: string; value: string }) {
 const previews: Record<PerkKey, PerkPreview> = {
   guides: {
     eyebrow: "Tactical vault",
-    title: "Premium guides & tactical blueprints",
-    text: "Members-only guides, custom tactics, player recommendations and frame-by-frame breakdowns that aren't public.",
-    bullets: ["Full slider sets", "Frame-by-frame cues", "Day-one patch updates"],
+    title: "Every guide & video series",
+    text: "All our guides and FC 27 video collections live here, for members only: custom tactics, player picks and frame-by-frame breakdowns that aren't on YouTube.",
+    bullets: ["Full guide library", "FC 27 video series", "Full slider sets"],
     link: { label: "Browse the library", href: "/learn" },
     visual: <MiniPassMap />,
   },

@@ -4,9 +4,10 @@ import { ladsPlus } from "@/data/ladsPlus";
 type Cell = boolean | string;
 
 const rows: { feature: string; free: Cell; plus: Cell }[] = [
-  { feature: "Free guides & basics", free: true, plus: true },
-  { feature: "Video collections & YouTube breakdowns", free: true, plus: true },
-  { feature: "Premium guides & slider codes", free: false, plus: "Full access" },
+  { feature: "Free videos on YouTube", free: true, plus: true },
+  { feature: "Meta players, squads & public feed", free: true, plus: true },
+  { feature: "Every guide & slider code", free: false, plus: "Full access" },
+  { feature: "FC 27 video collections", free: false, plus: "Every series" },
   { feature: "Private Discord strategy rooms", free: false, plus: "Always open" },
   { feature: "Q&A with the creators", free: false, plus: "Regular sessions" },
   { feature: "Weekly trading brief", free: false, plus: "Every Monday" },
@@ -38,7 +39,7 @@ export function CompareTable() {
         <h2 id="compare-heading" className="text-headline mt-2">
           Compare what you get
         </h2>
-        <p className="mt-2 text-muted">Everything free stays free. FC Lads+ adds the parts that need the Lads&apos; time.</p>
+        <p className="mt-2 text-muted">Our YouTube videos stay free. The full guides, the video series and the Lads&apos; time are in FC Lads+.</p>
       </div>
       <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-white/8">
         <table className="w-full table-fixed text-left text-sm">
@@ -93,8 +94,12 @@ const faqs = [
     a: "Once a month you send us a match, as a file upload or an unlisted YouTube link. A coach goes through it and sends back timestamped notes and a personal plan of what to fix and practise.",
   },
   {
-    q: "Is the free content going away?",
-    a: "No. Free guides, video collections and the public feed stay free. FC Lads+ adds premium guides, the private Discord, creator access, the trading brief and your monthly review.",
+    q: "What stays free?",
+    a: "Our YouTube channel, the meta player rankings, squads and the public feed. Every guide and video collection on this site is part of FC Lads+, along with the private Discord, creator access, the trading brief and your monthly review.",
+  },
+  {
+    q: "Where do I watch the video collections?",
+    a: "Right here on FC Lads. Log in as a member, open a collection and play the videos in order. They're private member videos, so they aren't on our public YouTube channel.",
   },
   {
     q: "How do I pay?",

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | FC Lads",
   },
   description:
-    "FC Lads is a community of EA SPORTS FC players, creators and analysts. Free guides, meta players, squads and the FC Lads+ membership.",
+    "FC Lads is a community of EA SPORTS FC players, creators and analysts. Meta players, squads, and in-depth guides and video series with the FC Lads+ membership.",
 };
 
 export const viewport: Viewport = {

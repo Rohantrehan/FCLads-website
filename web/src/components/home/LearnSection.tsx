@@ -9,12 +9,12 @@ export function LearnSection({ guides }: { guides: Guide[] }) {
   return (
     <section aria-labelledby="learn-heading" className="page-container py-20 lg:py-24">
       <SectionHeading
-        eyebrow="Free curriculum"
+        eyebrow="FC Lads+ curriculum"
         title={<span id="learn-heading">Learn FC</span>}
-        description="Free guides. You don't need to pay us to get better."
+        description="Our free videos are on YouTube. The full guides and video series live here, for FC Lads+ members."
         action={
           <Button href="/learn" variant="glass" size="sm">
-            Explore free guides
+            Explore the guides
             <ArrowRight aria-hidden className="size-4" />
           </Button>
         }

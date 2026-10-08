@@ -8,7 +8,7 @@ import { collections, CURRENT_SEASON, getLearningPath } from "@/data/collections
 
 export const metadata: Metadata = {
   title: `${CURRENT_SEASON} video collections`,
-  description: `Free ${CURRENT_SEASON} video series from FC Lads, in the order we recommend: fundamentals, defending, attacking, meta, tactics and squads.`,
+  description: `${CURRENT_SEASON} video series for FC Lads+ members, in the order we recommend: fundamentals, defending, attacking, meta, tactics and squads.`,
   alternates: { canonical: "/learn/collections" },
 };
 
@@ -30,7 +30,7 @@ export default function CollectionsPage() {
           Learn <span className="text-primary">FC</span>
         </h1>
         <p className="max-w-2xl text-lg font-semibold text-primary">
-          Free video series for {CURRENT_SEASON}, in the order we recommend.
+          Members-only video series for {CURRENT_SEASON}, in the order we recommend.
         </p>
         <div className="pt-3">
           <LearnTabs active="collections" />

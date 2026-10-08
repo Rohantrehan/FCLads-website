@@ -25,7 +25,7 @@ export function PlusHero() {
             Stop guessing. Ask people who know the game.
           </p>
           <p className="max-w-xl text-lg text-muted">
-            FC Lads+ is for players who want more than YouTube videos. Join the actual FC Lads community: premium guides,
+            FC Lads+ is for players who want more than YouTube videos. Join the actual FC Lads community: every guide and video series,
             the private Discord, the creators, the weekly trading brief and a personal gameplay review every month.
           </p>
 

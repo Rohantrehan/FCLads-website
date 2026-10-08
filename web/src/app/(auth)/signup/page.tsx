@@ -48,7 +48,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Searc
 
         {!joiningPlus && (
           <p className="rounded-lg border border-white/8 bg-white/[0.03] p-3 text-center text-sm text-muted">
-            Want premium guides and the private Discord?{" "}
+            Want the guides, video series and private Discord?{" "}
             <Link href="/lads-plus" className="font-semibold text-mint hover:text-white">
               See FC Lads+ ({ladsPlus.priceLabel}/mo)
             </Link>

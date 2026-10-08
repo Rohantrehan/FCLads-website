@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 export const LADS_PLUS_PRICE = "$29";
 
 const defaultPerks = [
-  "Premium guides & slider codes",
+  "Every guide & video collection",
   "Private FC Lads Discord",
   "Weekly Trading Brief",
   "Monthly 1-on-1 review",

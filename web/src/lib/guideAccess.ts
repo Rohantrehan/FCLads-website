@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { Viewer } from "@/lib/viewer";
-import type { Guide, GuideBlock, GuideContent } from "@/types";
+import type { Guide, GuideBlock, GuideContent, VideoSource } from "@/types";
 
 export interface TocEntry {
   id: string;
@@ -17,6 +17,8 @@ export interface GuideView {
   toc: TocEntry[];
   /** Short faded preview shown behind the paywall. */
   teaser?: string;
+  /** The guide's video, for members only. */
+  video?: VideoSource;
   isLocked: boolean;
 }
 
@@ -25,7 +27,7 @@ const TEASER_LENGTH = 180;
 /**
  * Decides what part of a guide the viewer gets. Runs on the server only (`server-only` import),
  * so premium blocks never reach a non-member's browser.
- * Lads+ guides are fully locked even if their content has no `lockedFrom`.
+ * Lads+ guides (all of them today) are fully locked, video included, even if their content has no `lockedFrom`.
  */
 export function getGuideView(guide: Guide, content: GuideContent | undefined, viewer: Viewer): GuideView {
   const blocks = content?.blocks ?? [];
@@ -50,5 +52,5 @@ export function getGuideView(guide: Guide, content: GuideContent | undefined, vi
     }
   }
 
-  return { blocks: blocks.slice(0, cut), toc, teaser, isLocked };
+  return { blocks: blocks.slice(0, cut), toc, teaser, video: isLocked ? undefined : guide.video, isLocked };
 }

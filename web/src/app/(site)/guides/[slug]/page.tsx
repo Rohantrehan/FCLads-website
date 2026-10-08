@@ -72,7 +72,7 @@ export default async function GuidePage({ params }: { params: Params }) {
   const view = getGuideView(guide, content, viewer);
   const author = getCreator(guide.authorSlug);
   const players = (content?.playerSlugs ?? []).map(getPlayer).filter((player): player is Player => !!player);
-  const hasVideo = guide.format === "video" || !!guide.youtubeId;
+  const hasVideo = guide.format === "video" || !!guide.video;
   const published = dateFormat.format(new Date(guide.publishedAt));
 
   const jsonLd = {
@@ -161,7 +161,7 @@ export default async function GuidePage({ params }: { params: Params }) {
 
         {hasVideo && (
           <div className="page-container pb-10">
-            <VideoFacade youtubeId={guide.youtubeId} title={guide.title} minutes={guide.minutes} />
+            <VideoFacade video={view.video} locked={view.isLocked} title={guide.title} minutes={guide.minutes} />
           </div>
         )}
 
@@ -197,7 +197,7 @@ export default async function GuidePage({ params }: { params: Params }) {
                   title={
                     guide.access === "plus" ? "This guide is for FC Lads+ members" : "This guide continues for FC Lads+ members"
                   }
-                  description="Unlock the full step-by-step breakdown, custom slider codes, the video breakdown and the private Discord coaching channels."
+                  description="Every guide and video series on FC Lads is part of FC Lads+. Unlock the full step-by-step breakdown, custom slider codes, the video and the private Discord coaching channels."
                   className={view.teaser ? "-mt-16" : undefined}
                 />
               </div>
@@ -240,7 +240,7 @@ export default async function GuidePage({ params }: { params: Params }) {
                 </section>
               )}
 
-              {content?.presetCode && (
+              {content?.presetCode && !view.isLocked && (
                 <section aria-labelledby="preset-heading" className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-surface p-5">
                   <h2 id="preset-heading" className="font-display text-sm font-extrabold uppercase">
                     Custom tactic code

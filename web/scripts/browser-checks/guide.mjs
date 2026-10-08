@@ -13,7 +13,7 @@ const edge = spawn(EDGE, [
 ]);
 
 let targets;
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 120; i++) {
   try { targets = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json(); break; } catch { await sleep(250); }
 }
 const page = targets.find((t) => t.type === "page");
@@ -37,19 +37,20 @@ await send("Browser.grantPermissions", { permissions: ["clipboardReadWrite", "cl
 await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
 await send("Page.navigate", { url: "http://localhost:3000/guides/beat-the-high-press" });
 await sleep(3500);
-const activeToc = () => evaluate(`document.querySelector('[aria-current=location]')?.textContent.trim()`);
-check("TOC starts on section 1", /^1\. Recognising/.test(await activeToc() ?? ""), await activeToc());
-check("locked TOC items link to paywall", (await evaluate(`[...document.querySelectorAll('nav[aria-labelledby=toc-heading] a')].filter(a=>a.getAttribute('href')==='#members-only').length`)) === 4);
-const btn = await evaluate(`(() => { const b=[...document.querySelectorAll('button')].find(b=>/Copy code/.test(b.textContent)); b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
-await click(btn.x, btn.y); await sleep(400);
-check("copy button confirms", await evaluate(`[...document.querySelectorAll('button')].some(b=>/Copied/.test(b.textContent))`));
-const clip = await evaluate(`navigator.clipboard.readText().catch(e=>'ERR '+e.message)`);
-check("clipboard has the code", clip === "FCL-PRS-108", clip);
+// Every guide is FC Lads+: non-members get the title, intro and section names only.
+const tocTotal = await evaluate(`document.querySelectorAll('nav[aria-labelledby=toc-heading] a').length`);
+const tocLocked = await evaluate(`[...document.querySelectorAll('nav[aria-labelledby=toc-heading] a')].filter(a=>a.getAttribute('href')==='#members-only').length`);
+check("every TOC item is locked and links to paywall", tocTotal > 0 && tocLocked === tocTotal, `${tocLocked}/${tocTotal}`);
+check("tactic code hidden from non-members", !(await evaluate(`document.documentElement.outerHTML.includes('FCL-PRS-108')`)));
 // click locked TOC entry -> scrolls to paywall
 const lockLink = await evaluate(`(() => { window.scrollTo(0,0); const a=document.querySelector('nav[aria-labelledby=toc-heading] a[href="#members-only"]'); const r=a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
 await sleep(300); await click(lockLink.x, lockLink.y); await sleep(1200);
 const pw = await evaluate(`document.getElementById('members-only').getBoundingClientRect().top`);
 check("locked item scrolls to paywall", pw > 0 && pw < 300, String(pw));
+// A video guide: the player is locked and no embed is sent.
+await send("Page.navigate", { url: "http://localhost:3000/guides/fut-champs-your-first-10-games" }); await sleep(3000);
+check("video is locked", /FC Lads\+ members only/.test(await evaluate(`document.querySelector('article a[href="#members-only"]')?.textContent`) ?? ""));
+check("no video embeds sent", !(await evaluate(`/loom\.com\/(embed|share)|youtube(-nocookie)?\.com\/embed/.test(document.documentElement.outerHTML)`)));
 console.log(results.join(String.fromCharCode(10)));
 ws.close(); edge.kill();
 process.exit(0);

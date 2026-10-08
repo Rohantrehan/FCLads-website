@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, ChevronRight, Clock, ExternalLink, FileText, ListVideo, MonitorPlay, Play } from "lucide-react";
+import { ArrowRight, ChevronRight, ListVideo, LogIn, Play } from "lucide-react";
 import { badgeInfo, CollectionCard, PlaylistThumb } from "@/components/collections/CollectionCard";
+import { CollectionPlayer } from "@/components/collections/CollectionPlayer";
 import { LearningPath } from "@/components/collections/LearningPath";
 import { GuideCard } from "@/components/cards/GuideCard";
+import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { Badge, TierBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { Paywall } from "@/components/ui/Paywall";
 import { collections, getCollection, getLearningPath } from "@/data/collections";
 import { getCreator } from "@/data/creators";
-import { getGuide, guides } from "@/data/guides";
+import { guides } from "@/data/guides";
+import { ladsPlus } from "@/data/ladsPlus";
+import { getCollectionView } from "@/lib/collectionAccess";
 import { categoryLabels } from "@/lib/format";
-import { socialLinks } from "@/lib/site";
-import type { Collection } from "@/types";
+import { getViewer } from "@/lib/viewer";
 
 type Params = Promise<{ slug: string }>;
 
@@ -32,13 +36,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
-/** YouTube playlist URL once the real playlist ID is known; the channel link until then. */
-function playlistUrl(collection: Collection) {
-  return collection.youtubePlaylistId
-    ? `https://www.youtube.com/playlist?list=${collection.youtubePlaylistId}`
-    : socialLinks.youtube;
-}
-
 export default async function CollectionPage({ params }: { params: Params }) {
   const collection = getCollection((await params).slug);
   if (!collection) notFound();
@@ -47,16 +44,10 @@ export default async function CollectionPage({ params }: { params: Params }) {
   const stepIndex = path.findIndex((step) => step.slug === collection.slug);
   const next = stepIndex >= 0 ? path[stepIndex + 1] : undefined;
   const badge = collection.badge ? badgeInfo[collection.badge] : undefined;
-  const youtube = playlistUrl(collection);
 
-  // Episodes whose guide is hidden or missing fall back to the YouTube link.
-  const episodes = collection.episodes.map((episode) => ({
-    ...episode,
-    guide: episode.guideSlug ? getGuide(episode.guideSlug) : undefined,
-  }));
-  const remaining = collection.videoCount - episodes.length;
-  const first = episodes[0];
-  const firstHref = first?.guide ? `/guides/${first.guide.slug}` : youtube;
+  // Video links are only included for members (decided on the server).
+  const view = getCollectionView(collection, await getViewer());
+  const remaining = Math.max(collection.videoCount - view.episodes.length, 0);
 
   const related = collection.category
     ? guides.filter((guide) => guide.category === collection.category).slice(0, 3)
@@ -119,17 +110,26 @@ export default async function CollectionPage({ params }: { params: Params }) {
                   {categoryLabels[collection.category]}
                 </Link>
               )}
-              <span>Free</span>
+              <TierBadge tier="plus" />
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button href={firstHref} variant="primary">
-                <Play aria-hidden className="size-4 fill-current" />
-                Play first video
-              </Button>
-              <Button href={youtube} variant="glass">
-                <MonitorPlay aria-hidden className="size-4 text-danger" />
-                Open on YouTube
-              </Button>
+              {view.isLocked ? (
+                <>
+                  <Button href={JOIN_HREF} variant="primary">
+                    Join FC Lads+ to watch
+                    <span className="tabular text-xs opacity-80">{ladsPlus.priceLabel}/mo</span>
+                  </Button>
+                  <Button href="/login" variant="glass">
+                    <LogIn aria-hidden className="size-4" />
+                    Log in
+                  </Button>
+                </>
+              ) : (
+                <Button href="#watch" variant="primary">
+                  <Play aria-hidden className="size-4 fill-current" />
+                  Start watching
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -144,68 +144,26 @@ export default async function CollectionPage({ params }: { params: Params }) {
         </section>
       )}
 
-      <section aria-labelledby="videos-heading" className="page-container pb-16">
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-          <h2 id="videos-heading" className="font-display text-xl font-extrabold uppercase">
-            Videos in this collection
-          </h2>
-          {collection.badge === "in-order" && (
-            <p className="tabular text-xs text-mint uppercase">Watch in this order</p>
-          )}
-        </div>
+      <section id="watch" aria-labelledby="videos-heading" className="page-container scroll-mt-24 pb-16">
+        <h2 id="videos-heading" className="mb-5 font-display text-xl font-extrabold uppercase">
+          Watch the series
+        </h2>
+        <CollectionPlayer
+          episodes={view.episodes}
+          isLocked={view.isLocked}
+          remaining={remaining}
+          inOrder={collection.badge === "in-order"}
+        />
 
-        <ol className="flex flex-col gap-2">
-          {episodes.map((episode, index) => {
-            const href = episode.guide ? `/guides/${episode.guide.slug}` : youtube;
-            return (
-              <li key={`${episode.title}-${index}`}>
-                <Link
-                  href={href}
-                  className="group flex items-center gap-4 rounded-xl border border-white/8 bg-[#0f141b] p-3 transition-colors hover:border-primary/40 sm:p-4"
-                >
-                  <span className="tabular flex size-9 shrink-0 items-center justify-center rounded-lg bg-surface-highest text-sm font-bold text-mint">
-                    {index + 1}
-                  </span>
-                  <span className="flex min-w-0 flex-1 flex-col gap-1">
-                    <span className="font-semibold group-hover:text-mint">{episode.title}</span>
-                    <span className="tabular flex flex-wrap items-center gap-3 text-[11px] text-muted uppercase">
-                      <span className="flex items-center gap-1">
-                        <Clock aria-hidden className="size-3.5" />
-                        {episode.minutes} min
-                      </span>
-                      {episode.guide ? (
-                        <span className="flex items-center gap-1 text-primary">
-                          <FileText aria-hidden className="size-3.5" />
-                          Full guide on FC Lads
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1">
-                          <ExternalLink aria-hidden className="size-3.5" />
-                          YouTube
-                        </span>
-                      )}
-                    </span>
-                  </span>
-                  {episode.guide && <TierBadge tier={episode.guide.access} className="hidden sm:inline-flex" />}
-                  <ArrowRight aria-hidden className="size-4 shrink-0 text-muted transition-transform group-hover:translate-x-1" />
-                </Link>
-              </li>
-            );
-          })}
-          {remaining > 0 && (
-            <li>
-              <Link
-                href={youtube}
-                className="flex items-center justify-between gap-4 rounded-xl border border-dashed border-white/15 p-4 text-sm text-muted transition-colors hover:border-primary/40 hover:text-white"
-              >
-                <span>
-                  + {remaining} more {remaining === 1 ? "video" : "videos"} in this collection on YouTube
-                </span>
-                <ExternalLink aria-hidden className="size-4" />
-              </Link>
-            </li>
-          )}
-        </ol>
+        {view.isLocked && (
+          <div id="members-only" className="mt-10 scroll-mt-28">
+            <Paywall
+              eyebrow="FC Lads+ video series"
+              title="This collection is for FC Lads+ members"
+              description="Our free videos stay on YouTube. Every collection here is members-only: watch the full series in order, right on FC Lads, with the guides that go with it."
+            />
+          </div>
+        )}
 
         {next && (
           <Link

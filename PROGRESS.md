@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User to review the new FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
+**Next action:** User to review the members-only Learn change (guides + collections locked, Loom/YouTube player) and the new FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
 
 ---
 
@@ -19,6 +19,8 @@
 | 2026-10-06 | Stack for the frontend: **Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4**, icons via **lucide-react** (replaces Google Material Symbols). npm as the package manager. |
 | 2026-10-06 | Design tokens: Home page palette is the source of truth, plus gold / azure / iridescent / glass from `DESIGN.md`. All tokens live in `web/src/app/globals.css`. |
 | 2026-10-06 | Mock data lives in `web/src/data/*` and is shaped like the future database tables. |
+| 2026-10-08 | **All Learn content is FC Lads+ (paid).** Every guide and every collection is members-only, because the free videos are already on YouTube. Free tier = YouTube, meta players, squads, creators, public feed. |
+| 2026-10-08 | **Collection videos are Loom (mostly) or unlisted YouTube**, played on the site by members only. Add per episode in `data/collections.ts` with `video: loom("<share id>")` or `video: youtube("<video id>")`. Video IDs are never sent to non-members (`lib/collectionAccess.ts`, `lib/guideAccess.ts`). |
 | 2026-10-08 | Code is on GitHub: **https://github.com/Rohantrehan/FCLads-website** (`origin`, branch `main`). Push after each approved session. |
 
 ## Open questions (deferred — answer before the phase that needs them)
@@ -199,6 +201,16 @@ User feedback on Home → implemented:
   - Bug found by tests and fixed: field errors now clear as soon as you edit that field (previously the password error hid the strength meter until the next submit).
 - Phone fix: the comparison table pushed the page sideways and hid the FC Lads+ column at 375px; rebuilt to fit (narrow columns, shorter header on phones).
 - New check scripts: `plus-auth.mjs` (18/18) and **`overflow.mjs`** (real 375px emulation; finds what makes a page scroll sideways). All suites pass: Home 13, Learn 9, Guide 5, Creators 7, Collections 8, Plus/Auth 18 = **60/60**; no sideways scrolling on 10 key pages.
+
+### 2026-10-08 — Learn is members-only + Loom / unlisted YouTube videos
+- Pushed the project to GitHub (`origin` = github.com/Rohantrehan/FCLads-website).
+- Every guide is now `access: "plus"`: title, excerpt, intro and section names stay public as a preview; body, video and tactic code are members-only.
+- Types: new `VideoSource { provider: "loom" | "youtube"; id }`. `Guide.youtubeId` became `Guide.video`; `CollectionEpisode.video` added; `Collection.youtubePlaylistId` removed (no public playlists).
+- `VideoFacade` plays Loom (`loom.com/embed`) and YouTube (`youtube-nocookie`) videos, with a locked "FC Lads+ members only" state.
+- Collection pages: "Join FC Lads+ to watch" / Log in buttons; new `CollectionPlayer` (player + episode list; members click an episode and it plays; non-members see locked titles); paywall; Lads+ tag on collection cards.
+- Copy updated everywhere that said "free guides" (Home, Learn, Collections, FC Lads+ compare table + FAQ, perks, login, metadata).
+- Tests: collections (13), guide (5) and plus-auth (18) updated, all pass; learn 9, home 13, creators 7 pass; no sideways scroll at 375px. Member view tested by temporarily switching `getViewer()` to member (Loom + YouTube embeds play, episode switching works), then reverted.
+- ⚠️ Placeholder: no real Loom / YouTube IDs yet, so members would see "Video coming soon".
 
 ## How to run locally
 

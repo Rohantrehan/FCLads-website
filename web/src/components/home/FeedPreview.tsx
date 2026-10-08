@@ -95,7 +95,7 @@ export function FeedPreview() {
               <span className="tabular text-sm font-bold text-white/60">$0 forever</span>
             </div>
             <p className="text-sm leading-relaxed text-muted">
-              Read public FC Lads articles, browse meta rankings and watch free tactical breakdown videos.
+              Browse meta rankings, squads and the public feed, and watch our free videos on YouTube.
             </p>
           </div>
           <div className="flex flex-col gap-4 rounded-2xl border-2 border-primary/60 bg-gradient-to-b from-pitch-green to-canvas p-6 shadow-[0_0_30px_rgb(56_225_146/0.25)]">
@@ -107,7 +107,7 @@ export function FeedPreview() {
               <span className="tabular shrink-0 font-bold text-primary">{ladsPlus.priceLabel} / mo</span>
             </div>
             <p className="text-sm leading-relaxed text-muted">
-              Premium content, the private Discord, direct creator access, the weekly trading brief and a monthly 1-on-1
+              Every guide and video series, the private Discord, direct creator access, the weekly trading brief and a monthly 1-on-1
               gameplay review.
             </p>
             <Button href="/lads-plus" variant="primary" className="mt-2 w-full">

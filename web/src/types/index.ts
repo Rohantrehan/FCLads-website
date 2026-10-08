@@ -1,8 +1,21 @@
 // Shared domain types. Shaped like the future database tables (see FC_LADS_PROJECT_REPORT.md §6)
 // so mock data in src/data can be swapped for API responses later without touching components.
 
-/** Content access level: free for everyone, or FC Lads+ members only. */
+/**
+ * Content access level: free for everyone, or FC Lads+ members only.
+ * Every guide and collection on the site is "plus" (the free videos live on YouTube).
+ */
 export type AccessTier = "free" | "plus";
+
+/**
+ * A members-only video. Most are Loom videos, some are unlisted YouTube videos.
+ * `id` is the Loom share ID (loom.com/share/<id>) or the YouTube video ID.
+ * Never sent to a non-member's browser (see lib/collectionAccess.ts and lib/guideAccess.ts).
+ */
+export interface VideoSource {
+  provider: "loom" | "youtube";
+  id: string;
+}
 
 export type Position =
   | "GK"
@@ -120,7 +133,7 @@ export interface Guide {
   publishedAt: string;
   isNew?: boolean;
   isFeatured?: boolean;
-  youtubeId?: string;
+  video?: VideoSource;
   image?: string;
 }
 
@@ -151,7 +164,7 @@ export interface GuideContent {
   blocks: GuideBlock[];
   /**
    * Index in `blocks` where FC Lads+ content starts. Everything from here is only sent
-   * to members. Undefined = the whole guide is free.
+   * to members. Ignored for FC Lads+ guides, which are locked from the start.
    */
   lockedFrom?: number;
   /** Custom tactic share code shown in the sidebar. */
@@ -184,23 +197,23 @@ export interface CollectionEpisode {
   minutes: number;
   /** Links to the guide page when the episode is also a guide on the site. */
   guideSlug?: string;
+  /** Members-only video (Loom or unlisted YouTube), once uploaded. */
+  video?: VideoSource;
 }
 
-/** A video series (YouTube playlist) in the Learn section, watched in order. */
+/** A members-only video series in the Learn section, watched in order. Part of FC Lads+. */
 export interface Collection {
   slug: string;
   title: string;
   description: string;
   season: string;
-  /** Total videos in the playlist (from YouTube later; placeholder for now). */
+  /** Total videos in the series (placeholder until the real list is added). */
   videoCount: number;
   badge?: CollectionBadge;
   /** Step number in the "Start here" learning path. */
   pathStep?: number;
   /** Matching guide category, used to link to related guides. */
   category?: GuideCategory;
-  /** YouTube playlist ID, once known. */
-  youtubePlaylistId?: string;
-  /** The first episodes shown on the collection page. */
+  /** Videos in watch order. */
   episodes: CollectionEpisode[];
 }

@@ -13,7 +13,7 @@ const edge = spawn(EDGE, [
 ]);
 
 let targets;
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 120; i++) {
   try { targets = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json(); break; } catch { await sleep(250); }
 }
 const page = targets.find((t) => t.type === "page");

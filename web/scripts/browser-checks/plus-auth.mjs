@@ -13,7 +13,7 @@ const edge = spawn(EDGE, [
 ]);
 
 let targets;
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 120; i++) {
   try { targets = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json(); break; } catch { await sleep(250); }
 }
 const page = targets.find((t) => t.type === "page");
@@ -45,7 +45,7 @@ try {
 // ---- FC Lads+ page
 await send("Page.navigate", { url: "http://localhost:3000/lads-plus" }); await sleep(3500);
 const panelTitle = () => evaluate(`document.querySelector('#perk-panel h3')?.textContent`);
-check("perk panel starts on premium guides", /Premium guides/.test(await panelTitle() ?? ""), await panelTitle());
+check("perk panel starts on guides & video series", /Every guide & video series/.test(await panelTitle() ?? ""), await panelTitle());
 let p = await pos(`document.getElementById('perk-tab-trading')`);
 await mouse(p.x, p.y); await sleep(800);
 check("hover Trading brief shows its preview", /trading brief/i.test(await panelTitle() ?? ""), await panelTitle());

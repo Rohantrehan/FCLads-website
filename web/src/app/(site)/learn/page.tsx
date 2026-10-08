@@ -35,10 +35,10 @@ async function readParams(searchParams: SearchParams) {
 
 export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
   const { category } = await readParams(searchParams);
-  const title = category ? `${categoryLabels[category]} guides` : "Learn FC: free guides";
+  const title = category ? `${categoryLabels[category]} guides` : "Learn FC: FC Lads+ guides";
   return {
     title,
-    description: "Free EA SPORTS FC guides from the FC Lads: tactics, skill moves, meta players, FUT Champs and more.",
+    description: "In-depth EA SPORTS FC guides for FC Lads+ members: tactics, skill moves, meta players, FUT Champs and more.",
     alternates: { canonical: category ? `/learn?category=${category}` : "/learn" },
   };
 }
@@ -67,7 +67,7 @@ export default async function LearnPage({ searchParams }: { searchParams: Search
           <h1 className="text-hero">
             Learn <span className="text-primary">FC</span>
           </h1>
-          <p className="text-lg font-semibold text-primary">Free guides. You don&apos;t need to pay us to get better.</p>
+          <p className="text-lg font-semibold text-primary">The full breakdowns, for FC Lads+ members. Our free videos stay on YouTube.</p>
           <div className="pt-3">
             <LearnTabs active="guides" />
           </div>

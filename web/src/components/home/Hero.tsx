@@ -75,7 +75,7 @@ export function Hero({ cards, patch }: HeroProps) {
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <Button href="/learn" size="lg">
-              Start learning free
+              Explore the guides
               <ArrowRight aria-hidden className="size-4 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button href="/lads-plus" variant="glass" size="lg">

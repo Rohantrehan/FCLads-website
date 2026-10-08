@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ListVideo, Play } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
+import { Badge, CornerTag } from "@/components/ui/Badge";
 import { cn } from "@/lib/cn";
 import { categoryLabels } from "@/lib/format";
 import type { Collection, CollectionBadge } from "@/types";
@@ -12,7 +12,7 @@ export const badgeInfo: Record<CollectionBadge, { label: string; tone: "mint" | 
   archive: { label: "Full archive", tone: "neutral" },
 };
 
-/** Stacked "playlist" thumbnail: two cards peeking behind a pitch-lines poster, video count on the right. */
+/** Stacked "playlist" thumbnail: two cards peeking behind a pitch-lines poster, video count on the right, Lads+ tag. */
 export function PlaylistThumb({ count, className }: { count: number; className?: string }) {
   return (
     <div className={cn("relative pt-3", className)}>
@@ -32,6 +32,7 @@ export function PlaylistThumb({ count, className }: { count: number; className?:
         >
           <Play className="size-5 fill-current" />
         </span>
+        <CornerTag tier="plus" className="right-auto left-0 rounded-bl-none rounded-br-lg" />
         <span className="absolute inset-y-0 right-0 flex w-[30%] flex-col items-center justify-center gap-1 bg-canvas/80 backdrop-blur-md">
           <span className="font-display text-2xl leading-none font-extrabold">{count}</span>
           <span className="tabular flex items-center gap-1 text-[10px] text-muted uppercase">
@@ -65,6 +66,7 @@ export function CollectionCard({ collection, className }: { collection: Collecti
         <h3 className="font-display text-base leading-snug font-extrabold transition-colors group-hover:text-primary">
           <Link href={`/learn/collections/${collection.slug}`} className="after:absolute after:inset-0">
             {collection.title}
+            <span className="sr-only"> (FC Lads+ members)</span>
           </Link>
         </h3>
         <p className="line-clamp-2 text-sm text-muted">{collection.description}</p>

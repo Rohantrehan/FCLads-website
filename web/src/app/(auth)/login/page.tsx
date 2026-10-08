@@ -23,8 +23,8 @@ export default function LoginPage() {
         <LoginForm />
         <p className="text-center text-sm text-muted">
           New here?{" "}
-          <Link href="/learn" className="font-semibold text-primary hover:text-white">
-            Start learning free →
+          <Link href="/lads-plus" className="font-semibold text-primary hover:text-white">
+            See FC Lads+ →
           </Link>
         </p>
       </div>

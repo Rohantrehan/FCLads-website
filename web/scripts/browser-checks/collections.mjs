@@ -1,4 +1,4 @@
-// Drives headless Edge via CDP to test Home page interactions (auto-scroll + hard truth tabs).
+// Drives headless Edge via CDP to test Learn collections: tabs, path, members-only player.
 import { spawn } from "node:child_process";
 
 
@@ -13,7 +13,7 @@ const edge = spawn(EDGE, [
 ]);
 
 let targets;
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 120; i++) {
   try { targets = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json(); break; } catch { await sleep(250); }
 }
 const page = targets.find((t) => t.type === "page");
@@ -46,7 +46,12 @@ p = await pos(`[...document.querySelectorAll('section[aria-labelledby=path-headi
 await click(p.x, p.y); await sleep(2000);
 check("path step opens collection", (await url()) === "/learn/collections/academy-defending", await url());
 check("current step marked", /Academy: Defending/.test(await evaluate(`document.querySelector('[aria-current=step]')?.textContent`) ?? ""));
-p = await pos(`[...document.querySelectorAll('section[aria-labelledby=videos-heading] ol a')].find(a=>a.textContent.includes('Defending 1v1'))`);
+check("player locked for non-members", /FC Lads\+ members only/.test(await evaluate(`document.querySelector('#watch')?.textContent`) ?? ""));
+check("episode list shows locks, no play buttons", (await evaluate(`document.querySelectorAll('#watch ol button').length`)) === 0 && (await evaluate(`document.querySelectorAll('#watch ol li').length`)) >= 5);
+check("no video links sent to non-members", !(await evaluate(`/loom\.com\/(embed|share)|youtube(-nocookie)?\.com\/embed/.test(document.documentElement.outerHTML)`)));
+check("paywall shown", !!(await evaluate(`!!document.querySelector('#members-only')`)));
+check("Join button goes to FC Lads+ sign-up", !!(await evaluate(`!![...document.querySelectorAll('main a')].find(a=>a.textContent.includes('Join FC Lads+ to watch') && a.getAttribute('href')==='/signup?plan=plus')`)));
+p = await pos(`[...document.querySelectorAll('#watch a')].find(a=>a.textContent.includes('Read the guide'))`);
 await click(p.x, p.y); await sleep(2500);
 check("episode with guide opens guide page", (await url()) === "/guides/defending-1v1-without-panicking", await url());
 await send("Page.navigate", { url: "http://localhost:3000/learn/collections/academy-defending" }); await sleep(2500);

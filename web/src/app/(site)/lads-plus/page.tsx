@@ -9,7 +9,7 @@ import { ladsPlus } from "@/data/ladsPlus";
 
 export const metadata: Metadata = {
   title: "FC Lads+ membership",
-  description: `Premium guides, the private FC Lads Discord, creator access, a weekly trading brief and a monthly 1-on-1 gameplay review. ${ladsPlus.priceLabel} a month, cancel anytime.`,
+  description: `Every guide and video series, the private FC Lads Discord, creator access, a weekly trading brief and a monthly 1-on-1 gameplay review. ${ladsPlus.priceLabel} a month, cancel anytime.`,
   alternates: { canonical: "/lads-plus" },
 };
 

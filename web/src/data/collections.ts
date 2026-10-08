@@ -1,9 +1,15 @@
-import type { Collection } from "@/types";
+import type { Collection, VideoSource } from "@/types";
 
-// FC 27 video collections (YouTube playlists), in the order shown on /learn/collections.
-// Names and descriptions are our own. `videoCount` values are placeholders until the real
-// FC Lads playlists are connected (they can then be read from the YouTube Data API).
-// Episodes with a `guideSlug` link to that guide page; the rest will link to YouTube.
+// FC 27 video collections, in the order shown on /learn/collections. All are FC Lads+ (members only).
+// Names and descriptions are our own. `videoCount` and episode lists are placeholders until the
+// real videos are added. Each episode's video is a Loom video (most of them) or an unlisted
+// YouTube video: add it with `video: loom("<share id>")` or `video: youtube("<video id>")`.
+// Episodes with a `guideSlug` also link to that guide page.
+
+/** Loom share ID, the part after loom.com/share/ */
+export const loom = (id: string): VideoSource => ({ provider: "loom", id });
+/** Unlisted YouTube video ID, the part after youtube.com/watch?v= */
+export const youtube = (id: string): VideoSource => ({ provider: "youtube", id });
 
 export const CURRENT_SEASON = "FC 27";
 

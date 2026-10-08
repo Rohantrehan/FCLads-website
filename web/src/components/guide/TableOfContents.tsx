@@ -89,10 +89,10 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         })}
       </ol>
 
-      {freeShare < 100 && (
+      {freeShare > 0 && freeShare < 100 && (
         <div>
           <div className="tabular mb-1.5 flex justify-between text-xs text-muted">
-            <span>Free part of this guide</span>
+            <span>Unlocked so far</span>
             <span>{freeShare}%</span>
           </div>
           <div className="h-1.5 overflow-hidden rounded-full bg-surface-highest">

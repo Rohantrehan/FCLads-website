@@ -3,7 +3,7 @@ import { categoryLabels } from "@/lib/format";
 import type { Guide, GuideCategory } from "@/types";
 
 // Mock data taken from the designs. Replace with API/CMS data in the backend phase.
-// Sorted newest first.
+// Sorted newest first. Every guide is FC Lads+ (members only): the free videos live on YouTube.
 const allGuides: Guide[] = [
   {
     slug: "hybrid-overload-custom-tactic",
@@ -13,7 +13,7 @@ const allGuides: Guide[] = [
     category: "tactics",
     format: "video",
     minutes: 12,
-    access: "free",
+    access: "plus",
     authorSlug: "tfv-gaming",
     publishedAt: "2025-10-15",
     isFeatured: true,
@@ -25,7 +25,7 @@ const allGuides: Guide[] = [
     category: "tactics",
     format: "article",
     minutes: 8,
-    access: "free",
+    access: "plus",
     authorSlug: "stefan",
     publishedAt: "2025-10-14",
   },
@@ -36,7 +36,7 @@ const allGuides: Guide[] = [
     category: "skill-moves",
     format: "video",
     minutes: 14,
-    access: "free",
+    access: "plus",
     authorSlug: "tfv-gaming",
     publishedAt: "2025-10-13",
     isNew: true,
@@ -48,7 +48,7 @@ const allGuides: Guide[] = [
     category: "gameplay",
     format: "article",
     minutes: 10,
-    access: "free",
+    access: "plus",
     authorSlug: "hobs",
     publishedAt: "2025-10-12",
   },
@@ -70,7 +70,7 @@ const allGuides: Guide[] = [
     category: "fc-updates",
     format: "article",
     minutes: 6,
-    access: "free",
+    access: "plus",
     authorSlug: "stefan",
     publishedAt: "2025-10-10",
     isNew: true,
@@ -82,7 +82,7 @@ const allGuides: Guide[] = [
     category: "beginner",
     format: "video",
     minutes: 15,
-    access: "free",
+    access: "plus",
     authorSlug: "wessam",
     publishedAt: "2025-10-09",
   },
@@ -93,7 +93,7 @@ const allGuides: Guide[] = [
     category: "squad-building",
     format: "article",
     minutes: 9,
-    access: "free",
+    access: "plus",
     authorSlug: "tfv-gaming",
     publishedAt: "2025-10-08",
   },
@@ -115,7 +115,7 @@ const allGuides: Guide[] = [
     category: "set-pieces",
     format: "video",
     minutes: 7,
-    access: "free",
+    access: "plus",
     authorSlug: "stefan",
     publishedAt: "2025-10-06",
   },
@@ -126,7 +126,7 @@ const allGuides: Guide[] = [
     category: "tactics",
     format: "video",
     minutes: 24,
-    access: "free",
+    access: "plus",
     authorSlug: "hobs",
     publishedAt: "2025-10-05",
   },
@@ -137,7 +137,7 @@ const allGuides: Guide[] = [
     category: "meta-players",
     format: "article",
     minutes: 7,
-    access: "free",
+    access: "plus",
     authorSlug: "hobs",
     publishedAt: "2025-10-04",
   },
@@ -170,7 +170,7 @@ const allGuides: Guide[] = [
     category: "fut-champs",
     format: "article",
     minutes: 9,
-    access: "free",
+    access: "plus",
     authorSlug: "hobs",
     publishedAt: "2025-10-01",
   },
@@ -181,7 +181,7 @@ const allGuides: Guide[] = [
     category: "beginner",
     format: "article",
     minutes: 6,
-    access: "free",
+    access: "plus",
     authorSlug: "wessam",
     publishedAt: "2025-09-30",
   },
@@ -214,9 +214,9 @@ export function queryGuides({ category, q, limit = PAGE_SIZE }: GuideQuery) {
   return { items: matches.slice(0, limit), total: matches.length };
 }
 
-/** The featured guide, or the newest free guide if the featured one is hidden. */
+/** The featured guide, or the first guide if the featured one is hidden. */
 export function getFeaturedGuide() {
-  return guides.find((guide) => guide.isFeatured) ?? guides.find((guide) => guide.access === "free");
+  return guides.find((guide) => guide.isFeatured) ?? guides[0];
 }
 
 export function getGuide(slug: string) {

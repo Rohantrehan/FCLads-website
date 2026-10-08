@@ -33,9 +33,9 @@ export function PlusBanner() {
         <div>
           <p className="text-label text-mint">Pro tier</p>
           <h2 className="mt-1 font-display text-lg leading-snug font-extrabold">
-            Want the deeper breakdowns? Premium guides are in FC Lads+.
+            Every guide and video series here is part of FC Lads+.
           </h2>
-          <p className="mt-1 text-sm text-muted">Slider codes, full VOD breakdowns and a monthly 1-on-1 review.</p>
+          <p className="mt-1 text-sm text-muted">Plus slider codes, the private Discord and a monthly 1-on-1 review.</p>
         </div>
       </div>
       <Button href="/lads-plus" variant="glass" size="sm" className="shrink-0">
