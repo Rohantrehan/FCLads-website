@@ -11,10 +11,10 @@ import { LearnSearch } from "@/components/learn/LearnSearch";
 import { LearnTabs } from "@/components/learn/LearnTabs";
 import { Button } from "@/components/ui/Button";
 import { getCreator } from "@/data/creators";
+import { CURRENT_PATCH } from "@/data/meta";
 import { countByCategory, getFeaturedGuide, guides, isGuideCategory, PAGE_SIZE, queryGuides } from "@/data/guides";
 import { categoryLabels } from "@/lib/format";
 
-const CURRENT_PATCH = "1.08"; // mock; will come from the patches table
 const BANNER_AFTER = 6; // upsell banner position in the grid
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

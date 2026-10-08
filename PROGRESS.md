@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User to review the members-only Learn change (guides + collections locked, Loom/YouTube player) and the new FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
+**Next action:** User to review Meta Players (`/players`) and player pages (`/players/marco-velardi`). Next design pages: Squads, Feed, Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
 
 ---
 
@@ -212,6 +212,15 @@ User feedback on Home → implemented:
 - Copy updated everywhere that said "free guides" (Home, Learn, Collections, FC Lads+ compare table + FAQ, perks, login, metadata).
 - Tests: collections (13), guide (5) and plus-auth (18) updated, all pass; learn 9, home 13, creators 7 pass; no sideways scroll at 375px. Member view tested by temporarily switching `getViewer()` to member (Loom + YouTube embeds play, episode switching works), then reverted.
 - ⚠️ Placeholder: no real Loom / YouTube IDs yet, so members would see "Video coming soon".
+
+### 2026-10-08 — Meta Players + player detail pages
+- **`/players`** (dynamic): header with ranking week, position sidebar with counts (phone: swipe pills), search (GET form), budget pills with counts, sort dropdown (works without JS), **top-3 podium**, ranking table (phone: stacked list), patch-impact note, **pro pick of the week** (Hobs → Kofi Mensah), **patch nerfs** card. Goalkeepers show an honest "rankings are coming" state.
+- **Paywall:** everyone sees ranks 1–10 of any view; the rest is FC Lads+. Only the *count* of locked rows is sent to non-members (`lib/playerAccess.ts`, server only).
+- **`/players/[slug]`** (static, 32 pages): card + face-stat bars + facts (weak foot, skill moves, height, foot, body type, AcceleRATE), **the Lads' verdict** (public creator picks + in-depth review locked for non-members; reviews live in server-only `data/playerReviews.ts`), usage tiles, **price chart** (7D/14D/30D, crosshair tooltip, arrow keys, screen-reader table), all 20+ attributes, PlayStyles, chemistry styles, budget alternatives, guides featuring the player.
+- Data: 32 fictional players across all outfield positions (`data/players.ts`); `metaRank` worked out per position group from `metaScore`. New `data/meta.ts` (patch, week, pro pick, nerfs) now also used by Home/Learn. Shared position groups in `lib/positions.ts` (Home carousel uses them too).
+- ⚠️ Placeholders: all players, stats, prices, match counts, win rates and price history are invented (price history is generated in `lib/priceHistory.ts`). Real data needs the game-data source decision (open question).
+- Left out from the design: "Ranked ahead of Mbappé & Haaland" and other real-player names, "LIVE OPTA STATS FEED", server/build telemetry, the "Free tier / Lads+ preview" toggle.
+- Tests: new `players.mjs` (22) pass; home 13, learn 9, guide 5, collections 13, creators 7, plus-auth 18 pass; no sideways scroll at 375px. Test scripts now resolve the output folder to an absolute path (Edge rejects a relative profile path), and lint ignores `.checks/`.
 
 ## How to run locally
 

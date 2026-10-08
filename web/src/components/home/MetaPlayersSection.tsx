@@ -6,27 +6,21 @@ import { MetaPlayerCard } from "@/components/cards/PlayerCard";
 import { AutoScrollRow } from "@/components/ui/AutoScrollRow";
 import { Button } from "@/components/ui/Button";
 import { FilterPills } from "@/components/ui/FilterPills";
-import type { Player, Position } from "@/types";
+import { groupOf, type PositionGroup, positionGroups } from "@/lib/positions";
+import type { Player } from "@/types";
 
-const groups = {
-  ST: ["ST", "CF", "LW", "RW"],
-  CAM: ["CAM", "LM", "RM"],
-  CM: ["CM"],
-  CDM: ["CDM"],
-  CB: ["CB"],
-  FB: ["LB", "RB"],
-  GK: ["GK"],
-} satisfies Record<string, Position[]>;
+// Groups shown on Home (goalkeepers aren't ranked yet).
+const homeGroups = ["strikers", "wingers", "cam", "cm", "cdm", "cb", "fullbacks"] satisfies PositionGroup[];
+type Group = (typeof homeGroups)[number];
 
-type Group = keyof typeof groups;
-
-const options = (Object.keys(groups) as Group[]).map((key) => ({ value: key, label: key }));
+const options = homeGroups.map((key) => ({ value: key, label: positionGroups[key].short }));
 
 export function MetaPlayersSection({ players, week }: { players: Player[]; week: number }) {
-  const [group, setGroup] = useState<Group>("ST");
+  const [group, setGroup] = useState<Group>("strikers");
   const visible = players
-    .filter((player) => (groups[group] as Position[]).includes(player.position))
-    .sort((a, b) => (a.metaRank ?? 99) - (b.metaRank ?? 99));
+    .filter((player) => groupOf(player.position) === group)
+    .sort((a, b) => (a.metaRank ?? 99) - (b.metaRank ?? 99))
+    .slice(0, 6);
 
   return (
     <section aria-labelledby="meta-heading" className="page-container relative py-20">
@@ -41,7 +35,7 @@ export function MetaPlayersSection({ players, week }: { players: Player[]; week:
           </h2>
           <p className="text-muted">Tested by the Lads. Updated every Monday.</p>
           <FilterPills label="Filter by position" options={options} value={group} onChange={setGroup} className="pt-2" />
-          <Button href="/players" variant="ghost" className="mt-4 self-start px-0">
+          <Button href={`/players?position=${group}`} variant="ghost" className="mt-4 self-start px-0">
             See all meta players
             <ArrowRight aria-hidden className="size-4" />
           </Button>
@@ -50,7 +44,7 @@ export function MetaPlayersSection({ players, week }: { players: Player[]; week:
         <div className="lg:col-span-8">
           {visible.length > 0 ? (
             // `key` restarts the loop from the first card when the position filter changes.
-            <AutoScrollRow key={group} count={visible.length} label={`Meta players: ${group}`}>
+            <AutoScrollRow key={group} count={visible.length} label={`Meta players: ${positionGroups[group].label}`}>
               {visible.map((player, index) => (
                 <MetaPlayerCard key={player.slug} player={player} active={index === 0} />
               ))}
@@ -60,7 +54,7 @@ export function MetaPlayersSection({ players, week }: { players: Player[]; week:
               aria-live="polite"
               className="flex h-72 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/15 text-center text-muted"
             >
-              <p className="font-display font-extrabold text-white/80 uppercase">No ranking yet for {group}</p>
+              <p className="font-display font-extrabold text-white/80 uppercase">No ranking yet for {positionGroups[group].label.toLowerCase()}</p>
               <p className="text-sm">The Lads publish new rankings every Monday.</p>
             </div>
           )}

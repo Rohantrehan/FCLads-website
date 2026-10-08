@@ -8,12 +8,10 @@ import { MembershipCta } from "@/components/home/MembershipCta";
 import { MetaPlayersSection } from "@/components/home/MetaPlayersSection";
 import { creators } from "@/data/creators";
 import { guides } from "@/data/guides";
+import { CURRENT_PATCH, CURRENT_WEEK } from "@/data/meta";
 import { getPlayer, players } from "@/data/players";
 import type { Player } from "@/types";
 
-// Mock "current state" values. These will come from the backend (patches, meta_rankings tables).
-const CURRENT_PATCH = "1.08";
-const CURRENT_WEEK = 28;
 
 export default function HomePage() {
   const heroCards = ["kai-vanderbilt", "darius-okonkwo", "mateo-silva"].map((slug) => getPlayer(slug)) as [

@@ -1,8 +1,10 @@
 // Drives headless Edge via CDP to test Home page interactions (auto-scroll + hard truth tabs).
 import { spawn } from "node:child_process";
+import { resolve } from "node:path";
 
 
-const OUT = process.argv[2];
+// Absolute path: Edge refuses a relative --user-data-dir for remote debugging.
+const OUT = resolve(process.argv[2] ?? ".checks");
 const EDGE = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe";
 const PORT = 9333;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

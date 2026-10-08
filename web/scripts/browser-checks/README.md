@@ -12,6 +12,7 @@ node scripts/browser-checks/guide.mjs ./.checks #  5 checks: TOC, copy code, pay
 node scripts/browser-checks/creators.mjs ./.checks # 7 checks: roster hover panel, TFV hidden, profile tabs
 node scripts/browser-checks/collections.mjs ./.checks # 8 checks: tabs, path, episodes, next step
 node scripts/browser-checks/plus-auth.mjs ./.checks # 18 checks: FC Lads+ perks/FAQ/Join, sign-up + log-in validation
+node scripts/browser-checks/players.mjs ./.checks   # 22 checks: meta ranking filters/sort/search, paywalled ranks, player page review lock + price chart
 ```
 
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).
