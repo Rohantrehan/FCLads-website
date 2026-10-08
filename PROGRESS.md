@@ -19,6 +19,7 @@
 | 2026-10-06 | Stack for the frontend: **Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4**, icons via **lucide-react** (replaces Google Material Symbols). npm as the package manager. |
 | 2026-10-06 | Design tokens: Home page palette is the source of truth, plus gold / azure / iridescent / glass from `DESIGN.md`. All tokens live in `web/src/app/globals.css`. |
 | 2026-10-06 | Mock data lives in `web/src/data/*` and is shaped like the future database tables. |
+| 2026-10-08 | **Order of work: finish the frontend design first.** Backend, real links (Loom/YouTube IDs, socials) and data come after. |
 | 2026-10-08 | **All Learn content is FC Lads+ (paid).** Every guide and every collection is members-only, because the free videos are already on YouTube. Free tier = YouTube, meta players, squads, creators, public feed. |
 | 2026-10-08 | **Collection videos are Loom (mostly) or unlisted YouTube**, played on the site by members only. Add per episode in `data/collections.ts` with `video: loom("<share id>")` or `video: youtube("<video id>")`. Video IDs are never sent to non-members (`lib/collectionAccess.ts`, `lib/guideAccess.ts`). |
 | 2026-10-08 | Code is on GitHub: **https://github.com/Rohantrehan/FCLads-website** (`origin`, branch `main`). Push after each approved session. |
