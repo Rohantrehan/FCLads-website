@@ -287,3 +287,42 @@ export interface Collection {
   /** Videos in watch order. */
   episodes: CollectionEpisode[];
 }
+
+export type FeedTopic = "gameplay" | "players" | "trading" | "updates" | "fut-champs" | "squads";
+
+interface FeedPostBase {
+  id: string;
+  topic: FeedTopic;
+  authorSlug: string;
+  /** ISO date-time. */
+  postedAt: string;
+  access: AccessTier;
+}
+
+/** One item in /feed. Mirrors what the CMS will return per post type. */
+export type FeedPost =
+  | (FeedPostBase & {
+      type: "video";
+      title: string;
+      excerpt: string;
+      minutes: number;
+      views: number;
+      /** Share of likes, in percent. */
+      approval: number;
+      /** Public YouTube clip, once known. */
+      youtubeId?: string;
+      /** The full written breakdown (a Learn guide, FC Lads+). */
+      guideSlug?: string;
+    })
+  | (FeedPostBase & { type: "player"; playerSlug: string; quote: string })
+  | (FeedPostBase & { type: "update"; title: string; points: string[] })
+  | (FeedPostBase & {
+      type: "trading";
+      title: string;
+      targets: { playerSlug: string; buyBelow: number }[];
+      /** How many targets non-members see. The rest are only sent to members. */
+      freeTargets: number;
+    })
+  | (FeedPostBase & { type: "squad"; squadSlug: string })
+  | (FeedPostBase & { type: "tip"; text: string; label: string })
+  | (FeedPostBase & { type: "poll"; question: string; options: { label: string; votes: number }[] });

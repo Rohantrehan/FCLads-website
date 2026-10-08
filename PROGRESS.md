@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User to review Squads (`/squads`, `/squads/50k-weekend-league-starter`). Before that: Meta Players + player pages. Next design pages: Feed, Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
+**Next action:** User to review The Feed (`/feed`). Before that: Squads, Meta Players + player pages. Next design pages: Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
 
 ---
 
@@ -230,6 +230,15 @@ User feedback on Home → implemented:
 - Design changes: "Copy squad code" became "Copy tactic code" (FC has tactic share codes, not squad codes); controller hints, "Verified WL rank 1 ready" and server/build labels left out.
 - ⚠️ Placeholders: squads, records, tactic codes and prices are invented.
 - Tests: new `squads.mjs` (14) pass; all other suites pass (home 13, learn 9, guide 5, collections 13, creators 7, plus-auth 18, players 22); no sideways scroll at 375px.
+
+### 2026-10-08 — The Feed
+- **`/feed`** (dynamic): header with "N new posts today", **topic tabs** with counts (All, Gameplay, Players, Trading, Updates, FUT Champs, Squads; `?topic=`), posts newest first, **Load more** (`?limit=`), sidebar with Free vs FC Lads+, **Trending this week**, Follow the Lads.
+- **7 post types** (`FeedPost` union in `types`, data in `data/feed.ts`): video clip (YouTube facade + "Full breakdown (Lads+)" guide link), player verdict, patch update, **trading targets** (FC Lads+: non-members get 2 targets + a "1 more target" note; the locked price is never sent — `lib/feedAccess.ts`), squad, tip, poll (results only; "voting opens when accounts are switched on").
+- Layout: videos and polls take the full width; runs of smaller posts pack into two balanced columns (no gaps). Phones: one column.
+- Footer now also links Squads and Feed.
+- Design changes: "Unread only" and bookmark buttons left out (need accounts); real footballer names in the trading card replaced with our fictional players; "Engine Rev", server/build labels and controller hints left out.
+- ⚠️ Placeholders: all posts, view counts, likes and poll votes are invented; "Watch on YouTube" links go to "#" until the channel URL is known.
+- Tests: new `feed.mjs` (10) pass; all other suites pass; no sideways scroll at 375px.
 
 ## How to run locally
 
