@@ -5,12 +5,6 @@ import { FilterPills } from "@/components/ui/FilterPills";
 import { formatCompact, formatNumber } from "@/lib/format";
 import type { PricePoint } from "@/lib/priceHistory";
 
-const RANGES = [
-  { value: "7", label: "7D" },
-  { value: "14", label: "14D" },
-  { value: "30", label: "30D" },
-];
-
 const H = 260;
 const PAD = { top: 16, right: 16, bottom: 28, left: 52 };
 
@@ -34,12 +28,27 @@ function niceScale(min: number, max: number, ticks = 3) {
   return { lo, hi, values };
 }
 
+interface PriceChartProps {
+  points: PricePoint[];
+  /** Range buttons in days. One range = no buttons. */
+  ranges?: number[];
+  /** "coins" for player prices, "index" for the FC Lads market index. */
+  unit?: "coins" | "index";
+  /** Notes on key days, shown as markers and in the tooltip. Keyed by ISO date. */
+  notes?: Record<string, string>;
+}
+
 /**
- * Single-series price line with a crosshair tooltip (pointer and arrow keys) and a table view
- * for screen readers. Prices are mock data until market data is connected.
+ * Single-series line with a crosshair tooltip (pointer and arrow keys) and a table view
+ * for screen readers. Used for player prices and the market index (mock data for now).
  */
-export function PriceChart({ points }: { points: PricePoint[] }) {
-  const [range, setRange] = useState("7");
+export function PriceChart({ points, ranges = [7, 14, 30], unit = "coins", notes = {} }: PriceChartProps) {
+  const [range, setRange] = useState(String(ranges[0]));
+  const rangeOptions = ranges.map((days) => ({ value: String(days), label: `${days}D` }));
+  const isIndex = unit === "index";
+  const fmt = (value: number) => (isIndex ? value.toFixed(1) : formatNumber(value));
+  const fmtAxis = (value: number) => (isIndex ? value.toFixed(0) : formatCompact(value));
+  const noun = isIndex ? "Index" : "Price";
   const [active, setActive] = useState<number | null>(null);
   const gradientId = useId();
   // Draw at the real pixel width so text and lines keep their size on every screen.
@@ -99,18 +108,20 @@ export function PriceChart({ points }: { points: PricePoint[] }) {
           {range}-day change:{" "}
           <span className={change > 0 ? "font-bold text-primary" : change < 0 ? "font-bold text-danger" : "font-bold"}>
             {change > 0 ? "+" : ""}
-            {formatNumber(change)}
+            {fmt(change)}
           </span>
         </p>
-        <FilterPills
-          label="Price history range"
-          options={RANGES}
-          value={range}
-          onChange={(value) => {
-            setRange(value);
-            setActive(null);
-          }}
-        />
+        {rangeOptions.length > 1 && (
+          <FilterPills
+            label={`${noun} history range`}
+            options={rangeOptions}
+            value={range}
+            onChange={(value) => {
+              setRange(value);
+              setActive(null);
+            }}
+          />
+        )}
       </div>
 
       <div ref={frame} className="relative" style={{ minHeight: H }}>
@@ -121,7 +132,7 @@ export function PriceChart({ points }: { points: PricePoint[] }) {
             viewBox={`0 0 ${W} ${H}`}
             className="block max-w-full touch-pan-y overflow-visible outline-none focus-visible:ring-2 focus-visible:ring-mint/60 rounded-lg"
             role="img"
-            aria-label={`Price over the last ${range} days, from ${formatNumber(data[0].price)} to ${formatNumber(data[last].price)} coins. Use the arrow keys to read each day.`}
+            aria-label={`${noun} over the last ${range} days, from ${fmt(data[0].price)} to ${fmt(data[last].price)}${isIndex ? "" : " coins"}. Use the arrow keys to read each day.`}
             tabIndex={0}
             onPointerMove={onPointer}
             onPointerDown={onPointer}
@@ -146,7 +157,7 @@ export function PriceChart({ points }: { points: PricePoint[] }) {
                   textAnchor="end"
                   className="fill-muted font-mono text-[11px]"
                 >
-                  {formatCompact(value)}
+                  {fmtAxis(value)}
                 </text>
               </g>
             ))}
@@ -178,6 +189,19 @@ export function PriceChart({ points }: { points: PricePoint[] }) {
                 strokeDasharray="3 3"
               />
             )}
+            {data.map((point, index) =>
+              notes[point.date] ? (
+                <circle
+                  key={point.date}
+                  cx={x(index)}
+                  cy={y(point.price)}
+                  r="4"
+                  fill="#0f141b"
+                  stroke="#d8b25a"
+                  strokeWidth="2"
+                />
+              ) : null,
+            )}
             <circle cx={x(shown)} cy={y(data[shown].price)} r="5" fill="#2bd98b" stroke="#0f141b" strokeWidth="2" />
           </svg>
         )}
@@ -185,34 +209,40 @@ export function PriceChart({ points }: { points: PricePoint[] }) {
         {W > 0 && (
           <div
             aria-hidden
-            className="pointer-events-none absolute top-0 rounded-lg border border-white/10 bg-canvas/95 px-3 py-2 shadow-lg backdrop-blur-md"
+            className="pointer-events-none absolute top-0 w-max max-w-[13rem] rounded-lg border border-white/10 bg-canvas/95 px-3 py-2 shadow-lg backdrop-blur-md"
             style={{
               left: `${tipLeft}%`,
               transform: `translateX(${tipLeft > 70 ? "-105%" : tipLeft < 20 ? "5%" : "-50%"})`,
             }}
           >
-            <p className="tabular text-sm font-bold text-white">{formatNumber(data[shown].price)}</p>
-            <p className="tabular text-[11px] text-muted">
+            <p className="tabular text-sm font-bold text-white">{fmt(data[shown].price)}</p>
+            <p className="tabular text-[11px] whitespace-nowrap text-muted">
               {fmtDay(data[shown].date)}
               {active === null && " · today"}
             </p>
+            {notes[data[shown].date] && <p className="text-[11px] font-bold text-gold">{notes[data[shown].date]}</p>}
           </div>
         )}
       </div>
 
       <table className="sr-only">
-        <caption>Price by day, last {range} days</caption>
+        <caption>
+          {noun} by day, last {range} days
+        </caption>
         <thead>
           <tr>
             <th scope="col">Day</th>
-            <th scope="col">Price (coins)</th>
+            <th scope="col">{isIndex ? "Index" : "Price (coins)"}</th>
           </tr>
         </thead>
         <tbody>
           {data.map((point) => (
             <tr key={point.date}>
               <th scope="row">{fmtDay(point.date)}</th>
-              <td>{formatNumber(point.price)}</td>
+              <td>
+                {fmt(point.price)}
+                {notes[point.date] && ` (${notes[point.date]})`}
+              </td>
             </tr>
           ))}
         </tbody>

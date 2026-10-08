@@ -6,7 +6,7 @@
 
 **Last updated:** 6 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User to review The Feed (`/feed`). Before that: Squads, Meta Players + player pages. Next design pages: Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
+**Next action:** User to review Trading (`/trading`). Before that: Feed, Squads, Meta Players + player pages. Next design pages: Terms/Privacy, member dashboard, account/billing. Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
 
 ---
 
@@ -239,6 +239,15 @@ User feedback on Home → implemented:
 - Design changes: "Unread only" and bookmark buttons left out (need accounts); real footballer names in the trading card replaced with our fictional players; "Engine Rev", server/build labels and controller hints left out.
 - ⚠️ Placeholders: all posts, view counts, likes and poll votes are invented; "Watch on YouTube" links go to "#" until the channel URL is known.
 - Tests: new `feed.mjs` (10) pass; all other suites pass; no sideways scroll at 375px.
+
+### 2026-10-08 — Trading
+- **`/trading`** (one page; the server picks the view from `getViewer()`):
+  - **Public view:** free weekly market note (Wessam) with action/risk/window, "cards to watch", a **free tax calculator** (5% EA tax, profit, break-even price; client-side), rising and falling players (from player trends), the **locked weekly brief** (section titles + upsell only), disclaimer.
+  - **Member view:** brief header (dates, author, read time), what we're watching, **buy and sell targets** (confidence, now vs sell-at, reason), upcoming events calendar, **market trends** chart (FC Lads market index, 14 days, notes on key days), players to monitor; sidebar with trading Discord, tax calculator, past briefs.
+- The brief lives in server-only `data/tradingBrief.ts` and is only rendered for members. `PriceChart` now also takes `ranges`, `unit: "index"` and day `notes`.
+- Design changes: real footballer names replaced with our fictional players; "global market cap", "tax index", "Index 100: 1,842", "1,420 members active", controller hints and server labels left out; "Live fodder matrix" tool skipped for now.
+- ⚠️ Placeholders: market note, brief, targets, events and the market index are invented.
+- Tests: new `trading.mjs` (6) pass; member view checked by temporarily switching `getViewer()` to member (screenshots), then reverted; all other suites pass; no sideways scroll at 375px.
 
 ## How to run locally
 

@@ -15,6 +15,7 @@ node scripts/browser-checks/plus-auth.mjs ./.checks # 18 checks: FC Lads+ perks/
 node scripts/browser-checks/players.mjs ./.checks   # 22 checks: meta ranking filters/sort/search, paywalled ranks, player page review lock + price chart
 node scripts/browser-checks/squads.mjs ./.checks    # 14 checks: budget tabs, hover-and-stay pitch dossier, keeper stats, copy tactic code, upgrade links
 node scripts/browser-checks/feed.mjs ./.checks      # 10 checks: topic tabs, load more, locked trading targets not sent, trending links
+node scripts/browser-checks/trading.mjs ./.checks   # 6 checks: free note, locked brief not sent, risers list, tax calculator
 ```
 
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).
