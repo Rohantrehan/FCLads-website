@@ -250,8 +250,8 @@ User feedback on Home → implemented:
 - Tests: new `trading.mjs` (6) pass; member view checked by temporarily switching `getViewer()` to member (screenshots), then reverted; all other suites pass; no sideways scroll at 375px.
 
 ### Session: added creator Lizzy (2026-10-09)
-- New creator profile **Lizzy** (`/creators/lizzy`) in `web/src/data/creators.ts`. Shows on the roster, home "Meet the Lads", FC Lads+ creator section and her own profile. Roster now shows 4 creators + the open slot (fills the 5-column row).
-- ⚠️ Placeholder: Lizzy's role ("Content Creator"), country (UK), card ratings, bio, start year and social links (`#`) are invented. No guides, squads or picks yet, so her profile shows only the header and review banner. Get real details from Lizzy/client.
+- New creator profile **Lizzy** (`/creators/lizzy`, Australia) in `web/src/data/creators.ts`. Shows on the roster, home "Meet the Lads", FC Lads+ creator section and her own profile. Roster now shows 4 creators + the open slot (fills the 5-column row).
+- ⚠️ Placeholder: Lizzy's role ("Content Creator"), card ratings, bio, start year and social links (`#`) are invented. No guides, squads or picks yet, so her profile shows only the header and review banner. Get real details from Lizzy/client.
 - Tests: creators, home pass; no sideways scroll at 375px.
 
 ## How to run locally

@@ -109,14 +109,14 @@ const allCreators: Creator[] = [
     ],
   },
   {
-    // Placeholder profile (Oct 2026): role, country, bio, numbers and links to be confirmed by Lizzy.
+    // Placeholder profile (Oct 2026): role, bio, numbers and links to be confirmed by Lizzy.
     slug: "lizzy",
     name: "Lizzy",
     initials: "LZ",
     role: "Content Creator",
     tagline: "Community // Weekly content",
-    country: "United Kingdom",
-    countryCode: "UK",
+    country: "Australia",
+    countryCode: "AUS",
     ovr: 93,
     cardPosition: "LW / CREATOR",
     ratings: { gam: 90, tac: 87, trd: 84, meta: 92 },
