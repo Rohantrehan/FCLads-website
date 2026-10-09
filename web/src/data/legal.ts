@@ -181,12 +181,15 @@ const terms: LegalDoc = {
       blocks: [
         {
           type: "p",
-          text: "FC Lads+ members can send one match a month for a video review by one of the Lads.",
+          text: "FC Lads+ members get one gameplay review a month: upload a match, then book a 30-minute session where one of the Lads goes through it with you. Sessions are recorded, and you get a written plan afterwards.",
         },
         {
           type: "list",
           items: [
-            { lead: "Turnaround:", text: "we aim to send your review within 72 hours of receiving your match." },
+            {
+              lead: "Rescheduling:",
+              text: "you can move your session up to 12 hours before it starts. If you miss it without telling us, it counts as that month's review.",
+            },
             {
               lead: "One a month:",
               text: "unused reviews don't roll over to the next month.",
@@ -293,7 +296,7 @@ const privacy: LegalDoc = {
             },
             {
               lead: "What you send us:",
-              text: "messages, comments, squads, and match clips you upload for a gameplay review.",
+              text: "messages, comments, squads, match clips you upload for a gameplay review, and recordings of your review sessions.",
             },
             {
               lead: "How you use the site:",
@@ -363,7 +366,7 @@ const privacy: LegalDoc = {
       blocks: [
         {
           type: "p",
-          text: "We keep your account details while your account is open. If you delete your account, we delete your personal data within 30 days, except billing records we must keep for tax reasons (usually 6 years). Review clips are deleted 90 days after your review is sent.",
+          text: "We keep your account details while your account is open. If you delete your account, we delete your personal data within 30 days, except billing records we must keep for tax reasons (usually 6 years). Match clips and session recordings are deleted 90 days after your review.",
         },
       ],
     },

@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { isActive, mainNav } from "@/lib/site";
 
-export function SiteHeader() {
+/** `member` is set when an FC Lads+ member is signed in (decided on the server by the layout). */
+export function SiteHeader({ member }: { member?: { name: string } }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   // Close the phone menu whenever the route changes (React "adjust state on prop change" pattern).
@@ -75,12 +76,28 @@ export function SiteHeader() {
             <TierBadge tier="free" />
             <TierBadge tier="plus" />
           </div>
-          <Link
-            href="/login"
-            className="hidden px-3 py-1.5 text-sm font-semibold text-white/90 transition-colors hover:text-primary xl:block"
-          >
-            Log in
-          </Link>
+          {member ? (
+            <Link
+              href="/dashboard"
+              aria-current={isActive(pathname, "/dashboard") ? "page" : undefined}
+              className="hidden items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 py-1 pr-3 pl-1 text-sm font-semibold text-mint transition-colors hover:border-primary/60 xl:flex"
+            >
+              <span
+                aria-hidden
+                className="flex size-7 items-center justify-center rounded-md bg-primary font-display text-xs font-extrabold text-on-primary"
+              >
+                {member.name.charAt(0)}
+              </span>
+              My Lads+
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden px-3 py-1.5 text-sm font-semibold text-white/90 transition-colors hover:text-primary xl:block"
+            >
+              Log in
+            </Link>
+          )}
           <button
             type="button"
             aria-expanded={open}
@@ -120,12 +137,20 @@ export function SiteHeader() {
             );
           })}
           <div className="mt-6 flex flex-col gap-3 border-t border-white/8 pt-6">
-            <Button href="/lads-plus" size="lg">
-              Join FC Lads+ · $29/mo
-            </Button>
-            <Button href="/login" variant="glass" size="lg">
-              Log in
-            </Button>
+            {member ? (
+              <Button href="/dashboard" size="lg">
+                My Lads+ dashboard
+              </Button>
+            ) : (
+              <>
+                <Button href="/lads-plus" size="lg">
+                  Join FC Lads+ · $29/mo
+                </Button>
+                <Button href="/login" variant="glass" size="lg">
+                  Log in
+                </Button>
+              </>
+            )}
           </div>
         </nav>
       </div>

@@ -27,12 +27,15 @@ function PitchPlaceholder() {
 interface GuideCardProps {
   guide: Guide;
   author?: Creator;
+  /** The viewer is a member: show a play button instead of the lock on Lads+ guides. */
+  unlocked?: boolean;
   className?: string;
 }
 
 /** Guide / video card: thumbnail with FREE/LADS+ corner tag and category chip, title, excerpt, author row. */
-export function GuideCard({ guide, author, className }: GuideCardProps) {
+export function GuideCard({ guide, author, unlocked, className }: GuideCardProps) {
   const isVideo = guide.format === "video";
+  const locked = guide.access === "plus" && !unlocked;
   return (
     <article
       className={cn(
@@ -52,20 +55,22 @@ export function GuideCard({ guide, author, className }: GuideCardProps) {
         ) : (
           <PitchPlaceholder />
         )}
-        {guide.access === "plus" ? (
+        {locked ? (
           <span
             aria-hidden
             className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-canvas/70 text-gold ring-1 ring-gold/50 shadow-[0_0_24px_rgb(216_178_90/0.35)] backdrop-blur-md"
           >
             <Lock className="size-5" />
           </span>
-        ) : isVideo && (
-          <span
-            aria-hidden
-            className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-canvas/70 text-mint ring-1 ring-mint/40 backdrop-blur-md transition-transform group-hover:scale-110"
-          >
-            <Play className="size-5 fill-current" />
-          </span>
+        ) : (
+          isVideo && (
+            <span
+              aria-hidden
+              className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-canvas/70 text-mint ring-1 ring-mint/40 backdrop-blur-md transition-transform group-hover:scale-110"
+            >
+              <Play className="size-5 fill-current" />
+            </span>
+          )
         )}
         <CornerTag tier={guide.access} />
         <span className="tabular absolute bottom-2.5 left-3 rounded bg-canvas/80 px-2.5 py-1 text-[10px] font-bold uppercase text-mint backdrop-blur-md">
@@ -81,7 +86,7 @@ export function GuideCard({ guide, author, className }: GuideCardProps) {
             {/* Stretched link: whole card is clickable, but only one link in the tab order. */}
             <Link href={`/guides/${guide.slug}`} className="after:absolute after:inset-0">
               {guide.title}
-              {guide.access === "plus" && <span className="sr-only"> (FC Lads+ members)</span>}
+              {locked && <span className="sr-only"> (FC Lads+ members)</span>}
             </Link>
           </h3>
           <p className="mt-2 line-clamp-2 text-sm text-muted">{guide.excerpt}</p>

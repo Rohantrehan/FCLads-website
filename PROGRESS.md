@@ -263,6 +263,23 @@ User feedback on Home → implemented:
 - ⚠️ DRAFT LEGAL TEXT: must be checked by a lawyer before launch. Placeholders: company/legal name ("FC Lads"), governing law (England and Wales, from the design's "United Kingdom"), contact email hello@fclads.com (from the design), payment/hosting/analytics providers, retention periods (30 days / 6 years / 90 days), minimum age 13, 72h review turnaround, 7-day duplicate-charge window.
 - Tests: new `legal.mjs` (11) pass; trading, plus-auth pass; no sideways scroll at 375px; build OK.
 
+### Session: Member dashboard, 6 tabs (2026-10-09)
+- Built `/dashboard` (My Feed), `/dashboard/trading`, `/dashboard/gameplay`, `/dashboard/review`, `/dashboard/discord`, `/dashboard/creators` from the 6 dashboard designs. Shared layout: tab bar (scrolls on phones) + "Lads+ active" / "Review: N left" chips. Kept the normal site header/footer (the design's separate "Console HQ" header dropped so members can still reach the rest of the site).
+- **Members only, enforced on the server:** every page checks `getViewer()` itself and non-members get a "Your FC Lads+ dashboard" paywall; no member data is sent (tested). Pages are `noindex`.
+- Header: members see "My Lads+" (links to the dashboard) instead of "Log in"; `SiteLayout` passes the viewer to `SiteHeader`.
+- **Design preview switch:** put `DEV_VIEWER=member` in `web/.env.local` and restart `npm run dev` to see the whole site as a signed-in member ("Arjun"). Ignored in production. Delete the file (and restart) to go back.
+- Tabs:
+  - **My Feed:** welcome, "New from the Lads" (newest guide, trading brief target, new squad, Discord highlight, locked "coming Friday"), continue watching with progress, This week in FC, your next review status.
+  - **Trading:** the full weekly brief. Moved into `components/trading/MemberBrief.tsx`, shared with `/trading` for members.
+  - **Gameplay:** featured video (plays for members), category filter (`?category=`), every guide unlocked (`GuideCard` new `unlocked` prop), video collections.
+  - **My Review:** 3-step progress, uploaded match, booking flow (`components/dashboard/ReviewBooking.tsx`): choose a Lad → calendar shows only that Lad's free days → pick a time → confirm → "You're booked in" / change booking. Past reviews with session recording + 3-point plan.
+  - **Discord:** connected account + Open Discord, main channels with pinned posts, the Lads in the server, server rules.
+  - **Creators:** filter by creator (`?creator=`), creator posts (feed cards, two columns), recommended players (one pick per creator), book-a-review card.
+- Member data in `web/src/data/memberDashboard.ts` (server-only).
+- Design changes: dropped fake/telemetry bits ("NET 18MS", "Console HQ", WL form 16-4, trading reserve 2.48M, members online 3,482, alert latency, coach rating progression, creator "online now", ⌘K search, controller hints). TFV removed from reviewers/creators (hidden). Real footballer (Irene Paredes) replaced by our players. Booking is a 30-minute recorded session (design) — Terms + Privacy updated to match (rescheduling 12h, recordings kept 90 days).
+- ⚠️ Placeholders: member name "Arjun", watch progress, review upload/slots/past reviews, Discord username/channels/pinned posts, "coming Friday" item. Bookings are not saved (no backend) — confirm only shows the confirmed state. Session reminder emails, calendar sync and upload need the backend.
+- Tests: new `dashboard.mjs` (13 public + 16 member) pass; all other suites pass; no sideways scroll at 375px on all 6 tabs; build OK.
+
 ## How to run locally
 
 ```bash
@@ -273,4 +290,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/legal/terms` + `/legal/privacy` + `/legal/trading-disclaimer`, `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/legal/terms` + `/legal/privacy` + `/legal/trading-disclaimer`, `/dashboard` + 5 member tabs (members only), `/players`, `/squads`, `/feed`, `/trading`, `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.
