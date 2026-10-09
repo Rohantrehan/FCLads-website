@@ -254,6 +254,15 @@ User feedback on Home → implemented:
 - ⚠️ Placeholder: Lizzy's role ("Content Creator"), card ratings, bio, start year and social links (`#`) are invented. No guides, squads or picks yet, so her profile shows only the header and review banner. Get real details from Lizzy/client.
 - Tests: creators, home pass; no sideways scroll at 375px.
 
+### Session: Terms of Service, Privacy Policy, Trading Disclaimer (2026-10-09)
+- Built `/legal/terms`, `/legal/privacy`, `/legal/trading-disclaimer` from the Terms design (one page template, three tabs). `/legal` redirects to Terms. Footer and signup links already pointed here.
+- Content lives in `web/src/data/legal.ts` (sections made of paragraphs, bullet lists and green/gold callouts) so text can change without touching the layout.
+- Page: header with "Last updated", tabs, sticky contents card with scroll-spy (collapsible on phones), numbered section cards, "Questions about this page?" card with copy-email button, "Print or save as PDF" button (header, footer and menus hidden when printing).
+- Trading page disclaimer now links to the Trading Disclaimer.
+- Design changes: rewrote the design's jargon ("Governance protocol v2.4", "trading bots", "OAuth", "Ref ID", server/build labels) into plain English that matches what FC Lads actually offers (email/Google/Discord sign-in, $29/mo, monthly gameplay review, Loom/YouTube videos). Dropped live 1-on-1 coaching rules (not a product). "PDF Version" became print/save as PDF.
+- ⚠️ DRAFT LEGAL TEXT: must be checked by a lawyer before launch. Placeholders: company/legal name ("FC Lads"), governing law (England and Wales, from the design's "United Kingdom"), contact email hello@fclads.com (from the design), payment/hosting/analytics providers, retention periods (30 days / 6 years / 90 days), minimum age 13, 72h review turnaround, 7-day duplicate-charge window.
+- Tests: new `legal.mjs` (11) pass; trading, plus-auth pass; no sideways scroll at 375px; build OK.
+
 ## How to run locally
 
 ```bash
@@ -264,4 +273,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/legal/terms` + `/legal/privacy` + `/legal/trading-disclaimer`, `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.

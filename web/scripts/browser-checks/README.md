@@ -16,6 +16,7 @@ node scripts/browser-checks/players.mjs ./.checks   # 22 checks: meta ranking fi
 node scripts/browser-checks/squads.mjs ./.checks    # 14 checks: budget tabs, hover-and-stay pitch dossier, keeper stats, copy tactic code, upgrade links
 node scripts/browser-checks/feed.mjs ./.checks      # 10 checks: topic tabs, load more, locked trading targets not sent, trending links
 node scripts/browser-checks/trading.mjs ./.checks   # 6 checks: free note, locked brief not sent, risers list, tax calculator
+node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect, tabs, contents scroll-spy + jump, copy email, phone contents
 ```
 
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).

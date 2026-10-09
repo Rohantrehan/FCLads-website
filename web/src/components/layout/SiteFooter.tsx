@@ -6,7 +6,7 @@ import { footerNav } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/8 bg-canvas py-14">
+    <footer className="border-t border-white/8 bg-canvas py-14 print:hidden">
       <div className="page-container flex flex-col gap-10">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <Link href="/" className="flex items-center gap-3" aria-label="FC Lads home">

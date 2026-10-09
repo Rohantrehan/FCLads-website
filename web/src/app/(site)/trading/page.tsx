@@ -42,7 +42,10 @@ function Disclaimer() {
     <p className="page-container flex items-start gap-2 pb-16 text-xs text-muted">
       <Info aria-hidden className="mt-0.5 size-3.5 shrink-0" />
       Trading information is for education only. The market can change quickly, and past results don&apos;t guarantee
-      future ones.
+      future ones.{" "}
+      <Link href="/legal/trading-disclaimer" className="underline hover:text-white">
+        Read the trading disclaimer
+      </Link>
     </p>
   );
 }

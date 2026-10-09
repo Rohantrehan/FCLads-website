@@ -33,7 +33,7 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-canvas/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 print:hidden border-b border-white/8 bg-canvas/80 backdrop-blur-xl">
       <a
         href="#main"
         className="sr-only rounded bg-mint px-3 py-2 font-semibold text-canvas focus:not-sr-only focus:absolute focus:top-3 focus:left-3"
