@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ShieldCheck, Video } from "lucide-react";
+import { Settings, ShieldCheck, Video } from "lucide-react";
 import { DashboardNav } from "@/components/dashboard/DashboardNav";
 import { currentReview } from "@/data/memberDashboard";
 import { getViewer } from "@/lib/viewer";
@@ -37,6 +37,13 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
               >
                 <Video aria-hidden className="size-3.5" />
                 Review: {reviewsLeft} left
+              </Link>
+              <Link
+                href="/account"
+                className="tabular flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-[11px] font-bold text-muted uppercase transition-colors hover:border-primary/40 hover:text-white"
+              >
+                <Settings aria-hidden className="size-3.5" />
+                Account
               </Link>
             </div>
           )}

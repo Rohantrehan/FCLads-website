@@ -138,9 +138,14 @@ export function SiteHeader({ member }: { member?: { name: string } }) {
           })}
           <div className="mt-6 flex flex-col gap-3 border-t border-white/8 pt-6">
             {member ? (
-              <Button href="/dashboard" size="lg">
-                My Lads+ dashboard
-              </Button>
+              <>
+                <Button href="/dashboard" size="lg">
+                  My Lads+ dashboard
+                </Button>
+                <Button href="/account" variant="glass" size="lg">
+                  Account & billing
+                </Button>
+              </>
             ) : (
               <>
                 <Button href="/lads-plus" size="lg">

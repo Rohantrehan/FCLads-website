@@ -4,9 +4,9 @@
 > Full analysis & architecture: [`FC_LADS_PROJECT_REPORT.md`](FC_LADS_PROJECT_REPORT.md)
 > Designs (reference only): [`all_pages_design/`](all_pages_design/)
 
-**Last updated:** 6 Oct 2026
+**Last updated:** 10 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** User to review Trading (`/trading`). Before that: Feed, Squads, Meta Players + player pages. Next design pages: Terms/Privacy, member dashboard, account/billing. Trading, Terms, member dashboard, account/billing. Earlier: members-only Learn + FC Lads+ page (`/lads-plus`) and Log in / Sign up (`/login`, `/signup`, `/signup?plan=plus`). Then: Lighthouse speed pass (recommended), more pages (Players, Squads, Feed, Trading, Terms/Privacy), or Step 7 (open questions, hosting, backend).
+**Next action:** All design pages are built (latest: account & billing `/account/membership`, `/account/billing`). User to review. Then: Lighthouse speed pass (recommended) and Step 7 (open questions, hosting, backend, real links).
 
 ---
 
@@ -279,6 +279,18 @@ User feedback on Home → implemented:
 - Design changes: dropped fake/telemetry bits ("NET 18MS", "Console HQ", WL form 16-4, trading reserve 2.48M, members online 3,482, alert latency, coach rating progression, creator "online now", ⌘K search, controller hints). TFV removed from reviewers/creators (hidden). Real footballer (Irene Paredes) replaced by our players. Booking is a 30-minute recorded session (design) — Terms + Privacy updated to match (rescheduling 12h, recordings kept 90 days).
 - ⚠️ Placeholders: member name "Arjun", watch progress, review upload/slots/past reviews, Discord username/channels/pinned posts, "coming Friday" item. Bookings are not saved (no backend) — confirm only shows the confirmed state. Session reminder emails, calendar sync and upload need the backend.
 - Tests: new `dashboard.mjs` (13 public + 16 member) pass; all other suites pass; no sideways scroll at 375px on all 6 tabs; build OK.
+
+### Session: Account & billing (2026-10-10)
+- Built `/account/membership` and `/account/billing` from the 3 account designs (`/account` redirects to Membership). Shared layout: side menu (Membership, Billing, back to dashboard, Log out; sideways on phones) + member support card. Pages are `noindex`.
+- **Signed-in only, enforced on the server:** each page checks `getViewer()`; visitors who aren't logged in get "Log in to manage your account" and no account data is sent.
+- **Membership:** plan card ($29/month, subscription ID, next payment, member since, auto-renew), what's included (the 5 FC Lads+ perks), monthly review left + Book, Discord connection + Open Discord, "Cancel membership".
+- **Cancel popup** (`components/account/MembershipPlan.tsx`, native `<dialog>`): lists what you lose, "Keep my membership" focused first; Esc, the X or clicking outside closes it and focus goes back. Confirming shows the cancelled state (ends 28 Oct, auto-renew off, "Keep my membership" to undo) with a note that it's a preview and nothing was cancelled. The page behind can't scroll while it's open.
+- **Billing:** card on file + Update card, next charge, payment history (table on tablet/desktop, cards on phones) with PDF receipts, VAT invoice email, billing country and currency.
+- Buttons that need payments or accounts (Update card, receipts, Log out) briefly say "arrives with payments/accounts" instead of pretending (`components/account/NotYetButton.tsx`).
+- Links: dashboard chip "Account"; phone menu "Account & billing" for members.
+- Design changes: dropped "Console HQ" header, telemetry ("EU-CENTRAL 18MS", build, latency), controller hints, "PCI-DSS level 1", "encrypted bot key", "founder rate" (not a real offer), "Profile / Connected Units / Notifications" menu items (no designs — add when accounts exist). TFV removed from the creators list.
+- ⚠️ Placeholders in `web/src/data/account.ts` (server-only): subscription ID, card (Visa 4242), invoices, billing country. Support email uses `LEGAL_EMAIL` (still to confirm).
+- Tests: new `account.mjs` (17 member checks) pass; no sideways scroll at 375px; typecheck + lint clean. Public-mode run (5 checks) not run yet: the dev server was in member mode and memory was low, so it wasn't restarted.
 
 ## How to run locally
 

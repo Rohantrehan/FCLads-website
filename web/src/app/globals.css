@@ -59,6 +59,11 @@
     background-color: var(--color-canvas);
   }
 
+  /* Stop the page behind an open modal dialog from scrolling. */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
+  }
+
   body {
     min-height: 100dvh;
     background-color: var(--color-canvas);

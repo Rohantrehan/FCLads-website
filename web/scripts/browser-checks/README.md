@@ -19,6 +19,8 @@ node scripts/browser-checks/trading.mjs ./.checks   # 6 checks: free note, locke
 node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect, tabs, contents scroll-spy + jump, copy email, phone contents
 node scripts/browser-checks/dashboard.mjs ./.checks         # 13 checks: members-only gate on all 6 tabs, no member data sent
 node scripts/browser-checks/dashboard.mjs ./.checks member  # 16 checks (needs DEV_VIEWER=member in web/.env.local + dev server restart): tabs, filters, review booking
+node scripts/browser-checks/account.mjs ./.checks            # 5 checks: sign-in gate on account pages, no account data sent
+node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member mode): membership, cancel dialog (focus, Esc, outside click), billing
 ```
 
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).
