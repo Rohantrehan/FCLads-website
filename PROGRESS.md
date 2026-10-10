@@ -6,7 +6,7 @@
 
 **Last updated:** 10 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** All design pages are built (latest: account & billing `/account/membership`, `/account/billing`). User to review. Then: Lighthouse speed pass (recommended) and Step 7 (open questions, hosting, backend, real links).
+**Next action:** All design pages are built (latest: account & billing). Player data research done (`research/fc27-player-data-sources.md`): waiting for the client's answers before the backend. User to review. Then: Lighthouse speed pass (recommended) and Step 7 (open questions, hosting, backend, real links).
 
 ---
 
@@ -29,7 +29,7 @@
 | # | Question | Needed before |
 |---|---|---|
 | 1 | Refund policy: 14-day guarantee or non-refundable? (designs conflict) | Payments (Phase 2) |
-| 2 | Game & price data source; legal OK to show real players / EA card art? | Players, Squads, Trading pages |
+| 2 | Game & price data source; legal OK to show real players / EA card art? **Researched 10 Oct 2026 → [`research/fc27-player-data-sources.md`](research/fc27-player-data-sources.md)**: no public EA API; EA content policy bans EA content behind paywalls; recommend own card design, FC 27 base ratings + creator-added special cards, price links to FUTBIN/FUT.GG at launch, then ask FUTBIN/FUT.GG/EA for a licence. Client to answer the 4 questions in §6. | Backend (players, prices) |
 | 3 | Annual plan? Will the $29 founder rate change? | Payments |
 | 4 | Currencies: USD only, or GBP/EUR too? | Payments |
 | 5 | Coach capacity for monthly reviews | Reviews feature |
