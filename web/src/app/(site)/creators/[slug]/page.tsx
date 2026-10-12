@@ -176,11 +176,12 @@ export default async function CreatorProfilePage({ params }: { params: Params })
                 breakdown with personal tactical fixes.
               </p>
               <p className="tabular mt-4 text-primary">
-                {ladsPlus.priceLabel} / month <span className="text-muted">· Cancel anytime</span>
+                {ladsPlus.priceLabel} / month{" "}
+                <span className="text-muted">· {ladsPlus.trialDays}-day free trial · Cancel anytime</span>
               </p>
             </div>
             <Button href="/lads-plus" size="lg" className="shrink-0">
-              Join FC Lads+
+              Start free trial
             </Button>
           </div>
         </section>

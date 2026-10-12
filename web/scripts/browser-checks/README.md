@@ -11,7 +11,8 @@ node scripts/browser-checks/learn.mjs ./.checks #  9 checks: search, categories,
 node scripts/browser-checks/guide.mjs ./.checks #  5 checks: TOC, copy code, paywall link
 node scripts/browser-checks/creators.mjs ./.checks # 7 checks: roster hover panel, TFV hidden, profile tabs
 node scripts/browser-checks/collections.mjs ./.checks # 8 checks: tabs, path, episodes, next step
-node scripts/browser-checks/plus-auth.mjs ./.checks # 18 checks: FC Lads+ perks/FAQ/Join, sign-up + log-in validation
+node scripts/browser-checks/plus-auth.mjs ./.checks # 18 checks: FC Lads+ perks/FAQ/Join, sign-up + log-in validation (talks to Supabase; sends no email)
+node scripts/browser-checks/auth.mjs ./.checks      # 24 checks: real log in / log out with the QA test accounts (QA_* in .env.local): wrong password, ?next=, free plan + trial offer, members unlock posts, header states, reset pages
 node scripts/browser-checks/feed.mjs ./.checks      # 10 checks: topic tabs, load more, locked trading targets not sent, trending links
 node scripts/browser-checks/trading.mjs ./.checks   # 16 checks: date filters (default 7 days, today, yesterday, 3 days, custom, empty, bad value), image right of text, locked Lads+ posts not sent, tax calculator. Add `member` (DEV_VIEWER=member) to check members see full posts
 node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect, tabs, contents scroll-spy + jump, copy email, phone contents

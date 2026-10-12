@@ -37,13 +37,13 @@ export function PlusHero() {
               </p>
               <p className="tabular mt-1 flex items-center gap-1.5 text-xs text-mint">
                 <CheckCircle2 aria-hidden className="size-3.5" />
-                Billed monthly · Instant access
+                {ladsPlus.trialDays}-day free trial · Instant access
               </p>
-              <p className="mt-1 text-xs text-muted">Cancel anytime from your account</p>
+              <p className="mt-1 text-xs text-muted">Then billed monthly. Cancel anytime from your account.</p>
             </div>
             <div className="flex flex-col gap-2">
-              <Button href={JOIN_HREF} variant="primary" size="lg">
-                Join FC Lads+
+              <Button href={JOIN_HREF} variant="primary" size="lg" className="whitespace-nowrap">
+                Start free trial
                 <Zap aria-hidden className="size-4" />
               </Button>
               <p className="tabular flex items-center justify-center gap-1.5 text-[11px] text-muted">

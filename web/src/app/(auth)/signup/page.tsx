@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { ShieldMark } from "@/components/layout/Logo";
 import { AuthTabs } from "@/components/auth/AuthBits";
 import { SignupForm } from "@/components/auth/SignupForm";
 import { ladsPlus } from "@/data/ladsPlus";
+import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = {
   title: "Sign up",
@@ -12,11 +14,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/signup" },
 };
 
-type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-export default async function SignupPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function SignupPage({ searchParams }: PageProps<"/signup">) {
   // ?plan=plus comes from the "Join FC Lads+" buttons: after sign-up the user goes to checkout.
   const joiningPlus = (await searchParams).plan === "plus";
+  // Checkout arrives with Stripe; until then new members land on the FC Lads+ page.
+  const next = joiningPlus ? "/lads-plus" : "/";
+  if ((await getViewer()).isSignedIn) redirect(joiningPlus ? next : "/account");
 
   return (
     <div className="glass w-full max-w-md rounded-3xl p-6 shadow-[0_30px_80px_rgb(0_0_0/0.6)] sm:p-8">
@@ -44,7 +47,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Searc
           </div>
         ) : null}
 
-        <SignupForm joiningPlus={joiningPlus} />
+        <SignupForm joiningPlus={joiningPlus} next={next} />
 
         {!joiningPlus && (
           <p className="rounded-lg border border-white/8 bg-white/[0.03] p-3 text-center text-sm text-muted">

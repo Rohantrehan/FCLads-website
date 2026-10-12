@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CheckCircle2, Coins, Info, Lock, MapPin, ReceiptText } from "lucide-react";
 import { AccountHeading, fmtDate, SignInToManage } from "@/components/account/AccountBits";
 import { NotYetButton } from "@/components/account/NotYetButton";
@@ -27,7 +28,24 @@ const receiptButton =
 
 export default async function BillingPage() {
   const viewer = await getViewer();
-  if (!viewer.isSignedIn) return <SignInToManage />;
+  if (!viewer.isSignedIn) return <SignInToManage next="/account/billing" />;
+  if (!viewer.isMember) {
+    return (
+      <>
+        <AccountHeading title="Billing" description="Your payment card, past payments and receipts for FC Lads+." />
+        <section className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-white/12 p-10 text-center">
+          <ReceiptText aria-hidden className="size-8 text-muted" />
+          <p className="font-semibold">No payments yet</p>
+          <p className="max-w-md text-sm text-muted">
+            You&apos;re on the free plan. Your card and receipts show up here once you start FC Lads+.
+          </p>
+          <Link href="/account/membership" className="text-label text-primary hover:text-white">
+            See your plan
+          </Link>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>

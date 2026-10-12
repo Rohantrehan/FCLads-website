@@ -4,6 +4,8 @@ export const ladsPlus = {
   price: 29,
   currency: "USD",
   priceLabel: "$29",
+  /** Free trial for new members. Card taken at sign-up, first payment when it ends. Once per account. */
+  trialDays: 14,
 } as const;
 
 export type PerkKey = "guides" | "discord" | "creators" | "trading" | "review";

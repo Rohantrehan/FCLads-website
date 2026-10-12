@@ -7,7 +7,9 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
   const viewer = await getViewer();
   return (
     <>
-      <SiteHeader member={viewer.isMember ? { name: viewer.name ?? "Member" } : undefined} />
+      <SiteHeader
+        account={viewer.isSignedIn ? { name: viewer.name ?? "Lad", isMember: viewer.isMember } : undefined}
+      />
       <main id="main">{children}</main>
       <SiteFooter />
     </>

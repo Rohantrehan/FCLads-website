@@ -86,8 +86,12 @@ export function CompareTable() {
 // are kept general until confirmed — see PROGRESS.md open questions.
 const faqs = [
   {
+    q: "Is there a free trial?",
+    a: `Yes. New members get ${ladsPlus.trialDays} days of FC Lads+ free. You add a card when you join, and the first ${ladsPlus.priceLabel} payment is taken when the trial ends. Cancel before then and you won't be charged. One trial per account.`,
+  },
+  {
     q: "Can I cancel anytime?",
-    a: "Yes. There's no contract. Cancel from your account settings whenever you like and you keep full access until the end of the month you've paid for.",
+    a: "Yes. There's no contract. Cancel from your account settings whenever you like and you keep full access until the end of the month you've paid for. Cancel during your free trial and you're never charged.",
   },
   {
     q: "How do I join the Discord server?",

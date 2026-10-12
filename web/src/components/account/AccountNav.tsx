@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowLeft, CreditCard, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CreditCard, LogOut, ShieldCheck } from "lucide-react";
+import { logOut } from "@/app/(auth)/actions";
 import { cn } from "@/lib/cn";
-import { NotYetButton } from "./NotYetButton";
 
 const items = [
   { label: "Membership", href: "/account/membership", icon: ShieldCheck },
@@ -44,20 +44,24 @@ export function AccountNav({ active }: { active?: boolean }) {
         })}
       </ul>
       <div className="flex flex-col gap-1 border-t border-white/8 pt-2 sm:flex-row lg:flex-col">
-        <Link
-          href="/dashboard"
-          className="flex flex-1 items-center gap-3 rounded-xl px-4 py-3 text-sm text-muted transition-colors hover:bg-white/5 hover:text-white"
-        >
-          <ArrowLeft aria-hidden className="size-4" />
-          My Lads+ dashboard
-        </Link>
-        <NotYetButton
-          note="Log out arrives with accounts"
-          className="flex flex-1 items-center gap-3 rounded-xl px-4 py-3 text-left text-sm text-danger-soft transition-colors hover:bg-danger/10"
-          icon="logout"
-        >
-          Log out
-        </NotYetButton>
+        {active && (
+          <Link
+            href="/dashboard"
+            className="flex flex-1 items-center gap-3 rounded-xl px-4 py-3 text-sm text-muted transition-colors hover:bg-white/5 hover:text-white"
+          >
+            <ArrowLeft aria-hidden className="size-4" />
+            My Lads+ dashboard
+          </Link>
+        )}
+        <form action={logOut} className="flex flex-1">
+          <button
+            type="submit"
+            className="flex flex-1 items-center gap-3 rounded-xl px-4 py-3 text-left text-sm text-danger-soft transition-colors hover:bg-danger/10"
+          >
+            <LogOut aria-hidden className="size-4" />
+            Log out
+          </button>
+        </form>
       </div>
     </nav>
   );

@@ -1,58 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useActionState, useState, type FormEvent } from "react";
 import { AtSign, Gamepad2, Lock, UserPlus } from "lucide-react";
+import { signUp, type AuthFormState } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import { EMAIL_PATTERN, Field, passwordScore, SocialButtons, StatusNote } from "./AuthBits";
+import { displayNameError, emailError, newPasswordError } from "@/lib/auth/validation";
+import { CheckEmail, Field, passwordScore, StatusNote } from "./AuthBits";
 
 const strengthLabels = ["Too short", "Weak", "OK", "Good", "Strong"];
 const strengthColors = ["bg-danger", "bg-danger", "bg-gold", "bg-primary", "bg-mint"];
 
-type Errors = Partial<Record<"name" | "email" | "password" | "terms", string>>;
+type Errors = NonNullable<AuthFormState["errors"]>;
 
-/**
- * Sign-up form with live password strength. Browser-side validation only: there is no backend
- * yet, so nothing is sent or stored. Wire `handleSubmit` to real sign-up in Phase 2.
- */
-export function SignupForm({ joiningPlus }: { joiningPlus: boolean }) {
+/** Sign-up form with live password strength. Checks the fields in the browser, then creates the account. */
+export function SignupForm({ joiningPlus, next }: { joiningPlus: boolean; next: string }) {
   const [errors, setErrors] = useState<Errors>({});
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState<string | null>(null);
+  const [state, formAction, pending] = useActionState(async (prev: AuthFormState, data: FormData) => {
+    const result = await signUp(prev, data);
+    setErrors(result.errors ?? {});
+    return result;
+  }, {});
   const score = passwordScore(password);
 
   // Editing a field clears its error straight away (so hints like password strength reappear).
   const clearFieldError = (event: FormEvent<HTMLFormElement>) => {
-    const name = (event.target as HTMLInputElement).name as keyof typeof errors;
+    const name = (event.target as HTMLInputElement).name as keyof Errors;
     setErrors((current) => (current[name] ? { ...current, [name]: undefined } : current));
   };
 
+  // Catch obvious mistakes without a round trip; the server checks again.
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const next: Errors = {
-      name: !name ? "Choose a display name." : name.length < 3 ? "Use at least 3 characters." : undefined,
-      email: !email ? "Enter your email address." : !EMAIL_PATTERN.test(email) ? "That email doesn't look right." : undefined,
-      password: password.length < 8 ? "Use at least 8 characters." : undefined,
+    const found: Errors = {
+      name: displayNameError(String(data.get("name") ?? "").trim()),
+      email: emailError(String(data.get("email") ?? "").trim()),
+      password: newPasswordError(password),
       terms: data.get("terms") ? undefined : "Please accept the Terms and Privacy Policy to continue.",
     };
-    setErrors(next);
-    if (Object.values(next).some(Boolean)) {
-      setStatus(null);
-      return;
+    if (Object.values(found).some(Boolean)) {
+      event.preventDefault();
+      setErrors(found);
     }
-    setStatus(
-      joiningPlus
-        ? "Sign-up isn't switched on yet. When it is, you'll go straight to checkout for FC Lads+ from here. Nothing was sent or saved."
-        : "Sign-up isn't switched on yet. Accounts arrive with the next stage of the site — nothing was sent or saved.",
-    );
   };
 
+  if (state.sentTo) {
+    return (
+      <CheckEmail email={state.sentTo}>
+        {joiningPlus
+          ? "Open it to confirm your account, then you can start your free trial."
+          : "Open it to confirm your account and you're in."}
+      </CheckEmail>
+    );
+  }
+
   return (
-    <form noValidate onSubmit={handleSubmit} onChange={clearFieldError} className="flex flex-col gap-5">
+    <form
+      noValidate
+      action={formAction}
+      onSubmit={handleSubmit}
+      onChange={clearFieldError}
+      className="flex flex-col gap-5"
+    >
+      <input type="hidden" name="next" value={next} />
       <Field
         label="Display name"
         name="name"
@@ -125,14 +137,11 @@ export function SignupForm({ joiningPlus }: { joiningPlus: boolean }) {
           </p>
         )}
       </div>
-      <Button type="submit" variant="primary" size="lg" className="w-full">
-        {joiningPlus ? "Create account & continue" : "Create free account"}
+      <Button type="submit" variant="primary" size="lg" className="w-full" disabled={pending}>
+        {pending ? "Creating account…" : joiningPlus ? "Create account & continue" : "Create free account"}
         <UserPlus aria-hidden className="size-4" />
       </Button>
-      {status && <StatusNote>{status}</StatusNote>}
-      <SocialButtons
-        onPress={(provider) => setStatus(`Signing up with ${provider} isn't switched on yet. It arrives with accounts.`)}
-      />
+      {state.message && <StatusNote tone="error">{state.message}</StatusNote>}
     </form>
   );
 }

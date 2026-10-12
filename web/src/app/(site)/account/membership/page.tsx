@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, ArrowUpRight, CheckCircle2, Hash, MessagesSquare, Video } from "lucide-react";
-import { AccountHeading, fmtDate, SignInToManage } from "@/components/account/AccountBits";
+import { AccountHeading, fmtDate, FreePlan, SignInToManage } from "@/components/account/AccountBits";
+import { StatusNote } from "@/components/auth/AuthBits";
 import { MembershipPlan } from "@/components/account/MembershipPlan";
 import { DashPanel, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
@@ -29,15 +30,30 @@ const losses: Record<PerkKey, string> = {
   review: "Your 1-on-1 review (any unused review this month is lost)",
 };
 
-export default async function MembershipPage() {
+export default async function MembershipPage({ searchParams }: PageProps<"/account/membership">) {
   const viewer = await getViewer();
   if (!viewer.isSignedIn) return <SignInToManage />;
+
+  const passwordNote = (await searchParams).password === "updated" && (
+    <StatusNote tone="success">Your password has been changed.</StatusNote>
+  );
+
+  if (!viewer.isMember) {
+    return (
+      <>
+        <AccountHeading title="Membership" description="Your plan and what FC Lads+ adds." />
+        {passwordNote}
+        <FreePlan name={viewer.name} email={viewer.email} />
+      </>
+    );
+  }
 
   const reviewsLeft = currentReview.credits.total - currentReview.credits.used;
 
   return (
     <>
       <AccountHeading title="Membership" description="Your FC Lads+ plan, what's included and your Discord link." />
+      {passwordNote}
 
       <MembershipPlan
         plan={membership.plan}

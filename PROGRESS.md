@@ -6,7 +6,7 @@
 
 **Last updated:** 12 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Trading rebuilt as creator posts with date filters (12 Oct 2026). Run the public-mode test suites (needs `.env.local` removed + dev server restart), then user review, then backend (Step 7).
+**Next action:** Backend step 1 (Supabase login) done 12 Oct 2026. Next: **Step 2, Stripe** ($29/mo, 14-day trial, webhook → `memberships`) in Stripe test mode. Before real users: client sets up email sending (custom SMTP, e.g. Resend) and the Supabase email templates.
 
 ---
 
@@ -23,6 +23,8 @@
 | 2026-10-08 | **All Learn content is FC Lads+ (paid).** Every guide and every collection is members-only, because the free videos are already on YouTube. Free tier = YouTube, meta players, squads, creators, public feed. |
 | 2026-10-08 | **Collection videos are Loom (mostly) or unlisted YouTube**, played on the site by members only. Add per episode in `data/collections.ts` with `video: loom("<share id>")` or `video: youtube("<video id>")`. Video IDs are never sent to non-members (`lib/collectionAccess.ts`, `lib/guideAccess.ts`). |
 | 2026-10-08 | Code is on GitHub: **https://github.com/Rohantrehan/FCLads-website** (`origin`, branch `main`). Push after each approved session. |
+| 2026-10-12 | **Backend plan (recommended, client answered follow-ups):** Sanity (private dataset) for creator content (trading posts, feed, guides, collections, creators); Supabase for auth + Postgres (profiles, memberships, review bookings); Stripe for billing. Build order: Supabase auth → Stripe → Sanity → reviews → emails. |
+| 2026-10-12 | **Billing:** FC Lads+ **$29/month**, auto-renews, cancel any time, **14-day free trial** (card taken at signup, first charge after day 14). Login: **email only** (no Discord/Google login). Content posted by **both creators and an admin team**. Client team will create the **Stripe account** (none yet). **No Discord server yet** (interpretation of client reply, confirm). |
 
 ## Open questions (deferred — answer before the phase that needs them)
 
@@ -30,13 +32,13 @@
 |---|---|---|
 | 1 | Refund policy: 14-day guarantee or non-refundable? (designs conflict) | Payments (Phase 2) |
 | 2 | Game & price data source; legal OK to show real players / EA card art? **Researched 10 Oct 2026 → [`research/fc27-player-data-sources.md`](research/fc27-player-data-sources.md)**: no public EA API; EA content policy bans EA content behind paywalls; recommend own card design, FC 27 base ratings + creator-added special cards, price links to FUTBIN/FUT.GG at launch, then ask FUTBIN/FUT.GG/EA for a licence. Client to answer the 4 questions in §6. | Backend (players, prices) |
-| 3 | Annual plan? Will the $29 founder rate change? | Payments |
+| 3 | Annual plan? Will the $29 founder rate change? → **Monthly $29 only, 14-day free trial (12 Oct 2026).** | Payments |
 | 4 | Currencies: USD only, or GBP/EUR too? | Payments |
 | 5 | Coach capacity for monthly reviews | Reviews feature |
 | 6 | Premium video hosting: YouTube unlisted / Mux / AWS MediaConvert | Gameplay vault |
 | 7 | Existing Discord server size & bot ownership | Discord integration |
 | 8 | Who designs mobile layouts? (we are adapting desktop designs ourselves for now) | Ongoing |
-| 9 | Do creators publish content themselves (CMS) or via staff? | CMS |
+| 9 | ~~Do creators publish content themselves (CMS) or via staff?~~ **Both (12 Oct 2026).** | CMS |
 | 10 | Keep fake "telemetry" decoration (18MS, BUILD 28.1.0)? Remove "bots / glitch / exploit" wording? | Before launch |
 | 11 | Hosting: all-AWS or Vercel for frontend? | After 2–4 pages |
 
@@ -100,10 +102,10 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 - ⬜ Lighthouse performance pass
 - ⬜ Optional preview deploy for the client
 
-### Step 7 — Deferred decisions ⬜
-- ⬜ Answer open questions with client
+### Step 7 — Backend 🟡
+- 🟡 Answer open questions with client (billing, login, CMS answered 12 Oct; refunds, Discord server still open)
 - ⬜ Choose hosting
-- ⬜ Start backend phase (monorepo, DB, auth, Stripe)
+- 🟡 Backend: ✅ Supabase login (12 Oct) · ⬜ Stripe · ⬜ Sanity CMS · ⬜ review booking · ⬜ emails
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
@@ -314,6 +316,17 @@ User feedback on Home → implemented:
 - Dashboard: Trading tab = same posts + filters (all unlocked) + calculator; My Feed card = newest trading post.
 - Wording: "weekly trading brief" → "members-only trading posts" everywhere (Lads+ perks, page, compare table, FAQ, hero, paywall, membership/cancel, hard truth, Wessam's bio, Terms, Discord rules).
 - Tests: `trading.mjs` rewritten (16 checks; `member` mode passes; public mode checks locked posts but not run yet: server in member mode). Dashboard member 16/16. No sideways scroll at 375px.
+
+### Session: Backend step 1, Supabase login + 14-day trial copy (2026-10-12)
+- **Supabase project** `FCLads-Website` (ref `guiarzffjwsvqrukthsn`). Migration `web/supabase/migrations/20261012000000_profiles_memberships.sql` applied: `profiles` (display name, made by a trigger on sign-up) and `memberships` (Stripe status mirror; users can only read their own row, only the server writes). RLS on both.
+- **Auth (email only):** `@supabase/ssr`. `src/proxy.ts` refreshes the session; `lib/supabase/server.ts`; server actions in `app/(auth)/actions.ts` (log in, sign up, log out, forgot / reset password); `app/auth/confirm/route.ts` handles email links (`token_hash` or `code`). New pages `/forgot-password`, `/reset-password`. Google/Discord buttons removed.
+- **`getViewer()` is real now:** reads the session + `memberships` (member = `trialing`, `active` or `past_due`). `DEV_VIEWER=member` still works in dev. Without Supabase keys, everyone is a visitor.
+- **Signed-in free users:** header shows "Account"; `/account/membership` shows the Free plan + "Start 14-day free trial"; billing shows "No payments yet". Log in goes to `/dashboard` (members) or `/account` (free) unless `?next=`. Log out works (account menu + phone menu).
+- **Trial copy:** `ladsPlus.trialDays = 14`; CTAs say "Start free trial"; new FAQ "Is there a free trial?"; Terms has a Free trial paragraph.
+- **Test accounts** (no email): `qa-free@fclads.test` and `qa-member@fclads.test` (trialing), made directly in the database. Passwords only in `web/.env.local` (`QA_*`).
+- **Tests:** new `auth.mjs` 24/24, `plus-auth.mjs` updated 18/18, all public suites pass (home 10, learn 9, guide 5, creators 7, collections 12, feed 10, trading 16, legal 11, dashboard 13, account 5). No sideways scroll at 375px.
+- ⚠️ **Emails:** Supabase's built-in email only sends to the project team's addresses and a few per hour. Real sign-ups need custom SMTP (e.g. Resend) and the site URL / redirect URLs set in Supabase → Authentication → URL Configuration.
+- ⚠️ Account membership/billing pages for **members** still show mock data (`data/account.ts`) until Stripe.
 
 ## How to run locally
 

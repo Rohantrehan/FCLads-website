@@ -3,15 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
+import { logOut } from "@/app/(auth)/actions";
 import { Logo } from "@/components/layout/Logo";
 import { TierBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
 import { isActive, mainNav } from "@/lib/site";
 
-/** `member` is set when an FC Lads+ member is signed in (decided on the server by the layout). */
-export function SiteHeader({ member }: { member?: { name: string } }) {
+/** `account` is set when someone is signed in (decided on the server by the layout). */
+export function SiteHeader({ account }: { account?: { name: string; isMember: boolean } }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   // Close the phone menu whenever the route changes (React "adjust state on prop change" pattern).
@@ -76,19 +78,27 @@ export function SiteHeader({ member }: { member?: { name: string } }) {
             <TierBadge tier="free" />
             <TierBadge tier="plus" />
           </div>
-          {member ? (
+          {account ? (
             <Link
-              href="/dashboard"
-              aria-current={isActive(pathname, "/dashboard") ? "page" : undefined}
-              className="hidden items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 py-1 pr-3 pl-1 text-sm font-semibold text-mint transition-colors hover:border-primary/60 xl:flex"
+              href={account.isMember ? "/dashboard" : "/account"}
+              aria-current={isActive(pathname, account.isMember ? "/dashboard" : "/account") ? "page" : undefined}
+              className={cn(
+                "hidden items-center gap-2 rounded-lg border py-1 pr-3 pl-1 text-sm font-semibold transition-colors xl:flex",
+                account.isMember
+                  ? "border-primary/30 bg-primary/10 text-mint hover:border-primary/60"
+                  : "border-white/10 bg-white/5 text-white/90 hover:border-white/25",
+              )}
             >
               <span
                 aria-hidden
-                className="flex size-7 items-center justify-center rounded-md bg-primary font-display text-xs font-extrabold text-on-primary"
+                className={cn(
+                  "flex size-7 items-center justify-center rounded-md font-display text-xs font-extrabold",
+                  account.isMember ? "bg-primary text-on-primary" : "bg-white/10 text-white",
+                )}
               >
-                {member.name.charAt(0)}
+                {account.name.charAt(0).toUpperCase()}
               </span>
-              My Lads+
+              {account.isMember ? "My Lads+" : "Account"}
             </Link>
           ) : (
             <Link
@@ -137,19 +147,31 @@ export function SiteHeader({ member }: { member?: { name: string } }) {
             );
           })}
           <div className="mt-6 flex flex-col gap-3 border-t border-white/8 pt-6">
-            {member ? (
+            {account ? (
               <>
-                <Button href="/dashboard" size="lg">
-                  My Lads+ dashboard
-                </Button>
+                {account.isMember ? (
+                  <Button href="/dashboard" size="lg">
+                    My Lads+ dashboard
+                  </Button>
+                ) : (
+                  <Button href="/lads-plus" size="lg">
+                    Start {ladsPlus.trialDays}-day free trial
+                  </Button>
+                )}
                 <Button href="/account" variant="glass" size="lg">
-                  Account & billing
+                  {account.isMember ? "Account & billing" : "My account"}
                 </Button>
+                <form action={logOut} className="flex">
+                  <Button type="submit" variant="danger" size="lg" className="w-full">
+                    <LogOut aria-hidden className="size-4" />
+                    Log out
+                  </Button>
+                </form>
               </>
             ) : (
               <>
                 <Button href="/lads-plus" size="lg">
-                  Join FC Lads+ · $29/mo
+                  Join FC Lads+ · {ladsPlus.priceLabel}/mo
                 </Button>
                 <Button href="/login" variant="glass" size="lg">
                   Log in

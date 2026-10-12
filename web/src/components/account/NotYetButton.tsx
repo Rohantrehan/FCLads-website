@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { Download, LogOut, Pencil } from "lucide-react";
+import { Download, Pencil } from "lucide-react";
 
-const icons = { download: Download, logout: LogOut, edit: Pencil };
+const icons = { download: Download, edit: Pencil };
 
 /**
  * A button for an action that needs the backend (payments or accounts).

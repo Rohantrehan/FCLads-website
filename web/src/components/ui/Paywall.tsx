@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
 
 export const LADS_PLUS_PRICE = "$29";
@@ -58,10 +59,10 @@ export function Paywall({
 
       <p className="flex items-baseline gap-2">
         <span className="font-display text-3xl font-extrabold">{LADS_PLUS_PRICE}</span>
-        <span className="tabular text-sm text-muted">/ month · Cancel anytime</span>
+        <span className="tabular text-sm text-muted">/ month after a {ladsPlus.trialDays}-day free trial</span>
       </p>
       <Button href="/lads-plus" variant="primary" size="lg" className="mt-4 w-full max-w-sm">
-        Join FC Lads+
+        Start free trial
       </Button>
       <p className="mt-4 text-sm text-muted">
         Already a Lad?{" "}

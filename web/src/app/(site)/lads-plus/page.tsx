@@ -9,7 +9,7 @@ import { ladsPlus } from "@/data/ladsPlus";
 
 export const metadata: Metadata = {
   title: "FC Lads+ membership",
-  description: `Every guide and video series, the private FC Lads Discord, creator access, members-only trading posts and a monthly 1-on-1 gameplay review. ${ladsPlus.priceLabel} a month, cancel anytime.`,
+  description: `Every guide and video series, the private FC Lads Discord, creator access, members-only trading posts and a monthly 1-on-1 gameplay review. ${ladsPlus.priceLabel} a month after a ${ladsPlus.trialDays}-day free trial, cancel anytime.`,
   alternates: { canonical: "/lads-plus" },
 };
 
@@ -70,9 +70,11 @@ export default function LadsPlusPage() {
               <span className="font-display text-5xl font-extrabold">{ladsPlus.priceLabel}</span>
               <span className="text-muted">/ month</span>
             </p>
-            <p className="text-sm text-muted">No contract · Cancel anytime</p>
+            <p className="text-sm text-muted">
+              {ladsPlus.trialDays}-day free trial, then billed monthly · Cancel anytime
+            </p>
             <Button href={JOIN_HREF} size="lg" className="w-full">
-              Join FC Lads+
+              Start {ladsPlus.trialDays}-day free trial
               <Zap aria-hidden className="size-4" />
             </Button>
           </div>

@@ -41,7 +41,7 @@ const pos = (expr) => evaluate(`(() => { const el=${expr}; el.scrollIntoView({bl
 const typeInto = async (sel, text) => { const p = await pos(`document.querySelector('${sel}')`); await click(p.x, p.y); await send("Input.insertText", { text }); };
 const submit = async () => { const p = await pos(`document.querySelector('form button[type=submit]')`); await click(p.x, p.y); await sleep(500); };
 const errs = () => evaluate(`[...document.querySelectorAll('[aria-invalid=true]')].map(e=>e.name).join(',')`);
-const statusText = () => evaluate(`document.querySelector('[role=status]')?.textContent ?? ''`);
+const statusText = () => evaluate(`document.querySelector('form [role=status], form [role=alert]')?.textContent ?? ''`);
 
 try {
 // ---- FC Lads+ page
@@ -50,9 +50,9 @@ const panelTitle = () => evaluate(`document.querySelector('#perk-panel h3')?.tex
 check("perk panel starts on guides & video series", /Every guide & video series/.test(await panelTitle() ?? ""), await panelTitle());
 let p = await pos(`document.getElementById('perk-tab-trading')`);
 await mouse(p.x, p.y); await sleep(800);
-check("hover Trading brief shows its preview", /trading brief/i.test(await panelTitle() ?? ""), await panelTitle());
+check("hover Trading posts shows its preview", /trading posts/i.test(await panelTitle() ?? ""), await panelTitle());
 await mouse(5, 5); await sleep(600);
-check("preview stays after leaving", /trading brief/i.test(await panelTitle() ?? ""), await panelTitle());
+check("preview stays after leaving", /trading posts/i.test(await panelTitle() ?? ""), await panelTitle());
 check("TFV not on page", !(await evaluate("document.body.innerText.includes('TFV')")));
 p = await pos(`[...document.querySelectorAll('details summary')].find(s=>/Discord/.test(s.textContent))`);
 await click(p.x, p.y); await sleep(300);
@@ -73,7 +73,8 @@ check("weak password shows strength", /Too short|Weak/.test(await evaluate("docu
 await submit();
 check("bad email + short password flagged", (await errs()) === "email,password,terms", await errs());
 await evaluate("document.querySelector('input[name=email]').select()");
-await send("Input.insertText", { text: "test@example.com" });
+// .test addresses are refused by Supabase, so this reaches the server without sending any email.
+await send("Input.insertText", { text: "test@fclads.test" });
 await evaluate("document.querySelector('input[name=password]').select()");
 await send("Input.insertText", { text: "Testpass123!" });
 check("strong password rated", /Strength: (Good|Strong)/.test(await evaluate("document.body.innerText")));
@@ -82,20 +83,19 @@ await click(eye.x, eye.y); await sleep(200);
 check("show password reveals text", (await evaluate("document.querySelector('input[name=password]').type")) === "text");
 p = await pos(`document.querySelector('input[name=terms]')`); await click(p.x, p.y);
 await submit();
-check("valid sign-up shows honest status", /isn.t switched on yet.*checkout/.test(await statusText()), await statusText());
+await sleep(4000);
+check("server error shown in plain words", /can.t be used/.test(await statusText()), await statusText());
 check("no errors left", (await errs()) === "", await errs());
 
 // ---- Log in
 await send("Page.navigate", { url: "http://localhost:3000/login" }); await sleep(2500);
 await submit();
 check("empty login flags email + password", (await errs()) === "email,password", await errs());
-await typeInto("input[name=email]", "test@example.com");
-await typeInto("input[name=password]", "Testpass123!");
-await submit();
-check("valid login shows honest status", /isn.t switched on yet/.test(await statusText()), await statusText());
-p = await pos(`[...document.querySelectorAll('button')].find(b=>/Discord/.test(b.textContent))`);
-await click(p.x, p.y); await sleep(300);
-check("Discord button explains it's not connected", /Discord isn.t switched on yet/.test(await statusText()), await statusText());
+await typeInto("input[name=email]", "nobody@fclads.test");
+await typeInto("input[name=password]", "Wrongpass123!");
+await submit(); await sleep(4000);
+check("wrong login shows plain error", /don.t match/.test(await statusText()), await statusText());
+check("email-only: no Google or Discord buttons", !(await evaluate("/Continue with (Google|Discord)/.test(document.body.innerText)")));
 } catch (error) { results.push("ERROR  " + error.message); }
 console.log(results.join(String.fromCharCode(10)));
 ws.close(); edge.kill();

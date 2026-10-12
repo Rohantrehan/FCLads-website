@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useId, useState, type InputHTMLAttributes, type ReactNode } from "react";
-import { Eye, EyeOff, Info } from "lucide-react";
+import { CircleAlert, CircleCheck, Eye, EyeOff, Info, MailCheck } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 /** Log in | Sign up switch at the top of the auth card. */
@@ -102,53 +102,40 @@ export function Field({ label, hint, error, icon, aside, className, type, ...inp
   );
 }
 
-/** Google / Discord buttons. Until auth exists they report that sign-in isn't connected yet. */
-export function SocialButtons({ onPress }: { onPress: (provider: string) => void }) {
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-3 text-muted">
-        <span aria-hidden className="h-px flex-1 bg-white/10" />
-        <span className="tabular text-xs uppercase">or</span>
-        <span aria-hidden className="h-px flex-1 bg-white/10" />
-      </div>
-      <button
-        type="button"
-        onClick={() => onPress("Google")}
-        className="flex h-12 items-center justify-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] font-semibold transition-colors hover:border-white/25"
-      >
-        <svg aria-hidden viewBox="0 0 24 24" className="size-5">
-          <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8Z" />
-          <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24Z" />
-          <path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1Z" />
-          <path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9Z" />
-        </svg>
-        Continue with Google
-      </button>
-      <button
-        type="button"
-        onClick={() => onPress("Discord")}
-        className="flex h-12 items-center justify-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] font-semibold transition-colors hover:border-[#5865F2]/60"
-      >
-        <span aria-hidden className="flex size-5 items-center justify-center rounded bg-[#5865F2] text-[10px] font-black text-white">
-          D
-        </span>
-        Continue with Discord
-      </button>
-    </div>
-  );
-}
+const noteTones = {
+  info: { box: "border-azure/40 bg-azure/10", icon: Info, iconClass: "text-[#93c5fd]" },
+  error: { box: "border-danger/50 bg-danger/10", icon: CircleAlert, iconClass: "text-danger-soft" },
+  success: { box: "border-primary/40 bg-primary/10", icon: CircleCheck, iconClass: "text-primary" },
+};
 
-/** Polite status box shown after submitting (e.g. "accounts aren't switched on yet"). */
-export function StatusNote({ children }: { children: ReactNode }) {
+/** Status box shown after submitting: errors are announced straight away, the rest politely. */
+export function StatusNote({ children, tone = "info" }: { children: ReactNode; tone?: keyof typeof noteTones }) {
+  const { box, icon: Icon, iconClass } = noteTones[tone];
   return (
-    <div role="status" className="flex gap-3 rounded-lg border border-azure/40 bg-azure/10 p-4 text-sm">
-      <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-[#93c5fd]" />
+    <div role={tone === "error" ? "alert" : "status"} className={cn("flex gap-3 rounded-lg border p-4 text-sm", box)}>
+      <Icon aria-hidden className={cn("mt-0.5 size-4 shrink-0", iconClass)} />
       <div>{children}</div>
     </div>
   );
 }
 
-export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** Replaces a form once a confirmation or reset email has gone out. */
+export function CheckEmail({ email, children }: { email: string; children: ReactNode }) {
+  return (
+    <div role="status" className="flex flex-col items-center gap-4 rounded-2xl border border-primary/30 bg-primary/5 p-6 text-center">
+      <span className="flex size-12 items-center justify-center rounded-full bg-primary/15 text-primary">
+        <MailCheck aria-hidden className="size-6" />
+      </span>
+      <div className="flex flex-col gap-2">
+        <p className="font-display text-xl font-extrabold">Check your email</p>
+        <p className="text-sm text-muted">
+          We sent a link to <span className="font-semibold break-all text-on-surface">{email}</span>. {children}
+        </p>
+      </div>
+      <p className="text-xs text-muted">Nothing there after a few minutes? Check your spam folder.</p>
+    </div>
+  );
+}
 
 /** 0–4 score: length ≥ 8, ≥ 12, mixed case, digit or symbol. */
 export function passwordScore(password: string) {

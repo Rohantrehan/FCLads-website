@@ -123,6 +123,11 @@ const terms: LegalDoc = {
         },
         {
           type: "p",
+          lead: "Free trial:",
+          text: `new members get ${ladsPlus.trialDays} days of FC Lads+ free, once per account. You give us a card when the trial starts and your first payment is taken automatically when it ends, unless you cancel before then. If you cancel during the trial, you aren't charged and your access ends when the trial does.`,
+        },
+        {
+          type: "p",
           lead: "Refunds:",
           text: "because you get access to all members' content straight away, payments for a month that has already started aren't refunded, except where the law says they must be. If you've been charged twice or by mistake, contact us within 7 days and we'll sort it out.",
         },

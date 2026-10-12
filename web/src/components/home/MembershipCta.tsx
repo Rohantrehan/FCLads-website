@@ -38,7 +38,9 @@ export function MembershipCta() {
               <div className="flex items-baseline justify-between gap-4">
                 <div>
                   <p className="font-display text-lg font-extrabold uppercase">FC Lads+ pass</p>
-                  <p className="tabular mt-0.5 text-xs text-muted">Cancel anytime</p>
+                  <p className="tabular mt-0.5 text-xs text-muted">
+                    {ladsPlus.trialDays}-day free trial · Cancel anytime
+                  </p>
                 </div>
                 <p className="text-right">
                   <span className="font-display text-3xl font-extrabold">{ladsPlus.priceLabel}</span>
@@ -61,7 +63,7 @@ export function MembershipCta() {
                 </div>
               </dl>
               <Button href="/lads-plus" className="w-full rounded-xl">
-                Join FC Lads+
+                Start free trial
               </Button>
             </div>
           </div>
