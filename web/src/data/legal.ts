@@ -113,7 +113,7 @@ const terms: LegalDoc = {
       blocks: [
         {
           type: "p",
-          text: "FC Lads+ is our paid membership. It unlocks every guide and video collection, the private Discord channels, the weekly trading brief, direct access to the creators and a monthly gameplay review.",
+          text: "FC Lads+ is our paid membership. It unlocks every guide and video collection, the private Discord channels, members-only trading posts, direct access to the creators and a monthly gameplay review.",
         },
         {
           type: "callout",
@@ -166,7 +166,7 @@ const terms: LegalDoc = {
         {
           type: "p",
           lead: "Please don't share paid content:",
-          text: "don't copy, re-upload, resell or post FC Lads+ guides, videos or the trading brief anywhere else, and don't scrape the site.",
+          text: "don't copy, re-upload, resell or post FC Lads+ guides, videos or trading posts anywhere else, and don't scrape the site.",
         },
         {
           type: "p",

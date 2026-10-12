@@ -91,7 +91,7 @@ export function FeedPreview() {
               <span className="tabular shrink-0 font-bold text-primary">{ladsPlus.priceLabel} / mo</span>
             </div>
             <p className="text-sm leading-relaxed text-muted">
-              Every guide and video series, the private Discord, direct creator access, the weekly trading brief and a
+              Every guide and video series, the private Discord, direct creator access, members-only trading posts and a
               monthly 1-on-1 gameplay review.
             </p>
             <Button href="/lads-plus" variant="primary" className="mt-2 w-full">

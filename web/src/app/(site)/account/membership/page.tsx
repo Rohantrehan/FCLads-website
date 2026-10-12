@@ -17,7 +17,7 @@ const perkTags: Record<PerkKey, string> = {
   guides: `${guides.length} guides`,
   discord: "Members role",
   creators: "Ask the Lads",
-  trading: "Every Monday",
+  trading: "Members posts",
   review: "1 a month",
 };
 
@@ -25,7 +25,7 @@ const losses: Record<PerkKey, string> = {
   guides: "Members-only guides, slider codes and the FC 27 video collections",
   discord: "The members channels and Q&As with the creators",
   creators: "Weekly squad and chemistry fixes from the Lads",
-  trading: "Monday buy targets and exit prices",
+  trading: "Members-only trading posts and screenshots",
   review: "Your 1-on-1 review (any unused review this month is lost)",
 };
 

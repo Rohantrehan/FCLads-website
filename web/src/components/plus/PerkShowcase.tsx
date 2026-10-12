@@ -93,14 +93,14 @@ const previews: Record<PerkKey, PerkPreview> = {
   },
   trading: {
     eyebrow: "Market intel",
-    title: "The weekly trading brief",
-    text: "Every Monday: what we're watching, potential opportunities, upcoming promos and players to monitor.",
-    bullets: ["Buy & exit targets", "Promo calendar", "Market trends"],
+    title: "Members-only trading posts",
+    text: "Market calls from the Lads as they happen: what to buy, when to sell and why, with screenshots.",
+    bullets: ["Buy & sell calls", "Screenshots", "Filter by date"],
     link: { label: "Open the trading page", href: "/trading" },
     visual: (
       <div className="grid grid-cols-2 gap-2">
-        <Stat label="Released" value="Mondays" />
-        <Stat label="Sections" value="5 panels" />
+        <Stat label="Posted" value="Most days" />
+        <Stat label="Filters" value="Today → 7 days" />
       </div>
     ),
   },

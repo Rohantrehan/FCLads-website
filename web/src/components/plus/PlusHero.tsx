@@ -26,7 +26,7 @@ export function PlusHero() {
           </p>
           <p className="max-w-xl text-lg text-muted">
             FC Lads+ is for players who want more than YouTube videos. Join the actual FC Lads community: every guide and video series,
-            the private Discord, the creators, the weekly trading brief and a personal gameplay review every month.
+            the private Discord, the creators, members-only trading posts and a personal gameplay review every month.
           </p>
 
           <div className="glass flex w-full max-w-xl flex-col gap-5 rounded-2xl p-5 shadow-rim sm:flex-row sm:items-center sm:justify-between">

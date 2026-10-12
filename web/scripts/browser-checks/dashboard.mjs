@@ -48,7 +48,7 @@ if (MODE === "public") {
     await send("Page.navigate", { url: `http://localhost:3000/dashboard${tab}` }); await sleep(2500);
     const page = await html();
     check(`gate on /dashboard${tab}`, page.includes("Your FC Lads+ dashboard"));
-    check(`no member data on /dashboard${tab}`, !/Weekend League - Game 7|arjun_fc|Fodder prices are at a low|Drop defensive depth/.test(page));
+    check(`no member data on /dashboard${tab}`, !/Weekend League - Game 7|arjun_fc|buying 86s under 3,000|Drop defensive depth/.test(page));
   }
   check("header shows Log in", /Log in/.test(await body()) && !(await evaluate(`!!document.querySelector('header a[href="/dashboard"]')`)));
 } else {
@@ -59,7 +59,7 @@ if (MODE === "public") {
   check("continue watching shows progress", (await evaluate("document.querySelectorAll('[role=progressbar]').length")) >= 3);
 
   await send("Page.navigate", { url: "http://localhost:3000/dashboard/trading" }); await sleep(3500);
-  check("trading tab shows the full brief", /Buy and sell targets/.test(await body()) && /315,000/.test(await body()));
+  check("trading tab shows members-only posts unlocked", (await body()).includes("buying 86s under 3,000") && !/full post and screenshot are for FC Lads\+ members/.test(await body()));
 
   await send("Page.navigate", { url: "http://localhost:3000/dashboard/gameplay?category=tactics" }); await sleep(3500);
   const cards = await evaluate(`document.querySelectorAll('#library article').length`);

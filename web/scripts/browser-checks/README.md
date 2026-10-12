@@ -13,7 +13,7 @@ node scripts/browser-checks/creators.mjs ./.checks # 7 checks: roster hover pane
 node scripts/browser-checks/collections.mjs ./.checks # 8 checks: tabs, path, episodes, next step
 node scripts/browser-checks/plus-auth.mjs ./.checks # 18 checks: FC Lads+ perks/FAQ/Join, sign-up + log-in validation
 node scripts/browser-checks/feed.mjs ./.checks      # 10 checks: topic tabs, load more, locked trading targets not sent, trending links
-node scripts/browser-checks/trading.mjs ./.checks   # 7 checks: free note, locked brief not sent, weekly market cycle, no player links, tax calculator
+node scripts/browser-checks/trading.mjs ./.checks   # 16 checks: date filters (default 7 days, today, yesterday, 3 days, custom, empty, bad value), image right of text, locked Lads+ posts not sent, tax calculator. Add `member` (DEV_VIEWER=member) to check members see full posts
 node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect, tabs, contents scroll-spy + jump, copy email, phone contents
 node scripts/browser-checks/dashboard.mjs ./.checks         # 13 checks: members-only gate on all 6 tabs, no member data sent
 node scripts/browser-checks/dashboard.mjs ./.checks member  # 16 checks (needs DEV_VIEWER=member in web/.env.local + dev server restart): tabs, filters, review booking

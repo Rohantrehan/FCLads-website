@@ -6,7 +6,7 @@
 
 **Last updated:** 12 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Players and Squads removed (12 Oct 2026); Trading is now text only. All design pages built. User to review, then backend (Step 7).
+**Next action:** Trading rebuilt as creator posts with date filters (12 Oct 2026). Run the public-mode test suites (needs `.env.local` removed + dev server restart), then user review, then backend (Step 7).
 
 ---
 
@@ -303,6 +303,17 @@ User feedback on Home → implemented:
 - **Dashboard:** My Feed drops the squad card (4 cards now); trading card shows the typed target. Creators tab: "Recommended this week" replaced by a **"The Lads"** list (each creator + post count).
 - Copy updated: site description, FC Lads+ compare table/FAQ ("Public feed & free trading tools"), feed page text, design-system demos.
 - Tests: home (10), creators (7), dashboard member (16), account member (17) pass; feed/trading test counts updated (9 posts; weekly cycle check) but **public-mode suites not re-run** (dev server is in member mode and memory was low, so not restarted). `/players` and `/squads` return 404. No sideways scroll at 375px on changed pages. Typecheck + lint clean. Production build not run (low memory).
+
+### Session: Trading rebuilt as creator posts (2026-10-12)
+- **User request:** Trading page = creator posts like on social platforms (heading + text on the left, screenshot on the right), date filter on top (Today, Yesterday, Last 3 days, Last 7 days, Custom). Only the tax calculator stays.
+- **`/trading`:** title + filter pills (presets are links; Custom opens a From/To GET form; works without JS) + "N posts · dates" line + post cards; sidebar: tax calculator + trading disclaimer (sticky). Phones: screenshot on top of the card (like a social post), pills wrap, calculator after the posts.
+- Default filter: **Last 7 days**. Bad values fall back; reversed custom dates are swapped; future dates clamped; empty range shows a message + "See the last 7 days".
+- Posts: `web/src/data/tradingPosts.ts` (server-only, 10 mock posts by Wessam/Hobs/Stefan, mock "today" = `TRADING_TODAY` 2026-10-12). Filtering + paywall in `lib/tradingAccess.ts`. Components: `trading/TradingFeed.tsx`, `TradingPostCard.tsx`, `TradingDisclaimer.tsx`. Placeholder screenshots in `web/public/trading/*.svg` (real posts will carry the creator's own screenshot).
+- **FC Lads+ kept:** each post is free or FC Lads+. Non-members see FC Lads+ posts as title + lock + "Unlock with FC Lads+" (text and screenshot never sent). Members (and `/dashboard/trading`) see everything.
+- Removed: market note, watch list, weekly cycle, members' weekly brief (`MemberBrief`, `TradingBits`, `data/trading.ts`, `data/tradingBrief.ts`).
+- Dashboard: Trading tab = same posts + filters (all unlocked) + calculator; My Feed card = newest trading post.
+- Wording: "weekly trading brief" → "members-only trading posts" everywhere (Lads+ perks, page, compare table, FAQ, hero, paywall, membership/cancel, hard truth, Wessam's bio, Terms, Discord rules).
+- Tests: `trading.mjs` rewritten (16 checks; `member` mode passes; public mode checks locked posts but not run yet: server in member mode). Dashboard member 16/16. No sideways scroll at 375px.
 
 ## How to run locally
 

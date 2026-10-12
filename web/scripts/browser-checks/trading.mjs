@@ -29,14 +29,11 @@ ws.addEventListener("message", (e) => {
 });
 const send = (method, params = {}) => new Promise((r) => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
 const evaluate = async (expr) => (await send("Runtime.evaluate", { expression: expr, returnByValue: true, awaitPromise: true })).result?.result?.value;
-const mouse = (x, y, type = "mouseMoved", extra = {}) => send("Input.dispatchMouseEvent", { type, x, y, pointerType: "mouse", ...extra });
-const click = async (x, y) => { await mouse(x, y); await mouse(x, y, "mousePressed", { button: "left", clickCount: 1 }); await mouse(x, y, "mouseReleased", { button: "left", clickCount: 1 }); };
 const results = [];
 const check = (name, ok, detail) => results.push(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  (" + detail + ")" : ""}`);
 
 await send("Page.enable");
 await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
-const pos = (expr) => evaluate(`(() => { const el=${expr}; el.scrollIntoView({block:'center'}); const r=el.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
 const body = () => evaluate("document.body.textContent");
 const typeInto = async (label, text) => {
   await evaluate(`[...document.querySelectorAll('label')].find(l=>l.textContent.includes(${JSON.stringify(label)})).querySelector('input').focus()`);
@@ -44,12 +41,41 @@ const typeInto = async (label, text) => {
 };
 const calc = () => evaluate(`[...document.querySelectorAll('dl[aria-live=polite] dd')].map(d=>d.textContent).join(' | ')`);
 
-await send("Page.navigate", { url: "http://localhost:3000/trading" }); await sleep(4000);
-check("free market note shown", /pre-Weekend League sell-off/.test(await body()));
-check("brief is locked", /Unlock the brief/.test(await body()));
-check("brief content not sent", !(await evaluate(`document.documentElement.outerHTML.includes('Fodder prices are at a low') || document.documentElement.outerHTML.includes('315,000')`)));
-check("weekly market cycle shows 5 steps", (await evaluate(`document.querySelectorAll('section[aria-labelledby=cycle-heading] li').length`)) === 5);
-check("no links to player pages", !(await evaluate(`!!document.querySelector('a[href^="/players"]')`)));
+// Mode (argv[3]): "public" (default) checks locked FC Lads+ posts; "member" needs DEV_VIEWER=member.
+const MODE = process.argv[3] ?? "public";
+const posts = () => evaluate(`document.querySelectorAll('main article').length`);
+const current = () => evaluate(`document.querySelector('nav[aria-label="Filter posts by date"] a[aria-current=page]')?.textContent`);
+const open = async (query) => { await send("Page.navigate", { url: `http://localhost:3000/trading${query}` }); await sleep(3000); };
+const LOCKED_TEXT = "buying 86s under 3,000";
+
+await open("");
+check("Last 7 days is the default", (await current()) === "Last 7 days", await current());
+check("last 7 days shows 8 posts", (await posts()) === 8, String(await posts()));
+check("posts show heading + text", await evaluate(`!!document.querySelector('main article h2')`));
+check("screenshot sits right of the text on desktop", await evaluate(`(() => { const a=[...document.querySelectorAll('main article')].find(x=>x.querySelector('img')); const t=a.querySelector('h2').getBoundingClientRect(); const i=a.querySelector('img').getBoundingClientRect(); return i.left > t.left; })()`));
+if (MODE === "public") {
+  check("locked post text not sent", !(await evaluate(`document.documentElement.outerHTML.includes(${JSON.stringify(LOCKED_TEXT)})`)));
+  check("locked posts say Lads+", /full post and screenshot are for FC Lads\+ members/.test(await body()));
+} else {
+  check("members see the full post", (await body()).includes(LOCKED_TEXT));
+  check("no lock notes for members", !/full post and screenshot are for FC Lads\+ members/.test(await body()));
+}
+await open("?range=today");
+check("Today shows 2 posts", (await posts()) === 2, String(await posts()));
+await open("?range=yesterday");
+check("Yesterday shows 2 posts", (await posts()) === 2, String(await posts()));
+await open("?range=3d");
+check("Last 3 days shows 5 posts", (await posts()) === 5, String(await posts()));
+await open("?range=custom&from=2026-10-01&to=2026-10-05");
+check("custom range shows 2 posts", (await posts()) === 2, String(await posts()));
+check("custom form keeps the dates", (await evaluate(`document.querySelector('input[name=from]').value + ' ' + document.querySelector('input[name=to]').value`)) === "2026-10-01 2026-10-05");
+await open("?range=custom&from=2026-10-05&to=2026-10-01");
+check("reversed custom dates still work", (await posts()) === 2, String(await posts()));
+await open("?range=custom&from=2026-09-01&to=2026-09-02");
+check("empty range shows a message", (await posts()) === 0 && /No trading posts in this range/.test(await body()));
+await open("?range=nonsense");
+check("bad range falls back to last 7 days", (await current()) === "Last 7 days");
+await open("");
 await typeInto("Bought for", "10000");
 await typeInto("Selling for", "12000");
 await sleep(300);

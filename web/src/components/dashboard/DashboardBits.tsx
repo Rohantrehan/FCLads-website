@@ -95,7 +95,7 @@ export function MembersOnly() {
       <Paywall
         eyebrow="Members area"
         title="Your FC Lads+ dashboard"
-        description="Log in with your FC Lads+ account to see your feed, the trading brief, the video library, your monthly review and the private Discord."
+        description="Log in with your FC Lads+ account to see your feed, the trading posts, the video library, your monthly review and the private Discord."
         className="shadow-none"
       />
     </div>

@@ -213,7 +213,7 @@ export function MembershipPlan({
             </h2>
             <p id="cancel-description" className="text-muted">
               You&apos;ll keep access until <strong className="text-white">{nextPaymentShort}</strong>. After that you
-              lose the members-only guides, the private Discord, the trading brief and your monthly review.
+              lose the members-only guides, the private Discord, members-only trading posts and your monthly review.
             </p>
           </div>
 

@@ -26,9 +26,9 @@ import {
   reviewSteps,
   weekInFc,
 } from "@/data/memberDashboard";
-import { currentBrief } from "@/data/tradingBrief";
+import { latestTradingPost } from "@/lib/tradingAccess";
 import { cn } from "@/lib/cn";
-import { categoryLabels, formatNumber } from "@/lib/format";
+import { categoryLabels } from "@/lib/format";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
 import type { Guide } from "@/types";
@@ -94,7 +94,7 @@ export default async function MyFeedPage() {
   if (!viewer.isMember) return <MembersOnly />;
 
   const guide = getFeaturedGuide();
-  const target = currentBrief.opportunities[0];
+  const tradingPost = latestTradingPost();
   const watching = continueWatching
     .map((item) => ({ ...item, guide: getGuide(item.guideSlug) }))
     .filter((item): item is typeof item & { guide: Guide } => !!item.guide);
@@ -130,29 +130,16 @@ export default async function MyFeedPage() {
             </DropCard>
           )}
 
-          <DropCard
-            kicker={`Trading brief · week ${currentBrief.week}`}
-            title={currentBrief.watching[0]?.title ?? "This week's market"}
-            href="/dashboard/trading"
-            authorSlug={currentBrief.authorSlug}
-          >
-            {target && (
-              <dl className="flex flex-col gap-1.5 rounded-lg bg-canvas/60 p-3 text-sm">
-                <div className="flex justify-between gap-2">
-                  <dt className="text-muted">Buy</dt>
-                  <dd className="text-right font-semibold">{target.card}</dd>
-                </div>
-                <div className="flex justify-between gap-2">
-                  <dt className="text-muted">Buy under</dt>
-                  <dd className="tabular font-semibold text-gold">{formatNumber(target.buyBelow)}</dd>
-                </div>
-                <div className="flex justify-between gap-2">
-                  <dt className="text-muted">Sell at</dt>
-                  <dd className="tabular font-bold text-primary">{formatNumber(target.sellAt)}</dd>
-                </div>
-              </dl>
-            )}
-          </DropCard>
+          {tradingPost && (
+            <DropCard
+              kicker="New trading post"
+              title={tradingPost.title}
+              href="/dashboard/trading"
+              authorSlug={tradingPost.authorSlug}
+            >
+              <p className="line-clamp-3 text-sm text-muted">{tradingPost.text}</p>
+            </DropCard>
+          )}
 
           <DropCard
             kicker={`Discord · #${discordHighlight.channel}`}

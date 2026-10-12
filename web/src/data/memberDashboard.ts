@@ -179,6 +179,6 @@ export const discordChannels = [
 export const discordRules = [
   "Be respectful. No abuse, hate speech or harassment.",
   "No selling or buying coins, accounts or boosting.",
-  "Don't share FC Lads+ guides, videos or the trading brief outside the server.",
+  "Don't share FC Lads+ guides, videos or trading posts outside the server.",
   "Keep posts in the right channel.",
 ];

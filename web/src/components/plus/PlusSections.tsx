@@ -164,13 +164,13 @@ export function TradingSection() {
   return (
     <BenefitRow
       id="trading"
-      eyebrow="Economy // every Monday"
-      title="Weekly trading brief"
+      eyebrow="Economy // as it happens"
+      title="Members-only trading posts"
       visual={
         <div className="glass flex flex-col gap-3 rounded-2xl p-5 shadow-rim">
           <p className="tabular flex items-center justify-between text-xs text-muted uppercase">
-            <span className="text-mint">FC Lads market brief</span>
-            <span>Monday release</span>
+            <span className="text-mint">FC Lads trading posts</span>
+            <span>Today</span>
           </p>
           {[
             { name: "High-rated fodder (88+)", target: "Target buy: under 14,250", est: "Exit: before Thursday SBC" },
@@ -184,15 +184,15 @@ export function TradingSection() {
               </p>
             </div>
           ))}
-          <p className="tabular text-[11px] text-muted">Example layout. Live targets are in the members&apos; brief.</p>
+          <p className="tabular text-[11px] text-muted">Example layout. Live calls are in the members&apos; posts.</p>
         </div>
       }
     >
       <p className="text-lg text-muted">
-        Every Monday, Wessam breaks down what&apos;s happening in the Ultimate Team market, so you can build a better
-        squad without spending money on FC Points.
+        Wessam and the Lads post market calls as they happen, with screenshots, so you can build a better squad
+        without spending money on FC Points.
       </p>
-      <Pills items={["What we're watching", "Potential opportunities", "Upcoming promos", "Market trends", "Players to monitor"]} />
+      <Pills items={["Buy & sell calls", "Screenshots", "Promo timing", "Market trends", "Filter by date"]} />
       <p className="text-xs text-muted">
         Trading information is educational. Market conditions change quickly, and we focus on careful, low-risk methods.
       </p>

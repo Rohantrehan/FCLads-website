@@ -8,7 +8,7 @@ export const LADS_PLUS_PRICE = "$29";
 const defaultPerks = [
   "Every guide & video collection",
   "Private FC Lads Discord",
-  "Weekly Trading Brief",
+  "Members-only trading posts",
   "Monthly 1-on-1 review",
 ];
 

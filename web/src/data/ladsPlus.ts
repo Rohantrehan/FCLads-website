@@ -12,6 +12,6 @@ export const ladsPlusPerks: { key: PerkKey; title: string; description: string }
   { key: "guides", title: "Guides & video series", description: "Every guide and FC 27 video collection, with slider codes and controller inputs." },
   { key: "discord", title: "Private Discord", description: "Members-only channels with the creators and pro players." },
   { key: "creators", title: "Creator access", description: "Ask the Lads directly. Squad and chemistry fixes every week." },
-  { key: "trading", title: "Trading brief", description: "Every Monday: what to watch, buy targets and exit prices." },
+  { key: "trading", title: "Trading posts", description: "Members-only market calls from the Lads, with screenshots." },
   { key: "review", title: "Monthly review", description: "A 1-on-1 video review of your own FUT Champs gameplay." },
 ];

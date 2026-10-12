@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Placeholder screenshot: list of card prices">
+  <rect width="640" height="360" fill="#0c1017"/>
+  <rect x="24" y="24" width="592" height="40" rx="8" fill="#18202f"/>
+  <rect x="40" y="38" width="120" height="12" rx="6" fill="#d8b25a" opacity=".85"/>
+  <g>
+    <rect x="24" y="84" width="592" height="56" rx="10" fill="#111722"/>
+    <rect x="40" y="98" width="28" height="28" rx="6" fill="#212b3e"/><rect x="84" y="104" width="200" height="14" rx="7" fill="#f0f4fa" opacity=".7"/>
+    <rect x="500" y="104" width="96" height="14" rx="7" fill="#2bd98b" opacity=".8"/>
+    <rect x="24" y="152" width="592" height="56" rx="10" fill="#111722"/>
+    <rect x="40" y="166" width="28" height="28" rx="6" fill="#212b3e"/><rect x="84" y="172" width="240" height="14" rx="7" fill="#f0f4fa" opacity=".7"/>
+    <rect x="500" y="172" width="96" height="14" rx="7" fill="#2bd98b" opacity=".8"/>
+    <rect x="24" y="220" width="592" height="56" rx="10" fill="#111722"/>
+    <rect x="40" y="234" width="28" height="28" rx="6" fill="#212b3e"/><rect x="84" y="240" width="170" height="14" rx="7" fill="#f0f4fa" opacity=".7"/>
+    <rect x="500" y="240" width="96" height="14" rx="7" fill="#d8b25a" opacity=".8"/>
+    <rect x="24" y="288" width="592" height="48" rx="10" fill="#111722" opacity=".6"/>
+  </g>
+</svg>

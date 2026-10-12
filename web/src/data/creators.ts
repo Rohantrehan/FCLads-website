@@ -83,7 +83,7 @@ const allCreators: Creator[] = [
     ratings: { gam: 88, tac: 86, trd: 99, meta: 93 },
     rankLabel: "ECONOMY #04",
     highlight: { label: "Portfolio", value: "50M+ coins" },
-    bio: "Market lead behind the weekly Trading Brief. Wessam tracks prices, promos and SBCs so you can build coins without living on the market.",
+    bio: "Market lead behind the FC Lads trading posts. Wessam tracks prices, promos and SBCs so you can build coins without living on the market.",
     socials: { youtube: "#", x: "#" },
     audience: [
       { platform: "youtube", count: "70K" },

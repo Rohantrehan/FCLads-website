@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Placeholder screenshot: price chart going up">
+  <rect width="640" height="360" fill="#0c1017"/>
+  <rect x="24" y="24" width="592" height="40" rx="8" fill="#18202f"/>
+  <rect x="40" y="38" width="140" height="12" rx="6" fill="#2bd98b" opacity=".8"/>
+  <rect x="470" y="38" width="130" height="12" rx="6" fill="#a7b0bc" opacity=".35"/>
+  <g stroke="#ffffff" stroke-opacity=".06">
+    <line x1="40" y1="120" x2="600" y2="120"/><line x1="40" y1="180" x2="600" y2="180"/>
+    <line x1="40" y1="240" x2="600" y2="240"/><line x1="40" y1="300" x2="600" y2="300"/>
+  </g>
+  <path d="M40 290 L110 280 L180 285 L250 250 L320 258 L390 210 L460 190 L530 150 L600 110 L600 320 L40 320 Z" fill="#2bd98b" fill-opacity=".12"/>
+  <path d="M40 290 L110 280 L180 285 L250 250 L320 258 L390 210 L460 190 L530 150 L600 110" fill="none" stroke="#2bd98b" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="600" cy="110" r="7" fill="#8ff0c9"/>
+</svg>

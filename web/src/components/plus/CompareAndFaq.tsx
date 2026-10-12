@@ -5,12 +5,12 @@ type Cell = boolean | string;
 
 const rows: { feature: string; free: Cell; plus: Cell }[] = [
   { feature: "Free videos on YouTube", free: true, plus: true },
-  { feature: "Public feed & free trading tools", free: true, plus: true },
+  { feature: "Public feed & tax calculator", free: true, plus: true },
   { feature: "Every guide & slider code", free: false, plus: "Full access" },
   { feature: "FC 27 video collections", free: false, plus: "Every series" },
   { feature: "Private Discord strategy rooms", free: false, plus: "Always open" },
   { feature: "Q&A with the creators", free: false, plus: "Regular sessions" },
-  { feature: "Weekly trading brief", free: false, plus: "Every Monday" },
+  { feature: "Trading posts from the Lads", free: "Free posts", plus: "Every post" },
   { feature: "1-on-1 gameplay review", free: false, plus: "1 per month" },
 ];
 
@@ -99,7 +99,7 @@ const faqs = [
   },
   {
     q: "What stays free?",
-    a: "Our YouTube channel, the public feed and the free trading tools (weekly market note and tax calculator). Every guide and video collection on this site is part of FC Lads+, along with the private Discord, creator access, the trading brief and your monthly review.",
+    a: "Our YouTube channel, the public feed, the free trading posts and the tax calculator. Every guide and video collection on this site is part of FC Lads+, along with the private Discord, creator access, members-only trading posts and your monthly review.",
   },
   {
     q: "Where do I watch the video collections?",

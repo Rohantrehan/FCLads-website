@@ -44,10 +44,10 @@ export const hardTruth: HardTruthItem[] = [
   },
   {
     problem: "The market moves.",
-    answerTitle: "A trading brief every Monday.",
+    answerTitle: "Market calls as they happen.",
     answer:
-      "Wessam's weekly brief covers what to watch, when to buy and when to sell, so you can build coins without living on the transfer market.",
+      "Wessam and the Lads post what to buy, when to sell and why, with screenshots, so you can build coins without living on the transfer market.",
     creatorSlug: "wessam",
-    cta: { label: "Open the trading brief", href: "/trading" },
+    cta: { label: "See the trading posts", href: "/trading" },
   },
 ];
