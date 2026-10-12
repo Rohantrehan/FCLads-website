@@ -9,16 +9,15 @@ import { TableOfContents } from "@/components/guide/TableOfContents";
 import { VideoFacade } from "@/components/guide/VideoFacade";
 import { ShareButton } from "@/components/learn/ShareButton";
 import { Badge, TierBadge } from "@/components/ui/Badge";
-import { Avatar, CoinPrice } from "@/components/ui/DataBits";
+import { Avatar } from "@/components/ui/DataBits";
 import { Paywall } from "@/components/ui/Paywall";
 import { getCreator } from "@/data/creators";
 import { getGuideContent } from "@/data/guideContent";
 import { getGuide, guides } from "@/data/guides";
-import { getPlayer } from "@/data/players";
 import { categoryLabels } from "@/lib/format";
 import { getGuideView } from "@/lib/guideAccess";
 import { getViewer } from "@/lib/viewer";
-import type { Guide, Player } from "@/types";
+import type { Guide } from "@/types";
 
 type Params = Promise<{ slug: string }>;
 
@@ -71,7 +70,6 @@ export default async function GuidePage({ params }: { params: Params }) {
   const viewer = await getViewer();
   const view = getGuideView(guide, content, viewer);
   const author = getCreator(guide.authorSlug);
-  const players = (content?.playerSlugs ?? []).map(getPlayer).filter((player): player is Player => !!player);
   const hasVideo = guide.format === "video" || !!guide.video;
   const published = dateFormat.format(new Date(guide.publishedAt));
 
@@ -89,7 +87,10 @@ export default async function GuidePage({ params }: { params: Params }) {
   return (
     <div className="relative">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,rgb(14_42_34/0.8),transparent)]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,rgb(14_42_34/0.8),transparent)]"
+      />
 
       <article className="relative">
         <header className="page-container flex flex-col gap-5 pt-8 pb-8">
@@ -195,7 +196,9 @@ export default async function GuidePage({ params }: { params: Params }) {
                 <Paywall
                   eyebrow="FC Lads+ exclusive deep dive"
                   title={
-                    guide.access === "plus" ? "This guide is for FC Lads+ members" : "This guide continues for FC Lads+ members"
+                    guide.access === "plus"
+                      ? "This guide is for FC Lads+ members"
+                      : "This guide continues for FC Lads+ members"
                   }
                   description="Every guide and video series on FC Lads is part of FC Lads+. Unlock the full step-by-step breakdown, custom slider codes, the video and the private Discord coaching channels."
                   className={view.teaser ? "-mt-16" : undefined}
@@ -208,40 +211,11 @@ export default async function GuidePage({ params }: { params: Params }) {
             <div className="flex flex-col gap-6 lg:sticky lg:top-28">
               {view.toc.length > 0 && <TableOfContents items={view.toc} />}
 
-              {players.length > 0 && (
-                <section aria-labelledby="players-heading" className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-surface p-5">
-                  <h2 id="players-heading" className="font-display text-sm font-extrabold uppercase">
-                    Players in this guide
-                  </h2>
-                  <ul className="flex flex-col gap-2">
-                    {players.map((player) => (
-                      <li key={player.slug}>
-                        <Link
-                          href={`/players/${player.slug}`}
-                          className="flex items-center justify-between gap-3 rounded-xl bg-surface-container p-3 transition-colors hover:bg-surface-high"
-                        >
-                          <span className="flex items-center gap-3">
-                            <span className="flex size-10 items-center justify-center rounded-lg bg-surface-highest font-display font-extrabold text-mint">
-                              {player.ovr}
-                            </span>
-                            <span>
-                              <span className="block text-sm font-bold">{player.cardName ?? player.name}</span>
-                              <span className="tabular text-[11px] text-muted">
-                                {player.position}
-                                {player.playstyles?.[0] && <span className="text-primary"> · {player.playstyles[0]}</span>}
-                              </span>
-                            </span>
-                          </span>
-                          {player.price !== undefined && <CoinPrice value={player.price} compact className="text-sm" />}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
               {content?.presetCode && !view.isLocked && (
-                <section aria-labelledby="preset-heading" className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-surface p-5">
+                <section
+                  aria-labelledby="preset-heading"
+                  className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-surface p-5"
+                >
                   <h2 id="preset-heading" className="font-display text-sm font-extrabold uppercase">
                     Custom tactic code
                   </h2>
@@ -258,7 +232,9 @@ export default async function GuidePage({ params }: { params: Params }) {
         <div className="page-container flex flex-col gap-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="tabular text-[11px] font-bold tracking-widest text-mint uppercase">Continue your training</p>
+              <p className="tabular text-[11px] font-bold tracking-widest text-mint uppercase">
+                Continue your training
+              </p>
               <h2 id="related-heading" className="text-headline mt-1">
                 Keep learning
               </h2>
@@ -273,7 +249,12 @@ export default async function GuidePage({ params }: { params: Params }) {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedGuides(guide).map((related) => (
-              <GuideCard key={related.slug} guide={related} author={getCreator(related.authorSlug)} className="h-full" />
+              <GuideCard
+                key={related.slug}
+                guide={related}
+                author={getCreator(related.authorSlug)}
+                className="h-full"
+              />
             ))}
           </div>
         </div>

@@ -8,8 +8,6 @@ export interface NavItem {
 
 export const mainNav: NavItem[] = [
   { label: "Learn", href: "/learn" },
-  { label: "Players", href: "/players" },
-  { label: "Squads", href: "/squads" },
   { label: "Feed", href: "/feed" },
   { label: "Trading", href: "/trading" },
   { label: "Creators", href: "/creators" },
@@ -18,8 +16,6 @@ export const mainNav: NavItem[] = [
 
 export const footerNav: NavItem[] = [
   { label: "Learn", href: "/learn" },
-  { label: "Players", href: "/players" },
-  { label: "Squads", href: "/squads" },
   { label: "Feed", href: "/feed" },
   { label: "Trading", href: "/trading" },
   { label: "Creators", href: "/creators" },

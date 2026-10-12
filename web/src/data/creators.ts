@@ -26,10 +26,6 @@ const allCreators: Creator[] = [
       { platform: "tiktok", count: "210K" },
     ],
     since: 2017,
-    picks: [
-      { playerSlug: "kai-vanderbilt", verdict: "Unstoppable on the turn. The best striker in the game right now." },
-      { playerSlug: "rafael-san", verdict: "Recovery pace that makes high lines look silly." },
-    ],
   },
   {
     slug: "stefan",
@@ -52,12 +48,6 @@ const allCreators: Creator[] = [
       { platform: "tiktok", count: "180K" },
     ],
     since: 2018,
-    picks: [
-      { playerSlug: "marco-velardi", verdict: "The most responsive left-stick exit angle in the game. Undervalued." },
-      { playerSlug: "leo-silva", verdict: "Incredible dribbling. Ideal budget CAM for early Weekend League." },
-      { playerSlug: "antoine-valere", verdict: "Finesse Shot+ is close to automatic from 25 yards after the patch." },
-      { playerSlug: "darius-okonkwo", verdict: "Reads through balls early and wins everything in the air." },
-    ],
   },
   {
     slug: "hobs",
@@ -79,10 +69,6 @@ const allCreators: Creator[] = [
       { platform: "twitch", count: "60K" },
     ],
     since: 2019,
-    picks: [
-      { playerSlug: "matteo-bianchi", verdict: "The best value CDM in the game. Sits and cuts everything out." },
-      { playerSlug: "leo-silva", verdict: "Plays like a 300K card for the price of a pack." },
-    ],
   },
   {
     slug: "wessam",
@@ -104,9 +90,6 @@ const allCreators: Creator[] = [
       { platform: "x", count: "45K" },
     ],
     since: 2019,
-    picks: [
-      { playerSlug: "darius-okonkwo", verdict: "Holds his value every week. Safe coins and a great CB." },
-    ],
   },
   {
     // Placeholder profile (Oct 2026): role, bio, numbers and links to be confirmed by Lizzy.
@@ -135,7 +118,7 @@ export function getCreator(slug: string) {
   return creators.find((creator) => creator.slug === slug);
 }
 
-/** True when the creator exists and is not hidden. Used to filter their guides and squads. */
+/** True when the creator exists and is not hidden. Used to filter their guides and posts. */
 export function isVisibleCreator(slug: string) {
   return creators.some((creator) => creator.slug === slug);
 }

@@ -14,8 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { DashboardHeading, DashPanel, MembersOnly, PanelLink, ProgressBar } from "@/components/dashboard/DashboardBits";
-import { FormationPitch } from "@/components/cards/SquadCard";
-import { Avatar, CoinPrice } from "@/components/ui/DataBits";
+import { Avatar } from "@/components/ui/DataBits";
 import { Button } from "@/components/ui/Button";
 import { getCreator } from "@/data/creators";
 import { getFeaturedGuide, getGuide } from "@/data/guides";
@@ -27,8 +26,6 @@ import {
   reviewSteps,
   weekInFc,
 } from "@/data/memberDashboard";
-import { getPlayer } from "@/data/players";
-import { getSquad } from "@/data/squads";
 import { currentBrief } from "@/data/tradingBrief";
 import { cn } from "@/lib/cn";
 import { categoryLabels, formatNumber } from "@/lib/format";
@@ -98,8 +95,6 @@ export default async function MyFeedPage() {
 
   const guide = getFeaturedGuide();
   const target = currentBrief.opportunities[0];
-  const targetPlayer = target && getPlayer(target.playerSlug);
-  const squad = getSquad("100k-hybrid");
   const watching = continueWatching
     .map((item) => ({ ...item, guide: getGuide(item.guideSlug) }))
     .filter((item): item is typeof item & { guide: Guide } => !!item.guide);
@@ -122,7 +117,7 @@ export default async function MyFeedPage() {
         <h2 id="drops-heading" className="font-display text-lg font-extrabold uppercase">
           New from the Lads
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {guide && (
             <DropCard
               kicker={`New ${guide.format === "video" ? "video" : "guide"} · ${categoryLabels[guide.category]}`}
@@ -141,38 +136,23 @@ export default async function MyFeedPage() {
             href="/dashboard/trading"
             authorSlug={currentBrief.authorSlug}
           >
-            {targetPlayer && (
+            {target && (
               <dl className="flex flex-col gap-1.5 rounded-lg bg-canvas/60 p-3 text-sm">
                 <div className="flex justify-between gap-2">
                   <dt className="text-muted">Buy</dt>
-                  <dd className="font-semibold">{targetPlayer.name}</dd>
+                  <dd className="text-right font-semibold">{target.card}</dd>
                 </div>
                 <div className="flex justify-between gap-2">
-                  <dt className="text-muted">Now</dt>
-                  <dd>{targetPlayer.price !== undefined && <CoinPrice value={targetPlayer.price} />}</dd>
+                  <dt className="text-muted">Buy under</dt>
+                  <dd className="tabular font-semibold text-gold">{formatNumber(target.buyBelow)}</dd>
                 </div>
                 <div className="flex justify-between gap-2">
                   <dt className="text-muted">Sell at</dt>
-                  <dd className="tabular font-bold text-primary">{formatNumber(target.targetOut)}</dd>
+                  <dd className="tabular font-bold text-primary">{formatNumber(target.sellAt)}</dd>
                 </div>
               </dl>
             )}
           </DropCard>
-
-          {squad && (
-            <DropCard
-              kicker={`New squad · ${squad.budgetLabel}`}
-              title={squad.name}
-              href={`/squads/${squad.slug}`}
-              authorSlug={squad.authorSlug}
-            >
-              <FormationPitch formation={squad.formation} />
-              <p className="tabular mt-2 flex justify-between text-[11px] text-muted uppercase">
-                <span>{squad.formation}</span>
-                <span>{squad.chemistry}/33 chem</span>
-              </p>
-            </DropCard>
-          )}
 
           <DropCard
             kicker={`Discord · #${discordHighlight.channel}`}

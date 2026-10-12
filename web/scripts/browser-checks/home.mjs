@@ -30,7 +30,6 @@ ws.addEventListener("message", (e) => {
 const send = (method, params = {}) => new Promise((r) => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
 const evaluate = async (expr) => (await send("Runtime.evaluate", { expression: expr, returnByValue: true, awaitPromise: true })).result?.result?.value;
 const mouse = (x, y, type = "mouseMoved", extra = {}) => send("Input.dispatchMouseEvent", { type, x, y, pointerType: "mouse", ...extra });
-const click = async (x, y) => { await mouse(x, y); await mouse(x, y, "mousePressed", { button: "left", clickCount: 1 }); await mouse(x, y, "mouseReleased", { button: "left", clickCount: 1 }); };
 const shot = async (name) => { const r = await send("Page.captureScreenshot", { format: "png" }); writeFileSync(`${OUT}/${name}.png`, Buffer.from(r.result.data, "base64")); };
 const results = [];
 const check = (name, ok, detail) => results.push(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  (" + detail + ")" : ""}`);
@@ -40,30 +39,9 @@ await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 900, dev
 await send("Page.navigate", { url: "http://localhost:3000/" });
 await sleep(4000);
 
-// ---------- 1. Auto-scroll carousel ----------
-await evaluate(`document.querySelector('[aria-label^="Meta players"]').scrollIntoView({block:'center'})`);
-await mouse(5, 5); // cursor away from the row
-await sleep(800);
-const rect = await evaluate(`(() => { const r = document.querySelector('[aria-label^="Meta players"]').getBoundingClientRect(); return {x:r.x+r.width/2, y:r.y+r.height/2}; })()`);
-const sl = () => evaluate(`document.querySelector('[aria-label^="Meta players"]').scrollLeft`);
-const a1 = await sl(); await sleep(1500); const a2 = await sl();
-check("carousel scrolls by itself", a2 > a1, `${a1} -> ${a2}`);
-await shot("t1-carousel-running");
-await mouse(rect.x, rect.y); await sleep(400);
-const b1 = await sl(); await sleep(1500); const b2 = await sl();
-check("carousel stops on hover", b1 === b2, `${b1} -> ${b2}`);
-await mouse(5, 5); await sleep(400);
-const c1 = await sl(); await sleep(1500); const c2 = await sl();
-check("carousel resumes after cursor leaves", c2 > c1, `${c1} -> ${c2}`);
-const btn = await evaluate(`(() => { const b=[...document.querySelectorAll('button')].find(b=>/Pause/.test(b.textContent)); const r=b.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
-await click(btn.x, btn.y); await mouse(5, 5); await sleep(400);
-const d1 = await sl(); await sleep(1200); const d2 = await sl();
-check("Pause button stops scrolling", d1 === d2, `${d1} -> ${d2}`);
-await click(btn.x, btn.y); await mouse(5, 5);
-const pos = await evaluate(`[...document.querySelectorAll('[role=radio]')].find(b=>b.textContent==='CAM').getBoundingClientRect().toJSON()`);
-await click(pos.x + pos.width / 2, pos.y + pos.height / 2); await sleep(600);
-const camCards = await evaluate(`document.querySelector('[aria-label^="Meta players"]').textContent.includes('Leo Silva')`);
-check("position filter still works (CAM shows Leo Silva)", camCards);
+// ---------- 1. Hero shows the creators, no player data ----------
+check("hero shows creator cards", (await evaluate(`[...document.querySelectorAll('section')][0].querySelectorAll('a[href^="/creators/"]').length`)) === 3);
+check("no links to removed Players/Squads pages", !(await evaluate(`!!document.querySelector('a[href^="/players"], a[href^="/squads"]')`)));
 
 // ---------- 2. Hard truth tabs ----------
 await evaluate(`document.querySelector('[role=tablist][aria-label="Common FC problems"]').scrollIntoView({block:'center'})`);

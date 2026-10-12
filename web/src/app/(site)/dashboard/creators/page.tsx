@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Star, Video } from "lucide-react";
+import { ArrowRight, Users, Video } from "lucide-react";
 import { DashboardHeading, DashPanel, MembersOnly, PanelLink } from "@/components/dashboard/DashboardBits";
 import { FeedPostCard } from "@/components/feed/FeedCards";
 import { Button } from "@/components/ui/Button";
-import { CoinPrice } from "@/components/ui/DataBits";
+import { Avatar } from "@/components/ui/DataBits";
 import { creators, getCreator } from "@/data/creators";
 import { currentReview } from "@/data/memberDashboard";
-import { getPlayer } from "@/data/players";
 import { cn } from "@/lib/cn";
 import { queryFeed } from "@/lib/feedAccess";
 import { getViewer } from "@/lib/viewer";
-import type { Player } from "@/types";
 
 export const metadata: Metadata = { title: "Creators" };
 
@@ -27,12 +25,6 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
   const posts = all.filter((post) => !selected || post.authorSlug === selected.slug).slice(0, POSTS_SHOWN);
   const countFor = (slug: string) => all.filter((post) => post.authorSlug === slug).length;
 
-  // One pick per creator: the Lads' recommended players this week.
-  const picks = creators.flatMap((creator) => {
-    const pick = creator.picks?.[0];
-    const player = pick && getPlayer(pick.playerSlug);
-    return pick && player ? [{ creator, player: player as Player, verdict: pick.verdict }] : [];
-  });
   const reviewsLeft = currentReview.credits.total - currentReview.credits.used;
 
   const chips: { slug?: string; name: string; count: number }[] = [
@@ -95,30 +87,20 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
         </section>
 
         <aside className="flex flex-col gap-6 lg:col-span-4">
-          <DashPanel
-            id="picks-heading"
-            title="Recommended this week"
-            icon={<Star aria-hidden className="size-5 text-primary" />}
-          >
-            <ul className="flex flex-col gap-3">
-              {picks.map(({ creator, player, verdict }) => (
+          <DashPanel id="lads-heading" title="The Lads" icon={<Users aria-hidden className="size-5 text-primary" />}>
+            <ul className="flex flex-col gap-2">
+              {creators.map((creator) => (
                 <li key={creator.slug}>
                   <Link
-                    href={`/players/${player.slug}`}
-                    className="group flex flex-col gap-3 rounded-xl border border-white/8 bg-surface p-4 transition-colors hover:border-primary/40"
+                    href={`/creators/${creator.slug}`}
+                    className="group flex items-center gap-3 rounded-xl border border-white/8 bg-surface p-3 transition-colors hover:border-primary/40"
                   >
-                    <span className="flex items-center gap-3">
-                      <span className="flex size-11 shrink-0 flex-col items-center justify-center rounded-lg bg-surface-highest leading-none">
-                        <span className="font-display font-extrabold text-mint">{player.ovr}</span>
-                        <span className="tabular text-[9px] text-muted">{player.position}</span>
-                      </span>
-                      <span className="flex min-w-0 flex-1 flex-col">
-                        <span className="truncate font-semibold group-hover:text-primary">{player.name}</span>
-                        <span className="text-[11px] text-muted">Picked by {creator.name}</span>
-                      </span>
-                      {player.price !== undefined && <CoinPrice value={player.price} compact className="text-sm" />}
+                    <Avatar initials={creator.initials} tone="mint" />
+                    <span className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate font-semibold group-hover:text-primary">{creator.name}</span>
+                      <span className="truncate text-[11px] text-muted">{creator.role}</span>
                     </span>
-                    <span className="text-sm text-muted italic">&ldquo;{verdict}&rdquo;</span>
+                    <span className="tabular text-[11px] text-muted">{countFor(creator.slug)} posts</span>
                   </Link>
                 </li>
               ))}

@@ -1,12 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { CheckCircle2, Lock } from "lucide-react";
+import { CheckCircle2, Eye, Lock, MoveRight, TrendingDown, TrendingUp } from "lucide-react";
 import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { Button } from "@/components/ui/Button";
-import { CoinPrice, Trend } from "@/components/ui/DataBits";
 import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
-import type { Player } from "@/types";
 
 /** Card shell with a green bar before the title, as in the brief design. */
 export function BriefSection({
@@ -37,26 +35,33 @@ export function BriefSection({
   );
 }
 
-/** Small row: OVR, name, price and weekly trend. Links to the player page. */
-export function MoverRow({ player }: { player: Player }) {
+/** A card (or card type) to keep an eye on, with the creator's short note. Plain text: no player database. */
+export function WatchRow({ card, note }: { card: string; note: string }) {
   return (
-    <Link
-      href={`/players/${player.slug}`}
-      className="flex items-center gap-3 rounded-xl border border-white/8 bg-surface p-3 transition-colors hover:border-primary/40"
-    >
-      <span className="flex size-10 shrink-0 flex-col items-center justify-center rounded-lg bg-surface-highest leading-none">
-        <span className="font-display font-extrabold text-mint">{player.ovr}</span>
-        <span className="tabular text-[9px] text-muted">{player.position}</span>
+    <div className="flex items-start gap-3 rounded-xl border border-white/8 bg-surface p-3">
+      <Eye aria-hidden className="mt-0.5 size-4 shrink-0 text-primary" />
+      <span className="flex min-w-0 flex-col gap-0.5">
+        <span className="text-sm font-semibold">{card}</span>
+        <span className="text-xs text-muted">{note}</span>
       </span>
-      <span className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate text-sm font-semibold">{player.name}</span>
-        <span className="tabular truncate text-[11px] text-muted">{player.league ?? player.club}</span>
-      </span>
-      <span className="flex shrink-0 flex-col items-end gap-0.5">
-        {player.price !== undefined && <CoinPrice value={player.price} compact className="text-sm" />}
-        {player.trend !== undefined && <Trend value={player.trend} className="text-[11px]" />}
-      </span>
-    </Link>
+    </div>
+  );
+}
+
+const trendMeta = {
+  up: { icon: TrendingUp, label: "Rising", className: "text-primary" },
+  down: { icon: TrendingDown, label: "Falling", className: "text-danger-soft" },
+  flat: { icon: MoveRight, label: "Steady", className: "text-gold" },
+};
+
+/** Direction label for a market trend: icon + word, never colour alone. */
+export function TrendTag({ direction }: { direction: keyof typeof trendMeta }) {
+  const { icon: Icon, label, className } = trendMeta[direction];
+  return (
+    <span className={cn("tabular inline-flex items-center gap-1 text-[11px] font-bold uppercase", className)}>
+      <Icon aria-hidden className="size-3.5" />
+      {label}
+    </span>
   );
 }
 
@@ -98,7 +103,7 @@ export function LockedBrief({ week, sections }: { week: number; sections: string
               "Buy and sell price targets",
               "Upcoming events and promo calendar",
               "Fodder price forecasts",
-              "Players to watch, every week",
+              "Cards to watch, every week",
             ].map((perk) => (
               <li key={perk} className="flex items-center gap-2">
                 <CheckCircle2 aria-hidden className="size-4 shrink-0 text-primary" />

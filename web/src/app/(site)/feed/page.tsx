@@ -41,7 +41,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
   return {
     title: topic ? `${feedTopics[topic]} feed` : "The FC Lads feed",
     description:
-      "Everything happening in EA SPORTS FC: patch changes, player verdicts, squads, trading tips and Champs advice from the Lads.",
+      "Everything happening in EA SPORTS FC: patch changes, gameplay clips, trading tips and Champs advice from the Lads.",
     alternates: { canonical: topic ? `/feed?topic=${topic}` : "/feed" },
   };
 }
@@ -124,7 +124,10 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
               <FeedPostCard key={segment.posts[0].id} post={segment.posts[0]} />
             ) : (
               // Narrow posts pack into two balanced columns between the wide ones (no gaps).
-              <div key={segment.posts[0].id} className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid [&>*:last-child]:mb-0">
+              <div
+                key={segment.posts[0].id}
+                className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid [&>*:last-child]:mb-0"
+              >
                 {segment.posts.map((post) => (
                   <FeedPostCard key={post.id} post={post} />
                 ))}
@@ -149,7 +152,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
             <div>
               <p className="text-label text-muted">Free</p>
               <p className="mt-1 text-sm text-muted">
-                The feed, meta player rankings, squads and our YouTube videos are free for everyone.
+                The feed, the free trading tools and our YouTube videos are free for everyone.
               </p>
             </div>
             <div className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-pitch-green/40 p-4">

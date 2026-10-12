@@ -1,5 +1,7 @@
 # FC 27 player data: where cards, stats and prices can come from
 
+> **Decision (12 Oct 2026):** too hard to source legally for now, so the Players and Squads features were removed and Trading became text only (creators type card names and prices). Revisit if a licence from FUTBIN / FUT.GG / EA becomes possible.
+
 Research done 10 Oct 2026, before starting the backend. Covers FC 27 only (released 25 Sep 2026; Web App opened 16 Sep 2026).
 
 > Not legal advice. Some primary pages could not be opened during research (EA help centre timed out, FUTBIN terms returned 403, FutDB rate-limited). Re-check those before signing anything.

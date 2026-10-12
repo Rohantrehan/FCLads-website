@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Gamepad2, IdCard, Network, RefreshCw, ShieldCheck, TrendingUp, Trophy } from "lucide-react";
+import { Gamepad2, RefreshCw, ShieldCheck, TrendingUp, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/Panel";
 import { ladsPlus } from "@/data/ladsPlus";
@@ -14,14 +14,6 @@ const topics = [
     tag: "New",
     tagClass: "bg-pitch-green text-primary",
     text: "Animation cancels, skill nerfs and sprint acceleration tested live.",
-  },
-  {
-    title: "Players",
-    href: "/feed?topic=players",
-    icon: IdCard,
-    color: "text-azure",
-    tag: "Daily",
-    text: "Real in-game testing, custom animations and playstyle limits.",
   },
   {
     title: "Trading",
@@ -47,14 +39,6 @@ const topics = [
     color: "text-[#93c5fd]",
     tag: "Weekends",
     text: "Weekend League meta, best queue times and tactical counters.",
-  },
-  {
-    title: "Squads",
-    href: "/feed?topic=squads",
-    icon: Network,
-    color: "text-secondary",
-    tag: "Synced",
-    text: "Full-chemistry builds for every budget, from 50K to unlimited.",
   },
 ];
 
@@ -95,7 +79,7 @@ export function FeedPreview() {
               <span className="tabular text-sm font-bold text-white/60">$0 forever</span>
             </div>
             <p className="text-sm leading-relaxed text-muted">
-              Browse meta rankings, squads and the public feed, and watch our free videos on YouTube.
+              Read the public feed, use the free trading tools and watch our free videos on YouTube.
             </p>
           </div>
           <div className="flex flex-col gap-4 rounded-2xl border-2 border-primary/60 bg-gradient-to-b from-pitch-green to-canvas p-6 shadow-[0_0_30px_rgb(56_225_146/0.25)]">
@@ -107,8 +91,8 @@ export function FeedPreview() {
               <span className="tabular shrink-0 font-bold text-primary">{ladsPlus.priceLabel} / mo</span>
             </div>
             <p className="text-sm leading-relaxed text-muted">
-              Every guide and video series, the private Discord, direct creator access, the weekly trading brief and a monthly 1-on-1
-              gameplay review.
+              Every guide and video series, the private Discord, direct creator access, the weekly trading brief and a
+              monthly 1-on-1 gameplay review.
             </p>
             <Button href="/lads-plus" variant="primary" className="mt-2 w-full">
               Upgrade to FC Lads+

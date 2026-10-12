@@ -11,21 +11,21 @@ export interface TradingBrief {
   authorSlug: string;
   readMinutes: number;
   watching: { title: string; text: string }[];
+  /** Buy/sell targets. Cards and prices are typed in by the creator (no player database or live prices). */
   opportunities: {
-    playerSlug: string;
+    card: string;
     confidence: "High" | "Medium";
     play: string;
-    targetOut: number;
+    buyBelow: number;
+    sellAt: number;
     reason: string;
   }[];
   events: { day: string; tag?: string; title: string; text: string; highlight?: boolean }[];
-  /** FC Lads market index, one value per day (oldest first), with notes on key days. */
-  index: { date: string; value: number }[];
-  indexNotes: { date: string; label: string }[];
-  monitor: string[];
+  /** Where the market is heading, in the creator's words. */
+  trends: { label: string; direction: "up" | "down" | "flat"; text: string }[];
+  /** Cards or card types worth keeping an eye on. */
+  monitor: { card: string; note: string }[];
 }
-
-const indexValues = [104.2, 105.1, 104.6, 105.8, 106.3, 102.1, 101.7, 103.9, 106.8, 108.2, 107.5, 111.9, 114.6, 118.4];
 
 export const currentBrief: TradingBrief = {
   week: 28,
@@ -49,25 +49,28 @@ export const currentBrief: TradingBrief = {
   ],
   opportunities: [
     {
-      playerSlug: "omar-haddad",
+      card: "84 rated LaLiga winger (SBC link)",
       confidence: "High",
       play: "SBC link",
-      targetOut: 9_400,
+      buyBelow: 7_500,
+      sellAt: 9_400,
       reason: "Likely to be needed for an upcoming league SBC, and links well with in-form wingers.",
     },
     {
-      playerSlug: "antoine-valere",
+      card: "Last week's 88 rated in-form CB",
       confidence: "Medium",
       play: "Out of packs",
-      targetOut: 315_000,
+      buyBelow: 280_000,
+      sellAt: 315_000,
       reason: "Leaves packs on Friday. Cards like this usually bounce back by Saturday morning.",
     },
     {
-      playerSlug: "matteo-bianchi",
+      card: "83 rated Serie A fodder",
       confidence: "High",
       play: "Safe hold",
-      targetOut: 3_400,
-      reason: "Already close to his quick-sell value, so there's very little downside.",
+      buyBelow: 2_900,
+      sellAt: 3_400,
+      reason: "Already close to quick-sell value, so there's very little downside.",
     },
   ],
   events: [
@@ -93,16 +96,29 @@ export const currentBrief: TradingBrief = {
     },
     { day: "Tue–Wed", tag: "Mid-week", title: "Team of the Week", text: "New in-forms and mid-week upgrade SBCs." },
   ],
-  index: indexValues.map((value, index) => {
-    const date = new Date("2026-09-25T00:00:00Z");
-    date.setUTCDate(date.getUTCDate() + index);
-    return { date: date.toISOString().slice(0, 10), value };
-  }),
-  indexNotes: [
-    { date: "2026-09-30", label: "Patch 1.08 dip" },
-    { date: "2026-10-08", label: "Pre-Weekend League rebound" },
+  trends: [
+    {
+      label: "Fodder (86–89)",
+      direction: "up",
+      text: "Cheapest it's been this season. Expect a jump when Friday's upgrade SBC drops.",
+    },
+    {
+      label: "Meta gold cards",
+      direction: "flat",
+      text: "Steady since Weekend League qualifying ended. No rush to buy or sell.",
+    },
+    {
+      label: "Last week's in-forms",
+      direction: "down",
+      text: "Dropping as new Team of the Week cards arrive. Wait for the Sunday evening dip.",
+    },
   ],
-  monitor: ["marco-velardi", "leo-silva", "julian-cruz", "felix-aldana", "anders-kvist", "antoine-valere"],
+  monitor: [
+    { card: "Cheap 5★ weak foot wingers", note: "Pushed up by the new wingers evolution. Check the price cap first." },
+    { card: "Pace strikers under 50K", note: "Patch 1.08 sprint changes keep demand high." },
+    { card: "84–85 rated Premier League golds", note: "Common SBC requirement. Good mid-week flips." },
+    { card: "Icon base cards", note: "Usually dip before a big promo. Watch Thursday night." },
+  ],
 };
 
 /** Earlier briefs (titles only for now; full archive pages come with the backend). */

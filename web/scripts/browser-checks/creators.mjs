@@ -53,10 +53,10 @@ check("hover Wessam shows Wessam", (await panelName()) === "Wessam", await panel
 await click(ws2.x, ws2.y); await sleep(2500);
 check("click opens Wessam's profile", (await evaluate("location.pathname")) === "/creators/wessam", await evaluate("location.pathname"));
 await send("Page.navigate", { url: "http://localhost:3000/creators/stefan" }); await sleep(3000);
-const tab = await evaluate(`(() => { const a=document.querySelector('nav[aria-label="Profile sections"] a[href="#squads"]'); const r=a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
+const tab = await evaluate(`(() => { const a=document.querySelector('nav[aria-label="Profile sections"] a[href="#guides"]'); const r=a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`);
 await click(tab.x, tab.y); await sleep(1200);
-const top = await evaluate(`document.getElementById('squads').getBoundingClientRect().top`);
-check("Squads tab jumps below sticky bar", top > 100 && top < 260, String(top));
+const top = await evaluate(`document.getElementById('guides').getBoundingClientRect().top`);
+check("Guides tab jumps below sticky bar", top > 100 && top < 260, String(top));
 console.log(results.join(String.fromCharCode(10)));
 ws.close(); edge.kill();
 process.exit(0);

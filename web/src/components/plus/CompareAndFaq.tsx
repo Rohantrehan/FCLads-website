@@ -5,7 +5,7 @@ type Cell = boolean | string;
 
 const rows: { feature: string; free: Cell; plus: Cell }[] = [
   { feature: "Free videos on YouTube", free: true, plus: true },
-  { feature: "Meta players, squads & public feed", free: true, plus: true },
+  { feature: "Public feed & free trading tools", free: true, plus: true },
   { feature: "Every guide & slider code", free: false, plus: "Full access" },
   { feature: "FC 27 video collections", free: false, plus: "Every series" },
   { feature: "Private Discord strategy rooms", free: false, plus: "Always open" },
@@ -24,7 +24,9 @@ function CellValue({ value, plus }: { value: Cell; plus?: boolean }) {
     );
   }
   return (
-    <span className={`tabular inline-flex flex-col items-center gap-1 text-[11px] font-bold sm:flex-row sm:gap-1.5 sm:text-xs ${plus ? "text-mint" : "text-primary"}`}>
+    <span
+      className={`tabular inline-flex flex-col items-center gap-1 text-[11px] font-bold sm:flex-row sm:gap-1.5 sm:text-xs ${plus ? "text-mint" : "text-primary"}`}
+    >
       <Check aria-hidden className="size-4" />
       {value === true ? <span className="sr-only">Included</span> : value}
     </span>
@@ -39,7 +41,9 @@ export function CompareTable() {
         <h2 id="compare-heading" className="text-headline mt-2">
           Compare what you get
         </h2>
-        <p className="mt-2 text-muted">Our YouTube videos stay free. The full guides, the video series and the Lads&apos; time are in FC Lads+.</p>
+        <p className="mt-2 text-muted">
+          Our YouTube videos stay free. The full guides, the video series and the Lads&apos; time are in FC Lads+.
+        </p>
       </div>
       <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-white/8">
         <table className="w-full table-fixed text-left text-sm">
@@ -95,7 +99,7 @@ const faqs = [
   },
   {
     q: "What stays free?",
-    a: "Our YouTube channel, the meta player rankings, squads and the public feed. Every guide and video collection on this site is part of FC Lads+, along with the private Discord, creator access, the trading brief and your monthly review.",
+    a: "Our YouTube channel, the public feed and the free trading tools (weekly market note and tax calculator). Every guide and video collection on this site is part of FC Lads+, along with the private Discord, creator access, the trading brief and your monthly review.",
   },
   {
     q: "Where do I watch the video collections?",
@@ -125,7 +129,10 @@ export function Faq() {
           >
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 font-display font-extrabold [&::-webkit-details-marker]:hidden">
               {faq.q}
-              <ChevronDown aria-hidden className="size-5 shrink-0 text-muted transition-transform group-open:rotate-180" />
+              <ChevronDown
+                aria-hidden
+                className="size-5 shrink-0 text-muted transition-transform group-open:rotate-180"
+              />
             </summary>
             <p className="px-5 pb-5 leading-relaxed text-muted">{faq.a}</p>
           </details>

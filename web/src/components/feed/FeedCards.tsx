@@ -1,22 +1,17 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, BarChart3, Eye, Lock, MonitorPlay, Quote, ThumbsUp, TrendingUp, Wrench } from "lucide-react";
-import { FormationPitch } from "@/components/cards/SquadCard";
 import { VideoFacade } from "@/components/guide/VideoFacade";
 import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { TierBadge } from "@/components/ui/Badge";
-import { Avatar, CoinPrice } from "@/components/ui/DataBits";
+import { Avatar } from "@/components/ui/DataBits";
 import { getCreator } from "@/data/creators";
 import { FEED_NOW, feedTopics } from "@/data/feed";
 import { getGuide } from "@/data/guides";
-import { getPlayer } from "@/data/players";
-import { getSquad } from "@/data/squads";
 import { cn } from "@/lib/cn";
 import { formatCompact, formatNumber } from "@/lib/format";
 import type { FeedItem } from "@/lib/feedAccess";
-import { statLabels } from "@/lib/positions";
 import { socialLinks } from "@/lib/site";
-import { squadCosts, squadRating } from "@/lib/squadStats";
 
 /** "45m ago", "3h ago", "2d ago" relative to the mock FEED_NOW. */
 function timeAgo(iso: string) {
@@ -124,47 +119,6 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
       );
     }
 
-    case "player": {
-      const player = getPlayer(post.playerSlug);
-      if (!player) return null;
-      const labels = statLabels(player.position);
-      return (
-        <PostFrame post={post} icon={<TrendingUp className={icon} />}>
-          <div className="flex gap-4">
-            <Link
-              href={`/players/${player.slug}`}
-              className="flex w-24 shrink-0 flex-col items-center gap-1 rounded-xl border border-primary/30 bg-gradient-to-b from-pitch-green to-canvas p-3 text-center transition-colors hover:border-primary"
-            >
-              <span className="font-display text-3xl leading-none font-extrabold text-mint">{player.ovr}</span>
-              <span className="tabular text-[10px] font-bold">{player.position}</span>
-              <span className="mt-1 text-xs leading-tight font-bold uppercase">{player.cardName ?? player.name}</span>
-            </Link>
-            <blockquote className="font-display text-base leading-snug font-bold">
-              &ldquo;{post.quote}&rdquo;
-            </blockquote>
-          </div>
-          <dl className="grid grid-cols-3 divide-x divide-white/8 rounded-lg bg-canvas/60 py-2 text-center">
-            {(["pac", "sho", "dri"] as const).map((key) => (
-              <div key={key} className="flex flex-col-reverse">
-                <dt className="tabular text-[10px] text-muted">{labels[key]}</dt>
-                <dd className="tabular text-sm font-bold">{player.stats[key]}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="mt-auto flex items-center justify-between gap-3 border-t border-white/8 pt-3">
-            {player.price !== undefined && <CoinPrice value={player.price} compact />}
-            <Link
-              href={`/players/${player.slug}`}
-              className="text-label flex items-center gap-1.5 text-primary hover:text-white"
-            >
-              Player page
-              <ArrowRight aria-hidden className="size-3.5" />
-            </Link>
-          </div>
-        </PostFrame>
-      );
-    }
-
     case "update":
       return (
         <PostFrame post={post} icon={<Wrench className={icon} />}>
@@ -185,26 +139,17 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
         <PostFrame post={post} icon={<TrendingUp className={icon} />}>
           <h2 className="font-display text-lg leading-snug font-extrabold">{post.title}</h2>
           <ul className="flex flex-col gap-2">
-            {post.targets.map((target) => {
-              const player = getPlayer(target.playerSlug);
-              if (!player) return null;
-              return (
-                <li key={target.playerSlug}>
-                  <Link
-                    href={`/players/${player.slug}`}
-                    className="flex items-center gap-3 rounded-lg border border-white/8 bg-surface p-2.5 transition-colors hover:border-primary/40"
-                  >
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded bg-surface-highest font-display text-sm font-extrabold text-mint">
-                      {player.ovr}
-                    </span>
-                    <span className="flex-1 text-sm font-semibold">{player.name}</span>
-                    <span className="tabular text-[11px] text-muted">
-                      Buy under <span className="font-bold text-gold">{formatNumber(target.buyBelow)}</span>
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
+            {post.targets.map((target) => (
+              <li
+                key={target.card}
+                className="flex items-center gap-3 rounded-lg border border-white/8 bg-surface p-2.5"
+              >
+                <span className="flex-1 text-sm font-semibold">{target.card}</span>
+                <span className="tabular text-[11px] text-muted">
+                  Buy under <span className="font-bold text-gold">{formatNumber(target.buyBelow)}</span>
+                </span>
+              </li>
+            ))}
             {(post.lockedCount ?? 0) > 0 && (
               <li className="flex items-center gap-3 rounded-lg border border-dashed border-gold/30 p-2.5 text-sm text-gold">
                 <Lock aria-hidden className="size-4" />
@@ -220,35 +165,6 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
           )}
         </PostFrame>
       );
-
-    case "squad": {
-      const squad = getSquad(post.squadSlug);
-      if (!squad) return null;
-      return (
-        <PostFrame post={post} icon={<BarChart3 className={icon} />}>
-          <h2 className="font-display text-lg leading-snug font-extrabold">
-            <Link href={`/squads/${squad.slug}`} className="hover:text-mint">
-              {squad.name}
-            </Link>
-          </h2>
-          {squad.record && <p className="tabular -mt-2 text-xs text-mint">{squad.record}</p>}
-          <FormationPitch formation={squad.formation} />
-          <p className="tabular flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted">
-            <span>{squad.formation}</span>
-            <span>Rating {squadRating(squad)}</span>
-            <span>{squad.chemistry}/33 chem</span>
-            <CoinPrice value={squadCosts(squad).total} compact />
-          </p>
-          <Link
-            href={`/squads/${squad.slug}`}
-            className="text-label mt-auto flex items-center gap-1.5 text-primary hover:text-white"
-          >
-            Open the squad
-            <ArrowRight aria-hidden className="size-3.5" />
-          </Link>
-        </PostFrame>
-      );
-    }
 
     case "tip":
       return (

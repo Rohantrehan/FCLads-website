@@ -7,11 +7,9 @@ export const FEED_NOW = "2026-10-08T12:00:00Z";
 
 export const feedTopics: Record<FeedTopic, string> = {
   gameplay: "Gameplay",
-  players: "Players",
   trading: "Trading",
   updates: "Updates",
   "fut-champs": "FUT Champs",
-  squads: "Squads",
 };
 
 export const FEED_PAGE_SIZE = 8;
@@ -31,16 +29,6 @@ const allPosts: FeedPost[] = [
     views: 18_400,
     approval: 94,
     guideSlug: "beat-the-high-press",
-  },
-  {
-    id: "velardi-verdict",
-    type: "player",
-    topic: "players",
-    authorSlug: "stefan",
-    postedAt: "2026-10-08T10:00:00Z",
-    access: "free",
-    playerSlug: "marco-velardi",
-    quote: "Velardi's step-over exit is the best in the game right now. Best striker under 500K by a long way.",
   },
   {
     id: "patch-108-deep-dive",
@@ -65,20 +53,11 @@ const allPosts: FeedPost[] = [
     access: "plus",
     title: "3 cheap fodder targets to stock up on before Friday's content drop",
     targets: [
-      { playerSlug: "matteo-bianchi", buyBelow: 2_300 },
-      { playerSlug: "felipe-costa", buyBelow: 3_300 },
-      { playerSlug: "leo-silva", buyBelow: 3_900 },
+      { card: "84 rated Serie A fodder", buyBelow: 2_300 },
+      { card: "85 rated LaLiga fodder", buyBelow: 3_300 },
+      { card: "86 rated Premier League fodder", buyBelow: 3_900 },
     ],
     freeTargets: 2,
-  },
-  {
-    id: "50k-starter-post",
-    type: "squad",
-    topic: "squads",
-    authorSlug: "stefan",
-    postedAt: "2026-10-08T07:00:00Z",
-    access: "free",
-    squadSlug: "50k-weekend-league-starter",
   },
   {
     id: "dont-press-early",
@@ -104,16 +83,6 @@ const allPosts: FeedPost[] = [
       { label: "Flair nutmeg cancel", votes: 409 },
       { label: "Elastico", votes: 239 },
     ],
-  },
-  {
-    id: "kofi-verdict",
-    type: "player",
-    topic: "players",
-    authorSlug: "hobs",
-    postedAt: "2026-10-07T21:00:00Z",
-    access: "free",
-    playerSlug: "kofi-mensah",
-    quote: "Put Engine on him and he dribbles like a 94. For 68K it's not even close.",
   },
   {
     id: "tu-three-changes",
@@ -142,15 +111,6 @@ const allPosts: FeedPost[] = [
     minutes: 9,
     views: 11_200,
     approval: 91,
-  },
-  {
-    id: "100k-hybrid-post",
-    type: "squad",
-    topic: "squads",
-    authorSlug: "hobs",
-    postedAt: "2026-10-07T12:00:00Z",
-    access: "free",
-    squadSlug: "100k-hybrid",
   },
   {
     id: "thursday-rule",
@@ -201,8 +161,18 @@ export function postsToday() {
 /** "Trending this week" sidebar. Mock view counts. */
 export const trending = [
   { title: "Beat the high press", href: "/guides/beat-the-high-press", authorSlug: "stefan", views: 42_000 },
-  { title: "Marco Velardi review", href: "/players/marco-velardi", authorSlug: "stefan", views: 38_000 },
+  {
+    title: "Best custom tactics this patch",
+    href: "/guides/best-custom-tactics-this-patch",
+    authorSlug: "hobs",
+    views: 38_000,
+  },
   { title: "Patch 1.08 hidden changes", href: "/feed?topic=updates", authorSlug: "hobs", views: 29_000 },
-  { title: "50K meta starter squad", href: "/squads/50k-weekend-league-starter", authorSlug: "stefan", views: 24_000 },
+  {
+    title: "Stop diving in: 1v1 defending",
+    href: "/guides/defending-1v1-without-panicking",
+    authorSlug: "hobs",
+    views: 24_000,
+  },
   { title: "Fodder before Friday", href: "/feed?topic=trading", authorSlug: "wessam", views: 19_000 },
 ];

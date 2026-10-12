@@ -3,21 +3,19 @@ import Link from "next/link";
 import { CalendarDays, Info, Zap } from "lucide-react";
 import { MemberBrief } from "@/components/trading/MemberBrief";
 import { TaxCalculator } from "@/components/trading/TaxCalculator";
-import { LockedBrief, MoverRow } from "@/components/trading/TradingBits";
+import { LockedBrief, WatchRow } from "@/components/trading/TradingBits";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/DataBits";
 import { getCreator } from "@/data/creators";
-import { getPlayer, players } from "@/data/players";
-import { featuredMovers, freeMarketNote } from "@/data/trading";
+import { freeMarketNote, watchList, weeklyCycle } from "@/data/trading";
 import { currentBrief } from "@/data/tradingBrief";
 import { cn } from "@/lib/cn";
 import { getViewer } from "@/lib/viewer";
-import type { Player } from "@/types";
 
 export const metadata: Metadata = {
   title: "Trading: follow the FC market",
   description:
-    "A free weekly market note, a transfer tax calculator and the players moving this week. FC Lads+ members get the full weekly trading brief.",
+    "A free weekly market note, a transfer tax calculator and how the market moves each week. FC Lads+ members get the full weekly trading brief.",
   alternates: { canonical: "/trading" },
 };
 
@@ -26,10 +24,8 @@ const briefSections = [
   "Buy and sell targets",
   "Upcoming events",
   "Market trends",
-  "Players to monitor",
+  "Cards to monitor",
 ];
-
-const resolve = (slugs: string[]) => slugs.map(getPlayer).filter((player): player is Player => !!player);
 
 function Disclaimer() {
   return (
@@ -48,10 +44,6 @@ export default async function TradingPage() {
   const viewer = await getViewer();
   const isMember = viewer.isMember;
   const noteAuthor = getCreator(freeMarketNote.authorSlug);
-  const movers = resolve(featuredMovers);
-  const priced = players.filter((player) => player.trend !== undefined && player.price !== undefined);
-  const risers = [...priced].sort((a, b) => (b.trend ?? 0) - (a.trend ?? 0)).slice(0, 3);
-  const fallers = [...priced].sort((a, b) => (a.trend ?? 0) - (b.trend ?? 0)).slice(0, 3);
 
   return (
     <div className="relative">
@@ -79,7 +71,7 @@ export default async function TradingPage() {
         <MemberBrief />
       ) : (
         <>
-          {/* Free weekly note + featured movers */}
+          {/* Free weekly note + watch list */}
           <section aria-labelledby="free-note-heading" className="page-container relative pb-10">
             <div className="grid grid-cols-1 gap-6 rounded-2xl border border-primary/25 bg-[#0f141b] p-5 md:p-7 lg:grid-cols-12">
               <div className="flex flex-col gap-4 lg:col-span-8">
@@ -124,37 +116,35 @@ export default async function TradingPage() {
               </div>
               <div className="flex flex-col gap-3 lg:col-span-4">
                 <h3 className="text-label text-muted">Cards to watch this week</h3>
-                {movers.map((player) => (
-                  <MoverRow key={player.slug} player={player} />
+                {watchList.map((item) => (
+                  <WatchRow key={item.card} card={item.card} note={item.note} />
                 ))}
               </div>
             </div>
           </section>
 
-          {/* Free tools: tax calculator + movers */}
+          {/* Free tools: tax calculator + the weekly market cycle */}
           <div className="page-container grid grid-cols-1 gap-6 pb-14 lg:grid-cols-3">
             <TaxCalculator />
             <section
-              aria-labelledby="risers-heading"
-              className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-[#0f141b] p-5"
+              aria-labelledby="cycle-heading"
+              className="flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#0f141b] p-5 lg:col-span-2"
             >
-              <h2 id="risers-heading" className="font-display font-extrabold uppercase">
-                Rising this week
-              </h2>
-              {risers.map((player) => (
-                <MoverRow key={player.slug} player={player} />
-              ))}
-            </section>
-            <section
-              aria-labelledby="fallers-heading"
-              className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-[#0f141b] p-5"
-            >
-              <h2 id="fallers-heading" className="font-display font-extrabold uppercase">
-                Falling this week
-              </h2>
-              {fallers.map((player) => (
-                <MoverRow key={player.slug} player={player} />
-              ))}
+              <div>
+                <h2 id="cycle-heading" className="font-display font-extrabold uppercase">
+                  How the market moves each week
+                </h2>
+                <p className="mt-1 text-sm text-muted">The same pattern repeats most weeks. Buy low, sell high.</p>
+              </div>
+              <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
+                {weeklyCycle.map((step) => (
+                  <li key={step.day} className="flex flex-col gap-1.5 rounded-xl border border-white/8 bg-surface p-3">
+                    <span className="font-display font-extrabold text-mint uppercase">{step.day}</span>
+                    <h3 className="text-sm font-semibold">{step.title}</h3>
+                    <p className="text-xs text-muted">{step.text}</p>
+                  </li>
+                ))}
+              </ol>
             </section>
           </div>
 

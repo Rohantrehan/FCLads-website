@@ -1,4 +1,4 @@
-// Public trading content: the free weekly market note and the "featured movers".
+// Public trading content: the free weekly market note, the watch list and the weekly market cycle.
 // The members-only brief lives in data/tradingBrief.ts (server only).
 // Mock editorial copy until the Lads write the real notes.
 
@@ -13,5 +13,21 @@ export const freeMarketNote = {
   window: "Next 48 hours",
 };
 
-/** Two cards to keep an eye on this week (public). */
-export const featuredMovers = ["felix-aldana", "anders-kvist"];
+/** Card types to keep an eye on this week (public). Typed in by the creator. */
+export const watchList = [
+  { card: "86–88 rated fodder", note: "Sell before Thursday's content drop." },
+  { card: "Cheap meta pace strikers", note: "Demand stays high after patch 1.08." },
+];
+
+/** How a normal week on the transfer market goes. General guidance, free for everyone. */
+export const weeklyCycle = [
+  {
+    day: "Mon",
+    title: "Rewards sell-off",
+    text: "Weekend League and Squad Battles rewards flood the market. Prices dip.",
+  },
+  { day: "Tue–Wed", title: "Team of the Week", text: "New in-forms and mid-week SBCs. Good time to buy fodder." },
+  { day: "Thu", title: "Pre-weekend rise", text: "Players build for Weekend League. Prices climb, so sell." },
+  { day: "Fri", title: "Promo drop", text: "New packs and SBCs at 6PM UK. Expect big swings." },
+  { day: "Sat–Sun", title: "Weekend League", text: "Highest demand on Saturday. Watch for a Sunday evening dip." },
+];

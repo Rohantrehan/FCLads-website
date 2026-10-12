@@ -43,7 +43,7 @@ const posts = () => evaluate(`document.querySelectorAll('main article').length`)
 
 await send("Page.navigate", { url: "http://localhost:3000/feed" }); await sleep(3500);
 check("first page shows 8 posts", (await posts()) === 8, String(await posts()));
-check("count says 8 of 13", /8 of 13/.test(await count()), await count());
+check("count says 8 of 9", /8 of 9/.test(await count()), await count());
 check("locked trading price not sent", !(await evaluate(`document.documentElement.outerHTML.includes('3,900')`)));
 check("locked target note", /1 more target for FC Lads\+ members/.test(await evaluate("document.body.textContent")));
 check("video links to Lads+ breakdown", !!(await evaluate(`!!document.querySelector('main article a[href="/guides/beat-the-high-press"]')`)));
@@ -54,9 +54,9 @@ check("trading shows 3 posts", (await posts()) === 3, String(await posts()));
 await send("Page.navigate", { url: "http://localhost:3000/feed" }); await sleep(3000);
 p = await pos(`[...document.querySelectorAll('main a')].find(a=>/Load more posts/.test(a.textContent))`);
 await click(p.x, p.y); await sleep(2500);
-check("load more", (await href()) === "/feed?limit=16" && (await posts()) === 13, `${await href()} ${await posts()}`);
+check("load more", (await href()) === "/feed?limit=16" && (await posts()) === 9, `${await href()} ${await posts()}`);
 await send("Page.navigate", { url: "http://localhost:3000/feed?topic=nope" }); await sleep(2500);
-check("unknown topic falls back to all", /of 13/.test(await count()), await count());
+check("unknown topic falls back to all", /of 9/.test(await count()), await count());
 p = await pos(`[...document.querySelectorAll('section[aria-labelledby=trending-heading] a')][0]`);
 await click(p.x, p.y); await sleep(2500);
 check("trending item opens", (await href()) === "/guides/beat-the-high-press", await href());

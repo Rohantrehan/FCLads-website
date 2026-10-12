@@ -4,9 +4,9 @@
 > Full analysis & architecture: [`FC_LADS_PROJECT_REPORT.md`](FC_LADS_PROJECT_REPORT.md)
 > Designs (reference only): [`all_pages_design/`](all_pages_design/)
 
-**Last updated:** 10 Oct 2026
+**Last updated:** 12 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** All design pages are built (latest: account & billing). Player data research done (`research/fc27-player-data-sources.md`): waiting for the client's answers before the backend. User to review. Then: Lighthouse speed pass (recommended) and Step 7 (open questions, hosting, backend, real links).
+**Next action:** Players and Squads removed (12 Oct 2026); Trading is now text only. All design pages built. User to review, then backend (Step 7).
 
 ---
 
@@ -107,7 +107,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
-- ⬜ Phase 3: Trading, Meta Players, Player detail, Squads, admin/CMS
+- ⬜ Phase 3: Trading, admin/CMS (Meta Players, Player detail and Squads removed 12 Oct 2026)
 - ⬜ Phase 4: Gameplay reviews (VOD upload, booking, coach dashboard)
 - ⬜ Phase 5: Search, notifications, polls, gamepad shortcuts, mobile app
 
@@ -292,6 +292,18 @@ User feedback on Home → implemented:
 - ⚠️ Placeholders in `web/src/data/account.ts` (server-only): subscription ID, card (Visa 4242), invoices, billing country. Support email uses `LEGAL_EMAIL` (still to confirm).
 - Tests: new `account.mjs` (17 member checks) pass; no sideways scroll at 375px; typecheck + lint clean. Public-mode run (5 checks) not run yet: the dev server was in member mode and memory was low, so it wasn't restarted.
 
+### Session: Removed Players & Squads, Trading text-only (2026-10-12)
+- **Decision (user):** after the data research (`research/fc27-player-data-sources.md`), player prices / card data are too hard to source legally, so the **Players and Squads features are removed**. Trading stays as **text only** (option A).
+- Deleted: `/players`, `/players/[slug]`, `/squads`, `/squads/[slug]`, `components/players/*`, `components/squads/*`, `cards/PlayerCard`, `cards/SquadCard`, `home/MetaPlayersSection`, `ui/AutoScrollRow` (only used by that carousel), `data/players.ts`, `data/squads.ts`, `data/playerReviews.ts`, `lib/{formations,playerAccess,positions,priceHistory,squadStats}.ts`, player/squad types, tests `players.mjs` + `squads.mjs`. All recoverable from git history (last commit with them: 0700ddf).
+- Menu + footer: Players and Squads links removed.
+- **Home:** hero now shows fanned **creator cards** (Stefan front, Hobs, Wessam) instead of player cards; Meta players section removed; topic chip "Meta" → `/learn?category=meta-players`; hard-truth buttons now go to meta guides / video series. Feed preview: Players and Squads topics removed.
+- **Feed:** player verdict and squad posts removed; topics now Gameplay, Trading, Updates, FUT Champs (9 posts). Trading posts kept, with **typed card names** (e.g. "85 rated LaLiga fodder") instead of player links. Trending links point to guides.
+- **Trading (text only):** no player database, no live prices, no charts. Free page: market note, "cards to watch" (typed), tax calculator, **"How the market moves each week"** (Mon–Sun cycle). Members' brief: targets are typed card names with buy-under / sell-at prices, market trends as text with Rising/Steady/Falling tags, "Cards to monitor" list. Data shapes in `data/trading.ts` and `data/tradingBrief.ts`.
+- **Creator profiles:** "Player picks" and "Squads" sections removed (`picks` removed from creator data). **Guides:** "Players in this guide" sidebar and in-text player cards removed (the one player block became a tip).
+- **Dashboard:** My Feed drops the squad card (4 cards now); trading card shows the typed target. Creators tab: "Recommended this week" replaced by a **"The Lads"** list (each creator + post count).
+- Copy updated: site description, FC Lads+ compare table/FAQ ("Public feed & free trading tools"), feed page text, design-system demos.
+- Tests: home (10), creators (7), dashboard member (16), account member (17) pass; feed/trading test counts updated (9 posts; weekly cycle check) but **public-mode suites not re-run** (dev server is in member mode and memory was low, so not restarted). `/players` and `/squads` return 404. No sideways scroll at 375px on changed pages. Typecheck + lint clean. Production build not run (low memory).
+
 ## How to run locally
 
 ```bash
@@ -302,4 +314,4 @@ npm run lint
 npm run build
 ```
 
-Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/legal/terms` + `/legal/privacy` + `/legal/trading-disclaimer`, `/dashboard` + 5 member tabs (members only), `/players`, `/squads`, `/feed`, `/trading`, `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/legal/terms` + `/legal/privacy` + `/legal/trading-disclaimer`, `/dashboard` + 5 member tabs (members only), `/account/membership` + `/account/billing`, `/feed`, `/trading`, `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.

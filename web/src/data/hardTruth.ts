@@ -20,11 +20,11 @@ export const hardTruth: HardTruthItem[] = [
   },
   {
     problem: "The meta changes.",
-    answerTitle: "A weekly power ranking.",
+    answerTitle: "A weekly meta breakdown.",
     answer:
-      "Every Monday the Lads rank the players and formations winning right now in FUT Champs, so you always know what the top players are using.",
+      "Every week the Lads break down the formations, tactics and card types winning right now in FUT Champs, so you always know what the top players are using.",
     creatorSlug: "hobs",
-    cta: { label: "See the meta players", href: "/players" },
+    cta: { label: "Browse meta guides", href: "/learn?category=meta-players" },
   },
   {
     problem: "A player suddenly becomes broken.",
@@ -32,7 +32,7 @@ export const hardTruth: HardTruthItem[] = [
     answer:
       "We put them through real Champs games, tell you if they're worth the coins, and show cheaper alternatives that play almost the same.",
     creatorSlug: "hobs",
-    cta: { label: "View player reviews", href: "/players" },
+    cta: { label: "Watch the video series", href: "/learn/collections" },
   },
   {
     problem: "A tactic stops working.",

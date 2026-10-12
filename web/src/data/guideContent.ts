@@ -9,7 +9,6 @@ const contents: GuideContent[] = [
     highlight: "high press",
     patch: "1.08",
     presetCode: "FCL-PRS-108",
-    playerSlugs: ["marco-velardi", "leo-silva", "antoine-valere"],
     intro: [
       "In the current patch, opponents using 71-depth setups pull your defensive midfielders inward and create dead zones in midfield. If your first instinct is to sprint or play an instant one-touch pass forward, you will keep losing the ball in your own third.",
       "Beating this isn't about reflexes. It's about spacing, baiting the press, and then using the diagonal space they leave behind their full-back.",
@@ -52,9 +51,10 @@ const contents: GuideContent[] = [
         note: "Use 2.8 to 3.2 bars of power aimed at your opposite full-back. The press leaves that wing completely open.",
       },
       {
-        type: "player",
-        slug: "marco-velardi",
-        note: "Ideal striker to drop short: 95 short passing and Incisive Pass+.",
+        type: "tip",
+        label: "Who to use",
+        title: "Pick a striker who drops short",
+        text: "You want high short passing and Incisive Pass+ so the lay-off to your midfielder is clean every time.",
       },
       { type: "section", id: "driven-triangles", title: "Breaking the second-man press with triangles and switches" },
       {
@@ -68,15 +68,27 @@ const contents: GuideContent[] = [
       {
         type: "steps",
         items: [
-          { title: "Set up the triangle", text: "CM drops between the centre-backs, CAM drifts to the half-space, winger holds the touchline." },
-          { title: "Bounce, then switch", text: "One-two with the CAM, then the driven switch on the second touch, never the first." },
-          { title: "Attack the 3v2", text: "Winger drives inside, overlapping full-back holds width, striker pins the far centre-back." },
+          {
+            title: "Set up the triangle",
+            text: "CM drops between the centre-backs, CAM drifts to the half-space, winger holds the touchline.",
+          },
+          {
+            title: "Bounce, then switch",
+            text: "One-two with the CAM, then the driven switch on the second touch, never the first.",
+          },
+          {
+            title: "Attack the 3v2",
+            text: "Winger drives inside, overlapping full-back holds width, striker pins the far centre-back.",
+          },
         ],
       },
       { type: "section", id: "controller-breakdown", title: "Full controller input breakdown" },
       { type: "p", text: "Every input, in order, with timing windows for both PlayStation and Xbox layouts." },
       { type: "section", id: "custom-tactics", title: "Custom tactics and sliders" },
-      { type: "p", text: "The full custom tactic and player instructions, with an import code you can paste straight into the game." },
+      {
+        type: "p",
+        text: "The full custom tactic and player instructions, with an import code you can paste straight into the game.",
+      },
       { type: "section", id: "chem-styles", title: "Recommended chemistry styles" },
       { type: "p", text: "Which chem style to use on each position in this setup, and budget alternatives." },
     ],
@@ -87,7 +99,6 @@ const contents: GuideContent[] = [
     highlight: "custom tactic",
     patch: "1.08",
     presetCode: "FCL-HYB-108",
-    playerSlugs: ["kai-vanderbilt", "mateo-silva"],
     intro: [
       "This is the 4-3-2-1 setup most of the Lads are running in Champs this patch. It builds passing triangles in the half-spaces that 71-depth pressing can't keep up with.",
     ],
@@ -100,7 +111,10 @@ const contents: GuideContent[] = [
       {
         type: "steps",
         items: [
-          { title: "Width 45, depth 65", text: "Narrow enough to protect cutbacks, high enough to win the ball back early." },
+          {
+            title: "Width 45, depth 65",
+            text: "Narrow enough to protect cutbacks, high enough to win the ball back early.",
+          },
           { title: "Balanced build-up", text: "Direct passing gets punished by the press. Balanced keeps your shape." },
           { title: "CFs on 'Get into box'", text: "They arrive late and are almost impossible to track." },
         ],
@@ -117,7 +131,6 @@ const contents: GuideContent[] = [
     slug: "fut-champs-your-first-10-games",
     highlight: "first 10 games",
     patch: "1.08",
-    playerSlugs: ["leo-silva"],
     intro: [
       "Your first ten Champs games decide how the weekend feels. Hobs breaks down how to pace your games, reset after a bad loss, and close out leads.",
     ],

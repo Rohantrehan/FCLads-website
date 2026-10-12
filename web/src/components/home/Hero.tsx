@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { CollectibleCard } from "@/components/cards/PlayerCard";
+import { CreatorCard } from "@/components/cards/CreatorCard";
 import { Button } from "@/components/ui/Button";
 import { ladsPlus } from "@/data/ladsPlus";
-import type { Player } from "@/types";
+import type { Creator } from "@/types";
 
 const topics = [
   { label: "Tactics", href: "/learn?category=tactics" },
   { label: "Gameplay", href: "/learn?category=gameplay" },
   { label: "Trading", href: "/trading" },
-  { label: "Meta players", href: "/players" },
+  { label: "Meta", href: "/learn?category=meta-players" },
   { label: "FC updates", href: "/learn?category=fc-updates" },
   { label: "FUT Champs", href: "/learn?category=fut-champs" },
 ];
 
 interface HeroProps {
   /** [front, back-left, back-right] */
-  cards: [Player, Player, Player];
+  cards: [Creator, Creator, Creator];
   patch: string;
 }
 
@@ -87,21 +87,19 @@ export function Hero({ cards, patch }: HeroProps) {
           </div>
         </div>
 
-        {/* Fanned collectible cards */}
+        {/* Fanned creator cards */}
         <div className="relative mx-auto flex h-[400px] w-full max-w-md items-center justify-center sm:h-[460px] lg:col-span-5">
           <div aria-hidden className="pointer-events-none absolute size-72 rounded-full bg-primary/20 blur-[100px]" />
           <div className="relative h-[390px] w-64 scale-[0.85] sm:scale-100">
-            <CollectibleCard
-              player={left}
-              tier="gold"
-              className="absolute top-4 -left-14 -rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-left-28"
+            <CreatorCard
+              creator={left}
+              className="absolute top-6 -left-14 w-full -rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-left-28"
             />
-            <CollectibleCard
-              player={right}
-              tier="special"
-              className="absolute top-4 -right-14 rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-right-28"
+            <CreatorCard
+              creator={right}
+              className="absolute top-6 -right-14 w-full rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-right-28"
             />
-            <CollectibleCard player={front} className="absolute inset-0 z-10" />
+            <CreatorCard creator={front} featured className="absolute inset-x-0 top-0 z-10" />
           </div>
         </div>
       </div>

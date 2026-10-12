@@ -17,100 +17,6 @@ export interface VideoSource {
   id: string;
 }
 
-export type Position =
-  | "GK"
-  | "CB"
-  | "LB"
-  | "RB"
-  | "CDM"
-  | "CM"
-  | "CAM"
-  | "LM"
-  | "RM"
-  | "LW"
-  | "RW"
-  | "CF"
-  | "ST";
-
-export interface FaceStats {
-  pac: number;
-  sho: number;
-  pas: number;
-  dri: number;
-  def: number;
-  phy: number;
-}
-
-/** The 20 in-game attributes behind the six face stats (only filled for some players). */
-export interface DetailedAttributes {
-  pace: { acceleration: number; sprintSpeed: number };
-  shooting: { positioning: number; finishing: number; shotPower: number; longShots: number; volleys: number; penalties: number };
-  passing: { vision: number; crossing: number; shortPassing: number; longPassing: number };
-  dribbling: { agility: number; balance: number; reactions: number; ballControl: number; dribbling: number; composure: number };
-  defending: { interceptions: number; defAwareness: number; standingTackle: number; slidingTackle: number };
-  physical: { jumping: number; stamina: number; strength: number; aggression: number };
-}
-
-export interface ChemistryStyle {
-  name: string;
-  /** e.g. ["+8 PAC", "+8 SHO"] */
-  boosts: string[];
-  note: string;
-  /** The Lads' recommended style for this player. */
-  recommended?: boolean;
-}
-
-/** In-depth Lads review. FC Lads+ only, stored in data/playerReviews.ts (server only). */
-export interface PlayerReview {
-  authorSlug: string;
-  quote: string;
-  insights: { title: string; text: string }[];
-}
-
-export interface Player {
-  slug: string;
-  name: string;
-  /** Short name shown on cards, e.g. "M. Silva". Falls back to `name`. */
-  cardName?: string;
-  ovr: number;
-  position: Position;
-  altPositions?: Position[];
-  /** ISO 3166 alpha-3 style code shown on cards, e.g. "NED". */
-  nation: string;
-  /** Full country name, e.g. "Netherlands". */
-  country?: string;
-  club: string;
-  league?: string;
-  stats: FaceStats;
-  /** Approximate transfer market price in coins. */
-  price?: number;
-  /** Price change over the last week, in percent (e.g. 18.4 or -2.8). */
-  trend?: number;
-  /** The Lads' "how broken is it" score, 0-100. Drives the meta ranking. */
-  metaScore?: number;
-  metaRank?: number;
-  /** Short label such as "META S+" or "S-TIER". */
-  metaTag?: string;
-  playstyles?: string[];
-  /** PlayStyles+ (the gold ones), shown highlighted. */
-  playstylesPlus?: string[];
-  verdict?: string;
-  /** Competitive matches the card appeared in this week. */
-  matches?: number;
-  goalsPerGame?: number;
-  /** FUT Champs win rate with the card, in percent. */
-  winRate?: number;
-  weakFoot?: number;
-  skillMoves?: number;
-  height?: string;
-  preferredFoot?: "Right" | "Left";
-  bodyType?: string;
-  acceleRate?: "Explosive" | "Mostly explosive" | "Controlled" | "Mostly lengthy" | "Lengthy";
-  attributes?: DetailedAttributes;
-  chemistryStyles?: ChemistryStyle[];
-  image?: string;
-}
-
 export interface CreatorSocials {
   youtube?: string;
   x?: string;
@@ -123,7 +29,7 @@ export type SocialPlatform = "youtube" | "x" | "instagram" | "tiktok" | "twitch"
 
 export interface Creator {
   slug: string;
-  /** Temporarily switched off: hidden everywhere (profile, roster, their guides and squads). */
+  /** Temporarily switched off: hidden everywhere (profile, roster, their guides and posts). */
   hidden?: boolean;
   name: string;
   /** 2-letter monogram used when there is no photo, e.g. "TF". */
@@ -147,8 +53,6 @@ export interface Creator {
   audience?: { platform: SocialPlatform; count: string }[];
   /** Year they started competing / making FC content. */
   since?: number;
-  /** Players this creator endorses, with their one-line verdict. */
-  picks?: { playerSlug: string; verdict: string }[];
   image?: string;
 }
 
@@ -197,8 +101,7 @@ export type GuideBlock =
       result: string;
       note?: string;
       successRate?: string;
-    }
-  | { type: "player"; slug: string; note: string };
+    };
 
 export interface GuideContent {
   slug: string;
@@ -215,49 +118,6 @@ export interface GuideContent {
   lockedFrom?: number;
   /** Custom tactic share code shown in the sidebar. */
   presetCode?: string;
-  /** Players mentioned, shown in the sidebar. */
-  playerSlugs?: string[];
-}
-
-export interface SquadSlot {
-  playerSlug: string;
-  /** Chemistry style the Lads use on this player in this squad. */
-  chem?: string;
-}
-
-export interface Squad {
-  slug: string;
-  name: string;
-  /** Short tier label, e.g. "Budget meta starter". */
-  tier: string;
-  /** Budget tab label, e.g. "50K" or "1.5M". */
-  budgetLabel: string;
-  /** Total coins for the starting XI plus bench (worked out from player prices). */
-  budget: number;
-  formation: string;
-  chemistry: number;
-  width: number;
-  depth: number;
-  buildUp: string;
-  defensiveStyle: string;
-  chanceCreation: string;
-  keyPlaystyles: string;
-  authorSlug: string;
-  /** Creator's note on why it works / their record with it. */
-  note: string;
-  /** e.g. "18-2 in Weekend League testing". */
-  record?: string;
-  /** Starting XI in the formation's slot order (see lib/formations.ts). */
-  lineup: SquadSlot[];
-  bench: { playerSlug: string; role: string }[];
-  /** The player shown first in the pitch dossier. */
-  keyPlayerSlug: string;
-  reasons: { title: string; text: string }[];
-  upgrades: { fromSlug: string; toSlug: string; gain: string }[];
-  /** Custom tactic share code for the in-game Tactics menu. */
-  tacticCode?: string;
-  /** Guide that breaks this squad down (FC Lads+). */
-  guideSlug?: string;
 }
 
 export type CollectionBadge = "start" | "in-order" | "meta" | "archive";
@@ -288,7 +148,7 @@ export interface Collection {
   episodes: CollectionEpisode[];
 }
 
-export type FeedTopic = "gameplay" | "players" | "trading" | "updates" | "fut-champs" | "squads";
+export type FeedTopic = "gameplay" | "trading" | "updates" | "fut-champs";
 
 interface FeedPostBase {
   id: string;
@@ -314,15 +174,14 @@ export type FeedPost =
       /** The full written breakdown (a Learn guide, FC Lads+). */
       guideSlug?: string;
     })
-  | (FeedPostBase & { type: "player"; playerSlug: string; quote: string })
   | (FeedPostBase & { type: "update"; title: string; points: string[] })
   | (FeedPostBase & {
       type: "trading";
       title: string;
-      targets: { playerSlug: string; buyBelow: number }[];
+      /** Cards are typed in by the creator (no player database). */
+      targets: { card: string; buyBelow: number }[];
       /** How many targets non-members see. The rest are only sent to members. */
       freeTargets: number;
     })
-  | (FeedPostBase & { type: "squad"; squadSlug: string })
   | (FeedPostBase & { type: "tip"; text: string; label: string })
   | (FeedPostBase & { type: "poll"; question: string; options: { label: string; votes: number }[] });

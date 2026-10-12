@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | FC Lads",
   },
   description:
-    "FC Lads is a community of EA SPORTS FC players, creators and analysts. Meta players, squads, and in-depth guides and video series with the FC Lads+ membership.",
+    "FC Lads is a community of EA SPORTS FC players, creators and analysts. A free feed and trading tools, plus in-depth guides and video series with the FC Lads+ membership.",
 };
 
 export const viewport: Viewport = {
@@ -41,10 +41,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} ${unbounded.variable}`}
-    >
+    <html lang="en" className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} ${unbounded.variable}`}>
       <body>{children}</body>
     </html>
   );

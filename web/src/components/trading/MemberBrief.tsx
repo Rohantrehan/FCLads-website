@@ -1,36 +1,24 @@
-import Link from "next/link";
 import { Clock, MessagesSquare, Unlock } from "lucide-react";
-import { PriceChart } from "@/components/players/PriceChart";
 import { TaxCalculator } from "@/components/trading/TaxCalculator";
-import { BriefSection, ConfidenceBadge, MoverRow } from "@/components/trading/TradingBits";
+import { BriefSection, ConfidenceBadge, TrendTag, WatchRow } from "@/components/trading/TradingBits";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Avatar, CoinPrice } from "@/components/ui/DataBits";
+import { Avatar } from "@/components/ui/DataBits";
 import { getCreator } from "@/data/creators";
-import { getPlayer } from "@/data/players";
 import { currentBrief, pastBriefs } from "@/data/tradingBrief";
 import { cn } from "@/lib/cn";
 import { formatNumber } from "@/lib/format";
 import { socialLinks } from "@/lib/site";
-import type { Player } from "@/types";
 
 // Server component. Imports the server-only brief, so only render it after checking the viewer is a member.
 
 const shortDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
 const fmt = (iso: string) => shortDate.format(new Date(`${iso}T00:00:00Z`));
-const resolve = (slugs: string[]) => slugs.map(getPlayer).filter((player): player is Player => !!player);
 
 /** The full weekly brief. Only rendered for FC Lads+ members (decided on the server). */
 export function MemberBrief() {
   const brief = currentBrief;
   const author = getCreator(brief.authorSlug);
-  const opportunities = brief.opportunities
-    .map((opportunity) => ({ ...opportunity, player: getPlayer(opportunity.playerSlug) }))
-    .filter((opportunity): opportunity is typeof opportunity & { player: Player } => !!opportunity.player);
-  const monitor = resolve(brief.monitor);
-  const indexNow = brief.index.at(-1)?.value ?? 0;
-  const indexPrev = brief.index.at(-2)?.value ?? indexNow;
-  const notes = Object.fromEntries(brief.indexNotes.map((note) => [note.date, note.label]));
 
   return (
     <>
@@ -79,31 +67,21 @@ export function MemberBrief() {
 
           <BriefSection id="opportunities-heading" title="Buy and sell targets">
             <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {opportunities.map(({ player, confidence, play, targetOut, reason }) => (
-                <li key={player.slug} className="flex flex-col gap-3 rounded-xl border border-white/8 bg-surface p-4">
+              {brief.opportunities.map(({ card, confidence, play, buyBelow, sellAt, reason }) => (
+                <li key={card} className="flex flex-col gap-3 rounded-xl border border-white/8 bg-surface p-4">
                   <p className="flex flex-wrap items-center gap-2">
                     <ConfidenceBadge level={confidence} />
                     <span className="tabular text-[10px] text-muted uppercase">{play}</span>
                   </p>
-                  <Link href={`/players/${player.slug}`} className="flex items-center gap-3 hover:text-mint">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-surface-highest font-display font-extrabold text-mint">
-                      {player.ovr}
-                    </span>
-                    <span className="flex flex-col">
-                      <span className="font-semibold">{player.name}</span>
-                      <span className="tabular text-[11px] text-muted">
-                        {player.position} · {player.league}
-                      </span>
-                    </span>
-                  </Link>
+                  <h3 className="font-semibold">{card}</h3>
                   <dl className="flex flex-col gap-1.5 rounded-lg bg-canvas/60 p-3 text-sm">
                     <div className="flex justify-between gap-2">
-                      <dt className="text-muted">Now</dt>
-                      <dd>{player.price !== undefined && <CoinPrice value={player.price} />}</dd>
+                      <dt className="text-muted">Buy under</dt>
+                      <dd className="tabular font-semibold text-gold">{formatNumber(buyBelow)}</dd>
                     </div>
                     <div className="flex justify-between gap-2">
                       <dt className="text-muted">Sell at</dt>
-                      <dd className="tabular font-bold text-primary">{formatNumber(targetOut)}</dd>
+                      <dd className="tabular font-bold text-primary">{formatNumber(sellAt)}</dd>
                     </div>
                   </dl>
                   <p className="text-xs text-muted">{reason}</p>
@@ -133,27 +111,23 @@ export function MemberBrief() {
             </ol>
           </BriefSection>
 
-          <BriefSection
-            id="trends-heading"
-            title="Market trends"
-            aside={`Index ${indexNow.toFixed(1)} (${indexNow >= indexPrev ? "+" : ""}${(indexNow - indexPrev).toFixed(1)} today)`}
-          >
-            <p className="-mt-2 text-sm text-muted">
-              The FC Lads market index: the average price of the cards we track, last 14 days.
-            </p>
-            <PriceChart
-              points={brief.index.map((point) => ({ date: point.date, price: point.value }))}
-              ranges={[14]}
-              unit="index"
-              notes={notes}
-            />
+          <BriefSection id="trends-heading" title="Market trends">
+            <ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {brief.trends.map((trend) => (
+                <li key={trend.label} className="flex flex-col gap-2 rounded-xl border border-white/8 bg-surface p-4">
+                  <TrendTag direction={trend.direction} />
+                  <h3 className="font-semibold">{trend.label}</h3>
+                  <p className="text-sm text-muted">{trend.text}</p>
+                </li>
+              ))}
+            </ul>
           </BriefSection>
 
-          <BriefSection id="monitor-heading" title="Players to monitor">
-            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {monitor.map((player) => (
-                <li key={player.slug}>
-                  <MoverRow player={player} />
+          <BriefSection id="monitor-heading" title="Cards to monitor">
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {brief.monitor.map((item) => (
+                <li key={item.card}>
+                  <WatchRow card={item.card} note={item.note} />
                 </li>
               ))}
             </ul>

@@ -4,15 +4,12 @@ import { notFound } from "next/navigation";
 import { ChevronRight, MessagesSquare, MonitorPlay, Video } from "lucide-react";
 import { CreatorCard } from "@/components/cards/CreatorCard";
 import { GuideCard } from "@/components/cards/GuideCard";
-import { SquadCard } from "@/components/cards/SquadCard";
-import { AudienceStats, PickCard } from "@/components/creators/CreatorBits";
+import { AudienceStats } from "@/components/creators/CreatorBits";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { creators, getCreator } from "@/data/creators";
 import { getGuidesByAuthor } from "@/data/guides";
 import { ladsPlus } from "@/data/ladsPlus";
-import { getPlayer } from "@/data/players";
-import { getSquadsByAuthor } from "@/data/squads";
 import { socialLinks } from "@/lib/site";
 
 type Params = Promise<{ slug: string }>;
@@ -28,7 +25,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (!creator) return {};
   return {
     title: `${creator.name} — ${creator.role}`,
-    description: creator.bio ?? `${creator.name}'s guides, player picks and squads on FC Lads.`,
+    description: creator.bio ?? `${creator.name}'s guides and videos on FC Lads.`,
     alternates: { canonical: `/creators/${creator.slug}` },
   };
 }
@@ -39,21 +36,18 @@ export default async function CreatorProfilePage({ params }: { params: Params })
 
   const authored = getGuidesByAuthor(creator.slug);
   const videos = authored.filter((guide) => guide.format === "video").slice(0, 4);
-  const picks = (creator.picks ?? [])
-    .map((pick) => ({ ...pick, player: getPlayer(pick.playerSlug) }))
-    .filter((pick) => pick.player);
-  const squads = getSquadsByAuthor(creator.slug);
 
   const tabs = [
     { id: "latest", label: "Latest", show: videos.length > 0 },
-    { id: "picks", label: "Player picks", show: picks.length > 0 },
     { id: "guides", label: "Guides", show: authored.length > 0 },
-    { id: "squads", label: "Squads", show: squads.length > 0 },
   ].filter((tab) => tab.show);
 
   return (
     <div className="relative">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[560px] bg-[radial-gradient(ellipse_70%_60%_at_25%_0%,rgb(14_42_34/0.85),transparent)]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[560px] bg-[radial-gradient(ellipse_70%_60%_at_25%_0%,rgb(14_42_34/0.85),transparent)]"
+      />
 
       <header className="page-container relative flex flex-col gap-8 pt-8 pb-10">
         <nav aria-label="Breadcrumb">
@@ -73,7 +67,12 @@ export default async function CreatorProfilePage({ params }: { params: Params })
         </nav>
 
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
-          <CreatorCard creator={creator} featured showProfileLink={false} className="mx-auto w-full max-w-xs lg:col-span-4" />
+          <CreatorCard
+            creator={creator}
+            featured
+            showProfileLink={false}
+            className="mx-auto w-full max-w-xs lg:col-span-4"
+          />
 
           <div className="flex flex-col gap-5 lg:col-span-8">
             <p className="flex flex-wrap items-center gap-2">
@@ -135,23 +134,6 @@ export default async function CreatorProfilePage({ params }: { params: Params })
           </section>
         )}
 
-        {picks.length > 0 && (
-          <section id="picks" aria-labelledby="picks-heading" className="scroll-mt-40 flex flex-col gap-6">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <h2 id="picks-heading" className="flex items-center gap-3 font-display text-xl font-extrabold uppercase">
-                <span aria-hidden className="h-6 w-1 rounded-full bg-primary" />
-                {creator.name}&apos;s player picks
-              </h2>
-              <p className="tabular text-xs text-muted uppercase">Current meta endorsements</p>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {picks.map(({ player, verdict }) =>
-                player ? <PickCard key={player.slug} player={player} verdict={verdict} creatorName={creator.name} /> : null,
-              )}
-            </div>
-          </section>
-        )}
-
         {authored.length > 0 && (
           <section id="guides" aria-labelledby="guides-heading" className="scroll-mt-40 flex flex-col gap-6">
             <div className="flex flex-wrap items-end justify-between gap-3">
@@ -169,37 +151,29 @@ export default async function CreatorProfilePage({ params }: { params: Params })
           </section>
         )}
 
-        {squads.length > 0 && (
-          <section id="squads" aria-labelledby="squads-heading" className="scroll-mt-40 flex flex-col gap-6">
-            <h2 id="squads-heading" className="flex items-center gap-3 font-display text-xl font-extrabold uppercase">
-              <span aria-hidden className="h-6 w-1 rounded-full bg-primary" />
-              {creator.name}&apos;s squads
-            </h2>
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {squads.map((squad) => (
-                <SquadCard key={squad.slug} squad={squad} authorName={creator.name} />
-              ))}
-            </div>
-          </section>
-        )}
-
         <section
           aria-labelledby="review-cta"
           className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-pitch-green via-[#0a1d17] to-canvas p-6 md:p-12"
         >
-          <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 size-80 rounded-full bg-mint/10 blur-[90px]" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-24 -right-24 size-80 rounded-full bg-mint/10 blur-[90px]"
+          />
           <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <p className="text-label flex items-center gap-2 text-mint">
                 <Video aria-hidden className="size-4" />
                 1-on-1 gameplay review
               </p>
-              <h2 id="review-cta" className="mt-3 font-display text-3xl leading-tight font-extrabold uppercase md:text-4xl">
+              <h2
+                id="review-cta"
+                className="mt-3 font-display text-3xl leading-tight font-extrabold uppercase md:text-4xl"
+              >
                 Want {creator.name} to review your gameplay?
               </h2>
               <p className="mt-3 text-muted">
-                FC Lads+ members get a monthly gameplay review with one of the Lads. Upload a match and get a video breakdown
-                with personal tactical fixes.
+                FC Lads+ members get a monthly gameplay review with one of the Lads. Upload a match and get a video
+                breakdown with personal tactical fixes.
               </p>
               <p className="tabular mt-4 text-primary">
                 {ladsPlus.priceLabel} / month <span className="text-muted">· Cancel anytime</span>

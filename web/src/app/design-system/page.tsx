@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { CreatorCard } from "@/components/cards/CreatorCard";
 import { GuideCard } from "@/components/cards/GuideCard";
-import { CollectibleCard, MetaPlayerCard } from "@/components/cards/PlayerCard";
 import { Logo } from "@/components/layout/Logo";
 import { Badge, SkewTag, TierBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -12,7 +11,6 @@ import { GlassPanel, SectionHeading } from "@/components/ui/Panel";
 import { Paywall } from "@/components/ui/Paywall";
 import { creators, getCreator } from "@/data/creators";
 import { guides } from "@/data/guides";
-import { players } from "@/data/players";
 import { FilterPillsDemo } from "./FilterPillsDemo";
 
 // Internal reference page for reviewing components. Not for the public or search engines.
@@ -44,8 +42,6 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
 }
 
 export default function DesignSystemPage() {
-  const [kai, valere, san, silva, okonkwo] = players;
-
   return (
     <main className="mx-auto flex max-w-[1440px] flex-col gap-14 px-4 py-12 md:px-8 lg:px-14">
       <header className="flex flex-col gap-4">
@@ -99,7 +95,7 @@ export default function DesignSystemPage() {
           </Button>
           <Button variant="primary">Join FC Lads+ now</Button>
           <Button variant="ghost">
-            See all meta players <ArrowRight aria-hidden className="size-4" />
+            See all guides <ArrowRight aria-hidden className="size-4" />
           </Button>
           <Button variant="danger" size="sm">
             Cancel membership
@@ -141,22 +137,6 @@ export default function DesignSystemPage() {
             <Avatar initials="S" />
             <Avatar initials="TF" tone="mint" size="lg" />
           </GlassPanel>
-        </div>
-      </Block>
-
-      <Block title="Player cards — collectible (hero)">
-        <div className="flex flex-wrap gap-6">
-          <CollectibleCard player={kai} />
-          <CollectibleCard player={silva} tier="special" />
-          <CollectibleCard player={okonkwo} tier="gold" />
-        </div>
-      </Block>
-
-      <Block title="Player cards — meta ranking">
-        <div className="scrollbar-none -mx-4 flex snap-x gap-5 overflow-x-auto px-4 pb-4">
-          <MetaPlayerCard player={kai} active />
-          <MetaPlayerCard player={valere} />
-          <MetaPlayerCard player={san} />
         </div>
       </Block>
 

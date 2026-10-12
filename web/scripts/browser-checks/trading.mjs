@@ -48,7 +48,8 @@ await send("Page.navigate", { url: "http://localhost:3000/trading" }); await sle
 check("free market note shown", /pre-Weekend League sell-off/.test(await body()));
 check("brief is locked", /Unlock the brief/.test(await body()));
 check("brief content not sent", !(await evaluate(`document.documentElement.outerHTML.includes('Fodder prices are at a low') || document.documentElement.outerHTML.includes('315,000')`)));
-check("rising list starts with the biggest riser", /Kai Vanderbilt/.test(await evaluate(`document.querySelector('section[aria-labelledby=risers-heading] a')?.textContent ?? ""`)));
+check("weekly market cycle shows 5 steps", (await evaluate(`document.querySelectorAll('section[aria-labelledby=cycle-heading] li').length`)) === 5);
+check("no links to player pages", !(await evaluate(`!!document.querySelector('a[href^="/players"]')`)));
 await typeInto("Bought for", "10000");
 await typeInto("Selling for", "12000");
 await sleep(300);

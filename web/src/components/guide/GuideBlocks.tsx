@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { ArrowRight, Gamepad2, Lightbulb, Plus } from "lucide-react";
-import { getPlayer } from "@/data/players";
 import type { GuideBlock } from "@/types";
 
 /** Renders structured guide content. Section numbers count up through the whole guide. */
@@ -101,34 +99,6 @@ export function GuideBlocks({ blocks }: { blocks: GuideBlock[] }) {
                 {block.note && <p className="text-sm text-muted">{block.note}</p>}
               </figure>
             );
-
-          case "player": {
-            const player = getPlayer(block.slug);
-            if (!player) return null;
-            return (
-              <aside
-                key={key}
-                className="relative flex items-center gap-4 rounded-xl border border-white/8 bg-surface-container p-4 transition-colors hover:border-primary/40"
-              >
-                <span className="flex size-14 shrink-0 flex-col items-center justify-center rounded-lg bg-surface-highest">
-                  <span className="font-display text-xl leading-none font-extrabold text-mint">{player.ovr}</span>
-                  <span className="tabular text-[10px] text-muted">{player.position}</span>
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-display font-extrabold">
-                    <Link href={`/players/${player.slug}`} className="after:absolute after:inset-0">
-                      {player.name}
-                    </Link>
-                    {player.playstyles?.[0] && (
-                      <span className="tabular ml-2 text-xs font-bold text-primary">{player.playstyles[0]}</span>
-                    )}
-                  </h3>
-                  <p className="text-sm text-muted">{block.note}</p>
-                </div>
-                <ArrowRight aria-hidden className="size-4 shrink-0 text-muted" />
-              </aside>
-            );
-          }
         }
       })}
     </>
