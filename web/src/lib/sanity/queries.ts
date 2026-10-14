@@ -35,11 +35,11 @@ const CATALOG_QUERY = /* groq */ `{
   },
   "guides": *[_type == "guide" && defined(slug.current) && ${authored}] | order(publishedAt desc) {
     "slug": slug.current, title, excerpt, category, format, minutes, access, "authorSlug": author->slug.current,
-    publishedAt, isNew, isFeatured, video { provider, id }, image
+    publishedAt, isNew, isFeatured, "video": select(defined(video.provider) && defined(video.id) => video { provider, id }), image
   },
   "collections": *[_type == "collection" && defined(slug.current)] | order(order asc, title asc) {
     "slug": slug.current, title, description, season, videoCount, badge, pathStep, category,
-    episodes[] { title, minutes, "guideSlug": guide->slug.current, video { provider, id } }
+    episodes[] { title, minutes, "guideSlug": guide->slug.current, "video": select(defined(video.provider) && defined(video.id) => video { provider, id }) }
   },
   "feedPosts": *[_type == "feedPost" && ${authored}] | order(postedAt desc) {
     "id": _id, "type": postType, topic, "authorSlug": author->slug.current, postedAt, access,

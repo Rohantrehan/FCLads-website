@@ -35,7 +35,19 @@ Then, for the website (`web/.env.local`, and the host's environment variables in
   `https://<site>/api/revalidate`, trigger on create/update/delete, with this secret. Without it,
   changes show within 5 minutes; with it, straight away.
 
-Invite creators and admins in sanity.io/manage → Members.
+Invite creators and admins in sanity.io/manage → Members. Then open each creator in the Studio
+(Setup → Creators) and fill in **Studio login email**: their new posts are credited to them
+automatically.
+
+## What it looks like
+
+- FC Lads colours, fonts and shield logo; opens in dark mode (`theme.ts`, `components/`).
+- **Home** screen first (`home/HomeTool.tsx`): big "+ Trading post / Feed post / Guide / Video
+  collection" buttons, recently edited items, and how posting works.
+- Menu: Trading posts, Feed posts, then Learn (Guides, Video collections), then Setup (Creators,
+  Site settings). Rarely used fields sit under **More options** in each form.
+- Switched off to keep it simple: tasks, releases, scheduling, comments, Canvas, "What's new"
+  pop-ups. The query tool (Vision) is only shown to administrators.
 
 ## Day to day
 

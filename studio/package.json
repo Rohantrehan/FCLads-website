@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@sanity/icons": "^5.2.3",
+    "@sanity/ui": "^4.4.5",
     "@sanity/vision": "6.19.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",

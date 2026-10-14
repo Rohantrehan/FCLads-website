@@ -1,5 +1,6 @@
 import { CommentIcon } from "@sanity/icons/Comment";
 import { defineArrayMember, defineField, defineType, type CustomValidator } from "sanity";
+import { creditCurrentUser } from "./authorDefault";
 import { accessOptions, feedTopics } from "./options";
 
 type PostType = "video" | "update" | "trading" | "tip" | "poll";
@@ -32,39 +33,27 @@ export const feedPost = defineType({
   title: "Feed post",
   type: "document",
   icon: CommentIcon,
+  fieldsets: [{ name: "more", title: "More options", options: { collapsible: true, collapsed: true } }],
   fields: [
     defineField({
       name: "postType",
-      title: "Type of post",
+      title: "What kind of post?",
       type: "string",
       options: { list: postTypes, layout: "radio" },
       initialValue: "tip",
       validation: (rule) => rule.required(),
     }),
-    defineField({ name: "author", title: "Creator", type: "reference", to: [{ type: "creator" }], validation: (rule) => rule.required() }),
-    defineField({ name: "topic", title: "Topic", type: "string", options: { list: feedTopics }, validation: (rule) => rule.required() }),
     defineField({
-      name: "postedAt",
-      title: "Posted at",
-      type: "datetime",
-      initialValue: () => new Date().toISOString(),
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "access",
-      title: "Who can see it",
+      name: "topic",
+      title: "Topic",
       type: "string",
-      options: { list: accessOptions, layout: "radio" },
-      initialValue: "free",
-      description: "Only trading posts can be FC Lads+: non-members see the first targets only.",
+      options: { list: feedTopics, layout: "radio", direction: "horizontal" },
       validation: (rule) => rule.required(),
     }),
     defineField({ name: "title", title: "Title", type: "string", ...only(["video", "update", "trading"]) }),
     defineField({ name: "excerpt", title: "Description", type: "text", rows: 3, ...only(["video"]) }),
     defineField({ name: "minutes", title: "Video length (minutes)", type: "number", ...only(["video"]) }),
     defineField({ name: "youtubeId", title: "YouTube video ID", type: "string", description: "Public clip: the part after watch?v=.", ...only(["video"], false) }),
-    defineField({ name: "views", title: "Views", type: "number", ...only(["video"], false) }),
-    defineField({ name: "approval", title: "Likes (%)", type: "number", ...only(["video"], false) }),
     defineField({
       name: "guide",
       title: "Full breakdown (guide)",
@@ -118,6 +107,37 @@ export const feedPost = defineType({
           preview: { select: { title: "label", subtitle: "votes" } },
         }),
       ],
+    }),
+    defineField({
+      name: "access",
+      title: "Who can see it?",
+      type: "string",
+      options: { list: accessOptions, layout: "radio", direction: "horizontal" },
+      initialValue: "free",
+      description: "FC Lads+: non-members see the first targets only, the rest stay locked.",
+      // Only trading targets can be locked; every other post type is free.
+      hidden: ({ document }) => typeOf(document) !== "trading",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "author",
+      title: "Posted by",
+      type: "reference",
+      to: [{ type: "creator" }],
+      initialValue: async (_params, context) => (await creditCurrentUser(context)) as { _ref: string },
+      options: { disableNew: true },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({ name: "views", title: "Views", type: "number", fieldset: "more", ...only(["video"], false) }),
+    defineField({ name: "approval", title: "Likes (%)", type: "number", fieldset: "more", ...only(["video"], false) }),
+    defineField({
+      name: "postedAt",
+      title: "Date and time",
+      type: "datetime",
+      fieldset: "more",
+      description: "Set automatically. Change it only to back-date a post.",
+      initialValue: () => new Date().toISOString(),
+      validation: (rule) => rule.required(),
     }),
   ],
   orderings: [{ title: "Newest first", name: "postedDesc", by: [{ field: "postedAt", direction: "desc" }] }],

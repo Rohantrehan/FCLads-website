@@ -27,6 +27,14 @@ export const creator = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "studioEmail",
+      title: "Studio login email",
+      type: "string",
+      group: "profile",
+      description: "The email this creator signs in to the Studio with. Their new posts are then credited to them automatically.",
+      validation: (rule) => rule.email(),
+    }),
+    defineField({
       name: "hidden",
       title: "Hide this creator",
       type: "boolean",

@@ -1,5 +1,6 @@
 import { TrendUpwardIcon } from "@sanity/icons/TrendUpward";
 import { defineField, defineType } from "sanity";
+import { creditCurrentUser } from "./authorDefault";
 import { accessOptions } from "./options";
 
 /** A creator's post on /trading: heading + text, with an optional screenshot. */
@@ -8,44 +9,61 @@ export const tradingPost = defineType({
   title: "Trading post",
   type: "document",
   icon: TrendUpwardIcon,
+  fieldsets: [{ name: "more", title: "More options", options: { collapsible: true, collapsed: true } }],
   fields: [
-    defineField({ name: "title", title: "Heading", type: "string", validation: (rule) => rule.required().max(110) }),
-    defineField({ name: "text", title: "Text", type: "text", rows: 5, validation: (rule) => rule.required().max(1200) }),
-    defineField({ name: "author", title: "Creator", type: "reference", to: [{ type: "creator" }], validation: (rule) => rule.required() }),
     defineField({
-      name: "access",
-      title: "Who can read it",
+      name: "title",
+      title: "Heading",
       type: "string",
-      options: { list: accessOptions, layout: "radio" },
-      initialValue: "plus",
-      description: "Non-members only see the heading of FC Lads+ posts.",
-      validation: (rule) => rule.required(),
+      description: "One line, like a tweet's first sentence.",
+      validation: (rule) => rule.required().max(110),
     }),
-    defineField({
-      name: "postedAt",
-      title: "Posted at",
-      type: "datetime",
-      initialValue: () => new Date().toISOString(),
-      validation: (rule) => rule.required(),
-    }),
+    defineField({ name: "text", title: "Your post", type: "text", rows: 5, validation: (rule) => rule.required().max(1200) }),
     defineField({
       name: "image",
-      title: "Screenshot",
+      title: "Screenshot (optional)",
       type: "image",
       options: { hotspot: true },
       fields: [
         defineField({
           name: "alt",
-          title: "Describe the screenshot",
+          title: "What does the screenshot show?",
           type: "string",
-          description: "For people who can't see the image, e.g. “Price chart of 86 rated fodder rising”.",
+          description: "A few words for people who can't see images, e.g. “86 rated fodder prices going up”.",
           validation: (rule) =>
             rule.custom((value, context) => {
               const parent = context.parent as { asset?: unknown } | undefined;
-              return parent?.asset && !value ? "Describe the screenshot." : true;
+              return parent?.asset && !value ? "Add a few words about the screenshot." : true;
             }),
         }),
       ],
+    }),
+    defineField({
+      name: "access",
+      title: "Who can read it?",
+      type: "string",
+      options: { list: accessOptions, layout: "radio", direction: "horizontal" },
+      initialValue: "plus",
+      description: "Non-members only see the heading of FC Lads+ posts.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "author",
+      title: "Posted by",
+      type: "reference",
+      to: [{ type: "creator" }],
+      initialValue: async (_params, context) => (await creditCurrentUser(context)) as { _ref: string },
+      options: { disableNew: true },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "postedAt",
+      title: "Date and time",
+      type: "datetime",
+      fieldset: "more",
+      description: "Set automatically. Change it only to back-date a post.",
+      initialValue: () => new Date().toISOString(),
+      validation: (rule) => rule.required(),
     }),
   ],
   orderings: [{ title: "Newest first", name: "postedDesc", by: [{ field: "postedAt", direction: "desc" }] }],
@@ -53,7 +71,7 @@ export const tradingPost = defineType({
     select: { title: "title", author: "author.name", access: "access", media: "image", postedAt: "postedAt" },
     prepare: ({ title, author, access, media, postedAt }) => ({
       title,
-      subtitle: [author, access === "plus" ? "FC Lads+" : "Free", postedAt?.slice(0, 10)].filter(Boolean).join(" · "),
+      subtitle: [access === "plus" ? "🔒 FC Lads+" : "Free", author, postedAt?.slice(0, 10)].filter(Boolean).join(" · "),
       media,
     }),
   },

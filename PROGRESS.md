@@ -343,6 +343,17 @@ User feedback on Home → implemented:
 - Tests against Sanity: all suites pass except 4 trading date counts, which assume the sample "today" (12 Oct); with Sanity the real date is used, and the counts shown are right for it (noted in the checks README). Members-only guide/trading text not in visitor HTML; Sanity images served from cdn.sanity.io.
 - ⚠️ Still to do: invite creators/admins in sanity.io/manage → Members; webhook to `/api/revalidate` once the site has a public URL (until then changes show within 5 minutes); production host needs the `SANITY_*` env vars.
 
+### Session: Simpler, branded Studio (2026-10-14)
+- **User request:** the Studio felt complicated; make it easy and match the site design.
+- **Look:** FC Lads theme (canvas/surface/green/mint/gold, Manrope + JetBrains Mono, visible input borders), shield logo as the workspace icon, dark mode by default (people can still switch).
+- **Home screen** opens first: "Hi <name>, what are you posting today?", four big "+ new" buttons, "Recently edited" (Draft/Live badges), "How posting works" in 3 steps. Works on phones.
+- **Easier forms:** plain-English labels ("Who can read it?", "Posted by", "Your post"); trading posts: heading, text, screenshot, Free/FC Lads+, author; date under **More options**. Feed posts: type and topic as radio buttons, "Who can see it?" only for trading targets, views/likes/date under More options. Guides: one page (no tabs), extras (date, New tag, featured, green words, patch, tactic code) under More options; video is collapsed and truly optional (old version would have blocked publishing). New creator field **Studio login email**: posts are credited to that creator automatically.
+- **Menu:** Trading posts, Feed posts / Learn: Guides, Video collections / Setup: Creators, Site settings; lists newest first.
+- **Switched off:** tasks, releases, scheduled publishing/drafts, comments, Canvas, "What's new" announcements; Vision only for administrators.
+- Website: GROQ only passes a video when both provider and ID are set.
+- Checked with screenshots of the local Studio (desktop + 400px phone); deployed to https://fclads.sanity.studio. Studio typecheck clean.
+- To do for the client: invite creators, fill in each creator's Studio login email.
+
 ## How to run locally
 
 ```bash
