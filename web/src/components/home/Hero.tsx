@@ -15,8 +15,8 @@ const topics = [
 ];
 
 interface HeroProps {
-  /** [front, back-left, back-right] */
-  cards: [Creator, Creator, Creator];
+  /** [front, back-left, back-right]. Fewer than three creators shows fewer cards. */
+  cards: Creator[];
   patch: string;
 }
 
@@ -91,15 +91,19 @@ export function Hero({ cards, patch }: HeroProps) {
         <div className="relative mx-auto flex h-[400px] w-full max-w-md items-center justify-center sm:h-[460px] lg:col-span-5">
           <div aria-hidden className="pointer-events-none absolute size-72 rounded-full bg-primary/20 blur-[100px]" />
           <div className="relative h-[390px] w-64 scale-[0.85] sm:scale-100">
-            <CreatorCard
-              creator={left}
-              className="absolute top-6 -left-14 w-full -rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-left-28"
-            />
-            <CreatorCard
-              creator={right}
-              className="absolute top-6 -right-14 w-full rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-right-28"
-            />
-            <CreatorCard creator={front} featured className="absolute inset-x-0 top-0 z-10" />
+            {left && (
+              <CreatorCard
+                creator={left}
+                className="absolute top-6 -left-14 w-full -rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-left-28"
+              />
+            )}
+            {right && (
+              <CreatorCard
+                creator={right}
+                className="absolute top-6 -right-14 w-full rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-right-28"
+              />
+            )}
+            {front && <CreatorCard creator={front} featured className="absolute inset-x-0 top-0 z-10" />}
           </div>
         </div>
       </div>

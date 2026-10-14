@@ -1,26 +1,14 @@
-import { isVisibleCreator } from "@/data/creators";
-import type { FeedPost, FeedTopic } from "@/types";
+import type { FeedPost, TrendingItem } from "@/types";
 
-// Mock feed posts, newest first. Will come from the CMS (posts table) in the backend phase.
-// Time labels ("2h ago") are worked out against FEED_NOW so the mock stays readable.
-export const FEED_NOW = "2026-10-08T12:00:00Z";
-
-export const feedTopics: Record<FeedTopic, string> = {
-  gameplay: "Gameplay",
-  trading: "Trading",
-  updates: "Updates",
-  "fut-champs": "FUT Champs",
-};
-
-export const FEED_PAGE_SIZE = 8;
-
-const allPosts: FeedPost[] = [
+// Sample feed posts, newest first, used until Sanity is set up.
+// Dates are relative to SAMPLE_NOW (data/sample.ts) so "2h ago" labels stay readable.
+export const feedPosts: FeedPost[] = [
   {
     id: "beat-the-press-clip",
     type: "video",
     topic: "gameplay",
     authorSlug: "stefan",
-    postedAt: "2026-10-08T11:15:00Z",
+    postedAt: "2026-10-12T11:15:00Z",
     access: "free",
     title: "How to beat the high press in patch 1.08 without hoofing it long",
     excerpt:
@@ -35,7 +23,7 @@ const allPosts: FeedPost[] = [
     type: "update",
     topic: "updates",
     authorSlug: "hobs",
-    postedAt: "2026-10-08T09:00:00Z",
+    postedAt: "2026-10-12T09:00:00Z",
     access: "free",
     title: "What patch 1.08 actually changed (and what the notes didn't say)",
     points: [
@@ -49,7 +37,7 @@ const allPosts: FeedPost[] = [
     type: "trading",
     topic: "trading",
     authorSlug: "wessam",
-    postedAt: "2026-10-08T08:00:00Z",
+    postedAt: "2026-10-12T08:00:00Z",
     access: "plus",
     title: "3 cheap fodder targets to stock up on before Friday's content drop",
     targets: [
@@ -64,7 +52,7 @@ const allPosts: FeedPost[] = [
     type: "tip",
     topic: "fut-champs",
     authorSlug: "hobs",
-    postedAt: "2026-10-08T06:00:00Z",
+    postedAt: "2026-10-12T06:00:00Z",
     access: "free",
     text: "Conceded in the first 10 minutes? Don't switch to team press. Most comebacks happen between minute 55 and 75 by keeping your shape.",
     label: "Weekend League rule #4",
@@ -74,7 +62,7 @@ const allPosts: FeedPost[] = [
     type: "poll",
     topic: "gameplay",
     authorSlug: "wessam",
-    postedAt: "2026-10-08T05:00:00Z",
+    postedAt: "2026-10-12T05:00:00Z",
     access: "free",
     question: "Which skill move breaks a five-at-the-back low block most reliably for you?",
     options: [
@@ -89,7 +77,7 @@ const allPosts: FeedPost[] = [
     type: "update",
     topic: "updates",
     authorSlug: "stefan",
-    postedAt: "2026-10-07T18:00:00Z",
+    postedAt: "2026-10-11T18:00:00Z",
     access: "free",
     title: "Title update: the 3 changes that matter for Champs",
     points: [
@@ -103,7 +91,7 @@ const allPosts: FeedPost[] = [
     type: "video",
     topic: "trading",
     authorSlug: "wessam",
-    postedAt: "2026-10-07T15:00:00Z",
+    postedAt: "2026-10-11T15:00:00Z",
     access: "free",
     title: "When to sell before Team of the Week drops",
     excerpt:
@@ -117,7 +105,7 @@ const allPosts: FeedPost[] = [
     type: "tip",
     topic: "trading",
     authorSlug: "wessam",
-    postedAt: "2026-10-07T09:00:00Z",
+    postedAt: "2026-10-11T09:00:00Z",
     access: "free",
     text: "Never panic-buy on a Thursday night. Everyone's building for Weekend League, so prices are at their highest.",
     label: "Market rule #1",
@@ -127,7 +115,7 @@ const allPosts: FeedPost[] = [
     type: "video",
     topic: "fut-champs",
     authorSlug: "hobs",
-    postedAt: "2026-10-07T06:00:00Z",
+    postedAt: "2026-10-11T06:00:00Z",
     access: "free",
     title: "Stop diving in: 1v1 defending that works in Elite",
     excerpt:
@@ -139,27 +127,8 @@ const allPosts: FeedPost[] = [
   },
 ];
 
-/** Posts shown on the site (posts by hidden creators are left out). */
-export const feedPosts = allPosts.filter((post) => isVisibleCreator(post.authorSlug));
-
-export function isFeedTopic(value: unknown): value is FeedTopic {
-  return typeof value === "string" && value in feedTopics;
-}
-
-export function countByTopic() {
-  const counts = Object.fromEntries(Object.keys(feedTopics).map((key) => [key, 0])) as Record<FeedTopic, number>;
-  for (const post of feedPosts) counts[post.topic] += 1;
-  return counts;
-}
-
-/** Posts from the last 24 hours before FEED_NOW. */
-export function postsToday() {
-  const now = new Date(FEED_NOW).getTime();
-  return feedPosts.filter((post) => now - new Date(post.postedAt).getTime() < 24 * 3_600_000).length;
-}
-
-/** "Trending this week" sidebar. Mock view counts. */
-export const trending = [
+/** "Trending this week" sidebar. Sample view counts. */
+export const trending: TrendingItem[] = [
   { title: "Beat the high press", href: "/guides/beat-the-high-press", authorSlug: "stefan", views: 42_000 },
   {
     title: "Best custom tactics this patch",

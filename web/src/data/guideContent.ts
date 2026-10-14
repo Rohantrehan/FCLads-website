@@ -1,9 +1,11 @@
+import "server-only";
+
 import type { GuideContent } from "@/types";
 
-// Article bodies, keyed by guide slug. In the backend phase this comes from the CMS
-// (`GET /guides/:slug`). Guides without an entry show a "full write-up coming soon" fallback.
+// Sample article bodies, keyed by guide slug, used until Sanity is set up.
+// Guides without an entry show a "full write-up coming soon" fallback.
 
-const contents: GuideContent[] = [
+export const guideContents: GuideContent[] = [
   {
     slug: "beat-the-high-press",
     highlight: "high press",
@@ -145,7 +147,3 @@ const contents: GuideContent[] = [
     lockedFrom: 0,
   },
 ];
-
-export function getGuideContent(slug: string) {
-  return contents.find((content) => content.slug === slug);
-}

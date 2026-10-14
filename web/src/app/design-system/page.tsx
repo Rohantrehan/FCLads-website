@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Avatar, CoinPrice, StatBar, Trend } from "@/components/ui/DataBits";
 import { GlassPanel, SectionHeading } from "@/components/ui/Panel";
 import { Paywall } from "@/components/ui/Paywall";
-import { creators, getCreator } from "@/data/creators";
-import { guides } from "@/data/guides";
+import { getContent } from "@/lib/content";
 import { FilterPillsDemo } from "./FilterPillsDemo";
 
 // Internal reference page for reviewing components. Not for the public or search engines.
@@ -41,7 +40,8 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-export default function DesignSystemPage() {
+export default async function DesignSystemPage() {
+  const { creators, guides, getCreator } = await getContent();
   return (
     <main className="mx-auto flex max-w-[1440px] flex-col gap-14 px-4 py-12 md:px-8 lg:px-14">
       <header className="flex flex-col gap-4">

@@ -7,10 +7,8 @@ import { DashboardHeading, MembersOnly, PanelLink } from "@/components/dashboard
 import { VideoFacade } from "@/components/guide/VideoFacade";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/DataBits";
-import { collections } from "@/data/collections";
-import { getCreator } from "@/data/creators";
-import { countByCategory, getFeaturedGuide, guides, isGuideCategory } from "@/data/guides";
-import { CURRENT_PATCH } from "@/data/meta";
+import { getContent } from "@/lib/content";
+import { isGuideCategory } from "@/lib/content/constants";
 import { cn } from "@/lib/cn";
 import { categoryLabels } from "@/lib/format";
 import { getViewer } from "@/lib/viewer";
@@ -24,13 +22,15 @@ const categoryHref = (category?: GuideCategory) =>
 export default async function DashboardGameplayPage({ searchParams }: PageProps<"/dashboard/gameplay">) {
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
+  const content = await getContent();
+  const { collections, getCreator, guides } = content;
 
   const { category: raw } = await searchParams;
   const category = isGuideCategory(raw) ? raw : undefined;
   // Feature the newest video (the player needs a video); fall back to the featured guide.
-  const featured = guides.find((guide) => guide.format === "video") ?? getFeaturedGuide();
+  const featured = guides.find((guide) => guide.format === "video") ?? content.featuredGuide();
   const author = featured && getCreator(featured.authorSlug);
-  const counts = countByCategory();
+  const counts = content.countByCategory();
   const categories = (Object.keys(categoryLabels) as GuideCategory[]).filter((key) => counts[key]);
   const list = guides.filter((guide) => !category || guide.category === category);
 
@@ -39,7 +39,7 @@ export default async function DashboardGameplayPage({ searchParams }: PageProps<
       <DashboardHeading
         eyebrow="Gameplay"
         title="Video library"
-        description={`Every FC Lads+ guide and video, tested on patch ${CURRENT_PATCH}. Pick up where you left off or find something new.`}
+        description={`Every FC Lads+ guide and video, tested on patch ${content.settings.currentPatch}. Pick up where you left off or find something new.`}
         aside={
           <p className="tabular flex items-center gap-2 text-xs text-muted uppercase">
             <BookOpen aria-hidden className="size-4 text-primary" />

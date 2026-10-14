@@ -4,16 +4,22 @@ import { CollectionCard } from "@/components/collections/CollectionCard";
 import { LearningPath } from "@/components/collections/LearningPath";
 import { LearnTabs } from "@/components/learn/LearnTabs";
 import { Badge } from "@/components/ui/Badge";
-import { collections, CURRENT_SEASON, getLearningPath } from "@/data/collections";
+import { getContent } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: `${CURRENT_SEASON} video collections`,
-  description: `${CURRENT_SEASON} video series for FC Lads+ members, in the order we recommend: fundamentals, defending, attacking, meta, tactics and squads.`,
-  alternates: { canonical: "/learn/collections" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const season = (await getContent()).settings.currentSeason;
+  return {
+    title: `${season} video collections`,
+    description: `${season} video series for FC Lads+ members, in the order we recommend: fundamentals, defending, attacking, meta, tactics and squads.`,
+    alternates: { canonical: "/learn/collections" },
+  };
+}
 
-export default function CollectionsPage() {
-  const path = getLearningPath();
+export default async function CollectionsPage() {
+  const content = await getContent();
+  const { collections } = content;
+  const CURRENT_SEASON = content.settings.currentSeason;
+  const path = content.learningPath();
 
   return (
     <div className="relative">

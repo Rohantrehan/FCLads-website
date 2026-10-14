@@ -1,8 +1,8 @@
 import type { Creator } from "@/types";
 
-// Mock data taken from the designs. Replace with API/CMS data in the backend phase.
-// Set `hidden: true` to switch a creator off everywhere without deleting their data.
-const allCreators: Creator[] = [
+// Sample creators, used until Sanity is set up (and as its first content: studio/scripts/seed.mjs).
+// `hidden: true` switches a creator off everywhere without deleting their data (lib/content/content.ts).
+export const creators: Creator[] = [
   {
     slug: "tfv-gaming",
     hidden: true, // Switched off for now (client request, Oct 2026). Remove this line to bring TFV back.
@@ -110,15 +110,3 @@ const allCreators: Creator[] = [
     since: 2020,
   },
 ];
-
-/** Creators shown on the site (hidden ones removed). */
-export const creators = allCreators.filter((creator) => !creator.hidden);
-
-export function getCreator(slug: string) {
-  return creators.find((creator) => creator.slug === slug);
-}
-
-/** True when the creator exists and is not hidden. Used to filter their guides and posts. */
-export function isVisibleCreator(slug: string) {
-  return creators.some((creator) => creator.slug === slug);
-}

@@ -6,6 +6,7 @@ import { JOIN_HREF, PlusHero } from "@/components/plus/PlusHero";
 import { CreatorAccessSection, DiscordSection, ReviewSection, TradingSection } from "@/components/plus/PlusSections";
 import { Button } from "@/components/ui/Button";
 import { ladsPlus } from "@/data/ladsPlus";
+import { getContent } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "FC Lads+ membership",
@@ -22,7 +23,7 @@ const outcomes = [
   "Improve every month.",
 ];
 
-export default function LadsPlusPage() {
+export default async function LadsPlusPage() {
   return (
     <>
       <PlusHero />
@@ -42,7 +43,7 @@ export default function LadsPlusPage() {
 
       <DiscordSection />
       <div className="border-t border-white/6 bg-surface">
-        <CreatorAccessSection />
+        <CreatorAccessSection creators={(await getContent()).creators} />
       </div>
       <TradingSection />
       <div className="border-t border-white/6 bg-surface">

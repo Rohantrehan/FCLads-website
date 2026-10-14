@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CalendarDays } from "lucide-react";
 import { TradingPostCard } from "@/components/trading/TradingPostCard";
 import { cn } from "@/lib/cn";
+import type { Content } from "@/lib/content";
 import { DEFAULT_RANGE, queryTradingPosts, tradingRanges, type TradingRange } from "@/lib/tradingAccess";
 import type { Viewer } from "@/lib/viewer";
 
@@ -9,6 +10,7 @@ const shortDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "sho
 const fmt = (iso: string) => shortDate.format(new Date(`${iso}T00:00:00Z`));
 
 interface TradingFeedProps {
+  content: Content;
   viewer: Viewer;
   /** Page the filters link back to, e.g. "/trading". */
   basePath: string;
@@ -19,8 +21,8 @@ interface TradingFeedProps {
  * Date filter (Today, Yesterday, Last 3 days, Last 7 days, Custom) + the creators' trading posts.
  * Works without JavaScript: presets are links, the custom range is a GET form.
  */
-export function TradingFeed({ viewer, basePath, searchParams }: TradingFeedProps) {
-  const { range, from, to, today, items } = queryTradingPosts(searchParams, viewer);
+export function TradingFeed({ content, viewer, basePath, searchParams }: TradingFeedProps) {
+  const { range, from, to, today, items } = queryTradingPosts(content, searchParams, viewer);
   const hrefFor = (key: TradingRange) => (key === DEFAULT_RANGE ? basePath : `${basePath}?range=${key}`);
   const windowLabel = from === to ? fmt(from) : `${fmt(from)} – ${fmt(to)}`;
 

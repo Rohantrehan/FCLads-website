@@ -10,9 +10,8 @@ import { learnHref } from "@/components/learn/learnHref";
 import { LearnSearch } from "@/components/learn/LearnSearch";
 import { LearnTabs } from "@/components/learn/LearnTabs";
 import { Button } from "@/components/ui/Button";
-import { getCreator } from "@/data/creators";
-import { CURRENT_PATCH } from "@/data/meta";
-import { countByCategory, getFeaturedGuide, guides, isGuideCategory, PAGE_SIZE, queryGuides } from "@/data/guides";
+import { getContent } from "@/lib/content";
+import { GUIDE_PAGE_SIZE as PAGE_SIZE, isGuideCategory } from "@/lib/content/constants";
 import { categoryLabels } from "@/lib/format";
 
 const BANNER_AFTER = 6; // upsell banner position in the grid
@@ -45,8 +44,10 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 
 export default async function LearnPage({ searchParams }: { searchParams: SearchParams }) {
   const { category, q, limit } = await readParams(searchParams);
-  const { items, total } = queryGuides({ category, q, limit });
-  const featured = getFeaturedGuide();
+  const content = await getContent();
+  const { getCreator } = content;
+  const { items, total } = content.queryGuides({ category, q, limit });
+  const featured = content.featuredGuide();
   const showFeatured = !category && !q && featured;
   // Don't repeat the featured guide in the grid below it.
   const gridItems = showFeatured ? items.filter((guide) => guide.slug !== featured.slug) : items;
@@ -62,7 +63,7 @@ export default async function LearnPage({ searchParams }: { searchParams: Search
         <div className="flex flex-col gap-3">
           <p className="tabular flex items-center gap-2 text-[11px] font-bold tracking-widest text-mint uppercase">
             <span aria-hidden className="size-1.5 rounded-full bg-mint" />
-            Patch {CURRENT_PATCH} verified
+            Patch {content.settings.currentPatch} verified
           </p>
           <h1 className="text-hero">
             Learn <span className="text-primary">FC</span>
@@ -79,7 +80,7 @@ export default async function LearnPage({ searchParams }: { searchParams: Search
         <div className="flex flex-col gap-6 lg:col-span-3">
           <div className="lg:sticky lg:top-28 lg:flex lg:flex-col lg:gap-6">
             <div className="lg:rounded-2xl lg:border lg:border-white/8 lg:bg-[#0f141b] lg:p-4">
-              <CategoryNav active={category} counts={countByCategory()} total={guides.length} q={q} />
+              <CategoryNav active={category} counts={content.countByCategory()} total={content.guides.length} q={q} />
             </div>
             <div className="hidden lg:block">
               <DiscordRequest />

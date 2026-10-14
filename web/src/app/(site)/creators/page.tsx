@@ -2,23 +2,27 @@ import type { Metadata } from "next";
 import { Gamepad2, MessagesSquare, Users, Zap } from "lucide-react";
 import { CreatorRoster, type RosterEntry } from "@/components/creators/CreatorRoster";
 import { Button } from "@/components/ui/Button";
-import { creators } from "@/data/creators";
-import { getGuidesByAuthor } from "@/data/guides";
 import { ladsPlus } from "@/data/ladsPlus";
+import { getContent } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Meet the Lads",
-  description: `The FC creators, analysts and competitors behind FC Lads: ${creators.map((creator) => creator.name).join(", ")}.`,
-  alternates: { canonical: "/creators" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { creators } = await getContent();
+  return {
+    title: "Meet the Lads",
+    description: `The FC creators, analysts and competitors behind FC Lads: ${creators.map((creator) => creator.name).join(", ")}.`,
+    alternates: { canonical: "/creators" },
+  };
+}
 
 // TODO: replace with real combined audience once the client confirms numbers.
 const TOTAL_AUDIENCE = "1.2M+";
 
-export default function CreatorsPage() {
+export default async function CreatorsPage() {
+  const content = await getContent();
+  const { creators } = content;
   const year = new Date().getFullYear();
   const entries: RosterEntry[] = creators.map((creator) => {
-    const authored = getGuidesByAuthor(creator.slug);
+    const authored = content.guidesByAuthor(creator.slug);
     const latest = authored[0];
     return {
       creator,

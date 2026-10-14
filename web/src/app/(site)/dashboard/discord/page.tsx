@@ -3,8 +3,8 @@ import { ArrowUpRight, CheckCircle2, Hash, MessagesSquare, Pin, ScrollText, User
 import { DashboardHeading, DashPanel, MembersOnly } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/DataBits";
-import { creators } from "@/data/creators";
 import { discordAccount, discordChannels, discordRules } from "@/data/memberDashboard";
+import { getContent } from "@/lib/content";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
 
@@ -15,6 +15,7 @@ const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 export default async function DashboardDiscordPage() {
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
+  const { creators } = await getContent();
 
   return (
     <div className="page-container flex flex-col gap-8 pt-10 pb-20">

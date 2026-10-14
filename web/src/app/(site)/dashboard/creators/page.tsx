@@ -5,9 +5,9 @@ import { DashboardHeading, DashPanel, MembersOnly, PanelLink } from "@/component
 import { FeedPostCard } from "@/components/feed/FeedCards";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/DataBits";
-import { creators, getCreator } from "@/data/creators";
 import { currentReview } from "@/data/memberDashboard";
 import { cn } from "@/lib/cn";
+import { getContent } from "@/lib/content";
 import { queryFeed } from "@/lib/feedAccess";
 import { getViewer } from "@/lib/viewer";
 
@@ -19,9 +19,11 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
 
+  const content = await getContent();
+  const { creators } = content;
   const { creator: raw } = await searchParams;
-  const selected = typeof raw === "string" ? getCreator(raw) : undefined;
-  const all = queryFeed({ limit: 100 }, viewer).items;
+  const selected = typeof raw === "string" ? content.getCreator(raw) : undefined;
+  const all = queryFeed(content, { limit: content.feedPosts.length }, viewer).items;
   const posts = all.filter((post) => !selected || post.authorSlug === selected.slug).slice(0, POSTS_SHOWN);
   const countFor = (slug: string) => all.filter((post) => post.authorSlug === slug).length;
 
@@ -73,7 +75,7 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
           {posts.length > 0 ? (
             <div className="md:columns-2 md:gap-6 [&>*]:mb-6 [&>*]:break-inside-avoid">
               {posts.map((post) => (
-                <FeedPostCard key={post.id} post={post} />
+                <FeedPostCard key={post.id} post={post} now={content.now} />
               ))}
             </div>
           ) : (

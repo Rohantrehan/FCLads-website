@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Check, ClipboardList, FileVideo, History, Play } from "lucide-react";
 import { DashboardHeading, MembersOnly, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { ReviewBooking, type ReviewerOption } from "@/components/dashboard/ReviewBooking";
-import { getCreator } from "@/data/creators";
 import { currentReview, DASHBOARD_TODAY, pastReviews, reviewers, reviewSteps } from "@/data/memberDashboard";
+import { getContent } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import { getViewer } from "@/lib/viewer";
 
@@ -20,6 +20,7 @@ const fmt = (iso: string) => dateLabel.format(new Date(`${iso}T00:00:00Z`));
 export default async function DashboardReviewPage() {
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
+  const { getCreator } = await getContent();
 
   const stepIndex = reviewSteps.findIndex((step) => step.key === currentReview.step);
   const left = currentReview.credits.total - currentReview.credits.used;

@@ -11,9 +11,7 @@ import { ShareButton } from "@/components/learn/ShareButton";
 import { Badge, TierBadge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/DataBits";
 import { Paywall } from "@/components/ui/Paywall";
-import { getCreator } from "@/data/creators";
-import { getGuideContent } from "@/data/guideContent";
-import { getGuide, guides } from "@/data/guides";
+import { getContent, getGuideContent, type Content } from "@/lib/content";
 import { categoryLabels } from "@/lib/format";
 import { getGuideView } from "@/lib/guideAccess";
 import { getViewer } from "@/lib/viewer";
@@ -21,15 +19,14 @@ import type { Guide } from "@/types";
 
 type Params = Promise<{ slug: string }>;
 
-// Pre-build every guide at build time. Unknown slugs show the 404 page.
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return guides.map((guide) => ({ slug: guide.slug }));
+// Pre-built at deploy; guides published later in the Studio are built on their first visit.
+// Unknown slugs show the 404 page.
+export async function generateStaticParams() {
+  return (await getContent()).guides.map((guide) => ({ slug: guide.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const guide = getGuide((await params).slug);
+  const guide = (await getContent()).getGuide((await params).slug);
   if (!guide) return {};
   return {
     title: guide.title,
@@ -55,7 +52,7 @@ function Title({ title, highlight }: { title: string; highlight?: string }) {
   );
 }
 
-function relatedGuides(guide: Guide, count = 3) {
+function relatedGuides(guides: Content["guides"], guide: Guide, count = 3) {
   const others = guides.filter((other) => other.slug !== guide.slug);
   const sameCategory = others.filter((other) => other.category === guide.category);
   const rest = others.filter((other) => other.category !== guide.category);
@@ -63,10 +60,12 @@ function relatedGuides(guide: Guide, count = 3) {
 }
 
 export default async function GuidePage({ params }: { params: Params }) {
-  const guide = getGuide((await params).slug);
+  const site = await getContent();
+  const { guides, getCreator } = site;
+  const guide = site.getGuide((await params).slug);
   if (!guide) notFound();
 
-  const content = getGuideContent(guide.slug);
+  const content = await getGuideContent(guide.slug);
   const viewer = await getViewer();
   const view = getGuideView(guide, content, viewer);
   const author = getCreator(guide.authorSlug);
@@ -248,7 +247,7 @@ export default async function GuidePage({ params }: { params: Params }) {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedGuides(guide).map((related) => (
+            {relatedGuides(guides, guide).map((related) => (
               <GuideCard
                 key={related.slug}
                 guide={related}

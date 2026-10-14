@@ -5,10 +5,10 @@ import { FeedPostCard, isWidePost } from "@/components/feed/FeedCards";
 import { SocialIcons } from "@/components/layout/SocialIcons";
 import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { Button } from "@/components/ui/Button";
-import { getCreator } from "@/data/creators";
-import { countByTopic, FEED_PAGE_SIZE, feedPosts, feedTopics, isFeedTopic, postsToday, trending } from "@/data/feed";
 import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
+import { getContent } from "@/lib/content";
+import { FEED_PAGE_SIZE, feedTopics, isFeedTopic } from "@/lib/content/constants";
 import { queryFeed } from "@/lib/feedAccess";
 import { formatCompact } from "@/lib/format";
 import { getViewer } from "@/lib/viewer";
@@ -48,8 +48,9 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 
 export default async function FeedPage({ searchParams }: { searchParams: SearchParams }) {
   const { topic, limit } = await readParams(searchParams);
-  const { items, total } = queryFeed({ topic, limit }, await getViewer());
-  const counts = countByTopic();
+  const content = await getContent();
+  const { items, total } = queryFeed(content, { topic, limit }, await getViewer());
+  const counts = content.countByTopic();
   const remaining = total - items.length;
   // Wide posts (videos, polls) get a full row; runs of narrow posts share a two-column block.
   const segments = items.reduce<{ wide: boolean; posts: typeof items }[]>((acc, post) => {
@@ -60,7 +61,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
     return acc;
   }, []);
   const tabs = [
-    { key: undefined, label: "All", count: feedPosts.length },
+    { key: undefined, label: "All", count: content.feedPosts.length },
     ...(Object.keys(feedTopics) as FeedTopic[]).map((key) => ({ key, label: feedTopics[key], count: counts[key] })),
   ];
 
@@ -86,7 +87,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
         </div>
         <p className="glass flex items-center gap-3 self-start rounded-xl px-4 py-3 lg:self-auto">
           <span aria-hidden className="size-2 animate-pulse rounded-full bg-primary" />
-          <span className="tabular text-xs font-bold uppercase">{postsToday()} new posts today</span>
+          <span className="tabular text-xs font-bold uppercase">{content.postsToday()} new posts today</span>
         </p>
       </header>
 
@@ -121,7 +122,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
           <h2 className="sr-only">{topic ? `${feedTopics[topic]} posts` : "Latest posts"}</h2>
           {segments.map((segment) =>
             segment.wide ? (
-              <FeedPostCard key={segment.posts[0].id} post={segment.posts[0]} />
+              <FeedPostCard key={segment.posts[0].id} post={segment.posts[0]} now={content.now} />
             ) : (
               // Narrow posts pack into two balanced columns between the wide ones (no gaps).
               <div
@@ -129,7 +130,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
                 className="gap-6 md:columns-2 [&>*]:mb-6 [&>*]:break-inside-avoid [&>*:last-child]:mb-0"
               >
                 {segment.posts.map((post) => (
-                  <FeedPostCard key={post.id} post={post} />
+                  <FeedPostCard key={post.id} post={post} now={content.now} />
                 ))}
               </div>
             ),
@@ -184,7 +185,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
               Trending this week
             </h2>
             <ol className="flex flex-col gap-3">
-              {trending.map((item, index) => (
+              {content.settings.trending.map((item, index) => (
                 <li key={item.title}>
                   <Link href={item.href} className="group flex items-center gap-3">
                     <span className="tabular w-8 shrink-0 font-display text-lg font-extrabold text-white/30 group-hover:text-primary">
@@ -193,7 +194,12 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
                     <span className="flex min-w-0 flex-col">
                       <span className="truncate text-sm font-semibold group-hover:text-mint">{item.title}</span>
                       <span className="tabular text-[11px] text-muted">
-                        {getCreator(item.authorSlug)?.name} · {formatCompact(item.views)} views
+                        {[
+                          content.getCreator(item.authorSlug)?.name,
+                          item.views !== undefined ? `${formatCompact(item.views)} views` : undefined,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
                       </span>
                     </span>
                   </Link>

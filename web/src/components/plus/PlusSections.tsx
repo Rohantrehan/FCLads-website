@@ -1,7 +1,7 @@
 import { CheckCircle2, MessagesSquare, SendHorizontal, Upload, Video, Wand2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { Avatar } from "@/components/ui/DataBits";
-import { creators } from "@/data/creators";
+import type { Creator } from "@/types";
 import { cn } from "@/lib/cn";
 
 /** Two-column benefit row: visual on one side, text on the other (alternating with `reverse`). */
@@ -108,7 +108,7 @@ export function DiscordSection() {
   );
 }
 
-export function CreatorAccessSection() {
+export function CreatorAccessSection({ creators }: { creators: Creator[] }) {
   return (
     <BenefitRow
       id="creators"

@@ -1,25 +1,16 @@
-import type { Collection, VideoSource } from "@/types";
+import type { Collection } from "@/types";
 
-// FC 27 video collections, in the order shown on /learn/collections. All are FC Lads+ (members only).
-// Names and descriptions are our own. `videoCount` and episode lists are placeholders until the
-// real videos are added. Each episode's video is a Loom video (most of them) or an unlisted
-// YouTube video: add it with `video: loom("<share id>")` or `video: youtube("<video id>")`.
+// Sample FC 27 video collections, in the order shown on /learn/collections, used until Sanity is set up.
+// All are FC Lads+ (members only). Names and descriptions are our own; video counts and episode lists
+// are placeholders. Real videos (Loom or unlisted YouTube) are added per episode in the Studio.
 // Episodes with a `guideSlug` also link to that guide page.
-
-/** Loom share ID, the part after loom.com/share/ */
-export const loom = (id: string): VideoSource => ({ provider: "loom", id });
-/** Unlisted YouTube video ID, the part after youtube.com/watch?v= */
-export const youtube = (id: string): VideoSource => ({ provider: "youtube", id });
-
-export const CURRENT_SEASON = "FC 27";
-
 export const collections: Collection[] = [
   {
     slug: "start-here",
     title: "Start Here: FC 27 Academy",
     description:
       "Your first stop for FC 27. Work through this path in order, then explore any other collection you like.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 18,
     badge: "start",
     pathStep: 1,
@@ -37,7 +28,7 @@ export const collections: Collection[] = [
     slug: "how-to-use-the-academy",
     title: "How to Use the Academy",
     description: "A quick guide to what to watch first, and in what order, so every video builds on the last.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 1,
     badge: "start",
     episodes: [{ title: "The Academy roadmap: what to watch and when", minutes: 7 }],
@@ -47,7 +38,7 @@ export const collections: Collection[] = [
     title: "Core Skills That Never Change",
     description:
       "Passing, first touch, movement and positioning. The basics behind every good player — even Elite players pick something up here.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 12,
     badge: "in-order",
     pathStep: 2,
@@ -64,7 +55,7 @@ export const collections: Collection[] = [
     slug: "academy-defending",
     title: "Academy: Defending",
     description: "Learn to defend first. Jockeying, tackle timing and pressing — watch this before the attacking series.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 8,
     badge: "in-order",
     pathStep: 3,
@@ -81,7 +72,7 @@ export const collections: Collection[] = [
     slug: "academy-attacking",
     title: "Academy: Attacking",
     description: "Once you've finished the defending series: build-up play, chance creation and finishing.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 3,
     badge: "in-order",
     pathStep: 4,
@@ -97,7 +88,7 @@ export const collections: Collection[] = [
     title: "What's Working Right Now",
     description:
       "The mechanics and players dominating FC 27 at the moment. Use these after the fundamentals, not instead of them.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 15,
     badge: "meta",
     pathStep: 5,
@@ -113,7 +104,7 @@ export const collections: Collection[] = [
     slug: "ultimate-team-starter-kit",
     title: "Ultimate Team Starter Kit",
     description: "Early-season prep: trading basics, building your first team, and what to do with the first content drops.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 10,
     category: "beginner",
     episodes: [
@@ -127,7 +118,7 @@ export const collections: Collection[] = [
     slug: "squad-builder-series",
     title: "Squad Builder Series: FC 27",
     description: "Starter teams for every league that grow with you. Double-check prices — the market moves fast early on.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 12,
     category: "squad-building",
     episodes: [
@@ -141,7 +132,7 @@ export const collections: Collection[] = [
     slug: "before-launch",
     title: "Before Launch: FC 27",
     description: "Which edition to buy, how early access works, and everything revealed before release.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 12,
     episodes: [
       { title: "Which FC 27 edition should you buy?", minutes: 9 },
@@ -153,7 +144,7 @@ export const collections: Collection[] = [
     slug: "tactics-lab",
     title: "Formations, Roles & Tactics Lab",
     description: "Every player role and focus, plus the formations and custom tactics we actually use in Champs.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 27,
     category: "tactics",
     episodes: [
@@ -168,7 +159,7 @@ export const collections: Collection[] = [
     slug: "quick-tips",
     title: "Quick Tips & Clip Breakdowns",
     description: "Short clips and pro analysis. One idea per video, ready to use in your next game.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 83,
     episodes: [
       { title: "One setting that fixes your passing", minutes: 2 },
@@ -181,7 +172,7 @@ export const collections: Collection[] = [
     slug: "real-football-lessons",
     title: "Real Football, Real Lessons",
     description: "Real matches showing the same mistakes and good habits we see in FC. The fundamentals are the same.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 18,
     episodes: [
       { title: "Why real defenders don't dive in", minutes: 8 },
@@ -193,7 +184,7 @@ export const collections: Collection[] = [
     slug: "inside-the-pros",
     title: "Inside the Pros",
     description: "Interviews with top competitive players: how they think, how they practise, and what they'd tell you.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 2,
     episodes: [
       { title: "Pro interview: preparing for a Champs weekend", minutes: 24 },
@@ -204,7 +195,7 @@ export const collections: Collection[] = [
     slug: "full-archive",
     title: "FC 27 Full Archive",
     description: "Every FC 27 video in one place, newest first. For the recommended order, use the Start Here path.",
-    season: CURRENT_SEASON,
+    season: "FC 27",
     videoCount: 73,
     badge: "archive",
     episodes: [
@@ -215,14 +206,3 @@ export const collections: Collection[] = [
     ],
   },
 ];
-
-export function getCollection(slug: string) {
-  return collections.find((collection) => collection.slug === slug);
-}
-
-/** The numbered "Start here" path, in step order. */
-export function getLearningPath() {
-  return collections
-    .filter((collection) => collection.pathStep !== undefined)
-    .sort((a, b) => (a.pathStep ?? 0) - (b.pathStep ?? 0));
-}

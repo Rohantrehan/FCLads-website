@@ -3,6 +3,7 @@ import { DashboardHeading, MembersOnly } from "@/components/dashboard/DashboardB
 import { TaxCalculator } from "@/components/trading/TaxCalculator";
 import { TradingDisclaimer } from "@/components/trading/TradingDisclaimer";
 import { TradingFeed } from "@/components/trading/TradingFeed";
+import { getContent } from "@/lib/content";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Trading" };
@@ -20,7 +21,12 @@ export default async function DashboardTradingPage({ searchParams }: PageProps<"
       />
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-8">
-          <TradingFeed viewer={viewer} basePath="/dashboard/trading" searchParams={await searchParams} />
+          <TradingFeed
+            content={await getContent()}
+            viewer={viewer}
+            basePath="/dashboard/trading"
+            searchParams={await searchParams}
+          />
         </div>
         <aside className="lg:col-span-4">
           <div className="flex flex-col gap-4 lg:sticky lg:top-24">

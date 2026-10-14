@@ -16,8 +16,6 @@ import {
 import { DashboardHeading, DashPanel, MembersOnly, PanelLink, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { Avatar } from "@/components/ui/DataBits";
 import { Button } from "@/components/ui/Button";
-import { getCreator } from "@/data/creators";
-import { getFeaturedGuide, getGuide } from "@/data/guides";
 import {
   comingNext,
   continueWatching,
@@ -26,12 +24,12 @@ import {
   reviewSteps,
   weekInFc,
 } from "@/data/memberDashboard";
-import { latestTradingPost } from "@/lib/tradingAccess";
 import { cn } from "@/lib/cn";
+import { getContent } from "@/lib/content";
 import { categoryLabels } from "@/lib/format";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
-import type { Guide } from "@/types";
+import type { Creator, Guide } from "@/types";
 
 // The layout's title template only applies to child pages, so this page sets its full title.
 export const metadata: Metadata = { title: { absolute: "My Feed · My Lads+ | FC Lads" } };
@@ -44,7 +42,7 @@ function DropCard({
   kicker,
   title,
   href,
-  authorSlug,
+  author,
   external,
   highlight,
   children,
@@ -52,12 +50,11 @@ function DropCard({
   kicker: string;
   title: string;
   href: string;
-  authorSlug?: string;
+  author?: Creator;
   external?: boolean;
   highlight?: boolean;
   children?: ReactNode;
 }) {
-  const author = authorSlug ? getCreator(authorSlug) : undefined;
   return (
     <article
       className={cn(
@@ -93,10 +90,13 @@ export default async function MyFeedPage() {
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
 
-  const guide = getFeaturedGuide();
-  const tradingPost = latestTradingPost();
+  const content = await getContent();
+  const { getCreator } = content;
+  const guide = content.featuredGuide();
+  // Newest trading post. Members only (checked above), so FC Lads+ text is fine here.
+  const tradingPost = content.tradingPosts[0];
   const watching = continueWatching
-    .map((item) => ({ ...item, guide: getGuide(item.guideSlug) }))
+    .map((item) => ({ ...item, guide: content.getGuide(item.guideSlug) }))
     .filter((item): item is typeof item & { guide: Guide } => !!item.guide);
   const stepIndex = reviewSteps.findIndex((step) => step.key === currentReview.step);
   const reviewer = getCreator("stefan");
@@ -123,7 +123,7 @@ export default async function MyFeedPage() {
               kicker={`New ${guide.format === "video" ? "video" : "guide"} · ${categoryLabels[guide.category]}`}
               title={guide.title}
               href={`/guides/${guide.slug}`}
-              authorSlug={guide.authorSlug}
+              author={getCreator(guide.authorSlug)}
               highlight
             >
               <p className="line-clamp-3 text-sm text-muted">{guide.excerpt}</p>
@@ -135,7 +135,7 @@ export default async function MyFeedPage() {
               kicker="New trading post"
               title={tradingPost.title}
               href="/dashboard/trading"
-              authorSlug={tradingPost.authorSlug}
+              author={getCreator(tradingPost.authorSlug)}
             >
               <p className="line-clamp-3 text-sm text-muted">{tradingPost.text}</p>
             </DropCard>
@@ -145,7 +145,7 @@ export default async function MyFeedPage() {
             kicker={`Discord · #${discordHighlight.channel}`}
             title={discordHighlight.title}
             href={socialLinks.discord}
-            authorSlug={discordHighlight.authorSlug}
+            author={getCreator(discordHighlight.authorSlug)}
             external
           >
             <blockquote className="border-l-2 border-primary pl-3 text-sm text-muted">

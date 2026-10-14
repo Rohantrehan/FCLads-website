@@ -4,7 +4,6 @@ import { ArrowRight, Lock } from "lucide-react";
 import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { TierBadge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/DataBits";
-import { getCreator } from "@/data/creators";
 import { cn } from "@/lib/cn";
 import { shiftDate, type TradingItem } from "@/lib/tradingAccess";
 
@@ -24,7 +23,7 @@ function postedLabel(iso: string, today: string) {
  * (on phones the screenshot comes first, like a social post). Locked FC Lads+ posts only show the title.
  */
 export function TradingPostCard({ post, today }: { post: TradingItem; today: string }) {
-  const author = getCreator(post.authorSlug);
+  const { author } = post;
   return (
     <article
       aria-labelledby={`${post.id}-title`}

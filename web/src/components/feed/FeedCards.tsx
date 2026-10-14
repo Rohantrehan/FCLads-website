@@ -5,25 +5,23 @@ import { VideoFacade } from "@/components/guide/VideoFacade";
 import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { TierBadge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/DataBits";
-import { getCreator } from "@/data/creators";
-import { FEED_NOW, feedTopics } from "@/data/feed";
-import { getGuide } from "@/data/guides";
 import { cn } from "@/lib/cn";
+import { feedTopics } from "@/lib/content/constants";
 import { formatCompact, formatNumber } from "@/lib/format";
 import type { FeedItem } from "@/lib/feedAccess";
 import { socialLinks } from "@/lib/site";
 
-/** "45m ago", "3h ago", "2d ago" relative to the mock FEED_NOW. */
-function timeAgo(iso: string) {
-  const minutes = Math.max(1, Math.round((new Date(FEED_NOW).getTime() - new Date(iso).getTime()) / 60_000));
+/** "45m ago", "3h ago", "2d ago" relative to `now`. */
+function timeAgo(iso: string, now: string) {
+  const minutes = Math.max(1, Math.round((new Date(now).getTime() - new Date(iso).getTime()) / 60_000));
   if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.round(minutes / 60);
   return hours < 24 ? `${hours}h ago` : `${Math.round(hours / 24)}d ago`;
 }
 
 /** Shared frame: author row, topic label, body. */
-function PostFrame({ post, icon, children }: { post: FeedItem; icon: ReactNode; children: ReactNode }) {
-  const author = getCreator(post.authorSlug);
+function PostFrame({ post, now, icon, children }: { post: FeedItem; now: string; icon: ReactNode; children: ReactNode }) {
+  const { author } = post;
   return (
     <article
       className={cn(
@@ -48,7 +46,7 @@ function PostFrame({ post, icon, children }: { post: FeedItem; icon: ReactNode; 
               )}
             </p>
             <p className="tabular text-[11px] text-muted">
-              <time dateTime={post.postedAt}>{timeAgo(post.postedAt)}</time>
+              <time dateTime={post.postedAt}>{timeAgo(post.postedAt, now)}</time>
             </p>
           </div>
         </div>
@@ -70,12 +68,13 @@ const icon = "size-3.5";
 /** Videos and polls take the full width of the feed. */
 export const isWidePost = (post: FeedItem) => post.type === "video" || post.type === "poll";
 
-export function FeedPostCard({ post }: { post: FeedItem }) {
+/** One feed post. `now` (ISO date-time) is what "2h ago" is worked out from. */
+export function FeedPostCard({ post, now }: { post: FeedItem; now: string }) {
+  const frame = { post, now };
   switch (post.type) {
-    case "video": {
-      const guide = post.guideSlug ? getGuide(post.guideSlug) : undefined;
+    case "video":
       return (
-        <PostFrame post={post} icon={<MonitorPlay className={icon} />}>
+        <PostFrame {...frame} icon={<MonitorPlay className={icon} />}>
           <VideoFacade
             video={post.youtubeId ? { provider: "youtube", id: post.youtubeId } : undefined}
             title={post.title}
@@ -87,19 +86,23 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/8 pt-4">
             <p className="tabular flex items-center gap-4 text-xs text-muted">
-              <span className="flex items-center gap-1.5">
-                <Eye aria-hidden className="size-4" />
-                {formatCompact(post.views)} views
-              </span>
-              <span className="flex items-center gap-1.5">
-                <ThumbsUp aria-hidden className="size-4" />
-                {post.approval}% liked
-              </span>
+              {post.views !== undefined && (
+                <span className="flex items-center gap-1.5">
+                  <Eye aria-hidden className="size-4" />
+                  {formatCompact(post.views)} views
+                </span>
+              )}
+              {post.approval !== undefined && (
+                <span className="flex items-center gap-1.5">
+                  <ThumbsUp aria-hidden className="size-4" />
+                  {post.approval}% liked
+                </span>
+              )}
             </p>
             <p className="flex flex-wrap items-center gap-4">
-              {guide && (
+              {post.guideHref && (
                 <Link
-                  href={`/guides/${guide.slug}`}
+                  href={post.guideHref}
                   className="text-label flex items-center gap-1.5 text-gold hover:text-white"
                 >
                   <Lock aria-hidden className="size-3.5" />
@@ -117,11 +120,10 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
           </div>
         </PostFrame>
       );
-    }
 
     case "update":
       return (
-        <PostFrame post={post} icon={<Wrench className={icon} />}>
+        <PostFrame {...frame} icon={<Wrench className={icon} />}>
           <h2 className="font-display text-lg leading-snug font-extrabold">{post.title}</h2>
           <ul className="flex flex-col gap-2.5">
             {post.points.map((point) => (
@@ -136,7 +138,7 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
 
     case "trading":
       return (
-        <PostFrame post={post} icon={<TrendingUp className={icon} />}>
+        <PostFrame {...frame} icon={<TrendingUp className={icon} />}>
           <h2 className="font-display text-lg leading-snug font-extrabold">{post.title}</h2>
           <ul className="flex flex-col gap-2">
             {post.targets.map((target) => (
@@ -168,7 +170,7 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
 
     case "tip":
       return (
-        <PostFrame post={post} icon={<Quote className={icon} />}>
+        <PostFrame {...frame} icon={<Quote className={icon} />}>
           <blockquote className="font-display text-lg leading-snug font-bold italic">
             &ldquo;{post.text}&rdquo;
           </blockquote>
@@ -180,7 +182,7 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
       const total = post.options.reduce((sum, option) => sum + option.votes, 0);
       const top = Math.max(...post.options.map((option) => option.votes));
       return (
-        <PostFrame post={post} icon={<BarChart3 className={icon} />}>
+        <PostFrame {...frame} icon={<BarChart3 className={icon} />}>
           <h2 className="font-display text-lg leading-snug font-extrabold md:text-xl">{post.question}</h2>
           <ul className="grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
             {post.options.map((option) => {
@@ -209,7 +211,7 @@ export function FeedPostCard({ post }: { post: FeedItem }) {
             })}
           </ul>
           <p className="tabular text-[11px] text-muted">
-            {formatNumber(total)} votes · Voting opens to everyone when accounts are switched on.
+            {formatNumber(total)} votes · Voting on the site opens soon.
           </p>
         </PostFrame>
       );

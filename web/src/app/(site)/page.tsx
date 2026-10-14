@@ -5,19 +5,20 @@ import { LadsPlusTeaser } from "@/components/home/LadsPlusTeaser";
 import { LearnSection } from "@/components/home/LearnSection";
 import { MeetTheLads } from "@/components/home/MeetTheLads";
 import { MembershipCta } from "@/components/home/MembershipCta";
-import { creators, getCreator } from "@/data/creators";
-import { guides } from "@/data/guides";
-import { CURRENT_PATCH } from "@/data/meta";
-import type { Creator } from "@/types";
+import { getContent } from "@/lib/content";
 
-export default function HomePage() {
-  const heroCards = ["stefan", "hobs", "wessam"].map((slug) => getCreator(slug)) as [Creator, Creator, Creator];
+export default async function HomePage() {
+  const content = await getContent();
+  const { creators } = content;
 
   return (
     <>
-      <Hero cards={heroCards} patch={CURRENT_PATCH} />
-      <HardTruth />
-      <LearnSection guides={guides.filter((guide) => !guide.isFeatured).slice(0, 4)} />
+      {/* The first three creators in the roster order, front card first. */}
+      <Hero cards={creators.slice(0, 3)} patch={content.settings.currentPatch} />
+      <HardTruth
+        creators={creators.map(({ slug, name, initials, role }) => ({ slug, name, initials, role }))}
+      />
+      <LearnSection guides={content.guides.filter((guide) => !guide.isFeatured).slice(0, 4)} creators={creators} />
       <LadsPlusTeaser />
       <MeetTheLads creators={creators} />
       <FeedPreview />

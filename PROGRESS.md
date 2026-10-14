@@ -4,9 +4,9 @@
 > Full analysis & architecture: [`FC_LADS_PROJECT_REPORT.md`](FC_LADS_PROJECT_REPORT.md)
 > Designs (reference only): [`all_pages_design/`](all_pages_design/)
 
-**Last updated:** 12 Oct 2026
+**Last updated:** 14 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Backend step 1 (Supabase login) done 12 Oct 2026. Next: **Step 2, Stripe** ($29/mo, 14-day trial, webhook → `memberships`) in Stripe test mode. Before real users: client sets up email sending (custom SMTP, e.g. Resend) and the Supabase email templates.
+**Next action:** Sanity CMS built 14 Oct 2026 (Studio in `studio/`, site reads it, falls back to sample content). Waiting on: **Sanity login** (`npx sanity login` in `studio/`), then create the private project, import the sample content, add the read token to `web/.env.local`, test, deploy the Studio. After that: review booking → emails → preview deploy → Stripe (last).
 
 ---
 
@@ -24,6 +24,8 @@
 | 2026-10-08 | **Collection videos are Loom (mostly) or unlisted YouTube**, played on the site by members only. Add per episode in `data/collections.ts` with `video: loom("<share id>")` or `video: youtube("<video id>")`. Video IDs are never sent to non-members (`lib/collectionAccess.ts`, `lib/guideAccess.ts`). |
 | 2026-10-08 | Code is on GitHub: **https://github.com/Rohantrehan/FCLads-website** (`origin`, branch `main`). Push after each approved session. |
 | 2026-10-12 | **Backend plan (recommended, client answered follow-ups):** Sanity (private dataset) for creator content (trading posts, feed, guides, collections, creators); Supabase for auth + Postgres (profiles, memberships, review bookings); Stripe for billing. Build order: Supabase auth → Stripe → Sanity → reviews → emails. |
+| 2026-10-14 | **Order changed (user):** Stripe moves to the end. New order: Sanity CMS → review booking → emails → preview deploy → Stripe → launch checks. |
+| 2026-10-14 | **CMS setup:** standalone Sanity Studio in `studio/` (hosted at fclads.sanity.studio, not embedded in the Next app, to keep the site light). Private dataset, read on the server with a Viewer token; site refreshes on publish via a webhook (`/api/revalidate`). Sanity holds guides, collections, feed posts, trading posts, creators, site settings. Product/legal copy (`ladsPlus.ts`, `legal.ts`, `hardTruth.ts`) and dashboard mock data stay in code. |
 | 2026-10-12 | **Billing:** FC Lads+ **$29/month**, auto-renews, cancel any time, **14-day free trial** (card taken at signup, first charge after day 14). Login: **email only** (no Discord/Google login). Content posted by **both creators and an admin team**. Client team will create the **Stripe account** (none yet). **No Discord server yet** (interpretation of client reply, confirm). |
 
 ## Open questions (deferred — answer before the phase that needs them)
@@ -105,7 +107,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 ### Step 7 — Backend 🟡
 - 🟡 Answer open questions with client (billing, login, CMS answered 12 Oct; refunds, Discord server still open)
 - ⬜ Choose hosting
-- 🟡 Backend: ✅ Supabase login (12 Oct) · ⬜ Stripe · ⬜ Sanity CMS · ⬜ review booking · ⬜ emails
+- 🟡 Backend: ✅ Supabase login (12 Oct) · 🟡 Sanity CMS (built 14 Oct, project not created yet) · ⬜ review booking · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
@@ -327,6 +329,17 @@ User feedback on Home → implemented:
 - **Tests:** new `auth.mjs` 24/24, `plus-auth.mjs` updated 18/18, all public suites pass (home 10, learn 9, guide 5, creators 7, collections 12, feed 10, trading 16, legal 11, dashboard 13, account 5). No sideways scroll at 375px.
 - ⚠️ **Emails:** Supabase's built-in email only sends to the project team's addresses and a few per hour. Real sign-ups need custom SMTP (e.g. Resend) and the site URL / redirect URLs set in Supabase → Authentication → URL Configuration.
 - ⚠️ Account membership/billing pages for **members** still show mock data (`data/account.ts`) until Stripe.
+
+### Session: Sanity CMS (2026-10-14)
+- **User decision:** do Stripe last; set up everything else first.
+- **Studio (`studio/`, Sanity v6):** document types Guide (card fields + article blocks: paragraph, section heading, numbered steps, tip box, controller inputs, "Members-only from here" marker; Loom/YouTube video), Collection (episodes in order, path step), Feed post (one type, fields change with video/update/trading/tip/poll), Trading post (screenshot + alt text), Creator (profile, card, socials, followers, hide switch, order), Site settings (patch, season, Trending this week; single page, can't be deleted). Menu in `structure.ts`. README with setup steps.
+- **Website:** new content layer `lib/content` (`getContent()`, `getGuideContent()`): reads Sanity when `SANITY_PROJECT_ID` + `SANITY_READ_TOKEN` are set, otherwise the sample content (`data/sample.ts`). Hidden creators (and their guides/posts) are filtered in one place (`lib/content/content.ts`). GROQ + mapping in `lib/sanity/queries.ts`; section anchors made from headings. Paywall helpers (`feedAccess`, `tradingAccess`, `collectionAccess`) take the content; feed/trading items carry their author. All pages moved off `@/data/*` imports.
+- Guide, collection and creator pages are still pre-built, but new slugs published in the Studio now build on first visit (`dynamicParams = false` removed).
+- Caching: Sanity reads are tagged `sanity`, cached by Next for 5 minutes; `POST /api/revalidate` (signed Sanity webhook, `SANITY_WEBHOOK_SECRET`) clears it on publish. `next.config.ts` allows `cdn.sanity.io` images.
+- **Seed:** `studio/scripts/seed.mjs` turns the sample content into 55 Sanity documents (incl. trading screenshots); `npm run seed:import` adds only missing ones.
+- Sample feed dates moved +4 days so feed and trading share one sample "now" (12 Oct 2026, 12:00 UTC); labels unchanged. Video views/likes now optional. Poll note says "Voting on the site opens soon" (accounts exist now).
+- Tests (sample content): home 10, learn 9, guide 5, creators 7, collections 13, feed 10, trading 16, legal 11, dashboard 13, account 5, auth 24, plus-auth 18; member mode: dashboard 16, account 17, trading 16. All pass. Typecheck + lint clean (web and studio).
+- ⚠️ Not yet done: Sanity project (needs the user's Sanity login), testing against real Sanity, Studio deploy, webhook (needs the public site URL).
 
 ## How to run locally
 

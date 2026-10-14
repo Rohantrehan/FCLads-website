@@ -2,10 +2,9 @@ import { ArrowRight } from "lucide-react";
 import { GuideCard } from "@/components/cards/GuideCard";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/Panel";
-import { getCreator } from "@/data/creators";
-import type { Guide } from "@/types";
+import type { Creator, Guide } from "@/types";
 
-export function LearnSection({ guides }: { guides: Guide[] }) {
+export function LearnSection({ guides, creators }: { guides: Guide[]; creators: Creator[] }) {
   return (
     <section aria-labelledby="learn-heading" className="page-container py-20 lg:py-24">
       <SectionHeading
@@ -21,7 +20,7 @@ export function LearnSection({ guides }: { guides: Guide[] }) {
       />
       <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {guides.map((guide) => (
-          <GuideCard key={guide.slug} guide={guide} author={getCreator(guide.authorSlug)} />
+          <GuideCard key={guide.slug} guide={guide} author={creators.find((creator) => creator.slug === guide.authorSlug)} />
         ))}
       </div>
     </section>

@@ -1,7 +1,8 @@
 import "server-only";
 
-import { TRADING_TODAY, tradingPosts, type TradingPost } from "@/data/tradingPosts";
+import type { Content } from "@/lib/content";
 import type { Viewer } from "@/lib/viewer";
+import type { Creator, TradingPost } from "@/types";
 
 export const tradingRanges = {
   today: "Today",
@@ -15,10 +16,11 @@ export type TradingRange = keyof typeof tradingRanges;
 
 export const DEFAULT_RANGE: TradingRange = "7d";
 
-/** A post as this viewer gets it. FC Lads+ posts keep only the title for non-members. */
+/** A post as this viewer gets it, with its author. FC Lads+ posts keep only the title for non-members. */
 export type TradingItem = Omit<TradingPost, "text" | "image"> & {
   text?: string;
   image?: TradingPost["image"];
+  author?: Creator;
   locked: boolean;
 };
 
@@ -35,8 +37,7 @@ const isDate = (value: unknown): value is string =>
   typeof value === "string" && ISO_DATE.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
 
 /** Turns the URL's `range`, `from` and `to` into an inclusive date window. Bad values fall back to defaults. */
-export function resolveRange(params: { range?: unknown; from?: unknown; to?: unknown }) {
-  const today = TRADING_TODAY;
+export function resolveRange(params: { range?: unknown; from?: unknown; to?: unknown }, today: string) {
   const range: TradingRange =
     typeof params.range === "string" && params.range in tradingRanges ? (params.range as TradingRange) : DEFAULT_RANGE;
 
@@ -64,28 +65,30 @@ export function resolveRange(params: { range?: unknown; from?: unknown; to?: unk
  * Trading posts in the date window, newest first. For FC Lads+ posts, non-members only get the
  * title: the text and screenshot never reach their browser.
  */
-export function queryTradingPosts(params: { range?: unknown; from?: unknown; to?: unknown }, viewer: Viewer) {
-  const window = resolveRange(params);
-  const items: TradingItem[] = tradingPosts
+export function queryTradingPosts(
+  content: Content,
+  params: { range?: unknown; from?: unknown; to?: unknown },
+  viewer: Viewer,
+) {
+  const { today } = content;
+  const window = resolveRange(params, today);
+  const items: TradingItem[] = content.tradingPosts
     .filter((post) => {
       const day = post.postedAt.slice(0, 10);
       return day >= window.from && day <= window.to;
     })
     .map((post) => {
-      if (post.access !== "plus" || viewer.isMember) return { ...post, locked: false };
+      const author = content.getCreator(post.authorSlug);
+      if (post.access !== "plus" || viewer.isMember) return { ...post, author, locked: false };
       return {
         id: post.id,
         authorSlug: post.authorSlug,
         postedAt: post.postedAt,
         access: post.access,
         title: post.title,
+        author,
         locked: true,
       };
     });
-  return { ...window, today: TRADING_TODAY, items };
-}
-
-/** Newest post, for the dashboard. Only call for members. */
-export function latestTradingPost() {
-  return tradingPosts[0];
+  return { ...window, today, items };
 }

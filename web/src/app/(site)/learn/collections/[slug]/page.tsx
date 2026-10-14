@@ -10,24 +10,21 @@ import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { Badge, TierBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Paywall } from "@/components/ui/Paywall";
-import { collections, getCollection, getLearningPath } from "@/data/collections";
-import { getCreator } from "@/data/creators";
-import { guides } from "@/data/guides";
 import { ladsPlus } from "@/data/ladsPlus";
 import { getCollectionView } from "@/lib/collectionAccess";
+import { getContent } from "@/lib/content";
 import { categoryLabels } from "@/lib/format";
 import { getViewer } from "@/lib/viewer";
 
 type Params = Promise<{ slug: string }>;
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return collections.map((collection) => ({ slug: collection.slug }));
+// Pre-built at deploy; collections added later in the Studio are built on their first visit.
+export async function generateStaticParams() {
+  return (await getContent()).collections.map((collection) => ({ slug: collection.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const collection = getCollection((await params).slug);
+  const collection = (await getContent()).getCollection((await params).slug);
   if (!collection) return {};
   return {
     title: `${collection.title} (${collection.season})`,
@@ -37,20 +34,22 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function CollectionPage({ params }: { params: Params }) {
-  const collection = getCollection((await params).slug);
+  const content = await getContent();
+  const { collections, getCreator } = content;
+  const collection = content.getCollection((await params).slug);
   if (!collection) notFound();
 
-  const path = getLearningPath();
+  const path = content.learningPath();
   const stepIndex = path.findIndex((step) => step.slug === collection.slug);
   const next = stepIndex >= 0 ? path[stepIndex + 1] : undefined;
   const badge = collection.badge ? badgeInfo[collection.badge] : undefined;
 
   // Video links are only included for members (decided on the server).
-  const view = getCollectionView(collection, await getViewer());
+  const view = getCollectionView(collection, content, await getViewer());
   const remaining = Math.max(collection.videoCount - view.episodes.length, 0);
 
   const related = collection.category
-    ? guides.filter((guide) => guide.category === collection.category).slice(0, 3)
+    ? content.guides.filter((guide) => guide.category === collection.category).slice(0, 3)
     : [];
   const more = collections
     .filter((other) => other.slug !== collection.slug && other.pathStep === undefined)

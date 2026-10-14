@@ -5,9 +5,9 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, MotionConfig, motion, type Variants } from "motion/react";
 import { ArrowRight, Zap } from "lucide-react";
 import { Avatar } from "@/components/ui/DataBits";
-import { getCreator } from "@/data/creators";
 import { hardTruth } from "@/data/hardTruth";
 import { cn } from "@/lib/cn";
+import type { Creator } from "@/types";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const HOVER_INTENT_MS = 120;
@@ -38,11 +38,11 @@ const fadeUp: Variants = {
  * after the cursor leaves. Tap (phones) and arrow keys (keyboard) do the same.
  * Built as ARIA tabs: the problems are tabs, the answer is the tab panel.
  */
-export function HardTruth() {
+export function HardTruth({ creators }: { creators: Pick<Creator, "slug" | "name" | "initials" | "role">[] }) {
   const baseId = useId();
   const [active, setActive] = useState(2);
   const item = hardTruth[active];
-  const creator = getCreator(item.creatorSlug);
+  const creator = creators.find((entry) => entry.slug === item.creatorSlug);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   // Hover intent: switch only when the cursor rests on a row, so sweeping across the list

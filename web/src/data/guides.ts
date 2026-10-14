@@ -1,10 +1,8 @@
-import { getCreator, isVisibleCreator } from "@/data/creators";
-import { categoryLabels } from "@/lib/format";
-import type { Guide, GuideCategory } from "@/types";
+import type { Guide } from "@/types";
 
-// Mock data taken from the designs. Replace with API/CMS data in the backend phase.
-// Sorted newest first. Every guide is FC Lads+ (members only): the free videos live on YouTube.
-const allGuides: Guide[] = [
+// Sample guides, used until Sanity is set up. Sorted newest first.
+// Every guide is FC Lads+ (members only): the free videos live on YouTube.
+export const guides: Guide[] = [
   {
     slug: "hybrid-overload-custom-tactic",
     title: "The custom tactic every Lad is using this patch",
@@ -186,55 +184,3 @@ const allGuides: Guide[] = [
     publishedAt: "2025-09-30",
   },
 ];
-
-/** Guides shown on the site: guides by hidden creators are left out. */
-export const guides = allGuides.filter((guide) => isVisibleCreator(guide.authorSlug));
-
-export const PAGE_SIZE = 9;
-
-export interface GuideQuery {
-  category?: GuideCategory;
-  /** Free-text search over title, excerpt, category and author. */
-  q?: string;
-  limit?: number;
-}
-
-/** Mimics the future `GET /guides` API: filter, search, then paginate. */
-export function queryGuides({ category, q, limit = PAGE_SIZE }: GuideQuery) {
-  const needle = q?.trim().toLowerCase();
-  const matches = guides.filter((guide) => {
-    if (category && guide.category !== category) return false;
-    if (!needle) return true;
-    const author = getCreator(guide.authorSlug)?.name ?? "";
-    return [guide.title, guide.excerpt, categoryLabels[guide.category], author]
-      .join(" ")
-      .toLowerCase()
-      .includes(needle);
-  });
-  return { items: matches.slice(0, limit), total: matches.length };
-}
-
-/** The featured guide, or the first guide if the featured one is hidden. */
-export function getFeaturedGuide() {
-  return guides.find((guide) => guide.isFeatured) ?? guides[0];
-}
-
-export function getGuide(slug: string) {
-  return guides.find((guide) => guide.slug === slug);
-}
-
-/** Number of guides per category, for the sidebar. */
-export function countByCategory() {
-  const counts = {} as Partial<Record<GuideCategory, number>>;
-  for (const guide of guides) counts[guide.category] = (counts[guide.category] ?? 0) + 1;
-  return counts;
-}
-
-export function isGuideCategory(value: unknown): value is GuideCategory {
-  return typeof value === "string" && value in categoryLabels;
-}
-
-/** All guides by one creator, newest first. */
-export function getGuidesByAuthor(slug: string) {
-  return guides.filter((guide) => guide.authorSlug === slug);
-}

@@ -6,21 +6,21 @@ import { MembershipPlan } from "@/components/account/MembershipPlan";
 import { DashPanel, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
 import { membership } from "@/data/account";
-import { guides } from "@/data/guides";
 import { ladsPlus, ladsPlusPerks, type PerkKey } from "@/data/ladsPlus";
 import { currentReview, discordAccount } from "@/data/memberDashboard";
+import { getContent } from "@/lib/content";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Membership" };
 
-const perkTags: Record<PerkKey, string> = {
-  guides: `${guides.length} guides`,
+const perkTags = (guideCount: number): Record<PerkKey, string> => ({
+  guides: `${guideCount} guides`,
   discord: "Members role",
   creators: "Ask the Lads",
   trading: "Members posts",
   review: "1 a month",
-};
+});
 
 const losses: Record<PerkKey, string> = {
   guides: "Members-only guides, slider codes and the FC 27 video collections",
@@ -49,6 +49,7 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
   }
 
   const reviewsLeft = currentReview.credits.total - currentReview.credits.used;
+  const tags = perkTags((await getContent()).guides.length);
 
   return (
     <>
@@ -74,7 +75,7 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
                   <span className="text-sm text-muted">{perk.description}</span>
                 </span>
                 <span className="tabular hidden shrink-0 rounded-md border border-white/10 px-2 py-1 text-[11px] text-mint uppercase sm:inline">
-                  {perkTags[perk.key]}
+                  {tags[perk.key]}
                 </span>
               </li>
             ))}

@@ -7,21 +7,19 @@ import { GuideCard } from "@/components/cards/GuideCard";
 import { AudienceStats } from "@/components/creators/CreatorBits";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { creators, getCreator } from "@/data/creators";
-import { getGuidesByAuthor } from "@/data/guides";
 import { ladsPlus } from "@/data/ladsPlus";
+import { getContent } from "@/lib/content";
 import { socialLinks } from "@/lib/site";
 
 type Params = Promise<{ slug: string }>;
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return creators.map((creator) => ({ slug: creator.slug }));
+// Pre-built at deploy; creators added later in the Studio are built on their first visit.
+export async function generateStaticParams() {
+  return (await getContent()).creators.map((creator) => ({ slug: creator.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const creator = getCreator((await params).slug);
+  const creator = (await getContent()).getCreator((await params).slug);
   if (!creator) return {};
   return {
     title: `${creator.name} — ${creator.role}`,
@@ -31,10 +29,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function CreatorProfilePage({ params }: { params: Params }) {
-  const creator = getCreator((await params).slug);
+  const content = await getContent();
+  const creator = content.getCreator((await params).slug);
   if (!creator) notFound();
 
-  const authored = getGuidesByAuthor(creator.slug);
+  const authored = content.guidesByAuthor(creator.slug);
   const videos = authored.filter((guide) => guide.format === "video").slice(0, 4);
 
   const tabs = [

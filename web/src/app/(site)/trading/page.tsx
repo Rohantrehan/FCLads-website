@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { TaxCalculator } from "@/components/trading/TaxCalculator";
 import { TradingDisclaimer } from "@/components/trading/TradingDisclaimer";
 import { TradingFeed } from "@/components/trading/TradingFeed";
+import { getContent } from "@/lib/content";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = {
@@ -28,7 +29,12 @@ export default async function TradingPage({ searchParams }: PageProps<"/trading"
 
       <div className="page-container relative grid grid-cols-1 gap-8 pb-16 lg:grid-cols-12">
         <div className="min-w-0 lg:col-span-8">
-          <TradingFeed viewer={viewer} basePath="/trading" searchParams={await searchParams} />
+          <TradingFeed
+            content={await getContent()}
+            viewer={viewer}
+            basePath="/trading"
+            searchParams={await searchParams}
+          />
         </div>
         <aside className="lg:col-span-4">
           <div className="flex flex-col gap-4 lg:sticky lg:top-24">

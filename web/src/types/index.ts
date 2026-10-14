@@ -1,5 +1,5 @@
-// Shared domain types. Shaped like the future database tables (see FC_LADS_PROJECT_REPORT.md §6)
-// so mock data in src/data can be swapped for API responses later without touching components.
+// Shared domain types. Content comes from Sanity (lib/content), or from the sample data in src/data
+// when Sanity isn't set up. Both are turned into these shapes, so components don't know the difference.
 
 /**
  * Content access level: free for everyone, or FC Lads+ members only.
@@ -87,7 +87,7 @@ export interface Guide {
   image?: string;
 }
 
-/** One block of guide body content. Mirrors what a CMS (e.g. Payload "blocks") will return. */
+/** One block of guide body content. Made from the Sanity guide body (lib/sanity/queries.ts). */
 export type GuideBlock =
   | { type: "p"; text: string }
   | { type: "section"; id: string; title: string }
@@ -159,16 +159,16 @@ interface FeedPostBase {
   access: AccessTier;
 }
 
-/** One item in /feed. Mirrors what the CMS will return per post type. */
+/** One item in /feed. One Sanity `feedPost` document per post. */
 export type FeedPost =
   | (FeedPostBase & {
       type: "video";
       title: string;
       excerpt: string;
       minutes: number;
-      views: number;
+      views?: number;
       /** Share of likes, in percent. */
-      approval: number;
+      approval?: number;
       /** Public YouTube clip, once known. */
       youtubeId?: string;
       /** The full written breakdown (a Learn guide, FC Lads+). */
@@ -185,3 +185,30 @@ export type FeedPost =
     })
   | (FeedPostBase & { type: "tip"; text: string; label: string })
   | (FeedPostBase & { type: "poll"; question: string; options: { label: string; votes: number }[] });
+
+/** A creator's post on /trading: heading + text, with an optional screenshot. */
+export interface TradingPost {
+  id: string;
+  authorSlug: string;
+  /** ISO date-time (UTC). */
+  postedAt: string;
+  access: AccessTier;
+  title: string;
+  text: string;
+  image?: { src: string; alt: string };
+}
+
+/** One link in the Feed's "Trending this week" sidebar. */
+export interface TrendingItem {
+  title: string;
+  href: string;
+  authorSlug: string;
+  views?: number;
+}
+
+/** Site-wide values editors can change (Sanity "Site settings"). */
+export interface SiteSettings {
+  currentPatch: string;
+  currentSeason: string;
+  trending: TrendingItem[];
+}

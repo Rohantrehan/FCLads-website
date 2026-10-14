@@ -1,28 +1,11 @@
 import "server-only";
 
-import { isVisibleCreator } from "@/data/creators";
-import type { AccessTier } from "@/types";
+import type { TradingPost } from "@/types";
 
-// Trading posts from the creators, newest first. Server only: FC Lads+ posts are cut down in
-// lib/tradingAccess.ts before anything reaches a non-member's browser.
-// Mock content until the creators post for real (from the CMS). Images are placeholders: the real
-// posts will carry the creator's own screenshot.
-
-/** "Today" for the mock data, so the date filters stay readable. The backend uses the real date. */
-export const TRADING_TODAY = "2026-10-12";
-
-export interface TradingPost {
-  id: string;
-  authorSlug: string;
-  /** ISO date-time (UTC). */
-  postedAt: string;
-  access: AccessTier;
-  title: string;
-  text: string;
-  image?: { src: string; alt: string };
-}
-
-const allPosts: TradingPost[] = [
+// Sample trading posts, newest first, used until Sanity is set up. Server only: FC Lads+ posts are
+// cut down in lib/tradingAccess.ts before anything reaches a non-member's browser.
+// Screenshots are placeholders: real posts carry the creator's own screenshot.
+export const tradingPosts: TradingPost[] = [
   {
     id: "fodder-before-friday",
     authorSlug: "wessam",
@@ -111,6 +94,3 @@ const allPosts: TradingPost[] = [
     text: "A card bought at 10,000 has to sell for 10,527 just to break even. Use the tax calculator on this page before every flip.",
   },
 ];
-
-/** Posts shown on the site (posts by hidden creators are left out). */
-export const tradingPosts = allPosts.filter((post) => isVisibleCreator(post.authorSlug));
