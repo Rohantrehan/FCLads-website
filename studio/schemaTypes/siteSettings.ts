@@ -1,4 +1,4 @@
-import { CogIcon } from "@sanity/icons";
+import { CogIcon } from "@sanity/icons/Cog";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 /** One document with site-wide values. The Studio shows it as a single “Site settings” page. */

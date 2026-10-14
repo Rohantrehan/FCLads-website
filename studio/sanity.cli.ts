@@ -5,5 +5,5 @@ export default defineCliConfig({
   api: { projectId, dataset },
   // Hosted at https://<studioHost>.sanity.studio after `npm run deploy`.
   studioHost: "fclads",
-  deployment: { autoUpdates: true },
+  deployment: { appId: "bxsrtblqim3xdl9wiomhj5eo", autoUpdates: true },
 });

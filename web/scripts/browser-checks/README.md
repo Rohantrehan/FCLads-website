@@ -25,6 +25,10 @@ node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).
 Edge path is hard-coded for Windows (`EDGE` constant). Each line prints `PASS` or `FAIL`.
 
+`trading.mjs`'s date-filter counts assume the **sample content** ("today" = 12 Oct 2026). With Sanity
+connected (`SANITY_*` in `.env.local`) the site uses the real date, so 4 of those counts differ. Comment
+out the `SANITY_*` lines to run the suites on the sample content.
+
 These are a stop-gap. When the project grows, replace them with Playwright tests.
 
 Run the scripts **one at a time** — each starts its own headless Edge on port 9333, and starting the next one before the previous browser has closed makes it print nothing.

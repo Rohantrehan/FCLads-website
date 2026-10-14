@@ -1,4 +1,4 @@
-import { CommentIcon } from "@sanity/icons";
+import { CommentIcon } from "@sanity/icons/Comment";
 import { defineArrayMember, defineField, defineType, type CustomValidator } from "sanity";
 import { accessOptions, feedTopics } from "./options";
 

@@ -6,7 +6,7 @@
 
 **Last updated:** 14 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Sanity CMS built 14 Oct 2026 (Studio in `studio/`, site reads it, falls back to sample content). Waiting on: **Sanity login** (`npx sanity login` in `studio/`), then create the private project, import the sample content, add the read token to `web/.env.local`, test, deploy the Studio. After that: review booking → emails → preview deploy → Stripe (last).
+**Next action:** Sanity is live (14 Oct 2026): project `0c43y88p` (org "FC Lads"), private dataset `production` with the sample content, Studio at https://fclads.sanity.studio. Still to do: invite creators/admins (sanity.io/manage → Members), webhook after the preview deploy. Next feature: **review booking** → emails → preview deploy → Stripe (last).
 
 ---
 
@@ -107,7 +107,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 ### Step 7 — Backend 🟡
 - 🟡 Answer open questions with client (billing, login, CMS answered 12 Oct; refunds, Discord server still open)
 - ⬜ Choose hosting
-- 🟡 Backend: ✅ Supabase login (12 Oct) · 🟡 Sanity CMS (built 14 Oct, project not created yet) · ⬜ review booking · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
+- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ Sanity CMS (14 Oct; webhook waits for deploy) · ⬜ review booking · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
@@ -339,7 +339,9 @@ User feedback on Home → implemented:
 - **Seed:** `studio/scripts/seed.mjs` turns the sample content into 55 Sanity documents (incl. trading screenshots); `npm run seed:import` adds only missing ones.
 - Sample feed dates moved +4 days so feed and trading share one sample "now" (12 Oct 2026, 12:00 UTC); labels unchanged. Video views/likes now optional. Poll note says "Voting on the site opens soon" (accounts exist now).
 - Tests (sample content): home 10, learn 9, guide 5, creators 7, collections 13, feed 10, trading 16, legal 11, dashboard 13, account 5, auth 24, plus-auth 18; member mode: dashboard 16, account 17, trading 16. All pass. Typecheck + lint clean (web and studio).
-- ⚠️ Not yet done: Sanity project (needs the user's Sanity login), testing against real Sanity, Studio deploy, webhook (needs the public site URL).
+- **Sanity connected (same day):** org "FC Lads" (`oiaw0ahkv`), project **`0c43y88p`**, dataset `production` (**private**: a query without a token returns nothing). 55 sample documents imported. Viewer token "FC Lads website (read)" written to `web/.env.local` only. Studio deployed to **https://fclads.sanity.studio** (`appId` in `studio/sanity.cli.ts`; `studio/.env` holds the project ID). Icons now imported from `@sanity/icons/<Name>` (v5).
+- Tests against Sanity: all suites pass except 4 trading date counts, which assume the sample "today" (12 Oct); with Sanity the real date is used, and the counts shown are right for it (noted in the checks README). Members-only guide/trading text not in visitor HTML; Sanity images served from cdn.sanity.io.
+- ⚠️ Still to do: invite creators/admins in sanity.io/manage → Members; webhook to `/api/revalidate` once the site has a public URL (until then changes show within 5 minutes); production host needs the `SANITY_*` env vars.
 
 ## How to run locally
 
