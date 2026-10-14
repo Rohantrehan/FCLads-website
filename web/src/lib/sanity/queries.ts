@@ -31,7 +31,7 @@ const CATALOG_QUERY = /* groq */ `{
   "creators": *[_type == "creator" && defined(slug.current)] | order(order asc, name asc) {
     "slug": slug.current, hidden, name, initials, role, tagline, country, countryCode, ovr, cardPosition,
     ratings { gam, tac, trd, meta }, badge, rankLabel, highlight { label, value }, bio, socials,
-    audience[] { platform, count }, since, image
+    audience[] { platform, count }, since, image, reviewSpecialty
   },
   "guides": *[_type == "guide" && defined(slug.current) && ${authored}] | order(publishedAt desc) {
     "slug": slug.current, title, excerpt, category, format, minutes, access, "authorSlug": author->slug.current,

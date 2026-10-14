@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Settings, ShieldCheck, Video } from "lucide-react";
 import { DashboardNav } from "@/components/dashboard/DashboardNav";
-import { currentReview } from "@/data/memberDashboard";
+import { getReviewSummary } from "@/lib/reviews";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 // Each page checks membership itself (layouts don't re-run on every navigation).
 export default async function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   const viewer = await getViewer();
-  const reviewsLeft = currentReview.credits.total - currentReview.credits.used;
+  const reviewsLeft = viewer.isMember ? (await getReviewSummary(viewer)).left : 0;
 
   return (
     <div className="relative">

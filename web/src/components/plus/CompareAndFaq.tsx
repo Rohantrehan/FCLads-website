@@ -99,7 +99,7 @@ const faqs = [
   },
   {
     q: "How does the monthly gameplay review work?",
-    a: "Once a month you send us a match, as a file upload or an unlisted YouTube link. A coach goes through it and sends back timestamped notes and a personal plan of what to fix and practise.",
+    a: "Once a month you share a link to a match (an unlisted YouTube video, Google Drive or Medal) and book a 30-minute session with one of the Lads. They go through it with you, then send you a recording and a short plan of what to fix and practise.",
   },
   {
     q: "What stays free?",

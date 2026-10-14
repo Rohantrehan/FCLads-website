@@ -17,7 +17,8 @@ node scripts/browser-checks/feed.mjs ./.checks      # 10 checks: topic tabs, loa
 node scripts/browser-checks/trading.mjs ./.checks   # 16 checks: date filters (default 7 days, today, yesterday, 3 days, custom, empty, bad value), image right of text, locked Lads+ posts not sent, tax calculator. Add `member` (DEV_VIEWER=member) to check members see full posts
 node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect, tabs, contents scroll-spy + jump, copy email, phone contents
 node scripts/browser-checks/dashboard.mjs ./.checks         # 13 checks: members-only gate on all 6 tabs, no member data sent
-node scripts/browser-checks/dashboard.mjs ./.checks member  # 16 checks (needs DEV_VIEWER=member in web/.env.local + dev server restart): tabs, filters, review booking
+node scripts/browser-checks/dashboard.mjs ./.checks member  #  9 checks (needs DEV_VIEWER=member in web/.env.local): tabs, filters, review tab preview note
+node scripts/browser-checks/reviews.mjs ./.checks           # 26 checks: real review booking with the QA free/member/creator accounts: Creator hub access, add free times, book (with link check), call link, cancel, remove times. Leaves the browser logged out.
 node scripts/browser-checks/account.mjs ./.checks            # 5 checks: sign-in gate on account pages, no account data sent
 node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member mode): membership, cancel dialog (focus, Esc, outside click), billing
 ```

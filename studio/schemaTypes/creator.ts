@@ -35,6 +35,14 @@ export const creator = defineType({
       validation: (rule) => rule.email(),
     }),
     defineField({
+      name: "reviewSpecialty",
+      title: "Gameplay reviews: what you review best",
+      type: "string",
+      group: "profile",
+      description: "e.g. “Tactics & build-up”. Fill this in to take review bookings; leave empty if this creator doesn't do reviews.",
+      validation: (rule) => rule.max(60),
+    }),
+    defineField({
       name: "hidden",
       title: "Hide this creator",
       type: "boolean",

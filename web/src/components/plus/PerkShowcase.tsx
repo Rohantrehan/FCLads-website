@@ -107,7 +107,7 @@ const previews: Record<PerkKey, PerkPreview> = {
   review: {
     eyebrow: "1-on-1",
     title: "A monthly gameplay review",
-    text: "Upload one match a month. A coach breaks it down and sends you a personal plan to fix your biggest mistakes.",
+    text: "Share one match a month. One of the Lads breaks it down with you and sends a personal plan to fix your biggest mistakes.",
     bullets: ["Video breakdown", "Timestamped notes", "Personal practice plan"],
     link: { label: "How reviews work", href: "#review" },
     visual: (

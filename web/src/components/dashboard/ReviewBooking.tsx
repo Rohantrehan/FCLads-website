@@ -1,7 +1,8 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
-import { CalendarCheck, CheckCircle2, Clock, Info } from "lucide-react";
+import { useActionState, useId, useMemo, useState } from "react";
+import { CalendarCheck, CheckCircle2, ChevronLeft, ChevronRight, Clock, Info, Link2 } from "lucide-react";
+import { bookReview, type ReviewFormState } from "@/app/(site)/dashboard/review/actions";
 import { cn } from "@/lib/cn";
 
 export interface ReviewerOption {
@@ -11,15 +12,25 @@ export interface ReviewerOption {
   role: string;
   specialty: string;
   ovr: number;
-  /** ISO date → open times (UK time). */
-  slots: Record<string, string[]>;
+}
+
+/** A free time, already turned into UK date and time on the server. */
+export interface SlotOption {
+  id: string;
+  creatorSlug: string;
+  /** UK date, e.g. "2026-10-20" */
+  day: string;
+  /** UK time, e.g. "18:30" */
+  time: string;
 }
 
 interface ReviewBookingProps {
   reviewers: ReviewerOption[];
-  /** First and last bookable days (ISO). */
+  slots: SlotOption[];
+  /** Today in the UK (ISO date). */
   today: string;
-  deadline: string;
+  /** First days ("2026-10-01") of months that already have a review. */
+  usedMonths: string[];
 }
 
 const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -28,11 +39,11 @@ const iso = (date: Date) => date.toISOString().slice(0, 10);
 const monthLabel = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 const dayLabel = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
 const shortDay = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+const monthOf = (day: string) => `${day.slice(0, 7)}-01`;
 
-/** Days of the month as a Monday-first grid, with blanks before the 1st. */
-function monthGrid(anyDay: string) {
-  const first = utc(anyDay);
-  first.setUTCDate(1);
+/** Days of a month as a Monday-first grid, with blanks before the 1st. */
+function monthGrid(firstDay: string) {
+  const first = utc(firstDay);
   const blanks = (first.getUTCDay() + 6) % 7;
   const days: (string | null)[] = Array.from({ length: blanks }, () => null);
   const cursor = new Date(first);
@@ -43,66 +54,82 @@ function monthGrid(anyDay: string) {
   return { label: monthLabel.format(first), days };
 }
 
+function shiftMonth(firstDay: string, by: number) {
+  const date = utc(firstDay);
+  date.setUTCMonth(date.getUTCMonth() + by);
+  return iso(date);
+}
+
+const field =
+  "w-full rounded-xl border border-white/10 bg-surface px-4 py-3 text-sm placeholder:text-muted/60 focus:border-primary/60 focus:outline-none";
+
 /**
- * Book the monthly review: choose a Lad, then a day, then a time.
- * Bookings aren't saved yet (no backend); confirming shows the confirmed state only.
+ * Book the monthly review: choose a Lad, a day and a time, then share the match.
+ * Saved with a server action; the database re-checks every rule.
  */
-export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps) {
-  const [reviewerSlug, setReviewerSlug] = useState(reviewers[0]?.slug);
-  const [day, setDay] = useState<string>();
-  const [time, setTime] = useState<string>();
-  const [confirmed, setConfirmed] = useState(false);
+export function ReviewBooking({ reviewers, slots, today, usedMonths }: ReviewBookingProps) {
   const id = useId();
+  const used = useMemo(() => new Set(usedMonths), [usedMonths]);
+  const bookable = useMemo(() => slots.filter((slot) => !used.has(monthOf(slot.day))), [slots, used]);
+  const firstWithSlots = reviewers.find((item) => bookable.some((slot) => slot.creatorSlug === item.slug));
+
+  const [reviewerSlug, setReviewerSlug] = useState(firstWithSlots?.slug ?? reviewers[0]?.slug);
+  const reviewerSlots = useMemo(() => bookable.filter((slot) => slot.creatorSlug === reviewerSlug), [bookable, reviewerSlug]);
+  const firstMonth = monthOf(today);
+  const lastMonth = reviewerSlots.length ? monthOf(reviewerSlots.at(-1)!.day) : firstMonth;
+  const [month, setMonth] = useState(reviewerSlots[0] ? monthOf(reviewerSlots[0].day) : firstMonth);
+  const [day, setDay] = useState<string>();
+  const [slotId, setSlotId] = useState<string>();
+  const [errors, setErrors] = useState<ReviewFormState["errors"]>();
+  const [state, formAction, pending] = useActionState(async (prev: ReviewFormState, data: FormData) => {
+    const result = await bookReview(prev, data);
+    setErrors(result.errors);
+    return result;
+  }, {});
 
   const reviewer = reviewers.find((item) => item.slug === reviewerSlug);
-  const { label, days } = useMemo(() => monthGrid(today), [today]);
-  const openTimes = (date: string) => (date > today && date <= deadline ? (reviewer?.slots[date] ?? []) : []);
-  const times = day ? openTimes(day) : [];
+  const { label, days } = useMemo(() => monthGrid(month), [month]);
+  const timesOn = (date: string) => reviewerSlots.filter((slot) => slot.day === date);
+  const times = day ? timesOn(day) : [];
+  const chosen = slots.find((slot) => slot.id === slotId);
 
   const chooseReviewer = (slug: string) => {
     setReviewerSlug(slug);
     setDay(undefined);
-    setTime(undefined);
+    setSlotId(undefined);
+    const next = bookable.find((slot) => slot.creatorSlug === slug);
+    setMonth(next ? monthOf(next.day) : firstMonth);
   };
 
-  if (confirmed && reviewer && day && time) {
-    return (
-      <section
-        aria-labelledby={`${id}-done`}
-        className="flex flex-col items-center gap-4 rounded-2xl border border-primary/40 bg-gradient-to-b from-pitch-green/60 to-[#0f141b] p-6 text-center md:p-10"
-      >
-        <CheckCircle2 aria-hidden className="size-12 text-primary" />
-        <h2 id={`${id}-done`} className="font-display text-2xl font-extrabold uppercase">
-          You&apos;re booked in
-        </h2>
-        <p className="max-w-md text-muted">
-          {reviewer.name} will go through your match with you on{" "}
-          <strong className="text-white">
-            {dayLabel.format(utc(day))} at {time}
-          </strong>{" "}
-          (UK time). We&apos;ll email you a reminder and the session link the day before.
-        </p>
-        <button
-          type="button"
-          onClick={() => setConfirmed(false)}
-          className="text-label rounded-lg border border-white/10 px-4 py-2.5 text-primary transition-colors hover:border-primary/50"
-        >
-          Change booking
-        </button>
-      </section>
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-6 rounded-2xl border border-white/8 bg-[#0f141b] p-5 md:p-6">
+    <form
+      action={formAction}
+      noValidate
+      onSubmit={(event) => {
+        const data = new FormData(event.currentTarget);
+        const url = String(data.get("matchUrl") ?? "").trim();
+        const found = {
+          slot: slotId ? undefined : "Pick a day and a time.",
+          matchUrl: /^https:\/\/\S+$/.test(url) ? undefined : "Paste a link to your match that starts with https://",
+        };
+        if (found.slot || found.matchUrl) {
+          event.preventDefault();
+          setErrors(found);
+        }
+      }}
+      className="flex flex-col gap-6 rounded-2xl border border-white/8 bg-[#0f141b] p-5 md:p-6"
+    >
+      <input type="hidden" name="slot" value={slotId ?? ""} />
+
       <fieldset className="flex flex-col gap-4">
         <legend className="mb-4">
-          <span className="text-label block text-mint">Step 2a</span>
+          <span className="text-label block text-mint">Step 1a</span>
           <span className="font-display text-xl font-extrabold uppercase">Choose a Lad</span>
         </legend>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {reviewers.map((item) => {
             const selected = item.slug === reviewerSlug;
+            const free = bookable.filter((slot) => slot.creatorSlug === item.slug).length;
             return (
               <label
                 key={item.slug}
@@ -134,8 +161,8 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
                 </span>
                 <span className="text-sm text-muted">{item.specialty}</span>
                 <span className="tabular flex justify-between rounded-lg bg-canvas/60 px-3 py-2 text-xs">
-                  <span className="text-muted">Rating</span>
-                  <span className="font-bold text-mint">{item.ovr} OVR</span>
+                  <span className="text-muted">Free times</span>
+                  <span className={cn("font-bold", free ? "text-mint" : "text-muted")}>{free || "None yet"}</span>
                 </span>
               </label>
             );
@@ -146,16 +173,33 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <div className="flex flex-col gap-4 md:col-span-7">
           <h3>
-            <span className="text-label block text-mint">Step 2b</span>
+            <span className="text-label block text-mint">Step 1b</span>
             <span className="font-display text-xl font-extrabold uppercase">Pick a day</span>
           </h3>
           <div className="rounded-xl border border-white/8 bg-surface p-4">
-            <p className="mb-3 flex items-center justify-between font-display font-extrabold">
-              {label}
-              <span className="tabular text-[11px] font-normal text-muted">
-                Book by {shortDay.format(utc(deadline))}
-              </span>
-            </p>
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => setMonth(shiftMonth(month, -1))}
+                disabled={month <= firstMonth}
+                aria-label="Previous month"
+                className="flex size-8 items-center justify-center rounded-lg text-muted hover:bg-white/5 hover:text-white disabled:opacity-30"
+              >
+                <ChevronLeft aria-hidden className="size-4" />
+              </button>
+              <p className="font-display font-extrabold" aria-live="polite">
+                {label}
+              </p>
+              <button
+                type="button"
+                onClick={() => setMonth(shiftMonth(month, 1))}
+                disabled={month >= lastMonth}
+                aria-label="Next month"
+                className="flex size-8 items-center justify-center rounded-lg text-muted hover:bg-white/5 hover:text-white disabled:opacity-30"
+              >
+                <ChevronRight aria-hidden className="size-4" />
+              </button>
+            </div>
             <div role="group" aria-label={`Days in ${label}`} className="grid grid-cols-7 gap-1 text-center">
               {WEEKDAYS.map((weekday) => (
                 <span key={weekday} aria-hidden className="tabular py-1 text-[11px] text-muted">
@@ -164,7 +208,7 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
               ))}
               {days.map((date, index) => {
                 if (!date) return <span key={`blank-${index}`} aria-hidden />;
-                const count = openTimes(date).length;
+                const count = timesOn(date).length;
                 const selected = date === day;
                 return (
                   <button
@@ -175,7 +219,7 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
                     aria-label={`${dayLabel.format(utc(date))}${count ? `, ${count} ${count === 1 ? "time" : "times"} free` : ", no times"}`}
                     onClick={() => {
                       setDay(date);
-                      setTime(undefined);
+                      setSlotId(undefined);
                     }}
                     className={cn(
                       "tabular relative flex aspect-square items-center justify-center rounded-lg text-sm transition-colors",
@@ -196,14 +240,16 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
             </div>
             <p className="mt-3 flex items-center gap-2 text-[11px] text-muted">
               <span aria-hidden className="size-2 rounded-full bg-primary" />
-              {reviewer?.name} has free times
+              {reviewerSlots.length
+                ? `${reviewer?.name} has free times`
+                : `${reviewer?.name ?? "This Lad"} has no free times right now. Try another Lad or check back soon.`}
             </p>
           </div>
         </div>
 
         <fieldset className="flex flex-col gap-4 md:col-span-5">
           <legend className="mb-4">
-            <span className="text-label block text-mint">Step 2c</span>
+            <span className="text-label block text-mint">Step 1c</span>
             <span className="font-display text-xl font-extrabold uppercase">Pick a time</span>
           </legend>
           {day ? (
@@ -213,10 +259,10 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
                 <span>UK time</span>
               </p>
               {times.map((slot) => {
-                const selected = slot === time;
+                const selected = slot.id === slotId;
                 return (
                   <label
-                    key={slot}
+                    key={slot.id}
                     className={cn(
                       "tabular flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-mint/60",
                       selected
@@ -227,14 +273,17 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
                     <input
                       type="radio"
                       name={`${id}-time`}
-                      value={slot}
+                      value={slot.id}
                       checked={selected}
-                      onChange={() => setTime(slot)}
+                      onChange={() => {
+                        setSlotId(slot.id);
+                        setErrors((current) => ({ ...current, slot: undefined }));
+                      }}
                       className="sr-only"
                     />
                     <span className="flex items-center gap-2 font-semibold">
                       <Clock aria-hidden className="size-4" />
-                      {slot}
+                      {slot.time}
                     </span>
                     <span className={cn("text-[11px] uppercase", selected ? "font-bold" : "text-mint")}>
                       {selected ? "Selected" : "Free"}
@@ -249,25 +298,83 @@ export function ReviewBooking({ reviewers, today, deadline }: ReviewBookingProps
               Pick a green day to see {reviewer?.name}&apos;s free times.
             </p>
           )}
+          {errors?.slot && (
+            <p role="alert" className="text-sm text-danger-soft">
+              {errors.slot}
+            </p>
+          )}
         </fieldset>
       </div>
 
+      <fieldset className="flex flex-col gap-4">
+        <legend className="mb-4">
+          <span className="text-label block text-mint">Step 1d</span>
+          <span className="font-display text-xl font-extrabold uppercase">Share your match</span>
+        </legend>
+        <div className="flex flex-col gap-2">
+          <label htmlFor={`${id}-match`} className="text-sm font-semibold">
+            Link to your match
+          </label>
+          <div className="relative">
+            <Link2 aria-hidden className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted" />
+            <input
+              id={`${id}-match`}
+              name="matchUrl"
+              type="url"
+              inputMode="url"
+              placeholder="https://youtu.be/…"
+              aria-invalid={errors?.matchUrl ? true : undefined}
+              aria-describedby={`${id}-match-hint${errors?.matchUrl ? ` ${id}-match-error` : ""}`}
+              onChange={() => setErrors((current) => ({ ...current, matchUrl: undefined }))}
+              className={cn(field, "pl-11", errors?.matchUrl && "border-danger/70")}
+            />
+          </div>
+          <p id={`${id}-match-hint`} className="text-xs text-muted">
+            An unlisted YouTube video, a Google Drive or Medal link: anything the Lad can open. Full match, if you can.
+          </p>
+          {errors?.matchUrl && (
+            <p id={`${id}-match-error`} role="alert" className="text-sm text-danger-soft">
+              {errors.matchUrl}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor={`${id}-focus`} className="text-sm font-semibold">
+            What should we look at? <span className="font-normal text-muted">(optional)</span>
+          </label>
+          <textarea
+            id={`${id}-focus`}
+            name="focus"
+            rows={3}
+            maxLength={500}
+            placeholder="e.g. I keep getting caught on cutbacks and lose the ball in transition."
+            className={field}
+          />
+        </div>
+      </fieldset>
+
       <div className="flex flex-col gap-2">
+        {state.message && (
+          <p role="alert" className="rounded-xl border border-danger/40 bg-danger/10 px-4 py-3 text-sm text-danger-soft">
+            {state.message}
+          </p>
+        )}
         <button
-          type="button"
-          disabled={!day || !time}
-          onClick={() => setConfirmed(true)}
-          className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-display font-extrabold text-on-primary uppercase shadow-[0_0_24px_rgb(43_217_139/0.25)] transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:bg-surface-highest disabled:text-muted disabled:shadow-none"
+          type="submit"
+          disabled={pending}
+          className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-display font-extrabold text-on-primary uppercase shadow-[0_0_24px_rgb(43_217_139/0.25)] transition-all hover:brightness-110 disabled:cursor-wait disabled:opacity-70"
         >
           <CalendarCheck aria-hidden className="size-5 shrink-0" />
-          {day && time && reviewer
-            ? `Confirm with ${reviewer.name} · ${shortDay.format(utc(day))}, ${time}`
-            : "Pick a day and time to book"}
+          {pending
+            ? "Booking…"
+            : chosen && reviewer
+              ? `Book with ${reviewer.name} · ${shortDay.format(utc(chosen.day))}, ${chosen.time}`
+              : "Book my session"}
         </button>
         <p className="text-center text-xs text-muted">
-          Sessions are a 30-minute screen share, recorded so you can watch it again.
+          A 30-minute screen share, recorded so you can watch it again. You can cancel or move it up to 12 hours before.
         </p>
       </div>
-    </div>
+    </form>
   );
 }

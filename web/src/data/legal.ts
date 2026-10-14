@@ -186,7 +186,7 @@ const terms: LegalDoc = {
       blocks: [
         {
           type: "p",
-          text: "FC Lads+ members get one gameplay review a month: upload a match, then book a 30-minute session where one of the Lads goes through it with you. Sessions are recorded, and you get a written plan afterwards.",
+          text: "FC Lads+ members get one gameplay review a month (UK calendar month): share a link to a match and book a 30-minute session where one of the Lads goes through it with you. Sessions are recorded, and you get a written plan afterwards.",
         },
         {
           type: "list",
@@ -301,7 +301,7 @@ const privacy: LegalDoc = {
             },
             {
               lead: "What you send us:",
-              text: "messages, comments, squads, match clips you upload for a gameplay review, and recordings of your review sessions.",
+              text: "messages, comments, squads, links to match clips you share for a gameplay review, what you ask us to look at, and recordings of your review sessions.",
             },
             {
               lead: "How you use the site:",

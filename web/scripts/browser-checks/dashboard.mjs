@@ -1,5 +1,5 @@
 // Drives headless Edge via CDP to test the member dashboard. Mode (argv[3]): "public" (default) checks the
-// members-only gate; "member" needs DEV_VIEWER=member in web/.env.local and checks tabs + review booking.
+// members-only gate; "member" needs DEV_VIEWER=member in web/.env.local and checks the tabs (booking: reviews.mjs).
 import { spawn } from "node:child_process";
 import { resolve } from "node:path";
 
@@ -70,27 +70,9 @@ if (MODE === "public") {
   const authors = await evaluate(`[...document.querySelectorAll('section[aria-label="Creator posts"] article header a[href^="/creators/"]')].map(a=>a.textContent)`);
   check("creator filter shows only Hobs", authors.length > 0 && authors.every((name) => name === "Hobs"), authors.join(","));
 
+  // Real booking needs a real account: see reviews.mjs. The design preview only shows a note.
   await send("Page.navigate", { url: "http://localhost:3000/dashboard/review" }); await sleep(4000);
-  const confirm = `[...document.querySelectorAll('button')].find(b=>/Pick a day|Confirm with/.test(b.textContent))`;
-  check("confirm disabled at start", await evaluate(`${confirm}.disabled`));
-  check("past days disabled", await evaluate(`document.querySelector('button[aria-label^="Monday 5 October"]').disabled`));
-  let p = await pos(`[...document.querySelectorAll('label')].find(l=>l.textContent.includes('Hobs')&&l.querySelector('input[type=radio]'))`);
-  await click(p.x, p.y); await sleep(300);
-  check("choose Hobs", await evaluate(`[...document.querySelectorAll('input[type=radio]')].find(i=>i.value==='hobs').checked`));
-  check("Hobs's days are open", !(await evaluate(`document.querySelector('button[aria-label^="Monday 12 October"]').disabled`)) && (await evaluate(`document.querySelector('button[aria-label^="Tuesday 13 October"]').disabled`)));
-  p = await pos(`document.querySelector('button[aria-label^="Monday 12 October"]')`);
-  await click(p.x, p.y); await sleep(300);
-  check("day shows times", /20:00/.test(await body()) && /21:00/.test(await body()));
-  p = await pos(`[...document.querySelectorAll('label')].find(l=>l.textContent.includes('21:00'))`);
-  await click(p.x, p.y); await sleep(300);
-  const label = await evaluate(`${confirm}.textContent`);
-  check("confirm names the booking", /Confirm with Hobs · 12 Oct, 21:00/.test(label), label);
-  p = await pos(confirm);
-  await click(p.x, p.y); await sleep(500);
-  check("booking confirmed", /You're booked in/.test(await body()) && /Monday 12 October at 21:00/.test(await body()));
-  p = await pos(`[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Change booking'))`);
-  await click(p.x, p.y); await sleep(300);
-  check("change booking keeps the choice", /Confirm with Hobs/.test(await evaluate(`${confirm}.textContent`)));
+  check("review tab: preview mode explains real accounts are needed", /Log in with a real FC Lads\+ account to book/.test(await body()));
 }
 console.log(results.join(String.fromCharCode(10)));
 ws.close(); edge.kill();

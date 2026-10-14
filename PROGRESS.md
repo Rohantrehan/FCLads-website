@@ -6,7 +6,7 @@
 
 **Last updated:** 14 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Sanity is live (14 Oct 2026): project `0c43y88p` (org "FC Lads"), private dataset `production` with the sample content, Studio at https://fclads.sanity.studio. Still to do: invite creators/admins (sanity.io/manage → Members), webhook after the preview deploy. Next feature: **review booking** → emails → preview deploy → Stripe (last).
+**Next action:** Review booking built 14 Oct 2026. Next: **emails** (Resend: auth emails + review booked / reminder / plan ready) → preview deploy (+ Sanity webhook) → Stripe (last). Client: link real creator accounts (profiles.role/creator_slug), confirm review capacity.
 
 ---
 
@@ -36,7 +36,7 @@
 | 2 | Game & price data source; legal OK to show real players / EA card art? **Researched 10 Oct 2026 → [`research/fc27-player-data-sources.md`](research/fc27-player-data-sources.md)**: no public EA API; EA content policy bans EA content behind paywalls; recommend own card design, FC 27 base ratings + creator-added special cards, price links to FUTBIN/FUT.GG at launch, then ask FUTBIN/FUT.GG/EA for a licence. Client to answer the 4 questions in §6. | Backend (players, prices) |
 | 3 | Annual plan? Will the $29 founder rate change? → **Monthly $29 only, 14-day free trial (12 Oct 2026).** | Payments |
 | 4 | Currencies: USD only, or GBP/EUR too? | Payments |
-| 5 | Coach capacity for monthly reviews | Reviews feature |
+| 5 | Coach capacity for monthly reviews (built: creators add their own free times, so capacity = what they open) | Reviews feature |
 | 6 | Premium video hosting: YouTube unlisted / Mux / AWS MediaConvert | Gameplay vault |
 | 7 | Existing Discord server size & bot ownership | Discord integration |
 | 8 | Who designs mobile layouts? (we are adapting desktop designs ourselves for now) | Ongoing |
@@ -107,7 +107,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 ### Step 7 — Backend 🟡
 - 🟡 Answer open questions with client (billing, login, CMS answered 12 Oct; refunds, Discord server still open)
 - ⬜ Choose hosting
-- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ Sanity CMS (14 Oct; webhook waits for deploy) · ⬜ review booking · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
+- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ Sanity CMS (14 Oct; webhook waits for deploy) · ✅ review booking (14 Oct) · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
@@ -353,6 +353,19 @@ User feedback on Home → implemented:
 - Website: GROQ only passes a video when both provider and ID are set.
 - Checked with screenshots of the local Studio (desktop + 400px phone); deployed to https://fclads.sanity.studio. Studio typecheck clean.
 - To do for the client: invite creators, fill in each creator's Studio login email.
+
+### Session: Gameplay review booking (2026-10-14)
+- **Database** (`web/supabase/migrations/20261014000000_review_bookings.sql`, applied): `profiles.role` (member/creator/admin) + `profiles.creator_slug`; `review_slots` (creator free times) and `review_bookings` (match link, focus note, call link, recording link, title, 3-point plan, status booked/completed/missed/cancelled). RLS: members see free future slots and their own bookings; creators see their own; admins all. No direct writes: security-definer functions `book_review`, `cancel_review`, `add_review_slots` (UK date + times), `remove_review_slot`, `update_review`.
+- **Rules enforced in the database:** members only; one review per UK calendar month (unique index); one upcoming session at a time; book ≥2 h ahead, up to 60 days; cancel/move ≥12 h before (Terms); a slot holds one active booking; plan 1–3 points to mark done; done/missed only after the start time.
+- **Bug found by the SQL tests and fixed:** a member could get past the creator check in `update_review` (NULL logic); now `coalesce(..., false)`.
+- **Match is a link, not an upload** (unlisted YouTube, Google Drive, Medal): big video files would need paid storage. Copy updated (Terms, Privacy, FC Lads+ page, FAQ, creator profiles).
+- **Member page** `/dashboard/review`: choose a Lad (creators with "what you review best" set in Sanity), month calendar with next/previous, UK times, match link + note, book; "You're booked in" card with call link and two-step cancel; past reviews with recording + plan; real "N of 1 left" everywhere (dashboard chip, My Feed panel, account membership, Creators tab).
+- **Creator hub** `/creator` (header link for creators/admins): add free times (day + half-hour chips 09:00–23:30), remove free times, booked sessions (member name, match, note, save call link, "Session done: add plan" or "They didn't show up"), last 90 days. Admins can switch creator.
+- Sanity: creator field **reviewSpecialty** ("Gameplay reviews: what you review best"); filled for Stefan, Hobs, Wessam; Studio redeployed.
+- QA: new **qa-creator@fclads.test** (role creator, linked to stefan), password only in `web/.env.local` (`QA_CREATOR_*`).
+- Removed sample review data from `data/memberDashboard.ts`. The design preview (DEV_VIEWER) shows a note on the review tab (no real account).
+- Tests: new `reviews.mjs` 26/26 (real accounts end to end); home 10, learn 9, guide 5, creators 7, collections 13, feed 10, legal 11, dashboard 13, account 5, auth 24, plus-auth 18; member preview: dashboard 9, account 17. Trading 12/16 (the 4 date checks expect the sample "today"; known). No sideways scroll at 375px on /dashboard/review and /creator. Test rows removed from the database afterwards.
+- ⚠️ Not yet: emails (booking confirmation, reminder, plan ready), calendar invites, real creator accounts (set `role`/`creator_slug` in Supabase for each creator's login).
 
 ## How to run locally
 

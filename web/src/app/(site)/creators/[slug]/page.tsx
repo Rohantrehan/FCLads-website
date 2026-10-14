@@ -171,7 +171,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
                 Want {creator.name} to review your gameplay?
               </h2>
               <p className="mt-3 text-muted">
-                FC Lads+ members get a monthly gameplay review with one of the Lads. Upload a match and get a video
+                FC Lads+ members get a monthly gameplay review with one of the Lads. Share a match and get a video
                 breakdown with personal tactical fixes.
               </p>
               <p className="tabular mt-4 text-primary">

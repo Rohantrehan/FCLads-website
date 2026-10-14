@@ -51,6 +51,8 @@ export interface Creator {
   socials: CreatorSocials;
   /** Follower counts per platform, e.g. { platform: "youtube", count: "240K" }. */
   audience?: { platform: SocialPlatform; count: string }[];
+  /** What they focus on in gameplay reviews. Creators without one don't take review bookings. */
+  reviewSpecialty?: string;
   /** Year they started competing / making FC content. */
   since?: number;
   image?: string;

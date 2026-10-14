@@ -53,6 +53,7 @@ creators.forEach((creator, index) => {
       country: creator.country,
       countryCode: creator.countryCode,
       since: creator.since,
+      reviewSpecialty: creator.reviewSpecialty,
       initials: creator.initials,
       ovr: creator.ovr,
       cardPosition: creator.cardPosition,

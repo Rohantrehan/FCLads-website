@@ -40,6 +40,7 @@ export const creators: Creator[] = [
     ratings: { gam: 94, tac: 99, trd: 82, meta: 95 },
     rankLabel: "TACTICAL #02",
     highlight: { label: "Specialty", value: "71-depth ctrl" },
+    reviewSpecialty: "Tactics & build-up",
     bio: "Elite division tactician and Top 100 competitive player specialising in press counters and bespoke custom tactics.",
     socials: { youtube: "#", x: "#", instagram: "#" },
     audience: [
@@ -62,6 +63,7 @@ export const creators: Creator[] = [
     ratings: { gam: 99, tac: 92, trd: 79, meta: 97 },
     rankLabel: "FINISHER #03",
     highlight: { label: "WL record", value: "20-0 Rank 1" },
+    reviewSpecialty: "Game management & defending",
     bio: "Rank 1 Weekend League finisher who focuses on game management, mentality and squads that win when it matters.",
     socials: { youtube: "#", x: "#", twitch: "#" },
     audience: [
@@ -83,6 +85,7 @@ export const creators: Creator[] = [
     ratings: { gam: 88, tac: 86, trd: 99, meta: 93 },
     rankLabel: "ECONOMY #04",
     highlight: { label: "Portfolio", value: "50M+ coins" },
+    reviewSpecialty: "Squad building on a budget",
     bio: "Market lead behind the FC Lads trading posts. Wessam tracks prices, promos and SBCs so you can build coins without living on the market.",
     socials: { youtube: "#", x: "#" },
     audience: [

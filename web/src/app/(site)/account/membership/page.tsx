@@ -7,8 +7,10 @@ import { DashPanel, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
 import { membership } from "@/data/account";
 import { ladsPlus, ladsPlusPerks, type PerkKey } from "@/data/ladsPlus";
-import { currentReview, discordAccount } from "@/data/memberDashboard";
+import { discordAccount } from "@/data/memberDashboard";
 import { getContent } from "@/lib/content";
+import { getReviewSummary } from "@/lib/reviews";
+import { ukShortDay } from "@/lib/ukTime";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
 
@@ -48,7 +50,8 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
     );
   }
 
-  const reviewsLeft = currentReview.credits.total - currentReview.credits.used;
+  const review = await getReviewSummary(viewer);
+  const reviewsLeft = review.left;
   const tags = perkTags((await getContent()).guides.length);
 
   return (
@@ -89,26 +92,26 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
             icon={<Video aria-hidden className="size-5 text-primary" />}
             action={
               <span className="tabular rounded-md border border-white/10 px-2 py-1 text-[11px] text-muted uppercase">
-                {currentReview.month}
+                {review.month}
               </span>
             }
           >
             <div className="flex flex-col gap-2">
               <p className="font-display text-3xl leading-none font-extrabold">{reviewsLeft} left this month</p>
               <p className="text-sm text-muted">
-                Book before {fmtDate(currentReview.deadline, "short")}. You get a new one on the 1st of every month.
+                {review.left > 0 ? `Use it by ${ukShortDay(review.lastDay)}. ` : ""}You get a new one on the 1st of every month.
               </p>
             </div>
             <div className="mt-auto flex flex-col gap-2">
               <p className="tabular flex justify-between text-[11px] text-muted uppercase">
                 <span>Used</span>
                 <span className="text-mint">
-                  {currentReview.credits.used} / {currentReview.credits.total}
+                  {review.used} / {review.total}
                 </span>
               </p>
               <ProgressBar
-                value={(currentReview.credits.used / currentReview.credits.total) * 100}
-                label={`${currentReview.credits.used} of ${currentReview.credits.total} reviews used`}
+                value={(review.used / review.total) * 100}
+                label={`${review.used} of ${review.total} reviews used`}
               />
             </div>
             <Button href="/dashboard/review" variant="glass" size="md" className="w-full">

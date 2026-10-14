@@ -202,7 +202,7 @@ export function TradingSection() {
 
 export function ReviewSection() {
   const steps = [
-    { icon: Upload, title: "Send us your gameplay", text: "Upload a match or share an unlisted YouTube link." },
+    { icon: Upload, title: "Send us your gameplay", text: "Share a link to a match: unlisted YouTube, Google Drive or Medal." },
     { icon: Video, title: "A coach breaks it down", text: "Your positioning, inputs, defensive line and spacing." },
     { icon: CheckCircle2, title: "You get a personal plan", text: "Tactic tweaks, habits to fix and what to practise next." },
   ];

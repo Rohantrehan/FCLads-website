@@ -1,6 +1,6 @@
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { getViewer } from "@/lib/viewer";
+import { canRunReviews, getViewer } from "@/lib/viewer";
 
 // Shared shell for all public pages: header + main + footer.
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
@@ -8,7 +8,11 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <>
       <SiteHeader
-        account={viewer.isSignedIn ? { name: viewer.name ?? "Lad", isMember: viewer.isMember } : undefined}
+        account={
+          viewer.isSignedIn
+            ? { name: viewer.name ?? "Lad", isMember: viewer.isMember, isCreator: canRunReviews(viewer) }
+            : undefined
+        }
       />
       <main id="main">{children}</main>
       <SiteFooter />

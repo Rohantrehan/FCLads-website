@@ -5,9 +5,9 @@ import { DashboardHeading, DashPanel, MembersOnly, PanelLink } from "@/component
 import { FeedPostCard } from "@/components/feed/FeedCards";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/DataBits";
-import { currentReview } from "@/data/memberDashboard";
 import { cn } from "@/lib/cn";
 import { getContent } from "@/lib/content";
+import { getReviewSummary } from "@/lib/reviews";
 import { queryFeed } from "@/lib/feedAccess";
 import { getViewer } from "@/lib/viewer";
 
@@ -27,7 +27,7 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
   const posts = all.filter((post) => !selected || post.authorSlug === selected.slug).slice(0, POSTS_SHOWN);
   const countFor = (slug: string) => all.filter((post) => post.authorSlug === slug).length;
 
-  const reviewsLeft = currentReview.credits.total - currentReview.credits.used;
+  const reviewsLeft = (await getReviewSummary(viewer)).left;
 
   const chips: { slug?: string; name: string; count: number }[] = [
     { name: "All creators", count: all.length },
@@ -116,7 +116,7 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
             className="border-primary/30"
           >
             <p className="text-sm text-muted">
-              Send a match and book a 30-minute session with Stefan, Hobs or Wessam. You have {reviewsLeft}{" "}
+              Share a match and book a 30-minute session with one of the Lads. You have {reviewsLeft}{" "}
               {reviewsLeft === 1 ? "review" : "reviews"} left this month.
             </p>
             <Button href="/dashboard/review" variant="primary" size="sm" className="w-full">

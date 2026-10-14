@@ -13,7 +13,7 @@ import { cn } from "@/lib/cn";
 import { isActive, mainNav } from "@/lib/site";
 
 /** `account` is set when someone is signed in (decided on the server by the layout). */
-export function SiteHeader({ account }: { account?: { name: string; isMember: boolean } }) {
+export function SiteHeader({ account }: { account?: { name: string; isMember: boolean; isCreator?: boolean } }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   // Close the phone menu whenever the route changes (React "adjust state on prop change" pattern).
@@ -78,6 +78,15 @@ export function SiteHeader({ account }: { account?: { name: string; isMember: bo
             <TierBadge tier="free" />
             <TierBadge tier="plus" />
           </div>
+          {account?.isCreator && (
+            <Link
+              href="/creator"
+              aria-current={isActive(pathname, "/creator") ? "page" : undefined}
+              className="hidden rounded-lg border border-gold/30 bg-gold/10 px-3 py-1.5 text-sm font-semibold text-gold transition-colors hover:border-gold/60 xl:block"
+            >
+              Creator hub
+            </Link>
+          )}
           {account ? (
             <Link
               href={account.isMember ? "/dashboard" : "/account"}
@@ -156,6 +165,11 @@ export function SiteHeader({ account }: { account?: { name: string; isMember: bo
                 ) : (
                   <Button href="/lads-plus" size="lg">
                     Start {ladsPlus.trialDays}-day free trial
+                  </Button>
+                )}
+                {account.isCreator && (
+                  <Button href="/creator" variant="glass" size="lg">
+                    Creator hub
                   </Button>
                 )}
                 <Button href="/account" variant="glass" size="lg">

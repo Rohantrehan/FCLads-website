@@ -5,7 +5,6 @@ import {
   ArrowRight,
   CalendarClock,
   Crosshair,
-  FileText,
   Lock,
   MessagesSquare,
   Newspaper,
@@ -19,13 +18,13 @@ import { Button } from "@/components/ui/Button";
 import {
   comingNext,
   continueWatching,
-  currentReview,
   discordHighlight,
-  reviewSteps,
   weekInFc,
 } from "@/data/memberDashboard";
 import { cn } from "@/lib/cn";
 import { getContent } from "@/lib/content";
+import { getReviewSummary, REVIEW_STEPS } from "@/lib/reviews";
+import { ukLongDay, ukShortDay, ukTime } from "@/lib/ukTime";
 import { categoryLabels } from "@/lib/format";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
@@ -34,8 +33,6 @@ import type { Creator, Guide } from "@/types";
 // The layout's title template only applies to child pages, so this page sets its full title.
 export const metadata: Metadata = { title: { absolute: "My Feed · My Lads+ | FC Lads" } };
 
-const longDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
-const fmtDay = (iso: string) => longDate.format(new Date(`${iso}T00:00:00Z`));
 
 /** Card in the "New from the Lads" row. The whole card is one link. */
 function DropCard({
@@ -98,8 +95,9 @@ export default async function MyFeedPage() {
   const watching = continueWatching
     .map((item) => ({ ...item, guide: content.getGuide(item.guideSlug) }))
     .filter((item): item is typeof item & { guide: Guide } => !!item.guide);
-  const stepIndex = reviewSteps.findIndex((step) => step.key === currentReview.step);
-  const reviewer = getCreator("stefan");
+  const review = await getReviewSummary(viewer);
+  const lastReviewer = review.lastCreatorSlug ? getCreator(review.lastCreatorSlug) : undefined;
+  const nextReviewer = review.upcoming ? getCreator(review.upcoming.creatorSlug) : undefined;
 
   return (
     <div className="page-container flex flex-col gap-10 pt-10 pb-20">
@@ -231,55 +229,62 @@ export default async function MyFeedPage() {
           icon={<Video aria-hidden className="size-5 text-primary" />}
           action={
             <span className="tabular rounded-full bg-gold/10 px-3 py-1 text-[11px] font-bold text-gold uppercase">
-              Book before {fmtDay(currentReview.deadline)}
+              {review.left > 0 ? `Use it by ${ukShortDay(review.lastDay)}` : `Next from ${ukShortDay(review.nextMonth)}`}
             </span>
           }
           className="border-primary/25"
         >
           <div className="flex flex-col gap-2">
             <p className="tabular flex justify-between text-xs text-muted">
-              <span>{currentReview.month} review</span>
+              <span>{review.month} review</span>
               <span className="text-mint">
-                {stepIndex} / {reviewSteps.length} steps done
+                {Math.min(review.stepIndex, REVIEW_STEPS.length)} / {REVIEW_STEPS.length} steps done
               </span>
             </p>
             <ol className="grid grid-cols-3 gap-2">
-              {reviewSteps.map((step, index) => (
-                <li key={step.key} className="flex flex-col gap-1.5">
+              {REVIEW_STEPS.map((step, index) => (
+                <li key={step} className="flex flex-col gap-1.5">
                   <span
                     aria-hidden
                     className={cn(
                       "h-1.5 rounded-full",
-                      index < stepIndex ? "bg-primary" : index === stepIndex ? "bg-primary/40" : "bg-surface-highest",
+                      index < review.stepIndex
+                        ? "bg-primary"
+                        : index === review.stepIndex
+                          ? "bg-primary/40"
+                          : "bg-surface-highest",
                     )}
                   />
-                  <span className={cn("text-[11px]", index <= stepIndex ? "text-on-surface" : "text-muted")}>
-                    {step.title}
+                  <span className={cn("text-[11px]", index <= review.stepIndex ? "text-on-surface" : "text-muted")}>
+                    {step}
                     <span className="sr-only">
-                      {index < stepIndex ? " (done)" : index === stepIndex ? " (next)" : ""}
+                      {index < review.stepIndex ? " (done)" : index === review.stepIndex ? " (next)" : ""}
                     </span>
                   </span>
                 </li>
               ))}
             </ol>
           </div>
-          {currentReview.upload && (
+          {review.upcoming && (
             <p className="flex items-start gap-3 rounded-xl border border-white/8 bg-surface p-4 text-sm">
-              <FileText aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
+              <CalendarClock aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
               <span>
-                <span className="block font-semibold">{currentReview.upload.fileName} uploaded</span>
-                <span className="text-muted">Next: pick a Lad and a time for your session.</span>
+                <span className="block font-semibold">
+                  Booked{nextReviewer ? ` with ${nextReviewer.name}` : ""}: {ukLongDay(review.upcoming.startsAt)},{" "}
+                  {ukTime(review.upcoming.startsAt)}
+                </span>
+                <span className="text-muted">UK time. The call link appears on your review page.</span>
               </span>
             </p>
           )}
           <div className="flex flex-wrap items-center gap-3">
             <Button href="/dashboard/review" variant="primary">
-              Book your session
+              {review.upcoming ? "See your booking" : review.left > 0 ? "Book your session" : "See your plan"}
               <ArrowRight aria-hidden className="size-4" />
             </Button>
-            {reviewer && (
+            {lastReviewer && !review.upcoming && (
               <span className="text-xs text-muted">
-                Last review with {reviewer.name}. You can pick anyone this month.
+                Last review with {lastReviewer.name}. You can pick anyone this month.
               </span>
             )}
           </div>
