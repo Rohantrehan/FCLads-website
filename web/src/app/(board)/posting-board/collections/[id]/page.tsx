@@ -6,9 +6,9 @@ import { getCollection, listGuides } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Video collection" };
 
-export default async function BoardCollectionPage({ params }: PageProps<"/[board]/collections/[id]">) {
-  const { board, id } = await params;
-  const { base } = await requireBoardPage(board, { adminOnly: true });
+export default async function BoardCollectionPage({ params }: PageProps<"/posting-board/collections/[id]">) {
+  const { id } = await params;
+  const { base } = await requireBoardPage({ adminOnly: true });
   const [row, guides] = await Promise.all([id === "new" ? undefined : getCollection(id), listGuides()]);
 
   return (

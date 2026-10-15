@@ -6,9 +6,9 @@ import { creatorChoices, getTradingPost } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Trading post" };
 
-export default async function BoardTradingPostPage({ params }: PageProps<"/[board]/trading/[id]">) {
-  const { board, id } = await params;
-  const { staff, base } = await requireBoardPage(board);
+export default async function BoardTradingPostPage({ params }: PageProps<"/posting-board/trading/[id]">) {
+  const { id } = await params;
+  const { staff, base } = await requireBoardPage();
   const [row, creators] = await Promise.all([id === "new" ? undefined : getTradingPost(id), creatorChoices()]);
 
   return (

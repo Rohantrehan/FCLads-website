@@ -6,8 +6,8 @@ import { creatorChoices, getSettings } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Site settings" };
 
-export default async function BoardSettingsPage({ params }: PageProps<"/[board]/settings">) {
-  await requireBoardPage((await params).board, { adminOnly: true });
+export default async function BoardSettingsPage() {
+  await requireBoardPage({ adminOnly: true });
   const [row, creators] = await Promise.all([getSettings(), creatorChoices()]);
 
   return (

@@ -9,8 +9,8 @@ export const metadata: Metadata = { title: "Feed posts" };
 /** A feed post's main text, for the list. */
 const headline = (fields: Record<string, unknown>) => String(fields.title ?? fields.question ?? fields.text ?? "Untitled post");
 
-export default async function BoardFeedPage({ params }: PageProps<"/[board]/feed">) {
-  const { staff, base } = await requireBoardPage((await params).board);
+export default async function BoardFeedPage() {
+  const { staff, base } = await requireBoardPage();
   const [posts, creators] = await Promise.all([listFeedPosts(), creatorChoices()]);
   const name = nameLookup(creators);
   const now = boardNow();

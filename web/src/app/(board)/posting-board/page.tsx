@@ -20,8 +20,8 @@ const howTo = [
   "FC Lads+ posts are only shown to members; everyone else sees a lock.",
 ];
 
-export default async function BoardHomePage({ params }: PageProps<"/[board]">) {
-  const { staff, base } = await requireBoardPage((await params).board);
+export default async function BoardHomePage() {
+  const { staff, base } = await requireBoardPage();
   const [trading, feed, guides] = await Promise.all([listTradingPosts(), listFeedPosts(), listGuides()]);
   const now = boardNow();
 

@@ -6,8 +6,8 @@ import { categoryLabels } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Guides" };
 
-export default async function BoardGuidesPage({ params }: PageProps<"/[board]/guides">) {
-  const { staff, base } = await requireBoardPage((await params).board);
+export default async function BoardGuidesPage() {
+  const { staff, base } = await requireBoardPage();
   const [guides, creators] = await Promise.all([listGuides(), creatorChoices()]);
   const name = nameLookup(creators);
   const now = boardNow();

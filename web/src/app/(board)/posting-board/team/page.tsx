@@ -7,8 +7,8 @@ import { creatorChoices, listTeam, nameLookup } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Team" };
 
-export default async function BoardTeamPage({ params }: PageProps<"/[board]/team">) {
-  const { staff } = await requireBoardPage((await params).board, { adminOnly: true });
+export default async function BoardTeamPage() {
+  const { staff } = await requireBoardPage({ adminOnly: true });
   const [team, creators] = await Promise.all([listTeam(), creatorChoices()]);
   const name = nameLookup(creators);
 

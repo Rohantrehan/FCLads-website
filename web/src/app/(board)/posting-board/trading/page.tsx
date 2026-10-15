@@ -5,8 +5,8 @@ import { creatorChoices, listTradingPosts, nameLookup } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Trading posts" };
 
-export default async function BoardTradingPage({ params }: PageProps<"/[board]/trading">) {
-  const { staff, base } = await requireBoardPage((await params).board);
+export default async function BoardTradingPage() {
+  const { staff, base } = await requireBoardPage();
   const [posts, creators] = await Promise.all([listTradingPosts(), creatorChoices()]);
   const name = nameLookup(creators);
   const now = boardNow();

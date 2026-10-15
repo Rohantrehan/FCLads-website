@@ -6,9 +6,9 @@ import { getCreatorRow } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Creator" };
 
-export default async function BoardCreatorPage({ params }: PageProps<"/[board]/creators/[slug]">) {
-  const { board, slug } = await params;
-  const { base } = await requireBoardPage(board, { adminOnly: true });
+export default async function BoardCreatorPage({ params }: PageProps<"/posting-board/creators/[slug]">) {
+  const { slug } = await params;
+  const { base } = await requireBoardPage({ adminOnly: true });
   const row = slug === "new" ? undefined : await getCreatorRow(slug);
 
   return (

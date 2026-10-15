@@ -5,8 +5,8 @@ import { listCreators } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Creators" };
 
-export default async function BoardCreatorsPage({ params }: PageProps<"/[board]/creators">) {
-  const { base } = await requireBoardPage((await params).board, { adminOnly: true });
+export default async function BoardCreatorsPage() {
+  const { base } = await requireBoardPage({ adminOnly: true });
   const creators = await listCreators();
 
   return (

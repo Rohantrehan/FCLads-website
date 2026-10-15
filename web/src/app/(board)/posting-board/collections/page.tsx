@@ -5,8 +5,8 @@ import { listCollections } from "@/lib/board/data";
 
 export const metadata: Metadata = { title: "Video collections" };
 
-export default async function BoardCollectionsPage({ params }: PageProps<"/[board]/collections">) {
-  const { base } = await requireBoardPage((await params).board, { adminOnly: true });
+export default async function BoardCollectionsPage() {
+  const { base } = await requireBoardPage({ adminOnly: true });
   const collections = await listCollections();
 
   return (

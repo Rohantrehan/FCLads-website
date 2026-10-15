@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 /**
  * The hidden posting board, where creators and admins write everything on the site.
- * The address comes from BOARD_PATH; anyone who isn't a creator or admin gets the normal 404.
+ * Served only at /<BOARD_PATH> (src/proxy.ts rewrites it here); anyone who isn't a creator or admin gets the normal 404.
  */
-export default async function BoardLayout({ children, params }: LayoutProps<"/[board]">) {
-  const { staff, base } = await requireBoardPage((await params).board);
+export default async function BoardLayout({ children }: LayoutProps<"/posting-board">) {
+  const { staff, base } = await requireBoardPage();
 
   return (
     <div className="min-h-dvh">

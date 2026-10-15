@@ -7,9 +7,9 @@ import { getContent } from "@/lib/content";
 
 export const metadata: Metadata = { title: "Feed post" };
 
-export default async function BoardFeedPostPage({ params }: PageProps<"/[board]/feed/[id]">) {
-  const { board, id } = await params;
-  const { staff, base } = await requireBoardPage(board);
+export default async function BoardFeedPostPage({ params }: PageProps<"/posting-board/feed/[id]">) {
+  const { id } = await params;
+  const { staff, base } = await requireBoardPage();
   const [row, creators, content] = await Promise.all([
     id === "new" ? undefined : getFeedPost(id),
     creatorChoices(),

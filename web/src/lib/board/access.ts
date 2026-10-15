@@ -1,6 +1,8 @@
 import "server-only";
 
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { BOARD_HEADER } from "@/lib/supabase/proxy";
 import { getViewer } from "@/lib/viewer";
 
 // Who can use the posting board. Checked on the server for every page and every save; the database
@@ -36,11 +38,12 @@ export async function getStaff(): Promise<Staff | undefined> {
 }
 
 /**
- * For board pages: the staff member, when the address is right and they're allowed in.
- * Everyone else gets the normal 404, so the board looks like it doesn't exist.
+ * For board pages: the staff member, when they came in through the secret address (src/proxy.ts
+ * marks those requests) and they're allowed in. Everyone else gets the normal 404, so the board
+ * looks like it doesn't exist.
  */
-export async function requireBoardPage(segment: string, { adminOnly = false } = {}) {
-  if (!boardPath || segment !== boardPath) notFound();
+export async function requireBoardPage({ adminOnly = false } = {}) {
+  if (!boardPath || (await headers()).get(BOARD_HEADER) !== "1") notFound();
   const staff = await getStaff();
   if (!staff || (adminOnly && !staff.isAdmin)) notFound();
   return { staff, base: `/${boardPath}` };
