@@ -88,7 +88,7 @@ export default async function GuidePage({ params }: { params: Params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,rgb(14_42_34/0.8),transparent)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,color-mix(in_oklab,var(--color-pitch-green)_80%,transparent),transparent)]"
       />
 
       <article className="relative">

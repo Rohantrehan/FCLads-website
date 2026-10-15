@@ -6,6 +6,7 @@ import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { PerkIcon } from "@/components/home/PerkIcon";
 import { ladsPlusPerks, type PerkKey } from "@/data/ladsPlus";
+import { withSeason } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
 const HOVER_INTENT_MS = 120;
@@ -23,13 +24,13 @@ interface PerkPreview {
 function MiniPassMap() {
   return (
     <svg viewBox="0 0 300 110" role="img" aria-label="Example passing route diagram" className="w-full rounded-lg bg-[#090d14]">
-      <g fill="none" stroke="#8FF0C9" strokeOpacity="0.2">
+      <g fill="none" style={{ stroke: "var(--color-mint)" }} strokeOpacity="0.2">
         <rect x="4" y="4" width="292" height="102" />
         <line x1="150" y1="4" x2="150" y2="106" />
       </g>
-      <path d="M40 80 Q110 20 180 40 T265 75" fill="none" stroke="#2BD98B" strokeWidth="2" strokeDasharray="5 5" />
+      <path d="M40 80 Q110 20 180 40 T265 75" fill="none" style={{ stroke: "var(--color-primary)" }} strokeWidth="2" strokeDasharray="5 5" />
       {[40, 110, 180, 265].map((x, i) => (
-        <circle key={x} cx={x} cy={[80, 42, 40, 75][i]} r="5" fill="#2BD98B" />
+        <circle key={x} cx={x} cy={[80, 42, 40, 75][i]} r="5" style={{ fill: "var(--color-primary)" }} />
       ))}
       {[[130, 70], [200, 62], [225, 30]].map(([x, y]) => (
         <rect key={`${x}-${y}`} x={x - 4} y={y - 4} width="8" height="8" fill="#ff5c6c" opacity="0.8" />
@@ -51,8 +52,8 @@ const previews: Record<PerkKey, PerkPreview> = {
   guides: {
     eyebrow: "Tactical vault",
     title: "Every guide & video series",
-    text: "All our guides and FC 27 video collections live here, for members only: custom tactics, player picks and frame-by-frame breakdowns that aren't on YouTube.",
-    bullets: ["Full guide library", "FC 27 video series", "Full slider sets"],
+    text: "All our guides and {season} video collections live here, for members only: custom tactics, player picks and frame-by-frame breakdowns that aren't on YouTube.",
+    bullets: ["Full guide library", "{season} video series", "Full slider sets"],
     link: { label: "Browse the library", href: "/learn" },
     visual: <MiniPassMap />,
   },
@@ -123,7 +124,7 @@ const previews: Record<PerkKey, PerkPreview> = {
  * "Your membership includes": perk list + preview panel. Resting the cursor on a perk (or
  * tabbing / tapping) shows its preview, which stays after the cursor leaves.
  */
-export function PerkShowcase() {
+export function PerkShowcase({ season }: { season: string }) {
   const [active, setActive] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -170,7 +171,7 @@ export function PerkShowcase() {
                 className={cn(
                   "flex items-center gap-4 rounded-xl border p-4 text-left transition-all duration-200",
                   isActive
-                    ? "border-primary/60 bg-pitch-green shadow-[0_0_24px_rgb(43_217_139/0.15)]"
+                    ? "border-primary/60 bg-pitch-green shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_15%,transparent)]"
                     : "border-white/8 bg-[#0f141b] hover:border-white/20",
                 )}
               >
@@ -186,7 +187,7 @@ export function PerkShowcase() {
                   <span className="font-display font-extrabold">
                     {index + 1}. {item.title}
                   </span>
-                  <span className="text-sm text-muted">{item.description}</span>
+                  <span className="text-sm text-muted">{withSeason(item.description, season)}</span>
                 </span>
               </button>
             );
@@ -209,13 +210,13 @@ export function PerkShowcase() {
             >
               <p className="text-label text-mint">{preview.eyebrow}</p>
               <h3 className="font-display text-2xl leading-tight font-extrabold">{preview.title}</h3>
-              <p className="text-muted">{preview.text}</p>
+              <p className="text-muted">{withSeason(preview.text, season)}</p>
               {preview.visual}
               <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
                 {preview.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-center gap-1.5">
                     <CheckCircle2 aria-hidden className="size-4 text-primary" />
-                    {bullet}
+                    {withSeason(bullet, season)}
                   </li>
                 ))}
               </ul>

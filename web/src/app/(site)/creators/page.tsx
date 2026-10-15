@@ -46,7 +46,7 @@ export default async function CreatorsPage() {
 
   return (
     <div className="relative">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,rgb(14_42_34/0.8),transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,color-mix(in_oklab,var(--color-pitch-green)_80%,transparent),transparent)]" />
 
       <header className="page-container relative grid grid-cols-1 items-end gap-10 pt-12 pb-12 lg:grid-cols-12 lg:pt-16">
         <div className="flex flex-col gap-4 lg:col-span-7">

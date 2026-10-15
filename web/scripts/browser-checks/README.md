@@ -20,6 +20,7 @@ node scripts/browser-checks/dashboard.mjs ./.checks         # 13 checks: members
 node scripts/browser-checks/dashboard.mjs ./.checks member  #  9 checks (needs DEV_VIEWER=member in web/.env.local): tabs, filters, review tab preview note
 node scripts/browser-checks/reviews.mjs ./.checks           # 24 checks: real gameplay review with the QA free/member/creator accounts (needs SUPABASE_SECRET_KEY to reset the QA member): access, send a match (no booking), change link, creator starts it, asks for a new link, member fixes it, review + plan sent, month used. Leaves nothing behind.
 node scripts/browser-checks/board.mjs ./.checks             # 31 checks (+4 with SUPABASE_SECRET_KEY): hidden posting board with the QA member/creator/admin accounts and BOARD_PATH: 404 for everyone else, creator has no admin pages, publish / schedule / draft / delete, bad input refused, admin guide with blocks. Leaves nothing behind.
+node scripts/browser-checks/settings.mjs ./.checks          # 21 checks (QA admin, BOARD_PATH, SUPABASE_SECRET_KEY): site colour preset + typed colour + back to green (whole site follows, page still styled), rename FC 27 → FC 28 everywhere and back, creators can't do either. Restores the settings.
 node scripts/browser-checks/account.mjs ./.checks            # 5 checks: sign-in gate on account pages, no account data sent
 node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member mode): membership, cancel dialog (focus, Esc, outside click), billing
 ```

@@ -9,7 +9,7 @@ export function PlusHero() {
   return (
     <section className="relative overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_30%_10%,rgb(14_42_34/0.9),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_30%_10%,color-mix(in_oklab,var(--color-pitch-green)_90%,transparent),transparent)]" />
         <div className="absolute -top-20 right-1/4 h-[900px] w-px rotate-[28deg] bg-gradient-to-b from-transparent via-mint/20 to-transparent" />
       </div>
 
@@ -56,7 +56,7 @@ export function PlusHero() {
 
         {/* Decorative membership card */}
         <div className="flex justify-center lg:col-span-5">
-          <div className="relative w-full max-w-sm rotate-2 rounded-3xl bg-gradient-to-br from-mint via-primary to-azure p-[2px] shadow-[0_0_60px_rgb(43_217_139/0.35)] transition-transform duration-500 hover:rotate-0">
+          <div className="relative w-full max-w-sm rotate-2 rounded-3xl bg-gradient-to-br from-mint via-primary to-azure p-[2px] shadow-[0_0_60px_color-mix(in_oklab,var(--color-primary)_35%,transparent)] transition-transform duration-500 hover:rotate-0">
             <div className="relative flex aspect-[1/1.25] flex-col justify-between overflow-hidden rounded-[22px] bg-canvas p-6">
               <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-transparent via-mint/10 to-transparent" />
               <div aria-hidden className="absolute -top-20 -right-20 size-56 rounded-full bg-primary/20 blur-3xl" />
@@ -68,7 +68,7 @@ export function PlusHero() {
                 <ShieldMark className="size-10" />
               </div>
               <div className="relative flex flex-col items-center gap-2 text-center">
-                <span className="flex size-24 flex-col items-center justify-center rounded-2xl border border-primary/40 bg-pitch-green shadow-[0_0_30px_rgb(43_217_139/0.3)]">
+                <span className="flex size-24 flex-col items-center justify-center rounded-2xl border border-primary/40 bg-pitch-green shadow-[0_0_30px_color-mix(in_oklab,var(--color-primary)_30%,transparent)]">
                   <span className="font-display text-4xl leading-none font-extrabold text-mint">99</span>
                   <span className="tabular text-[10px] text-muted">META</span>
                 </span>

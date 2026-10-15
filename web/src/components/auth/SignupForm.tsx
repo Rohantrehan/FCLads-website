@@ -117,7 +117,7 @@ export function SignupForm({ joiningPlus, next }: { joiningPlus: boolean; next: 
             name="terms"
             aria-invalid={errors.terms ? true : undefined}
             aria-describedby={errors.terms ? "terms-error" : undefined}
-            className="mt-0.5 size-4 shrink-0 accent-[#2bd98b]"
+            className="mt-0.5 size-4 shrink-0 accent-primary"
           />
           <span>
             I agree to the{" "}

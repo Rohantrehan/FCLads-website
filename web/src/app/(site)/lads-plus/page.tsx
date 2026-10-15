@@ -37,7 +37,7 @@ export default async function LadsPlusPage() {
             </h2>
             <p className="mt-2 text-muted">Everything you need to compete at the top level in Ultimate Team.</p>
           </div>
-          <PerkShowcase />
+          <PerkShowcase season={(await getContent()).settings.currentSeason} />
         </div>
       </section>
 
@@ -51,7 +51,7 @@ export default async function LadsPlusPage() {
       </div>
 
       <section aria-labelledby="summary-heading" className="page-container py-16">
-        <div className="grid grid-cols-1 items-center gap-8 rounded-3xl border border-primary/30 bg-gradient-to-br from-pitch-green via-[#0a1d17] to-canvas p-6 md:p-10 lg:grid-cols-12">
+        <div className="grid grid-cols-1 items-center gap-8 rounded-3xl border border-primary/30 bg-gradient-to-br from-pitch-green via-[color-mix(in_oklab,var(--color-pitch-green)_75%,#000)] to-canvas p-6 md:p-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <p className="text-label text-mint">All-in-one</p>
             <h2 id="summary-heading" className="text-headline mt-2">

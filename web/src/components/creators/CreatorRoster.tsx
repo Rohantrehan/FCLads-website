@@ -77,7 +77,7 @@ export function CreatorRoster({ entries }: { entries: RosterEntry[] }) {
 
       <section
         aria-label="Selected creator"
-        className="relative mt-10 rounded-2xl border border-primary/30 bg-surface/80 p-5 shadow-[0_0_40px_rgb(43_217_139/0.08)] md:p-8"
+        className="relative mt-10 rounded-2xl border border-primary/30 bg-surface/80 p-5 shadow-[0_0_40px_color-mix(in_oklab,var(--color-primary)_8%,transparent)] md:p-8"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div

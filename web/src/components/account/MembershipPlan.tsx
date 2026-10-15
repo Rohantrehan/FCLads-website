@@ -244,7 +244,7 @@ export function MembershipPlan({
               type="button"
               autoFocus
               onClick={close}
-              className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-primary px-5 font-display text-lg font-extrabold text-on-primary uppercase shadow-[0_0_24px_rgb(43_217_139/0.3)] transition-all hover:brightness-110"
+              className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-primary px-5 font-display text-lg font-extrabold text-on-primary uppercase shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_30%,transparent)] transition-all hover:brightness-110"
             >
               <ShieldCheck aria-hidden className="size-5" />
               Keep my membership

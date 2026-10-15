@@ -49,7 +49,7 @@
   --radius-xl: 0.75rem;
 
   /* Effects */
-  --shadow-glow: 0 0 0 2px #8ff0c9, 0 8px 30px rgb(143 240 201 / 0.35);
+  --shadow-glow: 0 0 0 2px var(--color-mint), 0 8px 30px color-mix(in oklab, var(--color-mint) 35%, transparent);
   --shadow-rim: inset 0 1px 0 rgb(255 255 255 / 0.15);
 }
 
@@ -100,11 +100,11 @@
 }
 
 @utility bg-iridescent {
-  background: linear-gradient(90deg, #ffffff 0%, #e4dcff 48%, #c9f5e6 100%);
+  background: linear-gradient(90deg, #ffffff 0%, #e4dcff 48%, color-mix(in oklab, var(--color-mint) 55%, #fff) 100%);
 }
 
 @utility bg-promo {
-  background: linear-gradient(135deg, #0e2a22 0%, #08160f 100%);
+  background: linear-gradient(135deg, var(--color-pitch-green) 0%, color-mix(in oklab, var(--color-pitch-green) 60%, #000) 100%);
 }
 
 @utility skew-tag {

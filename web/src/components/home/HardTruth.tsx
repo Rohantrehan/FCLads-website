@@ -115,7 +115,7 @@ export function HardTruth({ creators }: { creators: Pick<Creator, "slug" | "name
                         transition={{ type: "spring", stiffness: 420, damping: 36 }}
                       >
                         {/* Skew lives on an inner element: motion owns `transform` on the outer one. */}
-                        <span className="absolute inset-0 -skew-x-6 bg-gradient-to-r from-[#007a5a] via-[#1e40af] to-[#6366f1] shadow-[0_0_30px_rgb(0_122_90/0.4)]" />
+                        <span className="absolute inset-0 -skew-x-6 bg-gradient-to-r from-[color-mix(in_oklab,var(--color-primary)_55%,#000)] via-[#1e40af] to-[#6366f1] shadow-[0_0_30px_color-mix(in_oklab,var(--color-primary)_40%,transparent)]" />
                       </motion.span>
                     )}
                     <span
@@ -152,7 +152,7 @@ export function HardTruth({ creators }: { creators: Pick<Creator, "slug" | "name
             <p className="text-lg leading-relaxed text-muted">
               Most players don&apos;t have the time to spend hundreds of hours figuring everything out. We do.
             </p>
-            <p className="font-display text-3xl leading-none font-extrabold text-mint uppercase drop-shadow-[0_0_25px_rgb(143_240_201/0.3)] lg:text-4xl">
+            <p className="font-display text-3xl leading-none font-extrabold text-mint uppercase drop-shadow-[0_0_25px_color-mix(in_oklab,var(--color-mint)_30%,transparent)] lg:text-4xl">
               You just get the answer.
             </p>
 

@@ -6,6 +6,7 @@ import { feedPosts, trending } from "@/data/feed";
 import { guides } from "@/data/guides";
 import { tradingPosts } from "@/data/tradingPosts";
 import type { ContentData } from "@/lib/content/content";
+import { DEFAULT_THEME_COLOR } from "@/lib/theme";
 
 // The sample content, shown while the content database isn't set up (no SUPABASE_SECRET_KEY) and imported into it
 // as its first content.
@@ -19,5 +20,5 @@ export const sampleContent: ContentData = {
   collections,
   feedPosts,
   tradingPosts,
-  settings: { currentPatch: "1.08", currentSeason: "FC 27", trending },
+  settings: { currentPatch: "1.08", currentSeason: "FC 27", themeColor: DEFAULT_THEME_COLOR, trending },
 };

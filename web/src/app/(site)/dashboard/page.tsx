@@ -56,7 +56,7 @@ function DropCard({
     <article
       className={cn(
         "group relative flex flex-col gap-4 rounded-2xl border bg-[#0f141b] p-5 transition-colors hover:border-primary/50",
-        highlight ? "border-primary/40 shadow-[0_0_32px_rgb(43_217_139/0.08)]" : "border-white/8",
+        highlight ? "border-primary/40 shadow-[0_0_32px_color-mix(in_oklab,var(--color-primary)_8%,transparent)]" : "border-white/8",
       )}
     >
       <p className="text-label text-mint">{kicker}</p>

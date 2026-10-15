@@ -168,7 +168,7 @@ export function SendReviewForm({ reviewers }: { reviewers: ReviewerOption[] }) {
         <button
           type="submit"
           disabled={pending}
-          className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-display font-extrabold text-on-primary uppercase shadow-[0_0_24px_rgb(43_217_139/0.25)] transition-all hover:brightness-110 disabled:cursor-wait disabled:opacity-70"
+          className="flex min-h-14 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 font-display font-extrabold text-on-primary uppercase shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_25%,transparent)] transition-all hover:brightness-110 disabled:cursor-wait disabled:opacity-70"
         >
           <Send aria-hidden className="size-5 shrink-0" />
           {pending ? "Sending…" : lad === "any" ? "Send my match" : `Send to ${chosen?.name}`}

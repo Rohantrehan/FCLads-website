@@ -12,7 +12,7 @@ function PitchPlaceholder() {
   return (
     <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-pitch-green via-surface-container to-navy">
       <svg viewBox="0 0 320 180" className="absolute inset-0 size-full opacity-30" preserveAspectRatio="xMidYMid slice">
-        <g fill="none" stroke="#8FF0C9" strokeWidth="1">
+        <g fill="none" style={{ stroke: "var(--color-mint)" }} strokeWidth="1">
           <rect x="10" y="10" width="300" height="160" />
           <line x1="160" y1="10" x2="160" y2="170" />
           <circle cx="160" cy="90" r="28" />

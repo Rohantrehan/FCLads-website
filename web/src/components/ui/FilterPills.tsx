@@ -29,7 +29,7 @@ export function FilterPills<T extends string>({ options, value, onChange, label,
             className={cn(
               "h-9 px-4 font-mono text-xs font-bold uppercase transition-colors",
               active
-                ? "skew-tag bg-gradient-to-r from-[#007a5a] to-primary text-white shadow-[0_0_15px_rgb(0_122_90/0.5)]"
+                ? "skew-tag bg-gradient-to-r from-[color-mix(in_oklab,var(--color-primary)_55%,#000)] to-primary text-white shadow-[0_0_15px_color-mix(in_oklab,var(--color-primary)_50%,transparent)]"
                 : "rounded bg-surface-high/60 text-muted hover:bg-surface-highest hover:text-on-surface",
             )}
           >

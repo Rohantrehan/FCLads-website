@@ -20,7 +20,7 @@ export function LearnTabs({ active }: { active: (typeof tabs)[number]["key"] }) 
             aria-current={isActive ? "page" : undefined}
             className={cn(
               "flex h-10 items-center gap-2 rounded-lg px-4 font-display text-xs font-extrabold tracking-wider uppercase transition-colors",
-              isActive ? "bg-primary text-on-primary shadow-[0_0_18px_rgb(43_217_139/0.35)]" : "text-muted hover:text-white",
+              isActive ? "bg-primary text-on-primary shadow-[0_0_18px_color-mix(in_oklab,var(--color-primary)_35%,transparent)]" : "text-muted hover:text-white",
             )}
           >
             <Icon aria-hidden className="size-4" />

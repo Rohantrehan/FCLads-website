@@ -218,9 +218,9 @@ export function ReviewSection() {
             <span className="text-mint">Example review</span>
             <span>Full match analysed</span>
           </p>
-          <div className="relative aspect-video overflow-hidden rounded-lg bg-[#0a1a14]">
+          <div className="relative aspect-video overflow-hidden rounded-lg bg-[color-mix(in_oklab,var(--color-pitch-green)_70%,#000)]">
             <svg aria-hidden viewBox="0 0 320 180" className="absolute inset-0 size-full opacity-30">
-              <g fill="none" stroke="#8FF0C9">
+              <g fill="none" style={{ stroke: "var(--color-mint)" }}>
                 <rect x="10" y="10" width="300" height="160" />
                 <line x1="160" y1="10" x2="160" y2="170" />
                 <circle cx="160" cy="90" r="28" />

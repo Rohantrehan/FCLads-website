@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Manrope, Sora, Unbounded } from "next/font/google";
 import "./globals.css";
+import { getContent } from "@/lib/content";
+import { themeCss } from "@/lib/theme";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -39,9 +41,12 @@ export const viewport: Viewport = {
   themeColor: "#07090d",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Site colour chosen on the posting board (Site settings). Empty for the default green.
+  const theme = themeCss((await getContent()).settings.themeColor);
   return (
     <html lang="en" className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} ${unbounded.variable}`}>
+      <head>{theme ? <style id="site-theme">{theme}</style> : null}</head>
       <body>{children}</body>
     </html>
   );

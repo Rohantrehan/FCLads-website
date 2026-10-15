@@ -236,6 +236,7 @@ export const creatorInput = z.object({
 export const settingsInput = z.object({
   currentPatch: required(20, "the current patch"),
   currentSeason: required(20, "the current season"),
+  themeColor: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Pick a colour.").transform((value) => value.toLowerCase()),
   trending: z
     .array(
       z.object({
@@ -250,6 +251,15 @@ export const settingsInput = z.object({
     )
     .max(6, "Up to 6 trending links."),
 });
+
+const gameName = z
+  .string()
+  .trim()
+  .regex(/^[A-Za-z0-9 .+-]{2,20}$/, "Use 2–20 letters, numbers or spaces, e.g. FC 28.");
+
+export const renameInput = z
+  .object({ from: gameName, to: gameName })
+  .refine((value) => value.from !== value.to, "The new name is the same as the old one.");
 
 export const teamInput = z.object({
   email: z.email("Add the account's email."),

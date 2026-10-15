@@ -11,11 +11,11 @@ const base =
 const variants: Record<Variant, string> = {
   // Master CTA from DESIGN.md: white → lavender → mint, black text, mint ring + glow.
   iridescent:
-    "bg-iridescent text-canvas rounded-full shadow-[0_0_0_2px_var(--color-mint),0_0_28px_rgb(143_240_201/0.45)] hover:scale-[1.03] hover:shadow-[0_0_0_3px_var(--color-mint),0_0_36px_rgb(143_240_201/0.7)]",
+    "bg-iridescent text-canvas rounded-full shadow-[0_0_0_2px_var(--color-mint),0_0_28px_color-mix(in_oklab,var(--color-mint)_45%,transparent)] hover:scale-[1.03] hover:shadow-[0_0_0_3px_var(--color-mint),0_0_36px_color-mix(in_oklab,var(--color-mint)_70%,transparent)]",
   primary:
-    "rounded-xl bg-gradient-to-r from-primary-bright via-primary to-mint text-on-primary shadow-[0_0_24px_rgb(43_217_139/0.4)] hover:scale-[1.02]",
+    "rounded-xl bg-gradient-to-r from-primary-bright via-primary to-mint text-on-primary shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_40%,transparent)] hover:scale-[1.02]",
   glass:
-    "rounded-full glass-subtle text-on-surface backdrop-blur-xl hover:border-primary/60 hover:shadow-[0_0_20px_rgb(56_225_146/0.2)]",
+    "rounded-full glass-subtle text-on-surface backdrop-blur-xl hover:border-primary/60 hover:shadow-[0_0_20px_color-mix(in_oklab,var(--color-primary-bright)_20%,transparent)]",
   ghost: "rounded-lg text-primary hover:text-on-surface",
   danger: "rounded-xl text-danger-soft hover:bg-danger/10",
 };

@@ -20,7 +20,7 @@ export function LearningPath({ steps, current }: { steps: Collection[]; current?
               className={cn(
                 "group flex h-full items-center gap-4 rounded-xl border p-4 transition-colors md:flex-col md:items-start md:gap-3",
                 isCurrent
-                  ? "border-primary/60 bg-pitch-green shadow-[0_0_24px_rgb(43_217_139/0.2)]"
+                  ? "border-primary/60 bg-pitch-green shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_20%,transparent)]"
                   : "border-white/8 bg-[#0f141b] hover:border-primary/40",
               )}
             >

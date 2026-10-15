@@ -212,5 +212,7 @@ export interface TrendingItem {
 export interface SiteSettings {
   currentPatch: string;
   currentSeason: string;
+  /** Main site colour (hex); see lib/theme.ts. */
+  themeColor: string;
   trending: TrendingItem[];
 }

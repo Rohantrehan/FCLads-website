@@ -57,7 +57,7 @@ export default async function LearnPage({ searchParams }: { searchParams: Search
 
   return (
     <div className="relative">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,rgb(14_42_34/0.8),transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,color-mix(in_oklab,var(--color-pitch-green)_80%,transparent),transparent)]" />
 
       <header className="page-container relative flex flex-col gap-8 pt-10 pb-8 lg:flex-row lg:items-end lg:justify-between lg:pt-14">
         <div className="flex flex-col gap-3">

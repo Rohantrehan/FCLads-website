@@ -53,7 +53,7 @@ export function VideoFacade({ video, title, minutes, locked, lockedHref = "#memb
   return (
     <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-pitch-green via-surface-container to-navy">
       <svg aria-hidden viewBox="0 0 320 180" className="absolute inset-0 size-full opacity-25" preserveAspectRatio="xMidYMid slice">
-        <g fill="none" stroke="#8FF0C9" strokeWidth="0.8">
+        <g fill="none" style={{ stroke: "var(--color-mint)" }} strokeWidth="0.8">
           <rect x="10" y="10" width="300" height="160" />
           <line x1="160" y1="10" x2="160" y2="170" />
           <circle cx="160" cy="90" r="28" />
@@ -83,7 +83,7 @@ export function VideoFacade({ video, title, minutes, locked, lockedHref = "#memb
           aria-label={`Play video: ${title}`}
           className="group absolute inset-0 flex items-center justify-center"
         >
-          <span className="flex size-20 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_0_40px_rgb(43_217_139/0.6)] transition-transform group-hover:scale-110">
+          <span className="flex size-20 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_0_40px_color-mix(in_oklab,var(--color-primary)_60%,transparent)] transition-transform group-hover:scale-110">
             <Play className="size-8 fill-current" />
           </span>
         </button>

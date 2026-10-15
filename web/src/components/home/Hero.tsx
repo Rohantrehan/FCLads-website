@@ -26,7 +26,7 @@ export function Hero({ cards, patch }: HeroProps) {
     <section className="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24">
       {/* Floodlight atmosphere */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_40%,rgb(14_42_34/0.7),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_40%,color-mix(in_oklab,var(--color-pitch-green)_70%,transparent),transparent)]" />
         <div className="absolute -top-32 left-1/4 h-[1200px] w-px rotate-[32deg] bg-gradient-to-b from-transparent via-mint/25 to-transparent" />
         <div className="absolute -top-40 left-1/2 h-[1300px] w-0.5 rotate-[34deg] bg-gradient-to-b from-transparent via-azure/20 to-transparent blur-[1px]" />
         <div className="absolute -top-20 right-1/4 h-[1000px] w-px rotate-[28deg] bg-gradient-to-b from-transparent via-primary-bright/15 to-transparent" />

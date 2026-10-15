@@ -1,12 +1,15 @@
 import { Award, Zap } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { getContent } from "@/lib/content";
+import { withSeason } from "@/lib/format";
 import { ladsPlus, ladsPlusPerks } from "@/data/ladsPlus";
 import { PerkIcon } from "./PerkIcon";
 
-export function LadsPlusTeaser() {
+export async function LadsPlusTeaser() {
+  const season = (await getContent()).settings.currentSeason;
   return (
     <section aria-labelledby="lads-plus-heading" className="page-container py-10">
-      <div className="relative overflow-hidden rounded-3xl border border-primary-bright/30 bg-gradient-to-br from-pitch-green via-[#0a1d17] to-[#08160f] px-5 py-10 shadow-[0_20px_60px_rgb(14_42_34/0.6)] md:p-10 lg:p-14">
+      <div className="relative overflow-hidden rounded-3xl border border-primary-bright/30 bg-gradient-to-br from-pitch-green via-[color-mix(in_oklab,var(--color-pitch-green)_75%,#000)] to-[color-mix(in_oklab,var(--color-pitch-green)_55%,#000)] px-5 py-10 shadow-[0_20px_60px_color-mix(in_oklab,var(--color-pitch-green)_60%,transparent)] md:p-10 lg:p-14">
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 size-96 rounded-full bg-mint/10 blur-[100px]" />
         <div
           aria-hidden
@@ -35,7 +38,7 @@ export function LadsPlusTeaser() {
               >
                 <PerkIcon perk={perk.key} className="size-6 text-mint" />
                 <span className="font-display text-xs font-bold uppercase">{perk.title}</span>
-                <span className="text-xs text-muted">{perk.description}</span>
+                <span className="text-xs text-muted">{withSeason(perk.description, season)}</span>
               </li>
             ))}
           </ul>

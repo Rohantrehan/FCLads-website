@@ -12,6 +12,7 @@ import {
   type TradingPostRow,
 } from "@/lib/content/rows";
 import { contentDb } from "@/lib/supabase/secret";
+import { DEFAULT_THEME_COLOR } from "@/lib/theme";
 import type { Creator, FeedPost, GuideContent } from "@/types";
 
 // Reads the site's content from Supabase (written on the posting board) and turns rows into the
@@ -183,6 +184,7 @@ export async function fetchCatalog(): Promise<ContentData> {
     settings: {
       currentPatch: setting?.current_patch ?? "",
       currentSeason,
+      themeColor: setting?.theme_color ?? DEFAULT_THEME_COLOR,
       trending: (setting?.trending ?? []).filter((item) => item.authorSlug),
     },
   };

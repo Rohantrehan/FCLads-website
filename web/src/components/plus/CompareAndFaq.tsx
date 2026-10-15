@@ -1,5 +1,7 @@
 import { Check, ChevronDown, Minus } from "lucide-react";
 import { ladsPlus } from "@/data/ladsPlus";
+import { getContent } from "@/lib/content";
+import { withSeason } from "@/lib/format";
 
 type Cell = boolean | string;
 
@@ -7,7 +9,7 @@ const rows: { feature: string; free: Cell; plus: Cell }[] = [
   { feature: "Free videos on YouTube", free: true, plus: true },
   { feature: "Public feed & tax calculator", free: true, plus: true },
   { feature: "Every guide & slider code", free: false, plus: "Full access" },
-  { feature: "FC 27 video collections", free: false, plus: "Every series" },
+  { feature: "{season} video collections", free: false, plus: "Every series" },
   { feature: "Private Discord strategy rooms", free: false, plus: "Always open" },
   { feature: "Q&A with the creators", free: false, plus: "Regular sessions" },
   { feature: "Trading posts from the Lads", free: "Free posts", plus: "Every post" },
@@ -33,7 +35,8 @@ function CellValue({ value, plus }: { value: Cell; plus?: boolean }) {
   );
 }
 
-export function CompareTable() {
+export async function CompareTable() {
+  const season = (await getContent()).settings.currentSeason;
   return (
     <section aria-labelledby="compare-heading" className="page-container py-16 lg:py-20">
       <div className="mx-auto mb-8 max-w-2xl text-center">
@@ -65,7 +68,7 @@ export function CompareTable() {
             {rows.map((row) => (
               <tr key={row.feature} className="border-t border-white/5 odd:bg-white/[0.02]">
                 <th scope="row" className="px-3 py-4 font-medium break-words sm:px-5">
-                  {row.feature}
+                  {withSeason(row.feature, season)}
                 </th>
                 <td className="px-2 py-4 text-center sm:px-5">
                   <CellValue value={row.free} />

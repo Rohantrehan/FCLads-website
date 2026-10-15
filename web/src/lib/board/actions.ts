@@ -10,6 +10,7 @@ import {
   feedPostInput,
   firstIssue,
   guideInput,
+  renameInput,
   settingsInput,
   teamInput,
   tradingPostInput,
@@ -217,7 +218,12 @@ export async function saveSettings(payload: unknown) {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("site_settings")
-      .update({ current_patch: input.currentPatch, current_season: input.currentSeason, trending: input.trending })
+      .update({
+        current_patch: input.currentPatch,
+        current_season: input.currentSeason,
+        theme_color: input.themeColor,
+        trending: input.trending,
+      })
       .eq("id", 1)
       .select("id")
       .maybeSingle();
@@ -276,4 +282,25 @@ export async function setTeamRole(payload: unknown): Promise<SaveResult> {
   });
   if (error) return { error: teamErrors[error.message] ?? dbMessage(error) };
   return { ok: true };
+}
+
+const renameErrors: Record<string, string> = {
+  bad_name: "Use 2–20 letters, numbers or spaces, and make the new name different from the old one.",
+};
+
+/** Swaps one game name for another (e.g. "FC 27" → "FC 28") in all content, and makes it the current season. */
+export async function renameGame(payload: unknown): Promise<SaveResult> {
+  try {
+    await requireStaff({ adminOnly: true });
+  } catch (error) {
+    if (error instanceof NotAllowedError) return { error: "You don't have access to this." };
+    throw error;
+  }
+  const parsed = renameInput.safeParse(payload);
+  if (!parsed.success) return { error: firstIssue(parsed.error) };
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("rename_game", { p_from: parsed.data.from, p_to: parsed.data.to });
+  if (error) return { error: renameErrors[error.message] ?? dbMessage(error) };
+  updateTag(CONTENT_TAG);
+  return { ok: true, id: String(data ?? 0) };
 }

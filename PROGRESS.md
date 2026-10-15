@@ -389,6 +389,15 @@ User feedback on Home → implemented:
 - **Tests:** new `scripts/security-checks/reviews.mjs` 29/29 (whole flow through the API, per role). `browser-checks/reviews.mjs` rewritten for the new flow: 24/24. Full run on **real Supabase content**: board 34, auth 24 (member trading check now uses a fixed date), plus-auth 18, dashboard 13, account 5, home 10, learn 9, guide 5, creators 7, collections 13, feed 10, legal 11; trading 12/16 (the 4 known date counts expect the sample today). Security checks: content 29/29, reviews 29/29. Typecheck + lint clean.
 - Note: the earlier 'Jest worker' errors came from an old dev server left running after a low-memory crash (PID from 10:57). A fresh `npm run dev` fixed it; if logins hang, check `netstat -ano | grep :3000` for a stale process.
 
+### Session: Site colour + rename the game (2026-10-15)
+- **User request:** change the whole website's colour from the admin panel (any colour), and turn every "FC 27" into "FC 28" (or anything) in one go.
+- **Database** (`20261015000400_theme_and_rename.sql`, applied): `site_settings.theme_color` (hex, default `#2bd98b`); admin-only function `rename_game(from, to)` that replaces the name in guides (title, excerpt, intro, body), collections (incl. episodes), feed posts, trading posts, creator bios/taglines/roles, trending, and the current season. Names limited to letters, numbers, spaces and `. + -` so JSON can't break.
+- **Colour:** `lib/theme.ts` turns one colour into all accent tokens (primary, primary-bright, on-primary, mint, secondary, pitch-green, teal-deep) in OKLCH, keeping the original green exactly; too-dark/light picks are nudged for readability. Root layout adds `<style id="site-theme">` only when the colour isn't the default. ~40 hard-coded greens (glows, gradients, SVG strokes, logo, page-top glows) now use the theme variables.
+- **Board → Site settings:** 8 ready-made colours (Green, Red, Orange, Gold, Purple, Pink, Blue, Cyan), any colour (picker or code), live preview box, "Back to the original green"; **Rename the game everywhere** (Replace / With, confirm, shows how many items changed; undo = swap back).
+- Site's own text now uses the current season instead of a fixed "FC 27" (`withSeason()` in `lib/format.ts`; `{season}` in FC Lads+ perks, compare table, perk previews, membership page).
+- **Bug caught by the new test and fixed:** an empty theme rendered a text node inside `<head>`, which stopped stylesheets loading (site unstyled). Now renders nothing; the test checks the page is styled.
+- **Tests:** new `browser-checks/settings.mjs` 21/21; home 10, plus-auth 18. Screenshots checked in purple and red. Board 19/34 on this run only because the background dev server's worker crashed again (low memory, ~0.8 GB free; log shows "Jest worker"); it passed 34/34 on a fresh server before these changes, which don't touch saving. Typecheck + lint clean.
+
 ## How to run locally
 
 ```bash

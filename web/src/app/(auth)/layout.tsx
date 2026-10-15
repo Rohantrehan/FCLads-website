@@ -7,7 +7,7 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_20%,rgb(14_42_34/0.9),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_20%,color-mix(in_oklab,var(--color-pitch-green)_90%,transparent),transparent)]" />
         <div className="absolute -top-20 left-1/4 h-[1100px] w-px rotate-[30deg] bg-gradient-to-b from-transparent via-mint/20 to-transparent" />
         <div className="absolute -top-20 right-1/4 h-[1100px] w-px -rotate-[30deg] bg-gradient-to-b from-transparent via-azure/15 to-transparent" />
       </div>

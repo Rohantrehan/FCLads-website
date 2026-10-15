@@ -9,6 +9,7 @@ import { membership } from "@/data/account";
 import { ladsPlus, ladsPlusPerks, type PerkKey } from "@/data/ladsPlus";
 import { discordAccount } from "@/data/memberDashboard";
 import { getContent } from "@/lib/content";
+import { withSeason } from "@/lib/format";
 import { getReviewSummary } from "@/lib/reviews";
 import { ukShortDay } from "@/lib/ukTime";
 import { socialLinks } from "@/lib/site";
@@ -25,7 +26,7 @@ const perkTags = (guideCount: number): Record<PerkKey, string> => ({
 });
 
 const losses: Record<PerkKey, string> = {
-  guides: "Members-only guides, slider codes and the FC 27 video collections",
+  guides: "Members-only guides, slider codes and the {season} video collections",
   discord: "The members channels and Q&As with the creators",
   creators: "Weekly squad and chemistry fixes from the Lads",
   trading: "Members-only trading posts and screenshots",
@@ -52,7 +53,9 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
 
   const review = await getReviewSummary(viewer);
   const reviewsLeft = review.left;
-  const tags = perkTags((await getContent()).guides.length);
+  const content = await getContent();
+  const tags = perkTags(content.guides.length);
+  const season = content.settings.currentSeason;
 
   return (
     <>
@@ -66,7 +69,7 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
         nextPayment={fmtDate(membership.nextPayment)}
         nextPaymentShort={fmtDate(membership.nextPayment, "short")}
         memberSince={fmtDate(membership.memberSince, "month")}
-        losses={ladsPlusPerks.map((perk) => ({ title: perk.title, detail: losses[perk.key] }))}
+        losses={ladsPlusPerks.map((perk) => ({ title: perk.title, detail: withSeason(losses[perk.key], season) }))}
       >
         <DashPanel id="included-heading" title="What's included">
           <ul className="flex flex-col gap-2">

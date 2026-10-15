@@ -21,6 +21,9 @@ export function formatPercent(value: number) {
   return `${sign}${value.toFixed(1)}%`;
 }
 
+/** Fills in the current game name (e.g. "FC 28") where fixed site text says {season}. Set on the posting board. */
+export const withSeason = (text: string, season: string) => text.replaceAll("{season}", season);
+
 export const categoryLabels: Record<GuideCategory, string> = {
   tactics: "Tactics",
   gameplay: "Gameplay",

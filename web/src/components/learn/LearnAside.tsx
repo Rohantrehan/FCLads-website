@@ -25,9 +25,9 @@ export function DiscordRequest() {
 /** Wide upsell banner placed between rows of the guide grid. */
 export function PlusBanner() {
   return (
-    <aside className="flex flex-col items-start gap-5 rounded-2xl border border-primary/30 bg-gradient-to-r from-pitch-green to-[#08160f] p-5 md:flex-row md:items-center md:justify-between md:p-6">
+    <aside className="flex flex-col items-start gap-5 rounded-2xl border border-primary/30 bg-gradient-to-r from-pitch-green to-[color-mix(in_oklab,var(--color-pitch-green)_55%,#000)] p-5 md:flex-row md:items-center md:justify-between md:p-6">
       <div className="flex items-start gap-4">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-on-primary shadow-[0_0_24px_rgb(43_217_139/0.4)]">
+        <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-on-primary shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_40%,transparent)]">
           <Lock aria-hidden className="size-6" />
         </span>
         <div>

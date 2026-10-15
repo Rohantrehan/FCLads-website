@@ -45,7 +45,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
     <div className="relative">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[560px] bg-[radial-gradient(ellipse_70%_60%_at_25%_0%,rgb(14_42_34/0.85),transparent)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[560px] bg-[radial-gradient(ellipse_70%_60%_at_25%_0%,color-mix(in_oklab,var(--color-pitch-green)_85%,transparent),transparent)]"
       />
 
       <header className="page-container relative flex flex-col gap-8 pt-8 pb-10">
@@ -152,7 +152,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
 
         <section
           aria-labelledby="review-cta"
-          className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-pitch-green via-[#0a1d17] to-canvas p-6 md:p-12"
+          className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-pitch-green via-[color-mix(in_oklab,var(--color-pitch-green)_75%,#000)] to-canvas p-6 md:p-12"
         >
           <div
             aria-hidden

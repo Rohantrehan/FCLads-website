@@ -82,7 +82,7 @@ export function FeedPreview() {
               Read the public feed, use the free trading tools and watch our free videos on YouTube.
             </p>
           </div>
-          <div className="flex flex-col gap-4 rounded-2xl border-2 border-primary/60 bg-gradient-to-b from-pitch-green to-canvas p-6 shadow-[0_0_30px_rgb(56_225_146/0.25)]">
+          <div className="flex flex-col gap-4 rounded-2xl border-2 border-primary/60 bg-gradient-to-b from-pitch-green to-canvas p-6 shadow-[0_0_30px_color-mix(in_oklab,var(--color-primary-bright)_25%,transparent)]">
             <div className="flex items-center justify-between gap-3">
               <h3 className="flex items-center gap-2 font-display text-base font-extrabold uppercase">
                 <ShieldCheck aria-hidden className="size-5 text-primary" />

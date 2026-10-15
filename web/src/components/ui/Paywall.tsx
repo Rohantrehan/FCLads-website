@@ -41,7 +41,7 @@ export function Paywall({
         className,
       )}
     >
-      <span className="mb-4 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-primary/30 to-secondary/30 text-primary shadow-[0_0_24px_rgb(43_217_139/0.3)]">
+      <span className="mb-4 flex size-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-primary/30 to-secondary/30 text-primary shadow-[0_0_24px_color-mix(in_oklab,var(--color-primary)_30%,transparent)]">
         <Lock aria-hidden className="size-8" />
       </span>
       <span className="text-label mb-3 rounded-full bg-primary/10 px-3 py-1 text-primary">{eyebrow}</span>

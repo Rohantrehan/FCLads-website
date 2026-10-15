@@ -11,7 +11,7 @@ import { ShareButton } from "./ShareButton";
 export function FeaturedGuide({ guide, author }: { guide: Guide; author?: Creator }) {
   const href = `/guides/${guide.slug}`;
   return (
-    <article className="relative grid grid-cols-1 gap-6 overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-pitch-green/60 via-surface-container to-canvas p-4 shadow-[0_0_40px_rgb(43_217_139/0.12)] md:grid-cols-2 md:p-6">
+    <article className="relative grid grid-cols-1 gap-6 overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-pitch-green/60 via-surface-container to-canvas p-4 shadow-[0_0_40px_color-mix(in_oklab,var(--color-primary)_12%,transparent)] md:grid-cols-2 md:p-6">
       <Link
         href={href}
         tabIndex={-1}
@@ -19,7 +19,7 @@ export function FeaturedGuide({ guide, author }: { guide: Guide; author?: Creato
         className="group relative aspect-video overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-pitch-green via-surface-container to-navy"
       >
         <svg viewBox="0 0 320 180" className="absolute inset-0 size-full opacity-30" preserveAspectRatio="xMidYMid slice">
-          <g fill="none" stroke="#8FF0C9" strokeWidth="1">
+          <g fill="none" style={{ stroke: "var(--color-mint)" }} strokeWidth="1">
             <rect x="10" y="10" width="300" height="160" />
             <line x1="160" y1="10" x2="160" y2="170" />
             <circle cx="160" cy="90" r="28" />
@@ -27,7 +27,7 @@ export function FeaturedGuide({ guide, author }: { guide: Guide; author?: Creato
             <rect x="266" y="50" width="44" height="80" />
           </g>
         </svg>
-        <span className="absolute inset-0 m-auto flex size-16 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_0_30px_rgb(43_217_139/0.6)] transition-transform group-hover:scale-110">
+        <span className="absolute inset-0 m-auto flex size-16 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_0_30px_color-mix(in_oklab,var(--color-primary)_60%,transparent)] transition-transform group-hover:scale-110">
           <Play className="size-7 fill-current" />
         </span>
         <span className="absolute top-3 left-3">

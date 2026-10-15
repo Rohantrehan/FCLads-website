@@ -20,7 +20,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
     <div className="relative">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,rgb(14_42_34/0.75),transparent)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,color-mix(in_oklab,var(--color-pitch-green)_75%,transparent),transparent)]"
       />
       <div className="relative border-b border-white/8">
         <div className="page-container flex flex-col gap-2 pt-6 lg:flex-row lg:items-end lg:justify-between">

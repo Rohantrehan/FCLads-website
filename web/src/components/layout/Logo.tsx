@@ -7,12 +7,12 @@ export function ShieldMark({ className }: { className?: string }) {
     <svg viewBox="0 0 100 100" aria-hidden className={cn("size-9", className)}>
       <defs>
         <linearGradient id="fcl-shield" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2BD98B" />
-          <stop offset="50%" stopColor="#0E2A22" />
+          <stop offset="0%" style={{ stopColor: "var(--color-primary)" }} />
+          <stop offset="50%" style={{ stopColor: "var(--color-pitch-green)" }} />
           <stop offset="100%" stopColor="#07090D" />
         </linearGradient>
         <linearGradient id="fcl-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#8FF0C9" />
+          <stop offset="0%" style={{ stopColor: "var(--color-mint)" }} />
           <stop offset="100%" stopColor="#1E8BFF" />
         </linearGradient>
       </defs>
@@ -42,7 +42,7 @@ export function ShieldMark({ className }: { className?: string }) {
       >
         FCL
       </text>
-      <polygon points="50,68 54,73 46,73" fill="#8FF0C9" />
+      <polygon points="50,68 54,73 46,73" style={{ fill: "var(--color-mint)" }} />
     </svg>
   );
 }

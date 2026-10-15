@@ -39,7 +39,7 @@ export function Badge({ tone = "neutral", className, children }: BadgeProps) {
 export function TierBadge({ tier, className }: { tier: AccessTier; className?: string }) {
   if (tier === "plus") {
     return (
-      <Badge tone="mint" className={cn("shadow-[0_0_12px_rgb(56_225_146/0.25)]", className)}>
+      <Badge tone="mint" className={cn("shadow-[0_0_12px_color-mix(in_oklab,var(--color-primary-bright)_25%,transparent)]", className)}>
         <ShieldCheck aria-hidden className="size-3" />
         Lads+
       </Badge>
@@ -72,7 +72,7 @@ export function SkewTag({ className, children }: { className?: string; children:
   return (
     <span
       className={cn(
-        "skew-tag inline-block bg-gradient-to-r from-[#007a5a] to-primary px-3 py-1 shadow-[0_0_15px_rgb(0_122_90/0.5)]",
+        "skew-tag inline-block bg-gradient-to-r from-[color-mix(in_oklab,var(--color-primary)_55%,#000)] to-primary px-3 py-1 shadow-[0_0_15px_color-mix(in_oklab,var(--color-primary)_50%,transparent)]",
         className,
       )}
     >

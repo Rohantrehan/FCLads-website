@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { getContent } from "@/lib/content";
+import { withSeason } from "@/lib/format";
 import { ArrowRight, CheckCircle2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ladsPlus, ladsPlusPerks } from "@/data/ladsPlus";
@@ -68,7 +70,8 @@ export function SignInToManage({ next = "/account/membership" }: { next?: string
 }
 
 /** Membership card for signed-in users without FC Lads+: the free plan and the trial offer. */
-export function FreePlan({ name, email }: { name?: string; email?: string }) {
+export async function FreePlan({ name, email }: { name?: string; email?: string }) {
+  const season = (await getContent()).settings.currentSeason;
   return (
     <section
       aria-labelledby="free-plan-heading"
@@ -103,7 +106,7 @@ export function FreePlan({ name, email }: { name?: string; email?: string }) {
             <CheckCircle2 aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
             <span className="flex flex-col gap-0.5">
               <span className="font-semibold">{perk.title}</span>
-              <span className="text-sm text-muted">{perk.description}</span>
+              <span className="text-sm text-muted">{withSeason(perk.description, season)}</span>
             </span>
           </li>
         ))}

@@ -57,7 +57,7 @@ export default async function CollectionPage({ params }: { params: Params }) {
 
   return (
     <div className="relative">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-[radial-gradient(ellipse_70%_60%_at_25%_0%,rgb(14_42_34/0.8),transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-[radial-gradient(ellipse_70%_60%_at_25%_0%,color-mix(in_oklab,var(--color-pitch-green)_80%,transparent),transparent)]" />
 
       <header className="page-container relative flex flex-col gap-8 pt-8 pb-12">
         <nav aria-label="Breadcrumb">

@@ -92,7 +92,7 @@ export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) 
     <div className="relative">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[360px] bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,rgb(14_42_34/0.7),transparent)] print:hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[360px] bg-[radial-gradient(ellipse_70%_60%_at_20%_0%,color-mix(in_oklab,var(--color-pitch-green)_70%,transparent),transparent)] print:hidden"
       />
 
       <header className="page-container relative flex flex-col gap-6 pt-12 pb-10 lg:pt-16">

@@ -112,6 +112,7 @@ export interface TradingPostRow {
 export interface SiteSettingsRow {
   current_patch: string;
   current_season: string;
+  theme_color: string;
   trending: TrendingItem[];
   updated_at: string;
 }
