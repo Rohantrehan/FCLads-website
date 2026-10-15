@@ -5,7 +5,8 @@ import { reviewErrorMessage } from "@/lib/reviews";
 import { createClient } from "@/lib/supabase/server";
 import { canRunReviews, getViewer } from "@/lib/viewer";
 
-// Creator hub actions. The database functions check the caller is the creator (or an admin).
+// Creator hub actions. The database functions check the caller is the creator (or an admin) and that
+// the request is theirs or open to any Lad.
 
 export interface CreatorFormState {
   message?: string;
@@ -13,66 +14,60 @@ export interface CreatorFormState {
 }
 
 const text = (data: FormData, key: string) => String(data.get(key) ?? "").trim();
-const DAY = /^\d{4}-\d{2}-\d{2}$/;
-const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
-
-async function creatorClient() {
-  const viewer = await getViewer();
-  if (!viewer.id || !canRunReviews(viewer)) throw new Error(reviewErrorMessage("not_creator"));
-  return createClient();
-}
 
 /** Admins act for the creator chosen on the page; creators always act for themselves. */
 const actingFor = (data: FormData) => text(data, "creator") || null;
 
-export async function addSlots(_prev: CreatorFormState, data: FormData): Promise<CreatorFormState> {
-  const day = text(data, "day");
-  const times = data.getAll("times").map(String).filter((time) => TIME.test(time));
-  if (!DAY.test(day)) return { message: "Pick a day." };
-  if (times.length === 0) return { message: reviewErrorMessage("bad_times") };
-
-  const supabase = await creatorClient();
-  const { data: added, error } = await supabase.rpc("add_review_slots", {
-    p_day: day,
-    p_times: times,
-    p_creator_slug: actingFor(data),
-  });
+/** Runs one review function as the signed-in creator, then refreshes the hub. */
+async function run(fn: string, args: Record<string, unknown>, ok: string): Promise<CreatorFormState> {
+  const viewer = await getViewer();
+  if (!viewer.id || !canRunReviews(viewer)) return { message: reviewErrorMessage("not_creator") };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc(fn, args);
   if (error) return { message: reviewErrorMessage(error.message) };
-
   revalidatePath("/creator");
-  const count = Number(added ?? 0);
-  return {
-    ok:
-      count === 0
-        ? "Nothing new added: those times were already free or have passed."
-        : `Added ${count} free ${count === 1 ? "time" : "times"}.`,
-  };
+  return { ok };
 }
 
-export async function removeSlot(data: FormData) {
-  const supabase = await creatorClient();
-  const { error } = await supabase.rpc("remove_review_slot", { p_slot_id: text(data, "slot") });
-  if (error) throw new Error(reviewErrorMessage(error.message));
-  revalidatePath("/creator");
+/** One button on a review card: start, put back, or ask for a new link. */
+export async function reviewStep(_prev: CreatorFormState, data: FormData): Promise<CreatorFormState> {
+  const id = text(data, "request");
+  const creator = actingFor(data);
+  switch (text(data, "step")) {
+    case "start":
+      return run("start_review", { p_id: id, p_creator_slug: creator }, "It's yours. Send the review when you're done.");
+    case "release":
+      return run("release_review", { p_id: id, p_creator_slug: creator }, "Put back in the queue.");
+    case "new_link":
+      return run(
+        "ask_for_new_link",
+        { p_id: id, p_note: text(data, "note"), p_creator_slug: creator },
+        "Sent back. It comes back to you when they add a new link.",
+      );
+    default:
+      return { message: reviewErrorMessage(undefined) };
+  }
 }
 
-/** Saves the call link, or closes a session as done (recording + plan) or missed. */
-export async function updateSession(_prev: CreatorFormState, data: FormData): Promise<CreatorFormState> {
-  const status = text(data, "status");
-  if (!["booked", "completed", "missed"].includes(status)) return { message: "Something went wrong. Please try again." };
-  const plan = data.getAll("plan").map(String);
+/** Sends the finished review: written notes and/or a video link, and a 1–3 point plan. */
+export async function sendReview(_prev: CreatorFormState, data: FormData): Promise<CreatorFormState> {
+  const plan = data.getAll("plan").map((item) => String(item).trim()).filter(Boolean);
+  if (plan.length === 0) return { message: reviewErrorMessage("plan_required") };
+  const recordingUrl = text(data, "recordingUrl");
+  if (recordingUrl && !/^https:\/\/\S+$/.test(recordingUrl)) return { message: reviewErrorMessage("bad_recording_url") };
+  const notes = text(data, "notes");
+  if (!notes && !recordingUrl) return { message: "Write the review or add a video link (or both)." };
 
-  const supabase = await creatorClient();
-  const { error } = await supabase.rpc("update_review", {
-    p_booking_id: text(data, "booking"),
-    p_status: status,
-    p_meeting_url: data.has("meetingUrl") ? text(data, "meetingUrl") : null,
-    p_recording_url: data.has("recordingUrl") ? text(data, "recordingUrl") : null,
-    p_title: data.has("title") ? text(data, "title") : null,
-    p_plan: status === "completed" ? plan : null,
-  });
-  if (error) return { message: reviewErrorMessage(error.message) };
-
-  revalidatePath("/creator");
-  return { ok: status === "completed" ? "Saved. The member can see their plan now." : status === "missed" ? "Marked as missed." : "Saved." };
+  return run(
+    "complete_review",
+    {
+      p_id: text(data, "request"),
+      p_title: text(data, "title"),
+      p_notes: notes,
+      p_recording_url: recordingUrl,
+      p_plan: plan,
+      p_creator_slug: actingFor(data),
+    },
+    "Sent. The member can see their review now.",
+  );
 }

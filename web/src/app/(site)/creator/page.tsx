@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CalendarDays, CalendarPlus, ClipboardList, History, Trash2, Users } from "lucide-react";
-import { removeSlot } from "@/app/(site)/creator/actions";
-import { AddTimes } from "@/components/creator/AddTimes";
-import { SessionCard, type SessionView } from "@/components/creator/SessionCard";
-import { DashboardHeading, DashPanel } from "@/components/dashboard/DashboardBits";
+import { ClipboardList, Eye, History, Inbox, Unlink } from "lucide-react";
+import { ReviewCard, type ReviewCardView } from "@/components/creator/ReviewCard";
+import { DashboardHeading } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { getContent } from "@/lib/content";
-import { getCreatorReviews } from "@/lib/reviews";
-import { ukDay, ukLongDay, ukShortDay, ukTime } from "@/lib/ukTime";
+import { getCreatorReviews, type ReviewRequest } from "@/lib/reviews";
+import { ukShortDay } from "@/lib/ukTime";
 import { canRunReviews, getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Creator hub", robots: { index: false } };
@@ -24,7 +22,7 @@ function Gate({ title, text, action }: { title: string; text: string; action?: R
   );
 }
 
-/** Creators run their gameplay reviews here: free times, booked sessions, plans. Admins can pick any creator. */
+/** Creators run their gameplay reviews here: the queue of matches, the ones they're reviewing, and recent ones. Admins can pick any creator. */
 export default async function CreatorHubPage({ searchParams }: PageProps<"/creator">) {
   const viewer = await getViewer();
   if (!viewer.isSignedIn) {
@@ -59,26 +57,19 @@ export default async function CreatorHubPage({ searchParams }: PageProps<"/creat
   }
 
   const creator = content.getCreator(slug);
-  const { freeSlots, toRun, past, now } = await getCreatorReviews(slug);
-  const today = ukDay(new Date(now));
-  const lastDay = ukDay(new Date(now + 90 * 86_400_000));
+  const { inReview, waiting, needsLink, done } = await getCreatorReviews(slug);
   // Admins acting for someone else pass the creator to the actions.
   const actingFor = isAdmin && slug !== viewer.creatorSlug ? slug : undefined;
 
-  const sessions: SessionView[] = toRun.map((booking) => ({
-    id: booking.id,
-    memberName: booking.memberName,
-    when: `${ukLongDay(booking.startsAt)} · ${ukTime(booking.startsAt)}`,
-    started: new Date(booking.startsAt).getTime() <= now,
-    matchUrl: booking.matchUrl,
-    focus: booking.focus,
-    meetingUrl: booking.meetingUrl,
-  }));
-
-  const slotsByDay = freeSlots.reduce<Record<string, typeof freeSlots>>((groups, slot) => {
-    (groups[ukDay(slot.startsAt)] ??= []).push(slot);
-    return groups;
-  }, {});
+  const view = (request: ReviewRequest): ReviewCardView => ({
+    id: request.id,
+    memberName: request.memberName,
+    sent: `Sent ${ukShortDay(request.createdAt)}`,
+    forAnyLad: !request.requestedSlug,
+    status: request.status === "in_review" ? "in_review" : "waiting",
+    matchUrl: request.matchUrl,
+    focus: request.focus,
+  });
 
   return (
     <div className="page-container flex flex-col gap-8 pt-10 pb-20">
@@ -89,7 +80,7 @@ export default async function CreatorHubPage({ searchParams }: PageProps<"/creat
             Gameplay reviews{creator && <span className="text-primary"> · {creator.name}</span>}
           </>
         }
-        description="Add the times you're free, run your sessions, then send each member a short plan. All times are UK time."
+        description="Members send a match whenever they like. Pick one up when you're free, watch it, then send a written review (and a video if you like) with a 3-point plan."
       />
 
       {isAdmin && (
@@ -120,104 +111,87 @@ export default async function CreatorHubPage({ searchParams }: PageProps<"/creat
         </p>
       )}
 
-      <section aria-labelledby="sessions-heading" className="flex flex-col gap-4">
-        <h2 id="sessions-heading" className="flex items-center gap-2 font-display text-lg font-extrabold uppercase">
-          <Users aria-hidden className="size-5 text-primary" />
-          Booked sessions
-          <span className="tabular text-xs text-muted">{sessions.length}</span>
+      <section aria-labelledby="reviewing-heading" className="flex flex-col gap-4">
+        <h2 id="reviewing-heading" className="flex items-center gap-2 font-display text-lg font-extrabold uppercase">
+          <Eye aria-hidden className="size-5 text-primary" />
+          You&apos;re reviewing
+          <span className="tabular text-xs text-muted">{inReview.length}</span>
         </h2>
-        {sessions.length === 0 ? (
+        {inReview.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-white/12 p-6 text-sm text-muted">
-            No sessions booked yet. Members can book any free time you add below.
+            Nothing in progress. Start one from the queue below.
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {sessions.map((session) => (
-              <SessionCard key={session.id} session={session} />
+            {inReview.map((request) => (
+              <ReviewCard key={request.id} review={view(request)} creator={actingFor} />
             ))}
           </div>
         )}
       </section>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        <DashPanel
-          id="add-times-heading"
-          title="Add free times"
-          icon={<CalendarPlus aria-hidden className="size-5 text-primary" />}
-          className="lg:col-span-7"
-        >
-          <AddTimes today={today} lastDay={lastDay} creator={actingFor} />
-        </DashPanel>
+      <section aria-labelledby="queue-heading" className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <h2 id="queue-heading" className="flex items-center gap-2 font-display text-lg font-extrabold uppercase">
+            <Inbox aria-hidden className="size-5 text-primary" />
+            Waiting for a Lad
+            <span className="tabular text-xs text-muted">{waiting.length}</span>
+          </h2>
+          <p className="text-sm text-muted">Oldest first. Matches sent to you, plus ones for any Lad.</p>
+        </div>
+        {waiting.length === 0 ? (
+          <p className="rounded-2xl border border-dashed border-white/12 p-6 text-sm text-muted">The queue is empty. Nice work.</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {waiting.map((request) => (
+              <ReviewCard key={request.id} review={view(request)} creator={actingFor} />
+            ))}
+          </div>
+        )}
+      </section>
 
-        <DashPanel
-          id="free-times-heading"
-          title="Your free times"
-          icon={<CalendarDays aria-hidden className="size-5 text-primary" />}
-          className="lg:col-span-5"
-        >
-          {freeSlots.length === 0 ? (
-            <p className="text-sm text-muted">None yet. Add some on the left.</p>
-          ) : (
-            <ul className="flex flex-col gap-4">
-              {Object.entries(slotsByDay).map(([day, slots]) => (
-                <li key={day} className="flex flex-col gap-2">
-                  <p className="text-label text-mint">{ukLongDay(slots[0].startsAt)}</p>
-                  <ul className="flex flex-wrap gap-2">
-                    {slots.map((slot) => (
-                      <li key={slot.id}>
-                        <form action={removeSlot} className="flex">
-                          <input type="hidden" name="slot" value={slot.id} />
-                          <span className="tabular rounded-l-lg border border-r-0 border-white/10 bg-surface px-3 py-1.5 text-sm">
-                            {ukTime(slot.startsAt)}
-                          </span>
-                          <button
-                            type="submit"
-                            aria-label={`Remove ${ukShortDay(slot.startsAt)} ${ukTime(slot.startsAt)}`}
-                            className="flex items-center rounded-r-lg border border-white/10 px-2 text-muted hover:border-danger/50 hover:text-danger-soft"
-                          >
-                            <Trash2 aria-hidden className="size-3.5" />
-                          </button>
-                        </form>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          )}
-        </DashPanel>
-      </div>
+      {needsLink.length > 0 && (
+        <section aria-labelledby="link-heading" className="flex flex-col gap-3">
+          <h2 id="link-heading" className="flex items-center gap-2 font-display text-lg font-extrabold uppercase">
+            <Unlink aria-hidden className="size-5 text-gold" />
+            Waiting for a new link
+            <span className="tabular text-xs text-muted">{needsLink.length}</span>
+          </h2>
+          <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {needsLink.map((request) => (
+              <li key={request.id} className="rounded-xl border border-gold/30 bg-gold/5 p-4 text-sm">
+                <p className="font-bold">{request.memberName}</p>
+                <p className="text-muted">&ldquo;{request.creatorNote}&rdquo;</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section aria-labelledby="past-heading" className="flex flex-col gap-4">
         <h2 id="past-heading" className="flex items-center gap-2 font-display text-lg font-extrabold uppercase">
           <History aria-hidden className="size-5 text-primary" />
-          Done in the last 90 days
-          <span className="tabular text-xs text-muted">{past.length}</span>
+          Sent in the last 90 days
+          <span className="tabular text-xs text-muted">{done.length}</span>
         </h2>
-        {past.length === 0 ? (
-          <p className="text-sm text-muted">Finished sessions show up here.</p>
+        {done.length === 0 ? (
+          <p className="text-sm text-muted">Reviews you send show up here.</p>
         ) : (
           <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {past.map((booking) => (
-              <li key={booking.id} className="flex flex-col gap-2 rounded-xl border border-white/8 bg-[#0f141b] p-4 text-sm">
+            {done.map((request) => (
+              <li key={request.id} className="flex flex-col gap-2 rounded-xl border border-white/8 bg-[#0f141b] p-4 text-sm">
                 <p className="flex items-center justify-between gap-2">
-                  <span className="font-bold">{booking.memberName}</span>
-                  <span
-                    className={cn(
-                      "tabular rounded px-2 py-0.5 text-[10px] font-bold uppercase",
-                      booking.status === "missed" ? "bg-danger/15 text-danger-soft" : "bg-primary/15 text-mint",
-                    )}
-                  >
-                    {booking.status === "missed" ? "Missed" : "Done"}
-                  </span>
+                  <span className="font-bold">{request.memberName}</span>
+                  <span className="tabular rounded bg-primary/15 px-2 py-0.5 text-[10px] font-bold text-mint uppercase">Sent</span>
                 </p>
                 <p className="tabular text-xs text-muted">
-                  {ukShortDay(booking.startsAt)} · {ukTime(booking.startsAt)}
+                  {request.completedAt ? ukShortDay(request.completedAt) : ""}
+                  {request.title ? ` · ${request.title}` : ""}
                 </p>
-                {booking.plan.length > 0 && (
+                {request.plan.length > 0 && (
                   <p className="flex items-start gap-1.5 text-muted">
                     <ClipboardList aria-hidden className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                    {booking.plan.join(" · ")}
+                    {request.plan.join(" · ")}
                   </p>
                 )}
               </li>

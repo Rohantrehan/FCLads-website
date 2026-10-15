@@ -70,7 +70,7 @@ export function CreatorEditor({ base, row }: { base: string; row?: CreatorRow })
         <TextArea label="Bio" value={creator.bio ?? ""} onChange={(value) => set("bio", value)} rows={4} maxLength={800} />
         <TextField
           label="Gameplay reviews: what they review best"
-          hint="leave empty if they don't take review bookings"
+          hint="leave empty if they don't take reviews"
           value={creator.reviewSpecialty ?? ""}
           onChange={(value) => set("reviewSpecialty", value)}
           maxLength={80}

@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { ArrowUpRight, CalendarClock, Check, CheckCircle2, ClipboardList, History, Info, Link2, Play, Video } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, CalendarClock, Check, ClipboardList, Eye, History, Hourglass, Info, Link2, Play } from "lucide-react";
 import { CancelReview } from "@/components/dashboard/CancelReview";
 import { DashboardHeading, MembersOnly, ProgressBar } from "@/components/dashboard/DashboardBits";
-import { ReviewBooking, type ReviewerOption, type SlotOption } from "@/components/dashboard/ReviewBooking";
+import { EditMatchForm, SendReviewForm, type ReviewerOption } from "@/components/dashboard/ReviewForm";
 import { cn } from "@/lib/cn";
 import { getContent } from "@/lib/content";
-import { canCancel, CANCEL_BEFORE_HOURS, getMemberReviews, getOpenSlots, type ReviewBooking as Booking } from "@/lib/reviews";
-import { ukDay, ukLongDay, ukMonthName, ukMonthStart, ukNextMonthStart, ukShortDay, ukTime } from "@/lib/ukTime";
+import { canChange, getMemberReviews, REVIEW_STEPS, type ReviewRequest as Request } from "@/lib/reviews";
+import { ukDay, ukMonthName, ukMonthStart, ukNextMonthStart, ukShortDay } from "@/lib/ukTime";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "My Review" };
 
-const steps = [
-  { key: "book", title: "Book your session" },
-  { key: "session", title: "Go through your match" },
-  { key: "plan", title: "Get your plan" },
-] as const;
+const steps = REVIEW_STEPS.map((title) => ({ key: title, title }));
 
 const fullDate = (iso: string) => `${ukShortDay(iso)} ${ukDay(iso).slice(0, 4)}`;
 
@@ -34,61 +30,61 @@ function ExternalLink({ href, children }: { href: string; children: ReactNode })
   );
 }
 
-/** "You're booked in": time, Lad, call link, match and cancel. */
-function BookedCard({ booking, lad, now }: { booking: Booking; lad?: string; now: number }) {
-  const started = new Date(booking.startsAt).getTime() <= now;
+/** The open request: waiting, being reviewed, or needs a new link. */
+function OpenRequestCard({ request, lad }: { request: Request; lad?: string }) {
+  const who = lad ?? "One of the Lads";
+  const state = {
+    waiting: {
+      icon: Hourglass,
+      title: "Match sent",
+      text: lad
+        ? `${lad} will pick it up when they're free. You'll see the review here.`
+        : "The first Lad who's free will pick it up. You'll see the review here.",
+    },
+    in_review: { icon: Eye, title: `${who} is reviewing it`, text: "Your review and plan will appear here when they're done." },
+    fix_link: { icon: AlertTriangle, title: "New link needed", text: `${who} couldn't open your match.` },
+  }[request.status as "waiting" | "in_review" | "fix_link"];
+
   return (
     <section
-      aria-labelledby="booked-heading"
-      className="flex flex-col items-center gap-5 rounded-2xl border border-primary/40 bg-gradient-to-b from-pitch-green/60 to-[#0f141b] p-6 text-center md:p-10"
+      aria-labelledby="open-heading"
+      className={cn(
+        "flex flex-col items-center gap-5 rounded-2xl border bg-gradient-to-b to-[#0f141b] p-6 text-center md:p-10",
+        request.status === "fix_link" ? "border-gold/50 from-gold/10" : "border-primary/40 from-pitch-green/60",
+      )}
     >
-      <CheckCircle2 aria-hidden className="size-12 text-primary" />
-      <h2 id="booked-heading" className="font-display text-2xl font-extrabold uppercase">
-        {started ? "Your session is on now" : "You're booked in"}
+      <state.icon aria-hidden className={cn("size-12", request.status === "fix_link" ? "text-gold" : "text-primary")} />
+      <h2 id="open-heading" className="font-display text-2xl font-extrabold uppercase">
+        {state.title}
       </h2>
-      <p className="max-w-md text-muted">
-        {lad ?? "One of the Lads"} will go through your match with you on{" "}
-        <strong className="text-white">
-          {ukLongDay(booking.startsAt)} at {ukTime(booking.startsAt)}
-        </strong>{" "}
-        (UK time, {booking.durationMinutes} minutes).
-      </p>
+      <p className="max-w-md text-muted">{state.text}</p>
+      {request.status === "fix_link" && request.creatorNote && (
+        <p className="max-w-md rounded-xl border border-gold/30 bg-gold/5 px-4 py-3 text-sm">
+          &ldquo;{request.creatorNote}&rdquo;
+        </p>
+      )}
 
-      <dl className="grid w-full max-w-lg grid-cols-1 gap-3 text-left text-sm sm:grid-cols-2">
-        <div className="rounded-xl border border-white/8 bg-surface p-4">
-          <dt className="text-label mb-1 flex items-center gap-1.5 text-mint">
-            <Video aria-hidden className="size-3.5" />
-            Call link
-          </dt>
-          <dd>
-            {booking.meetingUrl ? (
-              <ExternalLink href={booking.meetingUrl}>Join the call</ExternalLink>
-            ) : (
-              <span className="text-muted">{lad ?? "The Lad"} adds it before the session. Check back here.</span>
-            )}
-          </dd>
+      <div className="w-full max-w-lg rounded-xl border border-white/8 bg-surface p-4 text-left text-sm">
+        <p className="text-label mb-1 flex items-center gap-1.5 text-mint">
+          <Link2 aria-hidden className="size-3.5" />
+          Your match · sent {ukShortDay(request.createdAt)}
+        </p>
+        <div className="flex flex-col gap-1">
+          <ExternalLink href={request.matchUrl}>Open the link</ExternalLink>
+          {request.focus && <span className="text-muted">&ldquo;{request.focus}&rdquo;</span>}
         </div>
-        <div className="rounded-xl border border-white/8 bg-surface p-4">
-          <dt className="text-label mb-1 flex items-center gap-1.5 text-mint">
-            <Link2 aria-hidden className="size-3.5" />
-            Your match
-          </dt>
-          <dd className="flex flex-col gap-1">
-            <ExternalLink href={booking.matchUrl}>Open the link</ExternalLink>
-            {booking.focus && <span className="text-muted">&ldquo;{booking.focus}&rdquo;</span>}
-          </dd>
-        </div>
-      </dl>
+      </div>
 
-      {canCancel(booking, now) ? (
-        <CancelReview bookingId={booking.id} />
-      ) : (
-        !started && (
-          <p className="flex items-center gap-2 text-xs text-muted">
-            <Info aria-hidden className="size-3.5" />
-            It&apos;s less than {CANCEL_BEFORE_HOURS} hours away, so it can&apos;t be moved any more.
-          </p>
-        )
+      {canChange(request) && (
+        <div className="flex w-full flex-col items-center gap-3">
+          <EditMatchForm
+            requestId={request.id}
+            matchUrl={request.matchUrl}
+            focus={request.focus}
+            startOpen={request.status === "fix_link"}
+          />
+          <CancelReview requestId={request.id} />
+        </div>
       )}
     </section>
   );
@@ -106,7 +102,7 @@ export default async function DashboardReviewPage() {
       <div className="page-container flex flex-col gap-8 pt-10 pb-20">
         <DashboardHeading eyebrow="My review" title="Monthly gameplay review" description="Preview mode." />
         <p className="rounded-2xl border border-dashed border-white/12 p-8 text-center text-muted">
-          Log in with a real FC Lads+ account to book a review. (The design preview has no account.)
+          Log in with a real FC Lads+ account to send a match for review. (The design preview has no account.)
         </p>
       </div>
     );
@@ -117,7 +113,6 @@ export default async function DashboardReviewPage() {
   const nextMonth = new Date(`${ukNextMonthStart(now)}T12:00:00Z`);
   const lastDayThisMonth = new Date(nextMonth.getTime() - 86_400_000);
 
-  const slots = await getOpenSlots();
   const reviewerOptions: ReviewerOption[] = content.creators
     .filter((creator) => creator.reviewSpecialty)
     .map((creator) => ({
@@ -125,26 +120,20 @@ export default async function DashboardReviewPage() {
       name: creator.name,
       initials: creator.initials,
       role: creator.role,
-      ovr: creator.ovr,
       specialty: creator.reviewSpecialty ?? "",
     }));
-  const reviewerSlugs = new Set(reviewerOptions.map((option) => option.slug));
-  const slotOptions: SlotOption[] = slots
-    .filter((slot) => reviewerSlugs.has(slot.creatorSlug))
-    .map((slot) => ({ id: slot.id, creatorSlug: slot.creatorSlug, day: ukDay(slot.startsAt), time: ukTime(slot.startsAt) }));
 
-  const { upcoming, done, left } = reviews;
-  const doneThisMonth = done.some((booking) => booking.reviewMonth === thisMonth);
-  const stepIndex = doneThisMonth ? 3 : upcoming ? 1 : 0;
-  const ladName = (slug: string) => content.getCreator(slug)?.name;
-  const past = reviews.bookings.filter((booking) => booking.status === "completed" || booking.status === "missed");
+  const { open, done, left } = reviews;
+  const doneThisMonth = done.some((request) => request.reviewMonth === thisMonth);
+  const stepIndex = doneThisMonth ? 3 : open ? 1 : 0;
+  const ladName = (slug?: string) => (slug ? content.getCreator(slug)?.name : undefined);
 
   return (
     <div className="page-container flex flex-col gap-8 pt-10 pb-20">
       <DashboardHeading
         eyebrow="My review"
         title="Monthly gameplay review"
-        description="Included with FC Lads+: one of the Lads goes through a match of yours with you, then sends you a plan to fix what's costing you games."
+        description="Included with FC Lads+: send a match any time, one of the Lads reviews it and sends back what's costing you games, with a plan to fix it."
         aside={
           <p className="tabular flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-bold text-mint uppercase">
             {left} of 1 review left this month
@@ -206,30 +195,15 @@ export default async function DashboardReviewPage() {
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="flex min-w-0 flex-col gap-4 lg:col-span-8">
-          {upcoming ? (
-            <BookedCard booking={upcoming} lad={ladName(upcoming.creatorSlug)} now={now.getTime()} />
+          {open ? (
+            <OpenRequestCard request={open} lad={ladName(open.creatorSlug)} />
+          ) : left === 0 ? (
+            <p className="flex items-start gap-2 rounded-xl border border-gold/30 bg-gold/5 p-4 text-sm">
+              <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-gold" />
+              You&apos;ve had this month&apos;s review. Your next one opens on {ukShortDay(nextMonth)}.
+            </p>
           ) : (
-            <>
-              {left === 0 && (
-                <p className="flex items-start gap-2 rounded-xl border border-gold/30 bg-gold/5 p-4 text-sm">
-                  <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-gold" />
-                  You&apos;ve had this month&apos;s review. You can already book next month&apos;s: pick a day from{" "}
-                  {ukShortDay(nextMonth)} onwards.
-                </p>
-              )}
-              {reviewerOptions.length ? (
-                <ReviewBooking
-                  reviewers={reviewerOptions}
-                  slots={slotOptions}
-                  today={ukDay(now)}
-                  usedMonths={reviews.usedMonths}
-                />
-              ) : (
-                <p className="rounded-2xl border border-dashed border-white/12 p-8 text-center text-muted">
-                  The Lads haven&apos;t opened their review calendars yet. Check back soon.
-                </p>
-              )}
-            </>
+            <SendReviewForm reviewers={reviewerOptions} />
           )}
         </div>
 
@@ -242,14 +216,14 @@ export default async function DashboardReviewPage() {
               <History aria-hidden className="size-5 text-primary" />
               Past reviews
             </span>
-            <span className="tabular text-xs text-muted">{past.length}</span>
+            <span className="tabular text-xs text-muted">{done.length}</span>
           </h2>
-          {past.length === 0 && (
+          {done.length === 0 && (
             <p className="rounded-2xl border border-dashed border-white/12 p-5 text-sm text-muted">
-              Your reviews and plans will appear here after your first session.
+              Your reviews and plans will appear here after your first one.
             </p>
           )}
-          {past.map((review) => (
+          {done.map((review) => (
             <article
               key={review.id}
               aria-labelledby={`review-${review.id}-title`}
@@ -258,20 +232,14 @@ export default async function DashboardReviewPage() {
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <h3 id={`review-${review.id}-title`} className="font-bold">
-                    With {ladName(review.creatorSlug) ?? "the Lads"}
+                    By {ladName(review.creatorSlug) ?? "the Lads"}
                   </h3>
-                  <p className="tabular text-[11px] text-muted">{fullDate(review.startsAt)}</p>
+                  <p className="tabular text-[11px] text-muted">{fullDate(review.completedAt ?? review.createdAt)}</p>
                 </div>
-                {review.status === "missed" ? (
-                  <span className="tabular rounded bg-danger/15 px-2 py-0.5 text-[10px] font-bold text-danger-soft uppercase">
-                    Missed
+                {review.title && (
+                  <span className="tabular rounded bg-azure/15 px-2 py-0.5 text-[10px] font-bold text-[#93c5fd] uppercase">
+                    {review.title}
                   </span>
-                ) : (
-                  review.title && (
-                    <span className="tabular rounded bg-azure/15 px-2 py-0.5 text-[10px] font-bold text-[#93c5fd] uppercase">
-                      {review.title}
-                    </span>
-                  )
                 )}
               </div>
               {review.recordingUrl && (
@@ -285,10 +253,16 @@ export default async function DashboardReviewPage() {
                     <Play aria-hidden className="size-4 fill-current" />
                   </span>
                   <span>
-                    <span className="block font-semibold">Session recording</span>
-                    <span className="tabular text-xs text-muted">{review.durationMinutes} min</span>
+                    <span className="block font-semibold">Watch the video review</span>
+                    <span className="text-xs text-muted">Opens in a new tab</span>
                   </span>
                 </a>
+              )}
+              {review.notes && (
+                <details className="group rounded-xl bg-surface p-3 text-sm" open={review === done[0]}>
+                  <summary className="cursor-pointer font-semibold marker:text-primary">Written review</summary>
+                  <p className="mt-2 whitespace-pre-line text-muted">{review.notes}</p>
+                </details>
               )}
               {review.plan.length > 0 && (
                 <div>
@@ -305,9 +279,6 @@ export default async function DashboardReviewPage() {
                     ))}
                   </ol>
                 </div>
-              )}
-              {review.status === "missed" && (
-                <p className="text-sm text-muted">This session was missed, so it used that month&apos;s review.</p>
               )}
             </article>
           ))}

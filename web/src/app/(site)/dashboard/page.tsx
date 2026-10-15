@@ -24,7 +24,7 @@ import {
 import { cn } from "@/lib/cn";
 import { getContent } from "@/lib/content";
 import { getReviewSummary, REVIEW_STEPS } from "@/lib/reviews";
-import { ukLongDay, ukShortDay, ukTime } from "@/lib/ukTime";
+import { ukShortDay } from "@/lib/ukTime";
 import { categoryLabels } from "@/lib/format";
 import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
@@ -97,7 +97,7 @@ export default async function MyFeedPage() {
     .filter((item): item is typeof item & { guide: Guide } => !!item.guide);
   const review = await getReviewSummary(viewer);
   const lastReviewer = review.lastCreatorSlug ? getCreator(review.lastCreatorSlug) : undefined;
-  const nextReviewer = review.upcoming ? getCreator(review.upcoming.creatorSlug) : undefined;
+  const openReviewer = review.open?.creatorSlug ? getCreator(review.open.creatorSlug) : undefined;
 
   return (
     <div className="page-container flex flex-col gap-10 pt-10 pb-20">
@@ -265,24 +265,27 @@ export default async function MyFeedPage() {
               ))}
             </ol>
           </div>
-          {review.upcoming && (
+          {review.open && (
             <p className="flex items-start gap-3 rounded-xl border border-white/8 bg-surface p-4 text-sm">
               <CalendarClock aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
               <span>
                 <span className="block font-semibold">
-                  Booked{nextReviewer ? ` with ${nextReviewer.name}` : ""}: {ukLongDay(review.upcoming.startsAt)},{" "}
-                  {ukTime(review.upcoming.startsAt)}
+                  {review.open.status === "in_review"
+                    ? `${openReviewer?.name ?? "A Lad"} is reviewing your match`
+                    : review.open.status === "fix_link"
+                      ? "Your match link needs fixing"
+                      : `Match sent${openReviewer ? ` to ${openReviewer.name}` : ""}`}
                 </span>
-                <span className="text-muted">UK time. The call link appears on your review page.</span>
+                <span className="text-muted">Your review and plan will appear on your review page.</span>
               </span>
             </p>
           )}
           <div className="flex flex-wrap items-center gap-3">
             <Button href="/dashboard/review" variant="primary">
-              {review.upcoming ? "See your booking" : review.left > 0 ? "Book your session" : "See your plan"}
+              {review.open ? "See your review" : review.left > 0 ? "Send your match" : "See your plan"}
               <ArrowRight aria-hidden className="size-4" />
             </Button>
-            {lastReviewer && !review.upcoming && (
+            {lastReviewer && !review.open && (
               <span className="text-xs text-muted">
                 Last review with {lastReviewer.name}. You can pick anyone this month.
               </span>

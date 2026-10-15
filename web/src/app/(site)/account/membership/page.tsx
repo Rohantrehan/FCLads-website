@@ -115,7 +115,7 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
               />
             </div>
             <Button href="/dashboard/review" variant="glass" size="md" className="w-full">
-              Book my review
+              {review.open ? "See my review" : "Send my match"}
               <ArrowRight aria-hidden className="size-4" />
             </Button>
           </DashPanel>

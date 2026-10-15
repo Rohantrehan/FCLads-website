@@ -5,197 +5,158 @@ import { createClient } from "@/lib/supabase/server";
 import { ukMonthName, ukMonthStart, ukNextMonthStart } from "@/lib/ukTime";
 import type { Viewer } from "@/lib/viewer";
 
-// Monthly gameplay reviews (tables review_slots + review_bookings, see
-// supabase/migrations/20261014000000_review_bookings.sql). Row-level security decides what each
-// person can read; every change goes through the database functions in the review actions.
+// Monthly gameplay reviews (table review_requests, see
+// supabase/migrations/20261015000200_review_requests.sql). A member sends a match any time; a Lad picks
+// it up when they're free. Row-level security decides what each person can read; every change goes
+// through the database functions in the review actions.
 
-export type ReviewStatus = "booked" | "completed" | "missed" | "cancelled";
+export type ReviewStatus = "waiting" | "in_review" | "fix_link" | "done" | "cancelled";
 
-export interface ReviewBooking {
+export interface ReviewRequest {
   id: string;
-  creatorSlug: string;
-  startsAt: string;
-  durationMinutes: number;
-  reviewMonth: string;
   memberName: string;
+  /** The Lad the member asked for; undefined = any Lad. */
+  requestedSlug?: string;
+  /** The Lad handling it (requested, or whoever picked it up). */
+  creatorSlug?: string;
+  reviewMonth: string;
   status: ReviewStatus;
   matchUrl: string;
   focus: string;
-  meetingUrl?: string;
-  recordingUrl?: string;
+  /** Why the Lad needs a new link. */
+  creatorNote?: string;
   title?: string;
+  notes?: string;
+  recordingUrl?: string;
   plan: string[];
-}
-
-export interface ReviewSlot {
-  id: string;
-  creatorSlug: string;
-  startsAt: string;
-  durationMinutes: number;
-  /** Set on the Creator hub when the slot is booked. */
-  bookingId?: string;
+  createdAt: string;
+  completedAt?: string;
 }
 
 /** Members get one review per UK calendar month. */
 export const REVIEWS_PER_MONTH = 1;
-/** How far ahead members can book, and how soon a slot can still be booked / cancelled. */
-export const BOOKING_WINDOW_DAYS = 60;
-export const CANCEL_BEFORE_HOURS = 12;
 
-const BOOKING_COLUMNS =
-  "id, creator_slug, starts_at, duration_minutes, review_month, member_name, status, match_url, focus, meeting_url, recording_url, title, plan";
+const COLUMNS =
+  "id, member_name, requested_slug, creator_slug, review_month, status, match_url, focus, creator_note, title, notes, recording_url, plan, created_at, completed_at";
 
-interface BookingRow {
+interface Row {
   id: string;
-  creator_slug: string;
-  starts_at: string;
-  duration_minutes: number;
-  review_month: string;
   member_name: string;
+  requested_slug: string | null;
+  creator_slug: string | null;
+  review_month: string;
   status: ReviewStatus;
   match_url: string;
   focus: string;
-  meeting_url: string | null;
-  recording_url: string | null;
+  creator_note: string | null;
   title: string | null;
+  notes: string | null;
+  recording_url: string | null;
   plan: string[] | null;
+  created_at: string;
+  completed_at: string | null;
 }
 
-const toBooking = (row: BookingRow): ReviewBooking => ({
+const toRequest = (row: Row): ReviewRequest => ({
   id: row.id,
-  creatorSlug: row.creator_slug,
-  startsAt: row.starts_at,
-  durationMinutes: row.duration_minutes,
-  reviewMonth: row.review_month,
   memberName: row.member_name,
+  requestedSlug: row.requested_slug ?? undefined,
+  creatorSlug: row.creator_slug ?? undefined,
+  reviewMonth: row.review_month,
   status: row.status,
   matchUrl: row.match_url,
   focus: row.focus,
-  meetingUrl: row.meeting_url ?? undefined,
-  recordingUrl: row.recording_url ?? undefined,
+  creatorNote: row.creator_note ?? undefined,
   title: row.title ?? undefined,
+  notes: row.notes ?? undefined,
+  recordingUrl: row.recording_url ?? undefined,
   plan: row.plan ?? [],
+  createdAt: row.created_at,
+  completedAt: row.completed_at ?? undefined,
 });
 
-interface SlotRow {
-  id: string;
-  creator_slug: string;
-  starts_at: string;
-  duration_minutes: number;
-  booking_id: string | null;
-}
+const OPEN: ReviewStatus[] = ["waiting", "in_review", "fix_link"];
+export const isOpen = (request: ReviewRequest) => OPEN.includes(request.status);
+/** The member can still change the link or cancel. */
+export const canChange = (request: ReviewRequest) => request.status === "waiting" || request.status === "fix_link";
 
-const toSlot = (row: SlotRow): ReviewSlot => ({
-  id: row.id,
-  creatorSlug: row.creator_slug,
-  startsAt: row.starts_at,
-  durationMinutes: row.duration_minutes,
-  bookingId: row.booking_id ?? undefined,
-});
-
-/** Session still to come (or happening now): booked and not yet finished. */
-export const isUpcoming = (booking: ReviewBooking, now = Date.now()) =>
-  booking.status === "booked" && new Date(booking.startsAt).getTime() + booking.durationMinutes * 60_000 > now;
-
-export const canCancel = (booking: ReviewBooking, now = Date.now()) =>
-  booking.status === "booked" && new Date(booking.startsAt).getTime() - now >= CANCEL_BEFORE_HOURS * 3_600_000;
-
-/** A member's reviews: all bookings (newest first) and whether this month's review is used. */
+/** A member's reviews (newest first), the open one, and whether this month's review is used. */
 export const getMemberReviews = cache(async (viewer: Viewer) => {
   if (!viewer.id) return undefined;
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("review_bookings")
-    .select(BOOKING_COLUMNS)
+    .from("review_requests")
+    .select(COLUMNS)
     .eq("member_id", viewer.id)
-    .order("starts_at", { ascending: false });
+    .order("created_at", { ascending: false });
   if (error) throw new Error(`Couldn't load reviews: ${error.message}`);
 
-  const bookings = (data as BookingRow[]).map(toBooking);
-  const now = new Date();
-  const thisMonth = ukMonthStart(now);
-  const usedThisMonth = bookings.filter((b) => b.status !== "cancelled" && b.reviewMonth === thisMonth).length;
+  const requests = (data as Row[]).map(toRequest);
+  const thisMonth = ukMonthStart(new Date());
+  const usedThisMonth = requests.filter((r) => r.status !== "cancelled" && r.reviewMonth === thisMonth).length;
   return {
-    bookings,
-    upcoming: bookings.find((booking) => isUpcoming(booking)),
-    done: bookings.filter((booking) => booking.status === "completed"),
+    requests,
+    open: requests.find(isOpen),
+    done: requests.filter((request) => request.status === "done"),
     left: Math.max(REVIEWS_PER_MONTH - usedThisMonth, 0),
-    /** Months (first day) that already have a review, so those days can't be booked. */
-    usedMonths: [...new Set(bookings.filter((b) => b.status !== "cancelled").map((b) => b.reviewMonth))],
   };
 });
 
-export const REVIEW_STEPS = ["Book your session", "Go through your match", "Get your plan"] as const;
+export const REVIEW_STEPS = ["Send your match", "A Lad reviews it", "Get your plan"] as const;
 
 /** Short review status for the dashboard and account pages. Works in the design preview too (no account). */
 export async function getReviewSummary(viewer: Viewer) {
   const reviews = await getMemberReviews(viewer);
   const now = new Date();
   const thisMonth = ukMonthStart(now);
-  const doneThisMonth = reviews?.done.some((booking) => booking.reviewMonth === thisMonth) ?? false;
+  const doneThisMonth = reviews?.done.some((request) => request.reviewMonth === thisMonth) ?? false;
   const nextMonth = new Date(`${ukNextMonthStart(now)}T12:00:00Z`);
   return {
     left: reviews?.left ?? REVIEWS_PER_MONTH,
     used: REVIEWS_PER_MONTH - (reviews?.left ?? REVIEWS_PER_MONTH),
     total: REVIEWS_PER_MONTH,
-    upcoming: reviews?.upcoming,
+    open: reviews?.open,
     lastCreatorSlug: reviews?.done[0]?.creatorSlug,
     month: ukMonthName(now),
     /** Last day of this month (noon UTC, safe to format as a UK date). */
     lastDay: new Date(nextMonth.getTime() - 86_400_000),
     nextMonth,
-    /** 0 = book, 1 = session, 2 = plan, 3 = all done this month. */
-    stepIndex: doneThisMonth ? 3 : reviews?.upcoming ? 1 : 0,
+    /** 0 = send, 1 = being reviewed, 2 = plan, 3 = all done this month. */
+    stepIndex: doneThisMonth ? 3 : reviews?.open ? 1 : 0,
   };
 }
 
-/** Free times members can book (row-level security only returns open, future slots to members). */
-export async function getOpenSlots() {
-  const supabase = await createClient();
-  const from = new Date(Date.now() + 2 * 3_600_000).toISOString();
-  const to = new Date(Date.now() + BOOKING_WINDOW_DAYS * 86_400_000).toISOString();
-  const { data, error } = await supabase
-    .from("review_slots")
-    .select("id, creator_slug, starts_at, duration_minutes, booking_id")
-    .is("booking_id", null)
-    .gte("starts_at", from)
-    .lte("starts_at", to)
-    .order("starts_at");
-  if (error) throw new Error(`Couldn't load free times: ${error.message}`);
-  return (data as SlotRow[]).map(toSlot);
-}
-
-/** Everything the Creator hub shows for one creator: their future slots and their bookings. */
+/** Everything the Creator hub shows for one creator: their queue, what they're reviewing, and recent ones. */
 export async function getCreatorReviews(creatorSlug: string) {
   const supabase = await createClient();
   const since = new Date(Date.now() - 90 * 86_400_000).toISOString();
-  const [slots, bookings] = await Promise.all([
+  const [open, recent] = await Promise.all([
     supabase
-      .from("review_slots")
-      .select("id, creator_slug, starts_at, duration_minutes, booking_id")
-      .eq("creator_slug", creatorSlug)
-      .gte("starts_at", new Date().toISOString())
-      .order("starts_at"),
+      .from("review_requests")
+      .select(COLUMNS)
+      .in("status", OPEN)
+      .or(`creator_slug.eq.${creatorSlug},creator_slug.is.null`)
+      .order("created_at"),
     supabase
-      .from("review_bookings")
-      .select(BOOKING_COLUMNS)
+      .from("review_requests")
+      .select(COLUMNS)
       .eq("creator_slug", creatorSlug)
-      .neq("status", "cancelled")
-      .gte("starts_at", since)
-      .order("starts_at"),
+      .eq("status", "done")
+      .gte("completed_at", since)
+      .order("completed_at", { ascending: false }),
   ]);
-  if (slots.error) throw new Error(`Couldn't load free times: ${slots.error.message}`);
-  if (bookings.error) throw new Error(`Couldn't load bookings: ${bookings.error.message}`);
+  if (open.error) throw new Error(`Couldn't load reviews: ${open.error.message}`);
+  if (recent.error) throw new Error(`Couldn't load reviews: ${recent.error.message}`);
 
-  const all = (bookings.data as BookingRow[]).map(toBooking);
-  const now = Date.now();
+  const requests = (open.data as Row[]).map(toRequest);
   return {
-    freeSlots: (slots.data as SlotRow[]).map(toSlot).filter((slot) => !slot.bookingId),
-    /** Booked sessions still to run, soonest first. Includes ones that have started but not been closed. */
-    toRun: all.filter((booking) => booking.status === "booked"),
-    /** Done or missed, newest first. */
-    past: all.filter((booking) => booking.status !== "booked").reverse(),
-    now,
+    /** Being reviewed by this creator, oldest first. */
+    inReview: requests.filter((request) => request.status === "in_review" && request.creatorSlug === creatorSlug),
+    /** Waiting for this creator or for any Lad, oldest first. */
+    waiting: requests.filter((request) => request.status === "waiting"),
+    /** Sent back for a new link, waiting on the member. */
+    needsLink: requests.filter((request) => request.status === "fix_link" && request.creatorSlug === creatorSlug),
+    done: (recent.data as Row[]).map(toRequest),
   };
 }
 
@@ -205,38 +166,39 @@ export function reviewErrorMessage(code: string | undefined) {
     case "not_signed_in":
       return "Log in again to continue.";
     case "not_member":
-      return "Reviews are part of FC Lads+. Start your free trial to book one.";
+      return "Reviews are part of FC Lads+. Start your free trial to get one.";
     case "bad_match_url":
       return "Paste a link to your match that starts with https:// (YouTube, Google Drive, Medal…).";
     case "focus_too_long":
       return "Keep the note under 500 characters.";
-    case "slot_taken":
-      return "Someone just booked that time. Pick another one.";
-    case "slot_too_soon":
-      return "That time is too soon. Pick one at least 2 hours from now.";
-    case "already_booked":
-      return "You already have a session booked. Cancel it first if you want a different time.";
+    case "bad_creator":
+      return "That Lad isn't taking reviews right now. Pick another one.";
+    case "already_open":
+      return "You already have a review in progress. Wait for it to finish first.";
     case "month_used":
-      return "You've already had your review for that month. Pick a time in a month you haven't used yet.";
-    case "too_late_to_cancel":
-      return `Sessions can only be cancelled or moved up to ${CANCEL_BEFORE_HOURS} hours before they start.`;
+      return "You've already had this month's review. Your next one opens on the 1st.";
+    case "already_started":
+      return "A Lad has already started your review, so it can't be changed now.";
     case "not_creator":
       return "Only creators can do this.";
-    case "bad_times":
-      return "Pick at least one time.";
-    case "too_far_ahead":
-      return "You can add times up to 90 days ahead.";
-    case "not_started":
-      return "You can mark a session done or missed once it has started.";
+    case "not_available":
+      return "Someone else has picked this one up, or the member changed it. Refresh the page.";
+    case "note_required":
+      return "Say what's wrong with the link so they can fix it.";
+    case "note_too_long":
+      return "Keep the note under 300 characters.";
     case "plan_required":
       return "Add at least one point to the plan.";
     case "plan_too_long":
       return "The plan can have up to 3 points.";
-    case "bad_meeting_url":
+    case "plan_item_too_long":
+      return "Keep each plan point under 300 characters.";
+    case "notes_too_long":
+      return "Keep the written review under 4,000 characters.";
+    case "title_too_long":
+      return "Keep the title under 80 characters.";
     case "bad_recording_url":
-      return "Links must start with https://";
-    case "cancelled":
-      return "That session was cancelled by the member.";
+      return "The video link must start with https://";
     default:
       return "Something went wrong. Please try again.";
   }

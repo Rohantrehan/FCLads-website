@@ -1,8 +1,10 @@
-// Drives headless Edge via CDP through a real gameplay review booking against Supabase, with the QA
-// test accounts in web/.env.local (free, member, creator linked to "stefan"). Needs DEV_VIEWER unset.
-// Creator adds free times → member books → creator adds the call link → member cancels → creator
-// removes the times. Leaves only a cancelled booking row behind (delete it with SQL if you like).
+// Drives headless Edge via CDP through a real gameplay review against Supabase, with the QA test
+// accounts in web/.env.local (free, member, creator linked to "stefan"). Needs DEV_VIEWER unset and
+// SUPABASE_SECRET_KEY (used only to clear the QA member's review requests before and after).
+// Member sends a match → changes the link → creator starts it → asks for a new link → member fixes it
+// → creator sends the review → member sees review and plan. Leaves nothing behind.
 import { spawn } from "node:child_process";
+import { createClient } from "@supabase/supabase-js";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -42,11 +44,18 @@ await send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1000, de
 
 // Test accounts live in web/.env.local (QA_* lines), never in this file.
 const env = Object.fromEntries(
-  readFileSync(resolve(".env.local"), "utf8").split(/\r?\n/).filter((l) => /^QA_\w+=/.test(l)).map((l) => [l.slice(0, l.indexOf("=")), l.slice(l.indexOf("=") + 1)]),
+  readFileSync(resolve(".env.local"), "utf8").split(/\r?\n/).filter((l) => /^(QA_\w+|NEXT_PUBLIC_SUPABASE_\w+|SUPABASE_SECRET_KEY)=/.test(l)).map((l) => [l.slice(0, l.indexOf("=")), l.slice(l.indexOf("=") + 1)]),
 );
-if (!env.QA_FREE_EMAIL || !env.QA_MEMBER_EMAIL || !env.QA_CREATOR_EMAIL) {
-  console.log("FAIL  QA_* test accounts missing from .env.local"); edge.kill(); process.exit(0);
+if (!env.QA_FREE_EMAIL || !env.QA_MEMBER_EMAIL || !env.QA_CREATOR_EMAIL || !env.SUPABASE_SECRET_KEY) {
+  console.log("FAIL  QA_* test accounts or SUPABASE_SECRET_KEY missing from .env.local"); edge.kill(); process.exit(0);
 }
+
+// Clears the QA member's review requests (one a month, so each run starts fresh).
+const memberClient = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
+const { data: memberLogin } = await memberClient.auth.signInWithPassword({ email: env.QA_MEMBER_EMAIL, password: env.QA_MEMBER_PASSWORD });
+const db = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SECRET_KEY, { auth: { persistSession: false } });
+const clearMemberReviews = () => db.from("review_requests").delete().eq("member_id", memberLogin.user.id);
+await clearMemberReviews();
 
 const go = async (path, wait = 3500) => { await send("Page.navigate", { url: `http://localhost:3000${path}` }); await sleep(wait); };
 const url = () => evaluate("location.pathname + location.search");
@@ -66,14 +75,13 @@ const logIn = async (email, password, next = "") => {
   await clickOn(`document.querySelector('main form button[type=submit]')`, 6000);
 };
 
-// A day two days from now (UK), and how the member calendar labels it.
-const ukDay = (d) => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
-const DAY = ukDay(new Date(Date.now() + 2 * 86_400_000));
-const DAY_LABEL = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }).format(new Date(`${DAY}T00:00:00Z`));
-const SAME_MONTH = DAY.slice(0, 7) === ukDay(new Date()).slice(0, 7);
+const STAMP = Date.now().toString(36);
+const mainText = () => evaluate("document.querySelector('main').textContent");
+const card = `[...document.querySelectorAll('main article')].find(a=>a.textContent.includes(${JSON.stringify(STAMP)}))`;
+const cardButton = (pattern) => `[...(${card}?.querySelectorAll('button') ?? [])].find(b=>${pattern}.test(b.textContent))`;
 
 try {
-  // ---- Who can see the Creator hub
+  // ---- Who can see what
   await send("Network.clearBrowserCookies");
   await go("/creator");
   check("logged out: Creator hub asks to log in", /Log in with your creator account/.test(await text()));
@@ -81,74 +89,76 @@ try {
   await go("/creator");
   check("free user: Creator hub is creators only", /Creators only/.test(await text()));
   await go("/dashboard/review");
-  check("free user: review page is members only", !/Book my session/.test(await text()) && !/Choose a Lad/.test(await text()));
+  check("free user: review page is members only", !/Send my match/.test(await text()) && !/Choose a Lad/.test(await text()));
 
-  // ---- Creator adds two free times
-  await logIn(env.QA_CREATOR_EMAIL, env.QA_CREATOR_PASSWORD, "?next=/creator");
-  check("creator lands on the Creator hub", (await url()) === "/creator", await url());
-  check("header shows Creator hub link", await evaluate(`[...document.querySelectorAll('header a')].some(a=>a.textContent.trim()==='Creator hub')`));
-  await evaluate(`(() => { const el=document.querySelector('input[name=day]'); const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set; set.call(el,'${DAY}'); el.dispatchEvent(new Event('input',{bubbles:true})); })()`);
-  await clickOn(`[...document.querySelectorAll('label')].find(l=>l.textContent.trim()==='20:00')`);
-  await clickOn(`[...document.querySelectorAll('label')].find(l=>l.textContent.trim()==='20:30')`);
-  const addLabel = await evaluate(`${button("/Add \\d+ time/")}?.textContent`);
-  check("add button counts the picked times", /Add 2 times/.test(addLabel ?? ""), addLabel);
-  await clickOn(button("/Add \\d+ time/"), 500);
-  check("times saved", await waitFor(`/Added 2 free times|already free/.test(document.querySelector('main').textContent)`));
-  await go("/creator");
-  check("free times list shows them", await evaluate(`[...document.querySelectorAll('button[aria-label^="Remove "]')].filter(b=>/20:00|20:30/.test(b.getAttribute('aria-label'))).length >= 2`));
-
-  // ---- Member books 20:00
+  // ---- Member sends a match (no booking, no times)
   await logIn(env.QA_MEMBER_EMAIL, env.QA_MEMBER_PASSWORD, "?next=/dashboard/review");
   check("member lands on the review page", (await url()) === "/dashboard/review", await url());
   const before = await text();
   check("one review left this month", /1 of 1 review left this month/.test(before));
-  check("Stefan is picked (he has free times)", await evaluate(`[...document.querySelectorAll('input[type=radio]')].find(i=>i.value==='stefan')?.checked`));
-  if (!(await evaluate(`!!document.querySelector('button[aria-label^="${DAY_LABEL}"]')`))) await clickOn(`document.querySelector('button[aria-label="Next month"]')`);
-  check("the day is open", (await evaluate(`document.querySelector('button[aria-label^="${DAY_LABEL}"]')?.disabled`)) === false, DAY_LABEL);
-  await clickOn(`document.querySelector('button[aria-label^="${DAY_LABEL}"]')`);
-  check("day shows both times", /20:00/.test(await text()) && /20:30/.test(await text()));
-  await clickOn(`[...document.querySelectorAll('main label')].find(l=>/20:00/.test(l.textContent)&&l.querySelector('input[type=radio]'))`);
+  check("no calendar or times any more", !(await evaluate(`!!document.querySelector('button[aria-label="Next month"]')`)) && !/Free times/.test(before));
+  check("Any Lad is picked by default", await evaluate(`document.querySelector('input[name=lad][value=any]')?.checked`));
   await clickOn(`document.querySelector('main form button[type=submit]')`, 800);
-  check("no match link: plain error, nothing sent", /starts with https:\/\//.test(await text()) && !/You're booked in/.test(await text()));
+  check("no match link: plain error, nothing sent", /starts with https:\/\//.test(await text()) && !/Match sent/.test(await text()));
+  await clickOn(`[...document.querySelectorAll('main label')].find(l=>l.querySelector('input[name=lad][value=stefan]'))`);
+  check("send button names the Lad", /Send to Stefan/.test(await evaluate(`document.querySelector('main form button[type=submit]').textContent`)));
   await typeInto("input[name=matchUrl]", "https://youtu.be/qa-test-match");
-  await typeInto("textarea[name=focus]", "QA test booking: cutbacks");
-  const bookLabel = await evaluate(`document.querySelector('main form button[type=submit]').textContent`);
-  check("book button names Lad and time", /Book with Stefan · .*20:00/.test(bookLabel), bookLabel);
-  await clickOn(`document.querySelector('main form button[type=submit]')`, 6000);
-  const booked = await text();
-  check("booked", /You're booked in/.test(booked) && /at 20:00/.test(booked), booked.slice(0, 120));
-  check("call link not there yet", /adds it before the session/.test(booked));
-  if (SAME_MONTH) check("review chip shows 0 left", /Review: 0 left/.test(await evaluate("document.body.textContent")));
+  await typeInto("textarea[name=focus]", `QA test review ${STAMP}: cutbacks`);
+  await clickOn(`document.querySelector('main form button[type=submit]')`, 500);
+  check("sent", await waitFor(`/Match sent/.test(document.querySelector('main').textContent)`));
+  check("says Stefan will pick it up", /Stefan will pick it up/.test(await mainText()));
+  check("review chip shows 0 left", await waitFor(`/0 of 1 review left/.test(document.body.textContent)`));
 
-  // ---- Creator sees the booking and adds the call link
+  // Member changes the link before anyone starts.
+  await clickOn(button("/Change link or note/"));
+  await evaluate(`document.querySelector('main input[name=matchUrl]').select()`);
+  await send("Input.insertText", { text: "https://youtu.be/qa-test-match-2" });
+  await clickOn(button("/^Save$/"), 500);
+  check("link changed", await waitFor(`[...document.querySelectorAll('main a')].some(a=>a.href==='https://youtu.be/qa-test-match-2')`));
+
+  // ---- Creator picks it up, then asks for a new link
   await logIn(env.QA_CREATOR_EMAIL, env.QA_CREATOR_PASSWORD, "?next=/creator");
-  const hub = await text();
-  check("creator sees the session", /QA Member/.test(hub) && /QA test booking: cutbacks/.test(hub));
-  check("booked time left the free list", await evaluate(`![...document.querySelectorAll('button[aria-label^="Remove "]')].some(b=>/20:00/.test(b.getAttribute('aria-label'))&&b.getAttribute('aria-label').includes('${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(`${DAY}T00:00:00Z`))}'))`));
-  await typeInto("input[name=meetingUrl]", "https://meet.example.com/qa");
-  await clickOn(button("/Save link/"), 4000);
-  check("call link saved", /Saved\./.test(await text()));
+  const hub = await mainText();
+  check("creator: no free-times panel", !/Add free times/.test(hub));
+  check("creator sees it in the queue", /Waiting for a Lad/.test(hub) && hub.includes(`QA test review ${STAMP}`));
+  check("marked as asked for them", await evaluate(`/Asked for you/.test(${card}?.textContent ?? '')`));
+  await clickOn(cardButton("/Start review/"), 500);
+  check("started: now You're reviewing", await waitFor(`/You're reviewing/.test(${card}?.textContent ?? '')`));
+  await clickOn(cardButton("/Link doesn.t work/"));
+  await evaluate(`${card}.querySelector('input[name=note]').focus()`);
+  await send("Input.insertText", { text: "QA: the video is private" });
+  await clickOn(cardButton("/Ask for a new link/"), 500);
+  check("sent back for a new link", await waitFor(`/Waiting for a new link/.test(document.querySelector('main').textContent)`));
 
-  // ---- Member sees the link, then cancels
+  // ---- Member fixes the link
   await logIn(env.QA_MEMBER_EMAIL, env.QA_MEMBER_PASSWORD, "?next=/dashboard/review");
-  check("member sees Join the call", await evaluate(`[...document.querySelectorAll('main a')].some(a=>/Join the call/.test(a.textContent)&&a.href==='https://meet.example.com/qa')`));
-  await clickOn(button("/Cancel or move session/"));
-  check("cancel asks to confirm", /Cancel this session\?/.test(await text()));
-  await clickOn(button("/Yes, cancel it/"), 6000);
-  const after = await text();
-  check("cancelled: booking form is back", /Choose a Lad/.test(after) && /1 of 1 review left this month/.test(after));
+  check("member sees New link needed + note", /New link needed/.test(await mainText()) && /QA: the video is private/.test(await mainText()));
+  await evaluate(`document.querySelector('main input[name=matchUrl]').select()`);
+  await send("Input.insertText", { text: "https://youtu.be/qa-test-match-3" });
+  await clickOn(button("/^Save$/"), 500);
+  check("fixed: back to Match sent", await waitFor(`/Match sent/.test(document.querySelector('main').textContent)`));
 
-  // ---- Creator removes the free times again
+  // ---- Creator sends the review
   await logIn(env.QA_CREATOR_EMAIL, env.QA_CREATOR_PASSWORD, "?next=/creator");
-  check("cancelled session is gone from the hub", !/QA test booking/.test(await text()));
-  for (let i = 0; i < 4; i++) {
-    const removed = await clickOn(`[...document.querySelectorAll('button[aria-label^="Remove "]')].find(b=>/20:00|20:30/.test(b.getAttribute('aria-label')))`, 3500);
-    if (!removed) break;
-  }
-  check("free times removed", await evaluate(`![...document.querySelectorAll('button[aria-label^="Remove "]')].some(b=>/20:00|20:30/.test(b.getAttribute('aria-label')))`));
+  await clickOn(cardButton("/Start review/"), 500);
+  await waitFor(`!!${card}?.querySelector('textarea[name=notes]')`);
+  await clickOn(cardButton("/Send review/"), 2500);
+  check("review without a plan is refused", /at least one point/.test(await mainText()));
+  await evaluate(`${card}.querySelector('input[name=title]').focus()`); await send("Input.insertText", { text: "QA title" });
+  await evaluate(`${card}.querySelector('textarea[name=notes]').focus()`); await send("Input.insertText", { text: "QA written review: hold your shape." });
+  await evaluate(`${card}.querySelector('input[name=plan]').focus()`); await send("Input.insertText", { text: "QA plan point one" });
+  await clickOn(cardButton("/Send review/"), 500);
+  check("review sent: in the last-90-days list", await waitFor(`/QA plan point one/.test(document.querySelector('section[aria-labelledby=past-heading]')?.textContent ?? '')`));
+
+  // ---- Member sees the review
+  await logIn(env.QA_MEMBER_EMAIL, env.QA_MEMBER_PASSWORD, "?next=/dashboard/review");
+  const after = await mainText();
+  check("member sees the plan and written review", /QA plan point one/.test(after) && /QA written review/.test(after));
+  check("month used: can't send another", /had this month.s review/.test(after) && !(await evaluate(`!!document.querySelector('input[name=matchUrl]')`)));
 } catch (error) {
   check("script ran without errors", false, error.message);
 }
+await clearMemberReviews();
 // Leave the shared browser profile logged out for the next script.
 await send("Network.clearBrowserCookies");
 console.log(results.join(String.fromCharCode(10)));

@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { cancelReview, type ReviewFormState } from "@/app/(site)/dashboard/review/actions";
 
 /** Two-step cancel: the first click asks to confirm, so nobody cancels by accident. */
-export function CancelReview({ bookingId }: { bookingId: string }) {
+export function CancelReview({ requestId }: { requestId: string }) {
   const [asking, setAsking] = useState(false);
   const [state, formAction, pending] = useActionState<ReviewFormState, FormData>(cancelReview, {});
 
@@ -15,15 +15,15 @@ export function CancelReview({ bookingId }: { bookingId: string }) {
         onClick={() => setAsking(true)}
         className="text-label rounded-lg border border-white/10 px-4 py-2.5 text-muted transition-colors hover:border-danger/50 hover:text-danger-soft"
       >
-        Cancel or move session
+        Cancel review
       </button>
     );
   }
 
   return (
     <form action={formAction} className="flex flex-col items-center gap-3">
-      <input type="hidden" name="booking" value={bookingId} />
-      <p className="text-sm">Cancel this session? You can book a new time straight after.</p>
+      <input type="hidden" name="request" value={requestId} />
+      <p className="text-sm">Cancel this review? You get this month&apos;s review back.</p>
       <div className="flex flex-wrap justify-center gap-2">
         <button
           type="submit"
@@ -37,7 +37,7 @@ export function CancelReview({ bookingId }: { bookingId: string }) {
           onClick={() => setAsking(false)}
           className="text-label rounded-lg border border-white/10 px-4 py-2.5 text-primary hover:border-primary/50"
         >
-          Keep my session
+          Keep it
         </button>
       </div>
       {state.message && (

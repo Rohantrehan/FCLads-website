@@ -18,7 +18,7 @@ node scripts/browser-checks/trading.mjs ./.checks   # 16 checks: date filters (d
 node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect, tabs, contents scroll-spy + jump, copy email, phone contents
 node scripts/browser-checks/dashboard.mjs ./.checks         # 13 checks: members-only gate on all 6 tabs, no member data sent
 node scripts/browser-checks/dashboard.mjs ./.checks member  #  9 checks (needs DEV_VIEWER=member in web/.env.local): tabs, filters, review tab preview note
-node scripts/browser-checks/reviews.mjs ./.checks           # 26 checks: real review booking with the QA free/member/creator accounts: Creator hub access, add free times, book (with link check), call link, cancel, remove times. Leaves the browser logged out.
+node scripts/browser-checks/reviews.mjs ./.checks           # 24 checks: real gameplay review with the QA free/member/creator accounts (needs SUPABASE_SECRET_KEY to reset the QA member): access, send a match (no booking), change link, creator starts it, asks for a new link, member fixes it, review + plan sent, month used. Leaves nothing behind.
 node scripts/browser-checks/board.mjs ./.checks             # 31 checks (+4 with SUPABASE_SECRET_KEY): hidden posting board with the QA member/creator/admin accounts and BOARD_PATH: 404 for everyone else, creator has no admin pages, publish / schedule / draft / delete, bad input refused, admin guide with blocks. Leaves nothing behind.
 node scripts/browser-checks/account.mjs ./.checks            # 5 checks: sign-in gate on account pages, no account data sent
 node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member mode): membership, cancel dialog (focus, Esc, outside click), billing
@@ -35,6 +35,7 @@ The database rules behind the board are checked without a browser:
 
 ```bash
 node scripts/security-checks/content.mjs   # 29 checks: visitors and members can't read or write content or images, creators only their own posts, admins everything but their own role
+node scripts/security-checks/reviews.mjs   # 29 checks: gameplay review rules end to end (members only, one a month, one open, edit/cancel until started, creators only theirs or any-Lad, plan required)
 ```
 
 These are a stop-gap. When the project grows, replace them with Playwright tests.

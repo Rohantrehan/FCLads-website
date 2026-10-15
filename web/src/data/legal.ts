@@ -186,14 +186,14 @@ const terms: LegalDoc = {
       blocks: [
         {
           type: "p",
-          text: "FC Lads+ members get one gameplay review a month (UK calendar month): share a link to a match and book a 30-minute session where one of the Lads goes through it with you. Sessions are recorded, and you get a written plan afterwards.",
+          text: "FC Lads+ members get one gameplay review a month (UK calendar month): send a link to a match whenever you like, and one of the Lads watches it and sends back a written review (often with a video) and a short plan of what to fix.",
         },
         {
           type: "list",
           items: [
             {
-              lead: "Rescheduling:",
-              text: "you can move your session up to 12 hours before it starts. If you miss it without telling us, it counts as that month's review.",
+              lead: "Changes:",
+              text: "you can change the link or cancel until a Lad starts your review; cancelling gives you that month's review back. If the link doesn't open, we'll ask you for a new one.",
             },
             {
               lead: "One a month:",
@@ -301,7 +301,7 @@ const privacy: LegalDoc = {
             },
             {
               lead: "What you send us:",
-              text: "messages, comments, squads, links to match clips you share for a gameplay review, what you ask us to look at, and recordings of your review sessions.",
+              text: "messages, comments, squads, links to match clips you share for a gameplay review, what you ask us to look at, and the reviews and videos the Lads send you.",
             },
             {
               lead: "How you use the site:",
@@ -371,7 +371,7 @@ const privacy: LegalDoc = {
       blocks: [
         {
           type: "p",
-          text: "We keep your account details while your account is open. If you delete your account, we delete your personal data within 30 days, except billing records we must keep for tax reasons (usually 6 years). Match clips and session recordings are deleted 90 days after your review.",
+          text: "We keep your account details while your account is open. If you delete your account, we delete your personal data within 30 days, except billing records we must keep for tax reasons (usually 6 years). Match links and review videos are deleted 90 days after your review.",
         },
       ],
     },

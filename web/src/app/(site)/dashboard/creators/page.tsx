@@ -116,11 +116,11 @@ export default async function DashboardCreatorsPage({ searchParams }: PageProps<
             className="border-primary/30"
           >
             <p className="text-sm text-muted">
-              Share a match and book a 30-minute session with one of the Lads. You have {reviewsLeft}{" "}
+              Send a match any time and one of the Lads reviews it. You have {reviewsLeft}{" "}
               {reviewsLeft === 1 ? "review" : "reviews"} left this month.
             </p>
             <Button href="/dashboard/review" variant="primary" size="sm" className="w-full">
-              Book my review
+              Send my match
               <ArrowRight aria-hidden className="size-4" />
             </Button>
           </DashPanel>

@@ -379,6 +379,15 @@ User feedback on Home → implemented:
 - **Tests:** new `scripts/security-checks/content.mjs` 29/29 (database rules through the real API per role); new `scripts/browser-checks/board.mjs` 31/31 (4 more run once the secret key is set). All other suites pass on sample content: home 10, learn 9, guide 5, creators 7, collections 13, feed 10, trading 16, legal 11, reviews 26, dashboard 13, account 5, auth 24, plus-auth 18. Typecheck, lint, production build clean. No sideways scroll at 375px on board pages.
 - ⚠️ **To do (user):** add `SUPABASE_SECRET_KEY` (Supabase → Project Settings → API Keys → Secret keys) to `web/.env.local` and later to the host; then delete Sanity project `0c43y88p` in sanity.io/manage. Set `BOARD_PATH` on the host too.
 
+### Session: Reviews without time slots (2026-10-15)
+- **User request:** remove the slot mechanism; members send a match any time, creators review it any time.
+- **Database** (`20261015000200_review_requests.sql`, applied): new table `review_requests` (match link, note, asked-for Lad or **any Lad**, status `waiting → in_review → done`, or `fix_link` when the Lad needs a new link, or `cancelled`; written review, optional video link, 1–3 point plan). Rules in the database: FC Lads+ only, one per UK month, one open at a time, member can change the link or cancel until a Lad starts (cancel gives the month back), creators only see requests for them or for any Lad, admins all. Functions: `submit_review`, `edit_review`, `withdraw_review`, `start_review`, `release_review`, `ask_for_new_link`, `complete_review`.
+- ⚠️ `20261015000300_drop_review_slots.sql` (drops the old `review_slots` / `review_bookings` tables and functions; only cancelled test rows) **not applied yet**: the Supabase tool refuses destructive SQL. Run it in the Supabase SQL editor. The old tables are unused meanwhile.
+- **Member page** `/dashboard/review`: choose a Lad or "Any Lad" (default, quickest) → paste link (+ note) → **Send my match**. Status card: Match sent / {Lad} is reviewing it / New link needed (with the Lad's note and the link form open). Change link or cancel while waiting. Past reviews: written review, video, plan. Calendar, times, call links and the 12-hour rule are gone.
+- **Creator hub** `/creator`: "You're reviewing" (send review form: title, video link, written review, 3-point plan; put back in queue; link doesn't work), "Waiting for a Lad" queue (oldest first, "Asked for you" / "Any Lad" tags, Start review), "Waiting for a new link", "Sent in the last 90 days". Free-times panel removed (`AddTimes`, `SessionCard`, `ReviewBooking` deleted).
+- Copy updated: Terms (gameplay reviews), Privacy (what we keep), FC Lads+ FAQ, dashboard + account buttons ("Send my match").
+- **Tests:** new `scripts/security-checks/reviews.mjs` 29/29 (whole flow through the API, per role). `browser-checks/reviews.mjs` rewritten for the new flow (24 checks) but **not passing yet**: the running dev server is broken after a low-memory crash (log full of EPIPE; logins fail). Rerun after restarting `npm run dev`. Typecheck + lint clean.
+
 ## How to run locally
 
 ```bash
