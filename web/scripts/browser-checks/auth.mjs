@@ -106,7 +106,8 @@ try {
   check("member login lands on dashboard", (await url()) === "/dashboard", await url());
   check("member: dashboard welcomes them by name", /Welcome back,\s*QA Member/.test(await text()));
   check("member: header shows My Lads+", /My Lads[+]$/.test(await headerAccount()), await headerAccount());
-  await go("/trading?range=3d");
+  // Fixed dates (the sample post is from 12 Oct 2026), so this works with sample and real content.
+  await go("/trading?range=custom&from=2026-10-12&to=2026-10-12");
   check("member: FC Lads+ trading posts unlocked", await evaluate("document.body.innerText.includes('buying 86s under 3,000')"));
   await logOutFromAccount();
   check("member log out goes home", (await url()) === "/" && (await headerAccount()) === "Log in", await headerAccount());
