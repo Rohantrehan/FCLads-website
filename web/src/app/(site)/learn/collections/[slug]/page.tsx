@@ -18,7 +18,7 @@ import { getViewer } from "@/lib/viewer";
 
 type Params = Promise<{ slug: string }>;
 
-// Pre-built at deploy; collections added later in the Studio are built on their first visit.
+// Pre-built at deploy; collections added later on the posting board are built on their first visit.
 export async function generateStaticParams() {
   return (await getContent()).collections.map((collection) => ({ slug: collection.slug }));
 }

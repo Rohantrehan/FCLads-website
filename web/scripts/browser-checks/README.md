@@ -19,6 +19,7 @@ node scripts/browser-checks/legal.mjs ./.checks     # 11 checks: /legal redirect
 node scripts/browser-checks/dashboard.mjs ./.checks         # 13 checks: members-only gate on all 6 tabs, no member data sent
 node scripts/browser-checks/dashboard.mjs ./.checks member  #  9 checks (needs DEV_VIEWER=member in web/.env.local): tabs, filters, review tab preview note
 node scripts/browser-checks/reviews.mjs ./.checks           # 26 checks: real review booking with the QA free/member/creator accounts: Creator hub access, add free times, book (with link check), call link, cancel, remove times. Leaves the browser logged out.
+node scripts/browser-checks/board.mjs ./.checks             # 31 checks (+4 with SUPABASE_SECRET_KEY): hidden posting board with the QA member/creator/admin accounts and BOARD_PATH: 404 for everyone else, creator has no admin pages, publish / schedule / draft / delete, bad input refused, admin guide with blocks. Leaves nothing behind.
 node scripts/browser-checks/account.mjs ./.checks            # 5 checks: sign-in gate on account pages, no account data sent
 node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member mode): membership, cancel dialog (focus, Esc, outside click), billing
 ```
@@ -26,9 +27,15 @@ node scripts/browser-checks/account.mjs ./.checks member     # 17 checks (member
 The argument is a folder for the temporary browser profile and screenshots (`.checks/` is git-ignored).
 Edge path is hard-coded for Windows (`EDGE` constant). Each line prints `PASS` or `FAIL`.
 
-`trading.mjs`'s date-filter counts assume the **sample content** ("today" = 12 Oct 2026). With Sanity
-connected (`SANITY_*` in `.env.local`) the site uses the real date, so 4 of those counts differ. Comment
-out the `SANITY_*` lines to run the suites on the sample content.
+`trading.mjs`'s date-filter counts assume the **sample content** ("today" = 12 Oct 2026). With the content
+database connected (`SUPABASE_SECRET_KEY` in `.env.local`) the site uses the real date, so 4 of those counts
+differ. Comment out that line to run the suites on the sample content.
+
+The database rules behind the board are checked without a browser:
+
+```bash
+node scripts/security-checks/content.mjs   # 29 checks: visitors and members can't read or write content or images, creators only their own posts, admins everything but their own role
+```
 
 These are a stop-gap. When the project grows, replace them with Playwright tests.
 

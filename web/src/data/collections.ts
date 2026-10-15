@@ -1,8 +1,8 @@
 import type { Collection } from "@/types";
 
-// Sample FC 27 video collections, in the order shown on /learn/collections, used until Sanity is set up.
+// Sample FC 27 video collections, in the order shown on /learn/collections, used until the content database is set up.
 // All are FC Lads+ (members only). Names and descriptions are our own; video counts and episode lists
-// are placeholders. Real videos (Loom or unlisted YouTube) are added per episode in the Studio.
+// are placeholders. Real videos (Loom or unlisted YouTube) are added per episode on the posting board.
 // Episodes with a `guideSlug` also link to that guide page.
 export const collections: Collection[] = [
   {

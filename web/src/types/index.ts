@@ -1,5 +1,5 @@
-// Shared domain types. Content comes from Sanity (lib/content), or from the sample data in src/data
-// when Sanity isn't set up. Both are turned into these shapes, so components don't know the difference.
+// Shared domain types. Content comes from the Supabase content tables (lib/content), or from the sample data in src/data
+// when that isn't set up. Both are turned into these shapes, so components don't know the difference.
 
 /**
  * Content access level: free for everyone, or FC Lads+ members only.
@@ -89,7 +89,7 @@ export interface Guide {
   image?: string;
 }
 
-/** One block of guide body content. Made from the Sanity guide body (lib/sanity/queries.ts). */
+/** One block of guide body content. Made from the stored guide body (lib/content/guideBlocks.ts). */
 export type GuideBlock =
   | { type: "p"; text: string }
   | { type: "section"; id: string; title: string }
@@ -161,7 +161,7 @@ interface FeedPostBase {
   access: AccessTier;
 }
 
-/** One item in /feed. One Sanity `feedPost` document per post. */
+/** One item in /feed. One row in feed_posts per post. */
 export type FeedPost =
   | (FeedPostBase & {
       type: "video";
@@ -208,7 +208,7 @@ export interface TrendingItem {
   views?: number;
 }
 
-/** Site-wide values editors can change (Sanity "Site settings"). */
+/** Site-wide values editors can change (posting board → Settings). */
 export interface SiteSettings {
   currentPatch: string;
   currentSeason: string;

@@ -7,8 +7,8 @@ import { guides } from "@/data/guides";
 import { tradingPosts } from "@/data/tradingPosts";
 import type { ContentData } from "@/lib/content/content";
 
-// The sample content, shown while Sanity isn't set up (no SANITY_* keys) and imported into Sanity
-// as its first content by studio/scripts/seed.mjs.
+// The sample content, shown while the content database isn't set up (no SUPABASE_SECRET_KEY) and imported into it
+// as its first content.
 
 /** "Now" for the sample content, so "2h ago" labels and date filters stay readable. */
 export const SAMPLE_NOW = "2026-10-12T12:00:00Z";

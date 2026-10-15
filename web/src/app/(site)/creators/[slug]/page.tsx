@@ -13,7 +13,7 @@ import { socialLinks } from "@/lib/site";
 
 type Params = Promise<{ slug: string }>;
 
-// Pre-built at deploy; creators added later in the Studio are built on their first visit.
+// Pre-built at deploy; creators added later on the posting board are built on their first visit.
 export async function generateStaticParams() {
   return (await getContent()).creators.map((creator) => ({ slug: creator.slug }));
 }

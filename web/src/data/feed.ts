@@ -1,6 +1,6 @@
 import type { FeedPost, TrendingItem } from "@/types";
 
-// Sample feed posts, newest first, used until Sanity is set up.
+// Sample feed posts, newest first, used until the content database is set up.
 // Dates are relative to SAMPLE_NOW (data/sample.ts) so "2h ago" labels stay readable.
 export const feedPosts: FeedPost[] = [
   {

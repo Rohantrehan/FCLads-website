@@ -19,7 +19,7 @@ import type { Guide } from "@/types";
 
 type Params = Promise<{ slug: string }>;
 
-// Pre-built at deploy; guides published later in the Studio are built on their first visit.
+// Pre-built at deploy; guides published later on the posting board are built on their first visit.
 // Unknown slugs show the 404 page.
 export async function generateStaticParams() {
   return (await getContent()).guides.map((guide) => ({ slug: guide.slug }));

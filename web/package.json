@@ -9,9 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@sanity/client": "^8.9.0",
-    "@sanity/image-url": "^2.1.1",
-    "@sanity/webhook": "^4.0.4",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
     "clsx": "^2.1.1",
@@ -21,7 +18,8 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "^0.0.1",
-    "tailwind-merge": "^3.7.0"
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

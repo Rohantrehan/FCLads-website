@@ -4,9 +4,9 @@
 > Full analysis & architecture: [`FC_LADS_PROJECT_REPORT.md`](FC_LADS_PROJECT_REPORT.md)
 > Designs (reference only): [`all_pages_design/`](all_pages_design/)
 
-**Last updated:** 14 Oct 2026
+**Last updated:** 15 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Review booking built 14 Oct 2026. Next: **emails** (Resend: auth emails + review booked / reminder / plan ready) → preview deploy (+ Sanity webhook) → Stripe (last). Client: link real creator accounts (profiles.role/creator_slug), confirm review capacity.
+**Next action:** Sanity replaced by our own posting board (15 Oct 2026). **Waiting on the user:** add `SUPABASE_SECRET_KEY` to `web/.env.local` (site still shows sample content until then), then delete the Sanity project before its trial ends (~13 Nov). Next feature: **emails** (Resend) → preview deploy → Stripe (last). Client: give real creators the role on the board's Team page, confirm review capacity.
 
 ---
 
@@ -25,7 +25,8 @@
 | 2026-10-08 | Code is on GitHub: **https://github.com/Rohantrehan/FCLads-website** (`origin`, branch `main`). Push after each approved session. |
 | 2026-10-12 | **Backend plan (recommended, client answered follow-ups):** Sanity (private dataset) for creator content (trading posts, feed, guides, collections, creators); Supabase for auth + Postgres (profiles, memberships, review bookings); Stripe for billing. Build order: Supabase auth → Stripe → Sanity → reviews → emails. |
 | 2026-10-14 | **Order changed (user):** Stripe moves to the end. New order: Sanity CMS → review booking → emails → preview deploy → Stripe → launch checks. |
-| 2026-10-14 | **CMS setup:** standalone Sanity Studio in `studio/` (hosted at fclads.sanity.studio, not embedded in the Next app, to keep the site light). Private dataset, read on the server with a Viewer token; site refreshes on publish via a webhook (`/api/revalidate`). Sanity holds guides, collections, feed posts, trading posts, creators, site settings. Product/legal copy (`ladsPlus.ts`, `legal.ts`, `hardTruth.ts`) and dashboard mock data stay in code. |
+| 2026-10-15 | **Sanity removed (user: client wants no paid services).** Sanity's free plan makes the dataset public, which would expose FC Lads+ content. All content now lives in **Supabase** (free plan) and is edited on our own **hidden posting board** at `/<BOARD_PATH>` (address only in env; everyone except creators/admins gets the normal 404). Role checked on the server for every page and save, and again by row-level security. |
+| 2026-10-14 | **CMS setup (replaced 15 Oct):** standalone Sanity Studio in `studio/` (hosted at fclads.sanity.studio, not embedded in the Next app, to keep the site light). Private dataset, read on the server with a Viewer token; site refreshes on publish via a webhook (`/api/revalidate`). Sanity holds guides, collections, feed posts, trading posts, creators, site settings. Product/legal copy (`ladsPlus.ts`, `legal.ts`, `hardTruth.ts`) and dashboard mock data stay in code. |
 | 2026-10-12 | **Billing:** FC Lads+ **$29/month**, auto-renews, cancel any time, **14-day free trial** (card taken at signup, first charge after day 14). Login: **email only** (no Discord/Google login). Content posted by **both creators and an admin team**. Client team will create the **Stripe account** (none yet). **No Discord server yet** (interpretation of client reply, confirm). |
 
 ## Open questions (deferred — answer before the phase that needs them)
@@ -107,7 +108,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 ### Step 7 — Backend 🟡
 - 🟡 Answer open questions with client (billing, login, CMS answered 12 Oct; refunds, Discord server still open)
 - ⬜ Choose hosting
-- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ Sanity CMS (14 Oct; webhook waits for deploy) · ✅ review booking (14 Oct) · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
+- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ content + posting board on Supabase (15 Oct; Sanity removed) · ✅ review booking (14 Oct) · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
@@ -366,6 +367,17 @@ User feedback on Home → implemented:
 - Removed sample review data from `data/memberDashboard.ts`. The design preview (DEV_VIEWER) shows a note on the review tab (no real account).
 - Tests: new `reviews.mjs` 26/26 (real accounts end to end); home 10, learn 9, guide 5, creators 7, collections 13, feed 10, legal 11, dashboard 13, account 5, auth 24, plus-auth 18; member preview: dashboard 9, account 17. Trading 12/16 (the 4 date checks expect the sample "today"; known). No sideways scroll at 375px on /dashboard/review and /creator. Test rows removed from the database afterwards.
 - ⚠️ Not yet: emails (booking confirmation, reminder, plan ready), calendar invites, real creator accounts (set `role`/`creator_slug` in Supabase for each creator's login).
+
+### Session: Sanity replaced by our own posting board (2026-10-15)
+- **User request:** client won't pay for anything; Sanity's free plan turns the private dataset public after the trial (FC Lads+ text would be readable by anyone). Remove Sanity, build our own backend, editor at a hard-to-guess address, role checked on the server.
+- **Database** (`web/supabase/migrations/20261015000000_content.sql`, applied): tables `creators`, `guides` (card fields + intro + body blocks as JSON), `collections` (episodes JSON), `feed_posts` (type + `fields` JSON), `trading_posts`, `site_settings` (one row). Every post has `status` draft/published and a date; a future date = **scheduled** (shows within 5 minutes of its time). Image bucket **`media`** (public, random file names, 5 MB, PNG/JPG/WebP, nobody can list it).
+- **Security:** visitors and members have **no access** to the content tables (checked: 42501 / 0 rows). The website reads content on the server with the **secret key** (`lib/supabase/secret.ts`) and the existing `lib/*Access.ts` helpers still decide per viewer what is sent. Creators read/write only their own guides/feed/trading posts (can't post as or move posts to someone else); admins everything. Admin-only functions `list_team()` and `set_team_role()` (admins can't change their own role). Second migration `20261015000100_creator_links.sql`: `profiles.creator_slug`, `review_slots` and `review_bookings` now reference `creators(slug)`.
+- **Hidden posting board** `src/app/(board)/[board]/…`: the address segment must equal `BOARD_PATH` (env; dev value in `web/.env.local`), else 404. `lib/board/access.ts`: `requireBoardPage()` for pages (404 for anyone not creator/admin, admin-only pages 404 for creators), `requireStaff()` in every Server Action. Pages: Home (new-post cards, recently edited, how-to), Trading posts, Feed posts, Guides (block editor: heading, paragraph, steps, tip, controller inputs, "members only from here"), and for admins Video collections, Creators, Site settings, Team (give/remove creator or admin role by email). Save bar: Save draft / Publish / Schedule / Unpublish, two-step delete. Inputs checked with **zod** (`lib/board/schemas.ts`), plain-English errors. Images are shrunk to WebP (max 1600 px) in the browser before upload. Times entered in UK time. Saving clears the content cache instantly (`updateTag`).
+- **Website:** `lib/content/db.ts` replaces `lib/sanity/*`; `getContent()` reads Supabase when `SUPABASE_SECRET_KEY` is set, otherwise the sample content. `next.config.ts` allows Supabase storage images.
+- **Removed:** `studio/` folder, `lib/sanity`, `/api/revalidate`, `@sanity/*` packages, `SANITY_*` env. Content imported from Sanity into Supabase (5 creators, 16 guides, 14 collections, 9 feed posts, 10 trading posts, settings).
+- **QA:** new **qa-admin@fclads.test** (role admin), password only in `web/.env.local` (`QA_ADMIN_*`).
+- **Tests:** new `scripts/security-checks/content.mjs` 29/29 (database rules through the real API per role); new `scripts/browser-checks/board.mjs` 31/31 (4 more run once the secret key is set). All other suites pass on sample content: home 10, learn 9, guide 5, creators 7, collections 13, feed 10, trading 16, legal 11, reviews 26, dashboard 13, account 5, auth 24, plus-auth 18. Typecheck, lint, production build clean. No sideways scroll at 375px on board pages.
+- ⚠️ **To do (user):** add `SUPABASE_SECRET_KEY` (Supabase → Project Settings → API Keys → Secret keys) to `web/.env.local` and later to the host; then delete Sanity project `0c43y88p` in sanity.io/manage. Set `BOARD_PATH` on the host too.
 
 ## How to run locally
 

@@ -1,7 +1,7 @@
 import { categoryLabels } from "@/lib/format";
 import type { FeedTopic, GuideCategory } from "@/types";
 
-// Fixed lists and page sizes. The same choices are offered in the Studio (studio/schemaTypes/options.ts).
+// Fixed lists and page sizes. The posting board offers the same choices (lib/board/options.ts).
 
 export const GUIDE_PAGE_SIZE = 9;
 export const FEED_PAGE_SIZE = 8;

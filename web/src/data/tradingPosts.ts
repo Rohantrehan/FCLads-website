@@ -2,7 +2,7 @@ import "server-only";
 
 import type { TradingPost } from "@/types";
 
-// Sample trading posts, newest first, used until Sanity is set up. Server only: FC Lads+ posts are
+// Sample trading posts, newest first, used until the content database is set up. Server only: FC Lads+ posts are
 // cut down in lib/tradingAccess.ts before anything reaches a non-member's browser.
 // Screenshots are placeholders: real posts carry the creator's own screenshot.
 export const tradingPosts: TradingPost[] = [

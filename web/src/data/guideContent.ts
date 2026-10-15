@@ -2,7 +2,7 @@ import "server-only";
 
 import type { GuideContent } from "@/types";
 
-// Sample article bodies, keyed by guide slug, used until Sanity is set up.
+// Sample article bodies, keyed by guide slug, used until the content database is set up.
 // Guides without an entry show a "full write-up coming soon" fallback.
 
 export const guideContents: GuideContent[] = [

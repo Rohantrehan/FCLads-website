@@ -206,7 +206,7 @@ Why NestJS, and why a separate backend instead of putting everything inside Next
 | Background jobs | **BullMQ** on Redis: emails, webhooks, Discord role sync, Monday 08:00 brief release, monthly review-credit reset, cron imports |
 | Auth | **Better Auth** (or Auth.js) with users stored in **our own Postgres**: email/password, Google, Discord. Avoids vendor lock-in and keeps "everything in one place". *Alternative: AWS Cognito, which is AWS-native but clunkier to customise.* |
 | Payments | **Stripe Billing**: Checkout, Customer Portal (update card, invoices PDF), Stripe Tax (UK/EU VAT), webhooks → our DB. Founder-rate pricing via Stripe price IDs. |
-| CMS | **Payload CMS** (TypeScript, runs on the **same Postgres**, self-hosted). Creators get a proper editor for guides, feed posts, briefs, squads and players, with roles and drafts / scheduled publish. *Alternative: Sanity (hosted, very good editor, but data lives outside AWS).* |
+| CMS | *(15 Oct 2026: built as our own hidden posting board on Supabase; see PROGRESS.md)* **Payload CMS** (TypeScript, runs on the **same Postgres**, self-hosted). Creators get a proper editor for guides, feed posts, briefs, squads and players, with roles and drafts / scheduled publish. *Alternative: Sanity (hosted, very good editor, but data lives outside AWS).* |
 | Discord | **discord.js** bot as its own small service: assigns and removes the "Lads+" role on subscription events, reads guild member and online counts, channel activity |
 | Search | Start with **Postgres full-text search**. Move to **Meilisearch / OpenSearch** when the guide and player catalogue grows. |
 | Email | **AWS SES** (cheap) with React Email templates. *Alternative: Resend, which is easier to set up.* |

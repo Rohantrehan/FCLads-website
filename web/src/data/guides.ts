@@ -1,6 +1,6 @@
 import type { Guide } from "@/types";
 
-// Sample guides, used until Sanity is set up. Sorted newest first.
+// Sample guides, used until the content database is set up. Sorted newest first.
 // Every guide is FC Lads+ (members only): the free videos live on YouTube.
 export const guides: Guide[] = [
   {

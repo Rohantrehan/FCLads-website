@@ -115,8 +115,8 @@ export default async function CreatorHubPage({ searchParams }: PageProps<"/creat
 
       {!creator?.reviewSpecialty && (
         <p className="rounded-xl border border-gold/30 bg-gold/5 p-4 text-sm">
-          Members can&apos;t pick you yet: add &ldquo;what you review best&rdquo; to your creator profile in the Studio
-          (Setup → Creators).
+          Members can&apos;t pick you yet: add &ldquo;what you review best&rdquo; to your creator profile on the posting board
+          (an admin can do it under Creators).
         </p>
       )}
 

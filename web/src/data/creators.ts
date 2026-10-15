@@ -1,6 +1,6 @@
 import type { Creator } from "@/types";
 
-// Sample creators, used until Sanity is set up (and as its first content: studio/scripts/seed.mjs).
+// Sample creators, used until the content database is set up.
 // `hidden: true` switches a creator off everywhere without deleting their data (lib/content/content.ts).
 export const creators: Creator[] = [
   {
