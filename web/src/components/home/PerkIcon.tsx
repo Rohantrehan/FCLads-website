@@ -1,5 +1,5 @@
 import { BookOpen, LineChart, MessagesSquare, MonitorPlay, Video } from "lucide-react";
-import type { PerkKey } from "@/data/ladsPlus";
+import type { PerkKey } from "@/types";
 
 const icons = {
   guides: BookOpen,

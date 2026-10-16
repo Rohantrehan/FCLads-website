@@ -5,6 +5,7 @@ import { AlertTriangle, Gavel, Info, LifeBuoy, ShieldCheck, TrendingUp } from "l
 import { CopyEmail, PrintButton } from "@/components/legal/LegalActions";
 import { LegalToc } from "@/components/legal/LegalToc";
 import { cn } from "@/lib/cn";
+import { getPlus } from "@/lib/content";
 import { LEGAL_EMAIL, LEGAL_UPDATED, getLegalDoc, legalDocs, type LegalBlock, type LegalSlug } from "@/data/legal";
 
 export const dynamicParams = false;
@@ -85,7 +86,7 @@ function Block({ block }: { block: LegalBlock }) {
 }
 
 export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) {
-  const doc = getLegalDoc((await params).slug);
+  const doc = getLegalDoc((await params).slug, await getPlus());
   if (!doc) notFound();
 
   return (

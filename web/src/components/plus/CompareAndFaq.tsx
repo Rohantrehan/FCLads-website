@@ -1,6 +1,5 @@
 import { Check, ChevronDown, Minus } from "lucide-react";
-import { ladsPlus } from "@/data/ladsPlus";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus, type Plus } from "@/lib/content";
 import { withSeason } from "@/lib/format";
 
 type Cell = boolean | string;
@@ -37,6 +36,7 @@ function CellValue({ value, plus }: { value: Cell; plus?: boolean }) {
 
 export async function CompareTable() {
   const season = (await getContent()).settings.currentSeason;
+  const plus = await getPlus();
   return (
     <section aria-labelledby="compare-heading" className="page-container py-16 lg:py-20">
       <div className="mx-auto mb-8 max-w-2xl text-center">
@@ -60,7 +60,7 @@ export async function CompareTable() {
                 Free
               </th>
               <th scope="col" className="text-label w-28 px-2 py-4 text-center text-mint sm:w-44 sm:px-5">
-                FC Lads+<span className="hidden sm:inline"> ({ladsPlus.priceLabel}/mo)</span>
+                FC Lads+<span className="hidden sm:inline"> ({plus.priceLabel}/mo)</span>
               </th>
             </tr>
           </thead>
@@ -87,10 +87,10 @@ export async function CompareTable() {
 
 // Answers that depend on open client decisions (refunds, payment methods, review turnaround)
 // are kept general until confirmed — see PROGRESS.md open questions.
-const faqs = [
+const faqs = (plus: Plus) => [
   {
     q: "Is there a free trial?",
-    a: `Yes. New members get ${ladsPlus.trialDays} days of FC Lads+ free. You add a card when you join, and the first ${ladsPlus.priceLabel} payment is taken when the trial ends. Cancel before then and you won't be charged. One trial per account.`,
+    a: `Yes. New members get ${plus.trialDays} days of FC Lads+ free. You add a card when you join, and the first ${plus.priceLabel} payment is taken when the trial ends. Cancel before then and you won't be charged. One trial per account.`,
   },
   {
     q: "Can I cancel anytime?",
@@ -118,7 +118,8 @@ const faqs = [
   },
 ];
 
-export function Faq() {
+export async function Faq() {
+  const plus = await getPlus();
   return (
     <section aria-labelledby="faq-heading" className="page-container py-16 lg:py-20">
       <div className="mx-auto mb-8 max-w-2xl text-center">
@@ -128,7 +129,7 @@ export function Faq() {
         </h2>
       </div>
       <div className="mx-auto flex max-w-3xl flex-col gap-3">
-        {faqs.map((faq, index) => (
+        {faqs(plus).map((faq, index) => (
           <details
             key={faq.q}
             open={index === 0}

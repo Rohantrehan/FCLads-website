@@ -414,6 +414,15 @@ User feedback on Home → implemented:
 - **Tests:** reviews browser checks 24/24 (one early run missed a single 800 ms timing check while the server compiled). Previews checked in green and purple. Typecheck + lint clean.
 - ⚠️ **To do (user):** Resend account, verify the domain, add the key to `.env.local` + Vercel, set up Supabase SMTP + paste the templates (README).
 
+### Session: No hardcoded data, everything from the database (2026-10-16)
+- **User request:** remove all hardcoded data from the website; fetch only from the database. Scope agreed: data + editable settings (legal pages, headings and FAQ stay as page text).
+- **Removed** `src/data/{creators,guides,guideContent,collections,feed,tradingPosts,sample,account,memberDashboard,hardTruth,ladsPlus}.ts`. `lib/content` reads only Supabase (no sample fallback; without `SUPABASE_SECRET_KEY` the pages error clearly). Removed the `DEV_VIEWER` fake member.
+- **Database** (`20261016000100_site_settings_editable.sql`, applied): `site_settings.plus` (price, currency, trial days, perks), `socials` (YouTube, Instagram, X, TikTok, Discord invite), `hard_truth` (Home section), `discord` (channels, rules), seeded with what the site showed.
+- **Board → Site settings:** new sections FC Lads+ membership, Social links, Home: the hard truth, Discord page (zod-validated, admin only).
+- **Site:** price/trial/perks via `getPlus()` everywhere (header, Home, FC Lads+ page, FAQ, paywalls, sign-up, creators, feed, collections, account, Terms via `{price}`/`{trialDays}` placeholders). Social links via `getSocials()`; empty links are hidden instead of `#`. Video feed posts link to their own YouTube clip.
+- **Member pages:** membership shows the real `memberships` row (status, trial end / next payment, member since); billing shows empty states (no fake card or invoices) until payments are connected; Discord shows "not linked yet" + the invite from settings. Dashboard: "Continue watching" → Latest videos, Discord quote → newest feed post, "This week in FC" → latest update posts, "Coming next" → the next scheduled guide.
+- **Tests:** home 10/10, plus-auth 17/17 (it no longer submits sign-ups: with custom SMTP on, Supabase accepts .test addresses and sends real email). settings.mjs fails only its creator checks (creators now have full access; updating those security checks still needs the user's go-ahead). `account.mjs member` / `dashboard.mjs member` relied on DEV_VIEWER and are obsolete. Typecheck + lint clean.
+
 ## How to run locally
 
 ```bash

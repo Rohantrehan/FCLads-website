@@ -1,22 +1,14 @@
 import Link from "next/link";
 import { CheckCircle2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
-
-export const LADS_PLUS_PRICE = "$29";
-
-const defaultPerks = [
-  "Every guide & video collection",
-  "Private FC Lads Discord",
-  "Members-only trading posts",
-  "Monthly 1-on-1 review",
-];
+import { getPlus } from "@/lib/content";
 
 interface PaywallProps {
   eyebrow?: string;
   title?: string;
   description?: string;
+  /** Defaults to the FC Lads+ perks from Site settings. */
   perks?: string[];
   className?: string;
 }
@@ -26,13 +18,15 @@ interface PaywallProps {
  * Important: this is presentation only. Locked content must never be sent to the browser for
  * non-members; the server decides what to render (see report §6 "Paywall rule").
  */
-export function Paywall({
+export async function Paywall({
   eyebrow = "FC Lads+ exclusive",
   title = "This continues for FC Lads+ members",
   description = "Unlock the full breakdown, custom slider codes, VOD analysis and the private Discord coach channels.",
-  perks = defaultPerks,
+  perks,
   className,
 }: PaywallProps) {
+  const plus = await getPlus();
+  const items = perks ?? plus.perks.map((perk) => perk.title);
   return (
     <section
       aria-label="FC Lads+ membership required"
@@ -49,7 +43,7 @@ export function Paywall({
       <p className="mt-3 max-w-lg text-muted">{description}</p>
 
       <ul className="my-6 grid w-full gap-3 text-left sm:grid-cols-2">
-        {perks.map((perk) => (
+        {items.map((perk) => (
           <li key={perk} className="flex items-center gap-2 rounded-lg bg-surface-high p-2.5 text-sm font-semibold">
             <CheckCircle2 aria-hidden className="size-4 shrink-0 text-primary" />
             {perk}
@@ -58,8 +52,8 @@ export function Paywall({
       </ul>
 
       <p className="flex items-baseline gap-2">
-        <span className="font-display text-3xl font-extrabold">{LADS_PLUS_PRICE}</span>
-        <span className="tabular text-sm text-muted">/ month after a {ladsPlus.trialDays}-day free trial</span>
+        <span className="font-display text-3xl font-extrabold">{plus.priceLabel}</span>
+        <span className="tabular text-sm text-muted">/ month after a {plus.trialDays}-day free trial</span>
       </p>
       <Button href="/lads-plus" variant="primary" size="lg" className="mt-4 w-full max-w-sm">
         Start free trial

@@ -10,9 +10,8 @@ import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { Badge, TierBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Paywall } from "@/components/ui/Paywall";
-import { ladsPlus } from "@/data/ladsPlus";
 import { getCollectionView } from "@/lib/collectionAccess";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 import { categoryLabels } from "@/lib/format";
 import { getViewer } from "@/lib/viewer";
 
@@ -34,6 +33,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function CollectionPage({ params }: { params: Params }) {
+  const plus = await getPlus();
   const content = await getContent();
   const { collections, getCreator } = content;
   const collection = content.getCollection((await params).slug);
@@ -116,7 +116,7 @@ export default async function CollectionPage({ params }: { params: Params }) {
                 <>
                   <Button href={JOIN_HREF} variant="primary">
                     Join FC Lads+ to watch
-                    <span className="tabular text-xs opacity-80">{ladsPlus.priceLabel}/mo</span>
+                    <span className="tabular text-xs opacity-80">{plus.priceLabel}/mo</span>
                   </Button>
                   <Button href="/login" variant="glass">
                     <LogIn aria-hidden className="size-4" />

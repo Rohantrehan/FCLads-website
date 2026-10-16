@@ -1,6 +1,6 @@
 import { CheckCircle2, CircleUser } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
+import { getPlus } from "@/lib/content";
 
 const outcomes = [
   "Learn the game.",
@@ -11,7 +11,8 @@ const outcomes = [
   "Improve every month.",
 ];
 
-export function MembershipCta() {
+export async function MembershipCta() {
+  const plus = await getPlus();
   return (
     <>
       <section aria-labelledby="one-membership-heading" className="border-t border-white/6 bg-surface py-20">
@@ -39,11 +40,11 @@ export function MembershipCta() {
                 <div>
                   <p className="font-display text-lg font-extrabold uppercase">FC Lads+ pass</p>
                   <p className="tabular mt-0.5 text-xs text-muted">
-                    {ladsPlus.trialDays}-day free trial · Cancel anytime
+                    {plus.trialDays}-day free trial · Cancel anytime
                   </p>
                 </div>
                 <p className="text-right">
-                  <span className="font-display text-3xl font-extrabold">{ladsPlus.priceLabel}</span>
+                  <span className="font-display text-3xl font-extrabold">{plus.priceLabel}</span>
                   <span className="tabular text-xs text-mint">/mo</span>
                 </p>
               </div>

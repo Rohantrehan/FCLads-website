@@ -15,9 +15,12 @@ export default async function HomePage() {
     <>
       {/* The first three creators in the roster order, front card first. */}
       <Hero cards={creators.slice(0, 3)} patch={content.settings.currentPatch} />
-      <HardTruth
-        creators={creators.map(({ slug, name, initials, role }) => ({ slug, name, initials, role }))}
-      />
+      {content.settings.hardTruth.length > 0 && (
+        <HardTruth
+          items={content.settings.hardTruth}
+          creators={creators.map(({ slug, name, initials, role }) => ({ slug, name, initials, role }))}
+        />
+      )}
       <LearnSection guides={content.guides.filter((guide) => !guide.isFeatured).slice(0, 4)} creators={creators} />
       <LadsPlusTeaser />
       <MeetTheLads creators={creators} />

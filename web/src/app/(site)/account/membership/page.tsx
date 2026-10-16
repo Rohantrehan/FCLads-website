@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
-import { ArrowRight, ArrowUpRight, CheckCircle2, Hash, MessagesSquare, Video } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CheckCircle2, MessagesSquare, Video } from "lucide-react";
 import { AccountHeading, fmtDate, FreePlan, SignInToManage } from "@/components/account/AccountBits";
 import { StatusNote } from "@/components/auth/AuthBits";
 import { MembershipPlan } from "@/components/account/MembershipPlan";
 import { DashPanel, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
-import { membership } from "@/data/account";
-import { ladsPlus, ladsPlusPerks, type PerkKey } from "@/data/ladsPlus";
-import { discordAccount } from "@/data/memberDashboard";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 import { withSeason } from "@/lib/format";
+import { getMembership } from "@/lib/membership";
 import { getReviewSummary } from "@/lib/reviews";
 import { ukShortDay } from "@/lib/ukTime";
-import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
+import type { PerkKey } from "@/types";
 
 export const metadata: Metadata = { title: "Membership" };
 
@@ -51,11 +49,18 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
     );
   }
 
-  const review = await getReviewSummary(viewer);
+  const [review, content, plus, membership] = await Promise.all([
+    getReviewSummary(viewer),
+    getContent(),
+    getPlus(),
+    getMembership(viewer),
+  ]);
   const reviewsLeft = review.left;
-  const content = await getContent();
   const tags = perkTags(content.guides.length);
   const season = content.settings.currentSeason;
+  const discordInvite = content.settings.socials.discord;
+  const onTrial = membership?.status === "trialing";
+  const renewsOn = onTrial ? (membership?.trialEnd ?? membership?.currentPeriodEnd) : membership?.currentPeriodEnd;
 
   return (
     <>
@@ -63,22 +68,25 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
       {passwordNote}
 
       <MembershipPlan
-        plan={membership.plan}
-        subscriptionId={membership.subscriptionId}
-        priceLabel={ladsPlus.priceLabel}
-        nextPayment={fmtDate(membership.nextPayment)}
-        nextPaymentShort={fmtDate(membership.nextPayment, "short")}
-        memberSince={fmtDate(membership.memberSince, "month")}
-        losses={ladsPlusPerks.map((perk) => ({ title: perk.title, detail: withSeason(losses[perk.key], season) }))}
+        plan="FC Lads+"
+        subscriptionId={membership?.subscriptionId}
+        priceLabel={plus.priceLabel}
+        statusLabel={membership?.statusLabel ?? "Active membership"}
+        autoRenew={!membership?.cancelAtPeriodEnd}
+        dateLabel={onTrial ? "Trial ends" : "Next payment"}
+        nextPayment={renewsOn ? fmtDate(renewsOn) : "Not set yet"}
+        nextPaymentShort={renewsOn ? fmtDate(renewsOn, "short") : "soon"}
+        memberSince={membership ? fmtDate(membership.memberSince, "month") : "this month"}
+        losses={plus.perks.map((perk) => ({ title: perk.title, detail: withSeason(losses[perk.key], season) }))}
       >
         <DashPanel id="included-heading" title="What's included">
           <ul className="flex flex-col gap-2">
-            {ladsPlusPerks.map((perk) => (
+            {plus.perks.map((perk) => (
               <li key={perk.key} className="flex items-start gap-3 rounded-xl border border-white/8 bg-surface p-4">
                 <CheckCircle2 aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <span className="font-semibold">{perk.title}</span>
-                  <span className="text-sm text-muted">{perk.description}</span>
+                  <span className="text-sm text-muted">{withSeason(perk.description, season)}</span>
                 </span>
                 <span className="tabular hidden shrink-0 rounded-md border border-white/10 px-2 py-1 text-[11px] text-mint uppercase sm:inline">
                   {tags[perk.key]}
@@ -128,41 +136,26 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
             title="Discord"
             icon={<MessagesSquare aria-hidden className="size-5 text-primary" />}
             action={
-              <span className="tabular flex items-center gap-1.5 rounded-md bg-primary/10 px-2 py-1 text-[11px] font-bold text-mint uppercase">
-                <span aria-hidden className="size-1.5 rounded-full bg-mint" />
-                {discordAccount.connected ? "Connected" : "Not connected"}
+              <span className="tabular rounded-md border border-white/10 px-2 py-1 text-[11px] text-muted uppercase">
+                Not linked
               </span>
             }
           >
             <div className="flex flex-col gap-2">
-              <p className="font-display text-3xl leading-none font-extrabold">
-                {discordAccount.connected ? "You're in" : "Link Discord"}
-              </p>
+              <p className="font-display text-3xl leading-none font-extrabold">Join the server</p>
               <p className="text-sm text-muted">
-                Linked as <strong className="text-white">{discordAccount.username}</strong> with the FC Lads+ role, so
-                the members channels are open to you.
+                Automatic linking of your Discord account and the FC Lads+ role is coming soon. Until then, join with
+                the invite and ask a Lad for the members role.
               </p>
             </div>
-            <p className="mt-auto flex items-center gap-3 rounded-xl border border-white/8 bg-surface p-3 text-sm">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-azure/15 text-[#93c5fd]">
-                <Hash aria-hidden className="size-4" />
-              </span>
-              <span>
-                <span className="block font-semibold">FC Lads · #general</span>
-                <span className="text-xs text-muted">Members role active</span>
-              </span>
-            </p>
-            <Button
-              href={socialLinks.discord}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="glass"
-              size="md"
-              className="w-full"
-            >
-              Open Discord
-              <ArrowUpRight aria-hidden className="size-4" />
-            </Button>
+            {discordInvite ? (
+              <Button href={discordInvite} target="_blank" rel="noopener noreferrer" variant="glass" size="md" className="mt-auto w-full">
+                Open Discord
+                <ArrowUpRight aria-hidden className="size-4" />
+              </Button>
+            ) : (
+              <p className="mt-auto text-sm text-muted">The invite link will appear here soon.</p>
+            )}
           </DashPanel>
         </div>
       </MembershipPlan>

@@ -9,7 +9,7 @@ import { supabaseUrl } from "@/lib/supabase/server";
 
 const secretKey = process.env.SUPABASE_SECRET_KEY;
 
-/** False until SUPABASE_SECRET_KEY is set: the site then shows the sample content in src/data. */
+/** False until SUPABASE_SECRET_KEY is set: content reads then fail with a clear error. */
 export const isContentDbConfigured = Boolean(supabaseUrl && secretKey);
 
 /** Every content read is tagged with this; saving on the posting board clears it. */

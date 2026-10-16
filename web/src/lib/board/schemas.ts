@@ -233,6 +233,13 @@ export const creatorInput = z.object({
   image: imageUrl.nullable(),
 });
 
+/** An https:// link, or empty for "not set up yet". */
+const link = z
+  .string()
+  .trim()
+  .max(300)
+  .refine((value) => !value || /^https:\/\/\S+$/.test(value), "Links start with https://");
+
 export const settingsInput = z.object({
   currentPatch: required(20, "the current patch"),
   currentSeason: required(20, "the current season"),
@@ -250,6 +257,55 @@ export const settingsInput = z.object({
       }),
     )
     .max(6, "Up to 6 trending links."),
+  plus: z.object({
+    price: z.number({ error: "Add the price." }).min(0.5, "The price is at least 0.50.").max(1000, "The price is at most 1,000."),
+    currency: z.enum(["USD", "GBP", "EUR"], { error: "Pick a currency." }),
+    trialDays: count(90, "Free trial days"),
+    perks: z
+      .array(
+        z.object({
+          key: z.enum(["guides", "discord", "creators", "trading", "review"]),
+          title: required(60, "each perk's title"),
+          description: required(200, "each perk's description"),
+        }),
+      )
+      .min(1, "Add at least one perk.")
+      .max(8, "Up to 8 perks."),
+  }),
+  socials: z.object({
+    youtube: link,
+    instagram: link,
+    x: link,
+    tiktok: link,
+    discord: link,
+  }),
+  hardTruth: z
+    .array(
+      z.object({
+        problem: required(80, "each problem"),
+        answerTitle: required(80, "each answer's title"),
+        answer: required(400, "each answer"),
+        creatorSlug: slug,
+        cta: z.object({
+          label: required(40, "each button label"),
+          href: z.string().trim().regex(/^\/(?!\/)\S*$/, "Home section buttons link to pages on this site and start with /"),
+        }),
+      }),
+    )
+    .max(8, "Up to 8 items in the Home section."),
+  discord: z.object({
+    channels: z
+      .array(
+        z.object({
+          name: z.string().trim().regex(/^[a-z0-9-]{2,40}$/, "Channel names use lowercase letters, numbers and dashes, e.g. tactics-room."),
+          label: required(30, "each channel's label"),
+          description: required(200, "each channel's description"),
+          pinned: optionalText(120),
+        }),
+      )
+      .max(12, "Up to 12 channels."),
+    rules: z.array(required(200, "each rule")).max(12, "Up to 12 rules."),
+  }),
 });
 
 const gameName = z

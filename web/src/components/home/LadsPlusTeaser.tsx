@@ -1,12 +1,12 @@
 import { Award, Zap } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 import { withSeason } from "@/lib/format";
-import { ladsPlus, ladsPlusPerks } from "@/data/ladsPlus";
 import { PerkIcon } from "./PerkIcon";
 
 export async function LadsPlusTeaser() {
   const season = (await getContent()).settings.currentSeason;
+  const plus = await getPlus();
   return (
     <section aria-labelledby="lads-plus-heading" className="page-container py-10">
       <div className="relative overflow-hidden rounded-3xl border border-primary-bright/30 bg-gradient-to-br from-pitch-green via-[color-mix(in_oklab,var(--color-pitch-green)_75%,#000)] to-[color-mix(in_oklab,var(--color-pitch-green)_55%,#000)] px-5 py-10 shadow-[0_20px_60px_color-mix(in_oklab,var(--color-pitch-green)_60%,transparent)] md:p-10 lg:p-14">
@@ -25,16 +25,16 @@ export async function LadsPlusTeaser() {
             Stop guessing. Ask people who know the game.
           </h2>
           <p className="mt-4 flex flex-wrap items-baseline justify-center gap-2">
-            <span className="font-display text-4xl font-extrabold lg:text-5xl">{ladsPlus.priceLabel}</span>
+            <span className="font-display text-4xl font-extrabold lg:text-5xl">{plus.priceLabel}</span>
             <span className="font-display font-bold text-mint">/month</span>
             <span className="tabular ml-2 text-xs text-white/50">CANCEL ANYTIME</span>
           </p>
 
           <ul className="mt-10 grid w-full grid-cols-2 gap-3.5 text-left md:grid-cols-5">
-            {ladsPlusPerks.map((perk, index) => (
+            {plus.perks.map((perk, index) => (
               <li
                 key={perk.key}
-                className={`flex flex-col gap-2 rounded-xl border border-white/10 bg-canvas/60 p-4 backdrop-blur-md ${index === ladsPlusPerks.length - 1 ? "col-span-2 md:col-span-1" : ""}`}
+                className={`flex flex-col gap-2 rounded-xl border border-white/10 bg-canvas/60 p-4 backdrop-blur-md ${index === plus.perks.length - 1 ? "col-span-2 md:col-span-1" : ""}`}
               >
                 <PerkIcon perk={perk.key} className="size-6 text-mint" />
                 <span className="font-display text-xs font-bold uppercase">{perk.title}</span>

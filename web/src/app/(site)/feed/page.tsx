@@ -5,9 +5,8 @@ import { FeedPostCard, isWidePost } from "@/components/feed/FeedCards";
 import { SocialIcons } from "@/components/layout/SocialIcons";
 import { JOIN_HREF } from "@/components/plus/PlusHero";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 import { FEED_PAGE_SIZE, feedTopics, isFeedTopic } from "@/lib/content/constants";
 import { queryFeed } from "@/lib/feedAccess";
 import { formatCompact } from "@/lib/format";
@@ -47,6 +46,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 }
 
 export default async function FeedPage({ searchParams }: { searchParams: SearchParams }) {
+  const plus = await getPlus();
   const { topic, limit } = await readParams(searchParams);
   const content = await getContent();
   const { items, total } = queryFeed(content, { topic, limit }, await getViewer());
@@ -157,7 +157,7 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
               </p>
             </div>
             <div className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-pitch-green/40 p-4">
-              <p className="text-label text-mint">FC Lads+ ({ladsPlus.priceLabel}/mo)</p>
+              <p className="text-label text-mint">FC Lads+ ({plus.priceLabel}/mo)</p>
               <ul className="flex flex-col gap-2 text-sm">
                 {[
                   "Every guide and video series",

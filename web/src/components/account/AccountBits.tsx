@@ -1,10 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 import { withSeason } from "@/lib/format";
 import { ArrowRight, CheckCircle2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus, ladsPlusPerks } from "@/data/ladsPlus";
 
 const dateFormats = {
   long: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }),
@@ -72,6 +71,7 @@ export function SignInToManage({ next = "/account/membership" }: { next?: string
 /** Membership card for signed-in users without FC Lads+: the free plan and the trial offer. */
 export async function FreePlan({ name, email }: { name?: string; email?: string }) {
   const season = (await getContent()).settings.currentSeason;
+  const plus = await getPlus();
   return (
     <section
       aria-labelledby="free-plan-heading"
@@ -93,15 +93,15 @@ export async function FreePlan({ name, email }: { name?: string; email?: string 
         </div>
         <div className="flex flex-col gap-1 md:items-end">
           <p className="tabular text-sm">
-            <span className="font-display text-2xl font-extrabold text-mint">{ladsPlus.priceLabel}</span>
-            <span className="text-muted"> / month after a {ladsPlus.trialDays}-day free trial</span>
+            <span className="font-display text-2xl font-extrabold text-mint">{plus.priceLabel}</span>
+            <span className="text-muted"> / month after a {plus.trialDays}-day free trial</span>
           </p>
           <p className="text-xs text-muted">Cancel any time. No charge if you cancel during the trial.</p>
         </div>
       </div>
 
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {ladsPlusPerks.map((perk) => (
+        {plus.perks.map((perk) => (
           <li key={perk.key} className="flex items-start gap-3 rounded-xl border border-white/8 bg-surface p-4">
             <CheckCircle2 aria-hidden className="mt-0.5 size-5 shrink-0 text-primary" />
             <span className="flex flex-col gap-0.5">
@@ -113,7 +113,7 @@ export async function FreePlan({ name, email }: { name?: string; email?: string 
       </ul>
 
       <Button href="/lads-plus" variant="primary" size="lg" className="w-full sm:w-auto sm:self-start">
-        Start {ladsPlus.trialDays}-day free trial
+        Start {plus.trialDays}-day free trial
         <ArrowRight aria-hidden className="size-4" />
       </Button>
     </section>

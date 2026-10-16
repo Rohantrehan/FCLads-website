@@ -5,14 +5,16 @@ import { PerkShowcase } from "@/components/plus/PerkShowcase";
 import { JOIN_HREF, PlusHero } from "@/components/plus/PlusHero";
 import { CreatorAccessSection, DiscordSection, ReviewSection, TradingSection } from "@/components/plus/PlusSections";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "FC Lads+ membership",
-  description: `Every guide and video series, the private FC Lads Discord, creator access, members-only trading posts and a monthly 1-on-1 gameplay review. ${ladsPlus.priceLabel} a month after a ${ladsPlus.trialDays}-day free trial, cancel anytime.`,
-  alternates: { canonical: "/lads-plus" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const plus = await getPlus();
+  return {
+    title: "FC Lads+ membership",
+    description: `Every guide and video series, the private FC Lads Discord, creator access, members-only trading posts and a monthly 1-on-1 gameplay review. ${plus.priceLabel} a month after a ${plus.trialDays}-day free trial, cancel anytime.`,
+    alternates: { canonical: "/lads-plus" },
+  };
+}
 
 const outcomes = [
   "Learn the game.",
@@ -24,6 +26,7 @@ const outcomes = [
 ];
 
 export default async function LadsPlusPage() {
+  const plus = await getPlus();
   return (
     <>
       <PlusHero />
@@ -37,7 +40,7 @@ export default async function LadsPlusPage() {
             </h2>
             <p className="mt-2 text-muted">Everything you need to compete at the top level in Ultimate Team.</p>
           </div>
-          <PerkShowcase season={(await getContent()).settings.currentSeason} />
+          <PerkShowcase season={(await getContent()).settings.currentSeason} perks={plus.perks} />
         </div>
       </section>
 
@@ -68,14 +71,14 @@ export default async function LadsPlusPage() {
           </div>
           <div className="glass flex flex-col gap-4 rounded-2xl p-6 shadow-rim lg:col-span-5">
             <p className="flex items-baseline gap-1.5">
-              <span className="font-display text-5xl font-extrabold">{ladsPlus.priceLabel}</span>
+              <span className="font-display text-5xl font-extrabold">{plus.priceLabel}</span>
               <span className="text-muted">/ month</span>
             </p>
             <p className="text-sm text-muted">
-              {ladsPlus.trialDays}-day free trial, then billed monthly · Cancel anytime
+              {plus.trialDays}-day free trial, then billed monthly · Cancel anytime
             </p>
             <Button href={JOIN_HREF} size="lg" className="w-full">
-              Start {ladsPlus.trialDays}-day free trial
+              Start {plus.trialDays}-day free trial
               <Zap aria-hidden className="size-4" />
             </Button>
           </div>

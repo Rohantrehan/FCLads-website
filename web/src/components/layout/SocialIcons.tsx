@@ -1,6 +1,6 @@
 import { Camera, MessagesSquare, Music2, MonitorPlay } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { socialLinks } from "@/lib/site";
+import { getSocials } from "@/lib/content";
 
 // Generic icons, matching the designs (lucide has no brand logos). Swap for official brand SVGs later if wanted.
 const items = [
@@ -11,13 +11,19 @@ const items = [
   { key: "discord", label: "Discord", icon: <MessagesSquare className="size-5" /> },
 ] as const;
 
-export function SocialIcons({ className }: { className?: string }) {
+/** FC Lads' channels from Site settings; channels without a link aren't shown. */
+export async function SocialIcons({ className }: { className?: string }) {
+  const socials = await getSocials();
+  const linked = items.filter((item) => socials[item.key]);
+  if (linked.length === 0) return null;
   return (
     <ul className={cn("flex items-center gap-1 text-muted", className)}>
-      {items.map((item) => (
+      {linked.map((item) => (
         <li key={item.key}>
           <a
-            href={socialLinks[item.key]}
+            href={socials[item.key]}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label={`FC Lads on ${item.label}`}
             className="flex size-10 items-center justify-center rounded-lg transition-colors hover:bg-white/5 hover:text-mint"
           >

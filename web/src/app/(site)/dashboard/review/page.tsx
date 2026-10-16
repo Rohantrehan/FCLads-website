@@ -95,7 +95,6 @@ export default async function DashboardReviewPage() {
   if (!viewer.isMember) return <MembersOnly />;
   const content = await getContent();
 
-  // Design preview (DEV_VIEWER) has no real account, so there's nothing to load or book.
   const reviews = await getMemberReviews(viewer);
   if (!reviews) {
     return (

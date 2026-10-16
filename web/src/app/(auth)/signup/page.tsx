@@ -5,7 +5,7 @@ import { ShieldCheck } from "lucide-react";
 import { ShieldMark } from "@/components/layout/Logo";
 import { AuthTabs } from "@/components/auth/AuthBits";
 import { SignupForm } from "@/components/auth/SignupForm";
-import { ladsPlus } from "@/data/ladsPlus";
+import { getPlus } from "@/lib/content";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = {
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignupPage({ searchParams }: PageProps<"/signup">) {
+  const plus = await getPlus();
   // ?plan=plus comes from the "Join FC Lads+" buttons: after sign-up the user goes to checkout.
   const joiningPlus = (await searchParams).plan === "plus";
   // Checkout arrives with Stripe; until then new members land on the FC Lads+ page.
@@ -41,7 +42,7 @@ export default async function SignupPage({ searchParams }: PageProps<"/signup">)
               <span className="font-display font-extrabold">FC Lads+</span>
             </span>
             <span className="tabular text-sm">
-              <span className="font-bold text-mint">{ladsPlus.priceLabel}</span>
+              <span className="font-bold text-mint">{plus.priceLabel}</span>
               <span className="text-muted"> / month</span>
             </span>
           </div>
@@ -53,7 +54,7 @@ export default async function SignupPage({ searchParams }: PageProps<"/signup">)
           <p className="rounded-lg border border-white/8 bg-white/[0.03] p-3 text-center text-sm text-muted">
             Want the guides, video series and private Discord?{" "}
             <Link href="/lads-plus" className="font-semibold text-mint hover:text-white">
-              See FC Lads+ ({ladsPlus.priceLabel}/mo)
+              See FC Lads+ ({plus.priceLabel}/mo)
             </Link>
           </p>
         )}

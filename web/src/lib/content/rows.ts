@@ -5,9 +5,13 @@ import type {
   CollectionEpisode,
   CreatorSocials,
   FeedPost,
+  DiscordSettings,
   FeedTopic,
   GuideCategory,
   GuideFormat,
+  HardTruthItem,
+  PlusSettings,
+  SocialLinks,
   SocialPlatform,
   TrendingItem,
   VideoSource,
@@ -114,6 +118,10 @@ export interface SiteSettingsRow {
   current_season: string;
   theme_color: string;
   trending: TrendingItem[];
+  plus: PlusSettings;
+  socials: Partial<SocialLinks>;
+  hard_truth: HardTruthItem[];
+  discord: DiscordSettings;
   updated_at: string;
 }
 

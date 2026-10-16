@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, CheckCircle2, Hash, MessagesSquare, Pin, ScrollText, Users } from "lucide-react";
+import { ArrowUpRight, Hash, MessagesSquare, Pin, ScrollText, Users } from "lucide-react";
 import { DashboardHeading, DashPanel, MembersOnly } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/DataBits";
-import { discordAccount, discordChannels, discordRules } from "@/data/memberDashboard";
 import { getContent } from "@/lib/content";
-import { socialLinks } from "@/lib/site";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Discord" };
@@ -15,7 +13,10 @@ const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 export default async function DashboardDiscordPage() {
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
-  const { creators } = await getContent();
+  const { creators, settings } = await getContent();
+  // Channels, rules and the invite link are edited on the posting board (Site settings).
+  const invite = settings.socials.discord;
+  const { channels, rules } = settings.discord;
 
   return (
     <div className="page-container flex flex-col gap-8 pt-10 pb-20">
@@ -36,53 +37,55 @@ export default async function DashboardDiscordPage() {
           <h2 id="discord-connect-heading" className="font-display text-2xl font-extrabold uppercase md:text-3xl">
             FC Lads+ members&apos; server
           </h2>
-          {discordAccount.connected ? (
-            <p className="flex items-start gap-2 text-sm text-mint">
-              <CheckCircle2 aria-hidden className="mt-0.5 size-4 shrink-0" />
-              <span>
-                Connected as <strong className="font-semibold">{discordAccount.username}</strong>. Your members&apos;
-                role is active.
-              </span>
-            </p>
-          ) : (
-            <p className="text-sm text-muted">Connect your Discord account to get your members&apos; role.</p>
-          )}
+          <p className="text-sm text-muted">
+            Automatic account linking is coming soon. For now, join with the invite and ask a Lad in #help for your
+            members&apos; role.
+          </p>
           <p className="max-w-xl text-muted">
             Patch news as it happens, tactics workshops, and channels where the Lads answer your questions every day.
           </p>
         </div>
         <div className="flex flex-col gap-3 lg:col-span-4">
-          <Button href={socialLinks.discord} variant="primary" size="lg" className="w-full" {...external}>
-            {discordAccount.connected ? "Open Discord" : "Connect Discord"}
-            <ArrowUpRight aria-hidden className="size-4" />
-          </Button>
-          {discordAccount.connected && (
-            <p className="text-center text-xs text-muted">Wrong account? Contact us in #help to switch it.</p>
+          {invite ? (
+            <Button href={invite} variant="primary" size="lg" className="w-full" {...external}>
+              Join the Discord
+              <ArrowUpRight aria-hidden className="size-4" />
+            </Button>
+          ) : (
+            <p className="text-center text-sm text-muted">The invite link is on its way.</p>
           )}
         </div>
       </section>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        {channels.length > 0 && (
         <section aria-labelledby="channels-heading" className="flex flex-col gap-4 lg:col-span-8">
           <h2 id="channels-heading" className="flex items-center gap-2 font-display text-lg font-extrabold uppercase">
             <Hash aria-hidden className="size-5 text-primary" />
             Main channels
           </h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {discordChannels.map((channel) => (
+            {channels.map((channel) => (
               <li
                 key={channel.name}
                 className="group relative flex flex-col gap-3 rounded-2xl border border-white/8 bg-[#0f141b] p-5 transition-colors hover:border-primary/40"
               >
                 <p className="flex items-center justify-between gap-2">
-                  <a
-                    href={socialLinks.discord}
-                    {...external}
-                    className="font-display text-lg font-extrabold after:absolute after:inset-0 group-hover:text-primary"
-                  >
-                    <span className="text-muted">#</span>
-                    {channel.name}
-                  </a>
+                  {invite ? (
+                    <a
+                      href={invite}
+                      {...external}
+                      className="font-display text-lg font-extrabold after:absolute after:inset-0 group-hover:text-primary"
+                    >
+                      <span className="text-muted">#</span>
+                      {channel.name}
+                    </a>
+                  ) : (
+                    <span className="font-display text-lg font-extrabold">
+                      <span className="text-muted">#</span>
+                      {channel.name}
+                    </span>
+                  )}
                   <span className="tabular rounded bg-white/5 px-2 py-0.5 text-[10px] text-muted uppercase">
                     {channel.label}
                   </span>
@@ -101,6 +104,7 @@ export default async function DashboardDiscordPage() {
             ))}
           </ul>
         </section>
+        )}
 
         <aside className="flex flex-col gap-6 lg:col-span-4">
           <DashPanel
@@ -122,13 +126,14 @@ export default async function DashboardDiscordPage() {
             <p className="text-xs text-muted">Tag them in #ask-the-lads. They reply every day.</p>
           </DashPanel>
 
+          {rules.length > 0 && (
           <DashPanel
             id="rules-heading"
             title="Server rules"
             icon={<ScrollText aria-hidden className="size-5 text-primary" />}
           >
             <ol className="flex flex-col gap-2 text-sm">
-              {discordRules.map((rule, index) => (
+              {rules.map((rule, index) => (
                 <li key={rule} className="flex gap-3">
                   <span className="tabular text-xs font-bold text-primary">{index + 1}</span>
                   {rule}
@@ -136,6 +141,7 @@ export default async function DashboardDiscordPage() {
               ))}
             </ol>
           </DashPanel>
+          )}
         </aside>
       </div>
     </div>

@@ -215,4 +215,40 @@ export interface SiteSettings {
   /** Main site colour (hex); see lib/theme.ts. */
   themeColor: string;
   trending: TrendingItem[];
+  plus: PlusSettings;
+  socials: SocialLinks;
+  hardTruth: HardTruthItem[];
+  discord: DiscordSettings;
+}
+
+export type PerkKey = "guides" | "discord" | "creators" | "trading" | "review";
+
+/** FC Lads+ membership: price, free trial and the perks shown on Home, the pricing page and paywalls. */
+export interface PlusSettings {
+  price: number;
+  /** ISO code, e.g. "USD". */
+  currency: string;
+  /** Free trial for new members, once per account. */
+  trialDays: number;
+  /** `{season}` in a description becomes the current season. */
+  perks: { key: PerkKey; title: string; description: string }[];
+}
+
+export type SocialKey = "youtube" | "instagram" | "x" | "tiktok" | "discord";
+
+/** The site's own channels (footer, Discord buttons). Empty = not linked yet. */
+export type SocialLinks = Record<SocialKey, string>;
+
+/** "The hard truth" on Home: a problem players face, and how FC Lads answers it. */
+export interface HardTruthItem {
+  problem: string;
+  answerTitle: string;
+  answer: string;
+  creatorSlug: string;
+  cta: { label: string; href: string };
+}
+
+export interface DiscordSettings {
+  channels: { name: string; label: string; description: string; pinned?: string }[];
+  rules: string[];
 }

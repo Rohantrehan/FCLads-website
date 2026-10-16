@@ -223,6 +223,10 @@ export async function saveSettings(payload: unknown) {
         current_season: input.currentSeason,
         theme_color: input.themeColor,
         trending: input.trending,
+        plus: input.plus,
+        socials: input.socials,
+        hard_truth: input.hardTruth,
+        discord: input.discord,
       })
       .eq("id", 1)
       .select("id")

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Gamepad2, MessagesSquare, Users, Zap } from "lucide-react";
 import { CreatorRoster, type RosterEntry } from "@/components/creators/CreatorRoster";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
-import { getContent } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { creators } = await getContent();
@@ -18,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const TOTAL_AUDIENCE = "1.2M+";
 
 export default async function CreatorsPage() {
+  const plus = await getPlus();
   const content = await getContent();
   const { creators } = content;
   const year = new Date().getFullYear();
@@ -115,7 +115,7 @@ export default async function CreatorsPage() {
             </p>
           </div>
           <Button href="/lads-plus" variant="primary" size="lg" className="shrink-0">
-            Join FC Lads+ ({ladsPlus.priceLabel}/mo)
+            Join FC Lads+ ({plus.priceLabel}/mo)
             <Zap aria-hidden className="size-4" />
           </Button>
         </div>

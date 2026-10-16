@@ -19,6 +19,8 @@ export interface ContentData {
   feedPosts: FeedPost[];
   tradingPosts: TradingPost[];
   settings: SiteSettings;
+  /** The next scheduled guide (published, date still to come). Only its title, date and author. */
+  upcomingGuide?: { title: string; publishedAt: string; authorSlug: string };
 }
 
 export interface GuideQuery {
@@ -41,7 +43,12 @@ export function createContent(data: ContentData, now: string) {
   const guides = byVisible(data.guides);
   const feedPosts = byVisible(data.feedPosts);
   const tradingPosts = byVisible(data.tradingPosts);
-  const settings = { ...data.settings, trending: byVisible(data.settings.trending) };
+  const settings = {
+    ...data.settings,
+    trending: byVisible(data.settings.trending),
+    hardTruth: data.settings.hardTruth.filter((item) => visible.has(item.creatorSlug)),
+  };
+  const upcomingGuide = data.upcomingGuide && visible.has(data.upcomingGuide.authorSlug) ? data.upcomingGuide : undefined;
   const collections = data.collections;
 
   const getCreator = (slug: string) => creators.find((creator) => creator.slug === slug);
@@ -52,6 +59,7 @@ export function createContent(data: ContentData, now: string) {
     /** Today's date (UTC), e.g. "2026-10-12". */
     today: now.slice(0, 10),
     settings,
+    upcomingGuide,
     creators,
     guides,
     collections,

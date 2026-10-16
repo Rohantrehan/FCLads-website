@@ -2,12 +2,14 @@ import { ArrowRight } from "lucide-react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Button } from "@/components/ui/Button";
+import { getPlus } from "@/lib/content";
 
 // Root-level 404: used for any URL that doesn't match a route. Includes the site shell so users can navigate on.
-export default function NotFound() {
+export default async function NotFound() {
+  const plus = await getPlus();
   return (
     <>
-      <SiteHeader />
+      <SiteHeader plus={plus} />
       <main id="main">
         <section className="page-container flex min-h-[60dvh] flex-col items-start justify-center gap-6 py-24">
           <span className="tabular text-xs font-bold tracking-widest text-mint uppercase">

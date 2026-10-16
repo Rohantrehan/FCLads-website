@@ -134,11 +134,18 @@ export async function fetchCatalog(): Promise<ContentData> {
 
   const now = Date.now();
   const setting = settings.data as SiteSettingsRow | null;
-  const currentSeason = setting?.current_season ?? "";
+  if (!setting) throw new Error("site_settings has no row (id 1). Run the content migrations.");
+  const currentSeason = setting.current_season;
+  const guideRows = rows<GuideListRow>(guides, "guides");
+  // The next guide that's published but not out yet (scheduled), for "Coming next" on the dashboard.
+  const upcoming = guideRows
+    .filter((row) => row.status === "published" && new Date(row.published_at).getTime() > now)
+    .sort((a, b) => a.published_at.localeCompare(b.published_at))[0];
 
   return {
     creators: rows<CreatorRow>(creators, "creators").map(toCreator),
-    guides: rows<GuideListRow>(guides, "guides")
+    upcomingGuide: upcoming && { title: upcoming.title, publishedAt: upcoming.published_at, authorSlug: upcoming.author_slug },
+    guides: guideRows
       .filter((row) => isLive(row.status, row.published_at, now))
       .map((row) => ({
         slug: row.slug,
@@ -182,10 +189,14 @@ export async function fetchCatalog(): Promise<ContentData> {
         image: orUndefined(row.image),
       })),
     settings: {
-      currentPatch: setting?.current_patch ?? "",
+      currentPatch: setting.current_patch,
       currentSeason,
-      themeColor: setting?.theme_color ?? DEFAULT_THEME_COLOR,
-      trending: (setting?.trending ?? []).filter((item) => item.authorSlug),
+      themeColor: setting.theme_color || DEFAULT_THEME_COLOR,
+      trending: (setting.trending ?? []).filter((item) => item.authorSlug),
+      plus: setting.plus,
+      socials: { youtube: "", instagram: "", x: "", tiktok: "", discord: "", ...setting.socials },
+      hardTruth: setting.hard_truth ?? [],
+      discord: { channels: setting.discord?.channels ?? [], rules: setting.discord?.rules ?? [] },
     },
   };
 }

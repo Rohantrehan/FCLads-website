@@ -5,9 +5,8 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, MotionConfig, motion, type Variants } from "motion/react";
 import { ArrowRight, Zap } from "lucide-react";
 import { Avatar } from "@/components/ui/DataBits";
-import { hardTruth } from "@/data/hardTruth";
 import { cn } from "@/lib/cn";
-import type { Creator } from "@/types";
+import type { Creator, HardTruthItem } from "@/types";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const HOVER_INTENT_MS = 120;
@@ -38,10 +37,17 @@ const fadeUp: Variants = {
  * after the cursor leaves. Tap (phones) and arrow keys (keyboard) do the same.
  * Built as ARIA tabs: the problems are tabs, the answer is the tab panel.
  */
-export function HardTruth({ creators }: { creators: Pick<Creator, "slug" | "name" | "initials" | "role">[] }) {
+/** Needs at least one item (Home leaves the section out otherwise). */
+export function HardTruth({
+  items: hardTruth,
+  creators,
+}: {
+  items: HardTruthItem[];
+  creators: Pick<Creator, "slug" | "name" | "initials" | "role">[];
+}) {
   const baseId = useId();
-  const [active, setActive] = useState(2);
-  const item = hardTruth[active];
+  const [active, setActive] = useState(Math.min(2, hardTruth.length - 1));
+  const item = hardTruth[Math.min(active, hardTruth.length - 1)];
   const creator = creators.find((entry) => entry.slug === item.creatorSlug);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 

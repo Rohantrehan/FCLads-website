@@ -8,12 +8,18 @@ import { logOut } from "@/app/(auth)/actions";
 import { Logo } from "@/components/layout/Logo";
 import { TierBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
 import { cn } from "@/lib/cn";
 import { isActive, mainNav } from "@/lib/site";
 
 /** `account` is set when someone is signed in (decided on the server by the layout). */
-export function SiteHeader({ account }: { account?: { name: string; isMember: boolean; isCreator?: boolean } }) {
+export function SiteHeader({
+  account,
+  plus,
+}: {
+  account?: { name: string; isMember: boolean; isCreator?: boolean };
+  /** FC Lads+ price and trial from Site settings. */
+  plus: { priceLabel: string; trialDays: number };
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   // Close the phone menu whenever the route changes (React "adjust state on prop change" pattern).
@@ -164,7 +170,7 @@ export function SiteHeader({ account }: { account?: { name: string; isMember: bo
                   </Button>
                 ) : (
                   <Button href="/lads-plus" size="lg">
-                    Start {ladsPlus.trialDays}-day free trial
+                    Start {plus.trialDays}-day free trial
                   </Button>
                 )}
                 {account.isCreator && (
@@ -185,7 +191,7 @@ export function SiteHeader({ account }: { account?: { name: string; isMember: bo
             ) : (
               <>
                 <Button href="/lads-plus" size="lg">
-                  Join FC Lads+ · {ladsPlus.priceLabel}/mo
+                  Join FC Lads+ · {plus.priceLabel}/mo
                 </Button>
                 <Button href="/login" variant="glass" size="lg">
                   Log in

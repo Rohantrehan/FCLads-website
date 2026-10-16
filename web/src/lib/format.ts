@@ -24,6 +24,20 @@ export function formatPercent(value: number) {
 /** Fills in the current game name (e.g. "FC 28") where fixed site text says {season}. Set on the posting board. */
 export const withSeason = (text: string, season: string) => text.replaceAll("{season}", season);
 
+/** The FC Lads+ price for display, e.g. "$29" or "£24.99". */
+export function priceLabel({ price, currency }: { price: number; currency: string }) {
+  try {
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency,
+      currencyDisplay: "narrowSymbol",
+      minimumFractionDigits: Number.isInteger(price) ? 0 : 2,
+    }).format(price);
+  } catch {
+    return `${price} ${currency}`;
+  }
+}
+
 export const categoryLabels: Record<GuideCategory, string> = {
   tactics: "Tactics",
   gameplay: "Gameplay",

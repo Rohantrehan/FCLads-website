@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { PerkIcon } from "@/components/home/PerkIcon";
-import { ladsPlusPerks, type PerkKey } from "@/data/ladsPlus";
+import type { PerkKey, PlusSettings } from "@/types";
 import { withSeason } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
@@ -124,7 +124,7 @@ const previews: Record<PerkKey, PerkPreview> = {
  * "Your membership includes": perk list + preview panel. Resting the cursor on a perk (or
  * tabbing / tapping) shows its preview, which stays after the cursor leaves.
  */
-export function PerkShowcase({ season }: { season: string }) {
+export function PerkShowcase({ season, perks }: { season: string; perks: PlusSettings["perks"] }) {
   const [active, setActive] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -133,7 +133,8 @@ export function PerkShowcase({ season }: { season: string }) {
     timer.current = setTimeout(() => setActive(index), delay);
   };
 
-  const perk = ladsPlusPerks[active];
+  const perk = perks[Math.min(active, perks.length - 1)];
+  if (!perk) return null;
   const preview = previews[perk.key];
 
   return (
@@ -146,7 +147,7 @@ export function PerkShowcase({ season }: { season: string }) {
           className="flex flex-col gap-2 lg:col-span-5"
           onMouseLeave={() => clearTimeout(timer.current)}
         >
-          {ladsPlusPerks.map((item, index) => {
+          {perks.map((item, index) => {
             const isActive = index === active;
             return (
               <button
@@ -164,9 +165,9 @@ export function PerkShowcase({ season }: { season: string }) {
                   const step = event.key === "ArrowDown" ? 1 : event.key === "ArrowUp" ? -1 : 0;
                   if (!step) return;
                   event.preventDefault();
-                  const next = (index + step + ladsPlusPerks.length) % ladsPlusPerks.length;
+                  const next = (index + step + perks.length) % perks.length;
                   setActive(next);
-                  document.getElementById(`perk-tab-${ladsPlusPerks[next].key}`)?.focus();
+                  document.getElementById(`perk-tab-${perks[next].key}`)?.focus();
                 }}
                 className={cn(
                   "flex items-center gap-4 rounded-xl border p-4 text-left transition-all duration-200",

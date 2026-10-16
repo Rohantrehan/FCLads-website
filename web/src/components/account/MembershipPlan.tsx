@@ -7,8 +7,14 @@ import { cn } from "@/lib/cn";
 
 interface MembershipPlanProps {
   plan: string;
-  subscriptionId: string;
+  /** Payment provider's subscription id, once payments are connected. */
+  subscriptionId?: string;
   priceLabel: string;
+  /** e.g. "Active membership", "Free trial". */
+  statusLabel: string;
+  autoRenew: boolean;
+  /** "Next payment" or "Trial ends". */
+  dateLabel: string;
   /** Pre-formatted dates, e.g. "28 Oct 2026". */
   nextPayment: string;
   nextPaymentShort: string;
@@ -26,6 +32,9 @@ export function MembershipPlan({
   plan,
   subscriptionId,
   priceLabel,
+  statusLabel,
+  autoRenew,
+  dateLabel,
   nextPayment,
   nextPaymentShort,
   memberSince,
@@ -83,9 +92,11 @@ export function MembershipPlan({
                 >
                   {plan}
                 </h2>
-                <p className="tabular mt-1 text-[11px] tracking-widest text-mint uppercase">
-                  Subscription {subscriptionId}
-                </p>
+                {subscriptionId && (
+                  <p className="tabular mt-1 text-[11px] tracking-widest text-mint uppercase">
+                    Subscription {subscriptionId}
+                  </p>
+                )}
               </div>
             </div>
             <span
@@ -95,7 +106,7 @@ export function MembershipPlan({
               )}
             >
               <span aria-hidden className={cn("size-1.5 rounded-full", cancelled ? "bg-gold" : "bg-mint")} />
-              {cancelled ? `Ends ${nextPaymentShort}` : "Active membership"}
+              {cancelled ? `Ends ${nextPaymentShort}` : statusLabel}
             </span>
           </div>
 
@@ -105,14 +116,14 @@ export function MembershipPlan({
               <span className="text-lg text-muted">/ month</span>
             </p>
             <span className="tabular rounded-md border border-white/10 bg-canvas/60 px-3 py-1.5 text-xs font-bold text-mint uppercase">
-              {cancelled ? "Auto-renew off" : "Auto-renew on"}
+              {cancelled || !autoRenew ? "Auto-renew off" : "Auto-renew on"}
             </span>
           </div>
 
           <div className="flex flex-col gap-3 border-t border-white/10 pt-5 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
             <span className="tabular flex items-center gap-2 text-muted">
               <CalendarDays aria-hidden className="size-4" />
-              {cancelled ? "Access until" : "Next payment"}: <strong className="text-white">{nextPayment}</strong>
+              {cancelled ? "Access until" : dateLabel}: <strong className="text-white">{nextPayment}</strong>
             </span>
             <span className="tabular flex items-center gap-2 text-muted">
               <History aria-hidden className="size-4" />

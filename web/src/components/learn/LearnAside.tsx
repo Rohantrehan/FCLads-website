@@ -1,10 +1,11 @@
 import { Lock, MessagesSquare } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
-import { socialLinks } from "@/lib/site";
+import { getPlus, getSocials } from "@/lib/content";
 
 /** Sidebar widget: ask the analysts for a guide on Discord. */
-export function DiscordRequest() {
+export async function DiscordRequest() {
+  const { discord } = await getSocials();
+  if (!discord) return null;
   return (
     <aside className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-[#0f141b] p-5">
       <p className="text-label flex items-center gap-2 text-mint">
@@ -15,7 +16,7 @@ export function DiscordRequest() {
       <p className="text-sm text-muted">
         Ask the Lads to test a counter-tactic, slider setup or SBC solution on Discord.
       </p>
-      <Button href={socialLinks.discord} variant="glass" size="sm" className="mt-1 rounded-lg">
+      <Button href={discord} target="_blank" rel="noopener noreferrer" variant="glass" size="sm" className="mt-1 rounded-lg">
         Request in Discord
       </Button>
     </aside>
@@ -23,7 +24,8 @@ export function DiscordRequest() {
 }
 
 /** Wide upsell banner placed between rows of the guide grid. */
-export function PlusBanner() {
+export async function PlusBanner() {
+  const plus = await getPlus();
   return (
     <aside className="flex flex-col items-start gap-5 rounded-2xl border border-primary/30 bg-gradient-to-r from-pitch-green to-[color-mix(in_oklab,var(--color-pitch-green)_55%,#000)] p-5 md:flex-row md:items-center md:justify-between md:p-6">
       <div className="flex items-start gap-4">
@@ -39,7 +41,7 @@ export function PlusBanner() {
         </div>
       </div>
       <Button href="/lads-plus" variant="glass" size="sm" className="shrink-0">
-        See FC Lads+ ({ladsPlus.priceLabel}/mo)
+        See FC Lads+ ({plus.priceLabel}/mo)
       </Button>
     </aside>
   );

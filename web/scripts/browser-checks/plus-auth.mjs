@@ -73,7 +73,7 @@ check("weak password shows strength", /Too short|Weak/.test(await evaluate("docu
 await submit();
 check("bad email + short password flagged", (await errs()) === "email,password,terms", await errs());
 await evaluate("document.querySelector('input[name=email]').select()");
-// .test addresses are refused by Supabase, so this reaches the server without sending any email.
+// A .test address; the form is never submitted (see below), so no email is sent.
 await send("Input.insertText", { text: "test@fclads.test" });
 await evaluate("document.querySelector('input[name=password]').select()");
 await send("Input.insertText", { text: "Testpass123!" });
@@ -82,10 +82,8 @@ const eye = await pos(`document.querySelector('[aria-label="Show password"]')`);
 await click(eye.x, eye.y); await sleep(200);
 check("show password reveals text", (await evaluate("document.querySelector('input[name=password]').type")) === "text");
 p = await pos(`document.querySelector('input[name=terms]')`); await click(p.x, p.y);
-await submit();
-await sleep(4000);
-check("server error shown in plain words", /can.t be used/.test(await statusText()), await statusText());
-check("no errors left", (await errs()) === "", await errs());
+// Not submitted: with custom SMTP on, Supabase accepts any address and would send a real email.
+check("no errors left once the form is filled in", (await errs()) === "", await errs());
 
 // ---- Log in
 await send("Page.navigate", { url: "http://localhost:3000/login" }); await sleep(2500);

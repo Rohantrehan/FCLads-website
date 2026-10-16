@@ -9,7 +9,6 @@ import { cn } from "@/lib/cn";
 import { feedTopics } from "@/lib/content/constants";
 import { formatCompact, formatNumber } from "@/lib/format";
 import type { FeedItem } from "@/lib/feedAccess";
-import { socialLinks } from "@/lib/site";
 
 /** "45m ago", "3h ago", "2d ago" relative to `now`. */
 function timeAgo(iso: string, now: string) {
@@ -109,13 +108,17 @@ export function FeedPostCard({ post, now }: { post: FeedItem; now: string }) {
                   Full breakdown (Lads+)
                 </Link>
               )}
-              <a
-                href={socialLinks.youtube}
-                className="text-label flex items-center gap-1.5 text-primary hover:text-white"
-              >
-                Watch on YouTube
-                <ArrowRight aria-hidden className="size-3.5" />
-              </a>
+              {post.youtubeId && (
+                <a
+                  href={`https://www.youtube.com/watch?v=${post.youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-label flex items-center gap-1.5 text-primary hover:text-white"
+                >
+                  Watch on YouTube
+                  <ArrowRight aria-hidden className="size-3.5" />
+                </a>
+              )}
             </p>
           </div>
         </PostFrame>

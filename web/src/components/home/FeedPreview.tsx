@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Gamepad2, RefreshCw, ShieldCheck, TrendingUp, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/Panel";
-import { ladsPlus } from "@/data/ladsPlus";
+import { getPlus } from "@/lib/content";
 import { cn } from "@/lib/cn";
 
 const topics = [
@@ -42,7 +42,8 @@ const topics = [
   },
 ];
 
-export function FeedPreview() {
+export async function FeedPreview() {
+  const plus = await getPlus();
   return (
     <section aria-labelledby="feed-heading" className="page-container py-20">
       <SectionHeading
@@ -88,7 +89,7 @@ export function FeedPreview() {
                 <ShieldCheck aria-hidden className="size-5 text-primary" />
                 FC Lads+ membership
               </h3>
-              <span className="tabular shrink-0 font-bold text-primary">{ladsPlus.priceLabel} / mo</span>
+              <span className="tabular shrink-0 font-bold text-primary">{plus.priceLabel} / mo</span>
             </div>
             <p className="text-sm leading-relaxed text-muted">
               Every guide and video series, the private Discord, direct creator access, members-only trading posts and a

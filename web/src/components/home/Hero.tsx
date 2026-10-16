@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { CreatorCard } from "@/components/cards/CreatorCard";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
+import { getPlus } from "@/lib/content";
 import type { Creator } from "@/types";
 
 const topics = [
@@ -20,7 +20,8 @@ interface HeroProps {
   patch: string;
 }
 
-export function Hero({ cards, patch }: HeroProps) {
+export async function Hero({ cards, patch }: HeroProps) {
+  const plus = await getPlus();
   const [front, left, right] = cards;
   return (
     <section className="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24">
@@ -81,7 +82,7 @@ export function Hero({ cards, patch }: HeroProps) {
             <Button href="/lads-plus" variant="glass" size="lg">
               Join FC Lads+
               <span className="tabular rounded border border-primary/20 bg-canvas/80 px-2 py-0.5 text-xs text-primary">
-                {ladsPlus.priceLabel}/MO
+                {plus.priceLabel}/MO
               </span>
             </Button>
           </div>

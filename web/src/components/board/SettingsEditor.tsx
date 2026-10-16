@@ -4,6 +4,7 @@ import { useState, type CSSProperties } from "react";
 import { Check, Replace, RotateCcw } from "lucide-react";
 import type { CreatorChoice } from "@/components/board/AuthorField";
 import { ListEditor, Section, TextField, inputClass } from "@/components/board/fields";
+import { DiscordEditor, HardTruthEditor, PlusEditor, SocialsEditor } from "@/components/board/SettingsSections";
 import { ResultMessage, SaveOnlyBar, useSaver } from "@/components/board/SaveBar";
 import { renameGame, saveSettings } from "@/lib/board/actions";
 import type { SettingsInput } from "@/lib/board/schemas";
@@ -190,7 +191,20 @@ export function SettingsEditor({ row, creators }: { row: SiteSettingsRow | null;
     currentSeason: row?.current_season ?? "",
     themeColor: row?.theme_color ?? DEFAULT_THEME_COLOR,
     trending: row?.trending ?? [],
+    plus: {
+      price: row?.plus.price ?? 0,
+      currency: (row?.plus.currency ?? "USD") as SettingsInput["plus"]["currency"],
+      trialDays: row?.plus.trialDays ?? 0,
+      perks: row?.plus.perks ?? [],
+    },
+    socials: { youtube: "", instagram: "", x: "", tiktok: "", discord: "", ...row?.socials },
+    hardTruth: row?.hard_truth ?? [],
+    discord: {
+      channels: (row?.discord.channels ?? []).map((channel) => ({ ...channel, pinned: channel.pinned ?? "" })),
+      rules: row?.discord.rules ?? [],
+    },
   }));
+  const set = <K extends keyof SettingsInput>(key: K) => (value: SettingsInput[K]) => setSettings((old) => ({ ...old, [key]: value }));
   const { save, pending, result } = useSaver(saveSettings);
 
   return (
@@ -256,6 +270,22 @@ export function SettingsEditor({ row, creators }: { row: SiteSettingsRow | null;
             </div>
           )}
         />
+      </Section>
+
+      <Section title="FC Lads+ membership" description="Price, free trial and the perks shown across the site.">
+        <PlusEditor value={settings.plus} onChange={set("plus")} />
+      </Section>
+
+      <Section title="Social links" description="FC Lads' own channels: the footer icons, YouTube buttons and every Discord button.">
+        <SocialsEditor value={settings.socials} onChange={set("socials")} />
+      </Section>
+
+      <Section title="Home: the hard truth" description="The problems players face and how FC Lads answers each one.">
+        <HardTruthEditor value={settings.hardTruth} onChange={set("hardTruth")} creators={creators} />
+      </Section>
+
+      <Section title="Discord page" description="Channels and rules on the members' Discord page.">
+        <DiscordEditor value={settings.discord} onChange={set("discord")} />
       </Section>
 
       <SaveOnlyBar pending={pending} result={result} onSave={() => save(settings)} />

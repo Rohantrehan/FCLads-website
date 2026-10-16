@@ -7,9 +7,7 @@ import { GuideCard } from "@/components/cards/GuideCard";
 import { AudienceStats } from "@/components/creators/CreatorBits";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
-import { getContent } from "@/lib/content";
-import { socialLinks } from "@/lib/site";
+import { getContent, getPlus, getSocials } from "@/lib/content";
 
 type Params = Promise<{ slug: string }>;
 
@@ -29,6 +27,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function CreatorProfilePage({ params }: { params: Params }) {
+  const plus = await getPlus();
+  const socials = await getSocials();
   const content = await getContent();
   const creator = content.getCreator((await params).slug);
   if (!creator) notFound();
@@ -89,10 +89,12 @@ export default async function CreatorProfilePage({ params }: { params: Params })
                 Ask {creator.name} in Discord
                 <span className="tabular rounded bg-on-primary/15 px-1.5 py-0.5 text-[10px]">LADS+</span>
               </Button>
-              <Button href={creator.socials.youtube ?? socialLinks.youtube} variant="glass">
-                <MonitorPlay aria-hidden className="size-4 text-danger" />
-                Subscribe on YouTube
-              </Button>
+              {(creator.socials.youtube || socials.youtube) && (
+                <Button href={creator.socials.youtube || socials.youtube} target="_blank" rel="noopener noreferrer" variant="glass">
+                  <MonitorPlay aria-hidden className="size-4 text-danger" />
+                  Subscribe on YouTube
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -175,8 +177,8 @@ export default async function CreatorProfilePage({ params }: { params: Params })
                 breakdown with personal tactical fixes.
               </p>
               <p className="tabular mt-4 text-primary">
-                {ladsPlus.priceLabel} / month{" "}
-                <span className="text-muted">· {ladsPlus.trialDays}-day free trial · Cancel anytime</span>
+                {plus.priceLabel} / month{" "}
+                <span className="text-muted">· {plus.trialDays}-day free trial · Cancel anytime</span>
               </p>
             </div>
             <Button href="/lads-plus" size="lg" className="shrink-0">

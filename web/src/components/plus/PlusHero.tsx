@@ -1,11 +1,12 @@
 import { CheckCircle2, Lock, Zap } from "lucide-react";
 import { ShieldMark } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
-import { ladsPlus } from "@/data/ladsPlus";
+import { getPlus } from "@/lib/content";
 
 export const JOIN_HREF = "/signup?plan=plus";
 
-export function PlusHero() {
+export async function PlusHero() {
+  const plus = await getPlus();
   return (
     <section className="relative overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -32,12 +33,12 @@ export function PlusHero() {
           <div className="glass flex w-full max-w-xl flex-col gap-5 rounded-2xl p-5 shadow-rim sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="flex items-baseline gap-1.5">
-                <span className="font-display text-4xl font-extrabold">{ladsPlus.priceLabel}</span>
+                <span className="font-display text-4xl font-extrabold">{plus.priceLabel}</span>
                 <span className="text-muted">/ month</span>
               </p>
               <p className="tabular mt-1 flex items-center gap-1.5 text-xs text-mint">
                 <CheckCircle2 aria-hidden className="size-3.5" />
-                {ladsPlus.trialDays}-day free trial · Instant access
+                {plus.trialDays}-day free trial · Instant access
               </p>
               <p className="mt-1 text-xs text-muted">Then billed monthly. Cancel anytime from your account.</p>
             </div>

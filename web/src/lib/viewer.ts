@@ -10,7 +10,7 @@ export type ViewerRole = "member" | "creator" | "admin";
 export interface Viewer {
   isSignedIn: boolean;
   isMember: boolean;
-  /** Account ID. Missing for visitors and in the DEV_VIEWER design preview (no real account). */
+  /** Account ID. Missing for visitors. */
   id?: string;
   /** "creator" and "admin" can run gameplay reviews (the Creator hub). */
   role?: ViewerRole;
@@ -30,11 +30,6 @@ export const isMemberStatus = (status: string) => MEMBER_STATUSES.has(status);
 
 /** The signed-in user and their FC Lads+ status. Cached for the length of one request. */
 export const getViewer = cache(async (): Promise<Viewer> => {
-  // Design preview only: `DEV_VIEWER=member` in web/.env.local shows the site as a signed-in member.
-  // Ignored in production builds.
-  if (process.env.NODE_ENV === "development" && process.env.DEV_VIEWER === "member") {
-    return { isSignedIn: true, isMember: true, name: "Arjun", email: "arjun@example.com" };
-  }
   if (!isAuthConfigured) return visitor;
 
   const supabase = await createClient();

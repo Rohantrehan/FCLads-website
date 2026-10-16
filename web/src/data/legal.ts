@@ -1,5 +1,3 @@
-import { ladsPlus } from "@/data/ladsPlus";
-
 // Legal pages: Terms of Service, Privacy Policy and the Trading disclaimer.
 // DRAFT copy written in plain English from the design. Must be reviewed by a lawyer before launch:
 // company name, governing law, contact email and the payment / analytics providers are placeholders.
@@ -119,12 +117,12 @@ const terms: LegalDoc = {
           type: "callout",
           tone: "info",
           title: "Billing",
-          text: `FC Lads+ costs ${ladsPlus.priceLabel} (${ladsPlus.currency}) per month, plus any tax that applies where you live. It renews automatically each month until you cancel. You can cancel at any time from your account.`,
+          text: `FC Lads+ costs {price} ({currency}) per month, plus any tax that applies where you live. It renews automatically each month until you cancel. You can cancel at any time from your account.`,
         },
         {
           type: "p",
           lead: "Free trial:",
-          text: `new members get ${ladsPlus.trialDays} days of FC Lads+ free, once per account. You give us a card when the trial starts and your first payment is taken automatically when it ends, unless you cancel before then. If you cancel during the trial, you aren't charged and your access ends when the trial does.`,
+          text: `new members get {trialDays} days of FC Lads+ free, once per account. You give us a card when the trial starts and your first payment is taken automatically when it ends, unless you cancel before then. If you cancel during the trial, you aren't charged and your access ends when the trial does.`,
         },
         {
           type: "p",
@@ -487,6 +485,10 @@ const tradingDisclaimer: LegalDoc = {
 
 export const legalDocs: LegalDoc[] = [terms, privacy, tradingDisclaimer];
 
-export function getLegalDoc(slug: string) {
-  return legalDocs.find((doc) => doc.slug === slug);
+/** The document with the FC Lads+ price and trial from Site settings filled in ({price}, {currency}, {trialDays}). */
+export function getLegalDoc(slug: string, plus?: { priceLabel: string; currency: string; trialDays: number }) {
+  const doc = legalDocs.find((item) => item.slug === slug);
+  if (!doc || !plus) return doc;
+  const values: Record<string, string> = { price: plus.priceLabel, currency: plus.currency, trialDays: String(plus.trialDays) };
+  return JSON.parse(JSON.stringify(doc).replace(/\{(price|currency|trialDays)\}/g, (_, key: string) => values[key])) as LegalDoc;
 }
