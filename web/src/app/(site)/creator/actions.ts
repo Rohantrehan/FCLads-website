@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { notifyNewLinkNeeded, notifyReviewReady } from "@/lib/email/notify";
 import { reviewErrorMessage } from "@/lib/reviews";
 import { createClient } from "@/lib/supabase/server";
 import { canRunReviews, getViewer } from "@/lib/viewer";
@@ -19,12 +20,13 @@ const text = (data: FormData, key: string) => String(data.get(key) ?? "").trim()
 const actingFor = (data: FormData) => text(data, "creator") || null;
 
 /** Runs one review function as the signed-in creator, then refreshes the hub. */
-async function run(fn: string, args: Record<string, unknown>, ok: string): Promise<CreatorFormState> {
+async function run(fn: string, args: Record<string, unknown>, ok: string, onDone?: () => void): Promise<CreatorFormState> {
   const viewer = await getViewer();
   if (!viewer.id || !canRunReviews(viewer)) return { message: reviewErrorMessage("not_creator") };
   const supabase = await createClient();
   const { error } = await supabase.rpc(fn, args);
   if (error) return { message: reviewErrorMessage(error.message) };
+  onDone?.();
   revalidatePath("/creator");
   return { ok };
 }
@@ -43,6 +45,7 @@ export async function reviewStep(_prev: CreatorFormState, data: FormData): Promi
         "ask_for_new_link",
         { p_id: id, p_note: text(data, "note"), p_creator_slug: creator },
         "Sent back. It comes back to you when they add a new link.",
+        () => notifyNewLinkNeeded(id),
       );
     default:
       return { message: reviewErrorMessage(undefined) };
@@ -58,10 +61,11 @@ export async function sendReview(_prev: CreatorFormState, data: FormData): Promi
   const notes = text(data, "notes");
   if (!notes && !recordingUrl) return { message: "Write the review or add a video link (or both)." };
 
+  const id = text(data, "request");
   return run(
     "complete_review",
     {
-      p_id: text(data, "request"),
+      p_id: id,
       p_title: text(data, "title"),
       p_notes: notes,
       p_recording_url: recordingUrl,
@@ -69,5 +73,6 @@ export async function sendReview(_prev: CreatorFormState, data: FormData): Promi
       p_creator_slug: actingFor(data),
     },
     "Sent. The member can see their review now.",
+    () => notifyReviewReady(id),
   );
 }

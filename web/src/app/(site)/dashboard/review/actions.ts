@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { notifyLinkFixed, notifyReviewSent } from "@/lib/email/notify";
 import { reviewErrorMessage } from "@/lib/reviews";
 import { createClient } from "@/lib/supabase/server";
 import { getViewer } from "@/lib/viewer";
@@ -33,12 +34,13 @@ export async function sendReview(_prev: ReviewFormState, data: FormData): Promis
 
   const lad = text(data, "lad");
   const supabase = await createClient();
-  const { error } = await supabase.rpc("submit_review", {
+  const { data: id, error } = await supabase.rpc("submit_review", {
     p_creator_slug: lad && lad !== "any" ? lad : null,
     p_match_url: matchUrl,
     p_focus: focus,
   });
   if (error) return { message: reviewErrorMessage(error.message) };
+  if (typeof id === "string") notifyReviewSent(id);
 
   revalidatePath("/dashboard", "layout");
   return { ok: true };
@@ -52,8 +54,12 @@ export async function editReview(_prev: ReviewFormState, data: FormData): Promis
   if (errors) return { errors };
 
   const supabase = await createClient();
-  const { error } = await supabase.rpc("edit_review", { p_id: text(data, "request"), p_match_url: matchUrl, p_focus: focus });
+  const id = text(data, "request");
+  // A new link after a Lad asked for one goes back to that Lad, so tell them.
+  const { data: before } = await supabase.from("review_requests").select("status, creator_slug").eq("id", id).maybeSingle();
+  const { error } = await supabase.rpc("edit_review", { p_id: id, p_match_url: matchUrl, p_focus: focus });
   if (error) return { message: reviewErrorMessage(error.message) };
+  if (before?.status === "fix_link" && before.creator_slug) notifyLinkFixed(id, before.creator_slug);
   revalidatePath("/dashboard", "layout");
   return { ok: true };
 }

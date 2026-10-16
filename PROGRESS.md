@@ -108,7 +108,7 @@ Home sections (`components/home/`): Hero (fanned collectible cards), MetaPlayers
 ### Step 7 — Backend 🟡
 - 🟡 Answer open questions with client (billing, login, CMS answered 12 Oct; refunds, Discord server still open)
 - ⬜ Choose hosting
-- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ content + posting board on Supabase (15 Oct; Sanity removed) · ✅ review booking (14 Oct) · ⬜ emails · ⬜ preview deploy · ⬜ Stripe (last)
+- 🟡 Backend: ✅ Supabase login (12 Oct) · ✅ content + posting board on Supabase (15 Oct; Sanity removed) · ✅ review booking (14 Oct) · ✅ emails (16 Oct; needs Resend key + domain) · 🟡 preview deploy (Vercel, env vars pending) · ⬜ Stripe (last)
 
 ### Later phases (from the report)
 - ⬜ Phase 2: Payments, Lads+ gating, account pages, member dashboard, Discord role sync
@@ -397,6 +397,22 @@ User feedback on Home → implemented:
 - Site's own text now uses the current season instead of a fixed "FC 27" (`withSeason()` in `lib/format.ts`; `{season}` in FC Lads+ perks, compare table, perk previews, membership page).
 - **Bug caught by the new test and fixed:** an empty theme rendered a text node inside `<head>`, which stopped stylesheets loading (site unstyled). Now renders nothing; the test checks the page is styled.
 - **Tests:** new `browser-checks/settings.mjs` 21/21; home 10, plus-auth 18. Screenshots checked in purple and red. Board 19/34 on this run only because the background dev server's worker crashed again (low memory, ~0.8 GB free; log shows "Jest worker"); it passed 34/34 on a fresh server before these changes, which don't touch saving. Typecheck + lint clean.
+
+### Session: Creators get full board access (2026-10-16)
+- **User request:** creators and admins should have the same access on the posting board.
+- App: `getStaff()` gives every creator/admin full board access (`isAdmin: true`, plus `role` for the header label).
+- Database: `20261016000000_creators_full_board.sql` widens `is_admin()` to creators. **Not applied: the user runs it in the SQL Editor** (MCP apply was blocked by permissions). Until then creators see the admin pages but saves there are refused.
+- ⚠️ Security/browser checks still expect creators to be blocked (content.mjs creator section, board.mjs creator menu, settings.mjs creator checks); updating them was blocked by the auto-mode classifier, waiting for the user's go-ahead.
+
+### Session: Emails (2026-10-16)
+- **Sender:** `lib/email/send.ts` posts to the Resend API with fetch (no new package). No `RESEND_API_KEY` → nothing sent, subject logged. Test addresses (`.test`, `example.com`, …) are never emailed. Never throws.
+- **Templates:** `lib/email/templates.ts`: branded dark HTML + plain text, follow the Site settings colour. Welcome, "We've got your match" (member), "A new match to review" (the picked Lad, or every Lad for any-Lad), "We need a new link" (member, with the Lad's note), "New link added" (that Lad), "Your review is ready" (member, with the plan).
+- **When:** `lib/email/notify.ts` looks addresses up with the secret key and sends inside `after()` so emails never slow or undo an action. Hooked into `submit_review`, `edit_review` (only after a fix-link request), `ask_for_new_link`, `complete_review`, and `/auth/confirm` (welcome on the first sign-up confirm).
+- **Supabase emails:** branded `supabase/templates/*.html` (confirm sign-up, reset password, change email, magic link) + `supabase/templates/README.md` with the setup: Resend domain + key, Supabase custom SMTP through Resend (the built-in mailer only allows a few emails an hour), templates, redirect URLs.
+- Dev-only preview: `http://localhost:3000/email-preview/<name>` (`?color=%23a970ff`, `?text`); 404 in production.
+- `.env.example`: `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO`.
+- **Tests:** reviews browser checks 24/24 (one early run missed a single 800 ms timing check while the server compiled). Previews checked in green and purple. Typecheck + lint clean.
+- ⚠️ **To do (user):** Resend account, verify the domain, add the key to `.env.local` + Vercel, set up Supabase SMTP + paste the templates (README).
 
 ## How to run locally
 
