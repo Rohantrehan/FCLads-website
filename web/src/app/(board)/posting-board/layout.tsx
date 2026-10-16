@@ -30,7 +30,7 @@ export default async function BoardLayout({ children }: LayoutProps<"/posting-bo
           </Link>
           <div className="flex items-center gap-4 text-sm">
             <span className="hidden text-muted sm:inline">
-              {staff.name} · <span className="text-on-surface">{staff.isAdmin ? "Admin" : "Creator"}</span>
+              {staff.name} · <span className="text-on-surface">{staff.role === "admin" ? "Admin" : "Creator"}</span>
             </span>
             <Link href="/" className="text-label flex items-center gap-1 text-primary hover:text-white">
               View site

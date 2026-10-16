@@ -17,7 +17,9 @@ export interface Staff {
   id: string;
   name: string;
   email?: string;
+  /** Full board access. Creators and admins have the same access (migration 20261016000000). */
   isAdmin: boolean;
+  role: "creator" | "admin";
   /** The creator profile this account posts as. Admins may have none. */
   creatorSlug?: string;
 }
@@ -32,7 +34,8 @@ export async function getStaff(): Promise<Staff | undefined> {
     id: viewer.id,
     name: viewer.name ?? viewer.email ?? "Lad",
     email: viewer.email,
-    isAdmin: viewer.role === "admin",
+    isAdmin: true,
+    role: viewer.role,
     creatorSlug: viewer.creatorSlug,
   };
 }
