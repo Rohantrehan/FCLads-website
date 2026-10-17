@@ -232,6 +232,8 @@ export interface PlusSettings {
   trialDays: number;
   /** `{season}` in a description becomes the current season. */
   perks: { key: PerkKey; title: string; description: string }[];
+  /** Uploaded picture for the membership card on the FC Lads+ page. None = the drawn card. */
+  cardImage?: string | null;
 }
 
 export type SocialKey = "youtube" | "instagram" | "x" | "tiktok" | "discord";

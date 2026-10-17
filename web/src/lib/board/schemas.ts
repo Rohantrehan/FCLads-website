@@ -271,6 +271,7 @@ export const settingsInput = z.object({
       )
       .min(1, "Add at least one perk.")
       .max(8, "Up to 8 perks."),
+    cardImage: imageUrl.nullable(),
   }),
   socials: z.object({
     youtube: link,

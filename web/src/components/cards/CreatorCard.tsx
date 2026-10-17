@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -56,9 +57,15 @@ export function CreatorCard({
         </header>
 
         <div className="relative my-3 flex h-48 items-center justify-center overflow-hidden rounded-lg bg-canvas">
-          {/* Portrait placeholder until real creator photos are supplied. */}
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-pitch-green/80 via-navy to-canvas" />
-          <span className="relative font-logo text-5xl font-black text-mint/70">{creator.initials}</span>
+          {creator.image ? (
+            <Image src={creator.image} alt="" fill sizes="256px" className="object-cover" />
+          ) : (
+            <>
+              {/* No photo uploaded on the posting board yet: initials instead. */}
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-pitch-green/80 via-navy to-canvas" />
+              <span className="relative font-logo text-5xl font-black text-mint/70">{creator.initials}</span>
+            </>
+          )}
           <span className="absolute top-2 right-2 rounded bg-canvas/80 px-1.5 py-0.5 backdrop-blur-md">
             <ShieldCheck aria-label="Verified creator" className="size-3.5 text-primary" />
           </span>

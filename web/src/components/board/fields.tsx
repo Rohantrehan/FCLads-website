@@ -321,7 +321,7 @@ export function ImageField({
   hint?: string;
   value: string | null;
   onChange: (url: string | null) => void;
-  folder: "trading" | "guides" | "creators";
+  folder: "trading" | "guides" | "creators" | "site";
 }) {
   const id = useId();
   const [busy, setBusy] = useState(false);

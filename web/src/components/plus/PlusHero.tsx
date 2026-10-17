@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CheckCircle2, Lock, Zap } from "lucide-react";
 import { ShieldMark } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
@@ -55,9 +56,14 @@ export async function PlusHero() {
           </div>
         </div>
 
-        {/* Decorative membership card */}
+        {/* Membership card: the picture uploaded in Site settings, or the drawn card */}
         <div className="flex justify-center lg:col-span-5">
           <div className="relative w-full max-w-sm rotate-2 rounded-3xl bg-gradient-to-br from-mint via-primary to-azure p-[2px] shadow-[0_0_60px_color-mix(in_oklab,var(--color-primary)_35%,transparent)] transition-transform duration-500 hover:rotate-0">
+            {plus.cardImage ? (
+              <div className="relative aspect-[1/1.25] overflow-hidden rounded-[22px] bg-canvas">
+                <Image src={plus.cardImage} alt="FC Lads+ membership card" fill priority sizes="384px" className="object-cover" />
+              </div>
+            ) : (
             <div className="relative flex aspect-[1/1.25] flex-col justify-between overflow-hidden rounded-[22px] bg-canvas p-6">
               <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-transparent via-mint/10 to-transparent" />
               <div aria-hidden className="absolute -top-20 -right-20 size-56 rounded-full bg-primary/20 blur-3xl" />
@@ -88,6 +94,7 @@ export async function PlusHero() {
                 </span>
               </div>
             </div>
+            )}
           </div>
         </div>
       </div>

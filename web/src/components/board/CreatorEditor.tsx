@@ -60,7 +60,7 @@ export function CreatorEditor({ base, row }: { base: string; row?: CreatorRow })
             <span className="font-semibold">Web address</span> <span className="text-muted">· /creators/{creator.slug}</span>
           </p>
         )}
-        <ImageField label="Photo" hint="optional" folder="creators" value={creator.image} onChange={(image) => set("image", image)} />
+        <ImageField label="Photo" hint="shown on their card on Home, Creators and their profile · face in the middle" folder="creators" value={creator.image} onChange={(image) => set("image", image)} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <TextField label="Role" hint="e.g. Tactics Analyst" value={creator.role} onChange={(value) => set("role", value)} maxLength={60} />
           <TextField label="Second line" hint="e.g. Gameplay expert // Tactical" value={creator.tagline} onChange={(value) => set("tagline", value)} maxLength={80} />
