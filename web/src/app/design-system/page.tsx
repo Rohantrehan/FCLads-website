@@ -90,7 +90,7 @@ export default async function DesignSystemPage() {
           <Button variant="glass" href="#">
             Join FC Lads+
             <span className="tabular rounded border border-primary/20 bg-canvas/80 px-2 py-0.5 text-xs text-primary">
-              $29/MO
+              $10/MO
             </span>
           </Button>
           <Button variant="primary">Join FC Lads+ now</Button>
