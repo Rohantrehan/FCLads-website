@@ -423,6 +423,13 @@ User feedback on Home → implemented:
 - **Member pages:** membership shows the real `memberships` row (status, trial end / next payment, member since); billing shows empty states (no fake card or invoices) until payments are connected; Discord shows "not linked yet" + the invite from settings. Dashboard: "Continue watching" → Latest videos, Discord quote → newest feed post, "This week in FC" → latest update posts, "Coming next" → the next scheduled guide.
 - **Tests:** home 10/10, plus-auth 17/17 (it no longer submits sign-ups: with custom SMTP on, Supabase accepts .test addresses and sends real email). settings.mjs fails only its creator checks (creators now have full access; updating those security checks still needs the user's go-ahead). `account.mjs member` / `dashboard.mjs member` relied on DEV_VIEWER and are obsolete. Typecheck + lint clean.
 
+### Session: $10 price + card pictures (2026-10-17)
+- **Price:** FC Lads+ set to $10/month in `site_settings.plus` (was $29). Live site shows it after the push.
+- **Image hosting decision: Supabase Storage** (the existing public `media` bucket, 5 MB, PNG/JPG/WebP, staff upload; the board converts pictures to WebP up to 1600px before upload). Chosen over Cloudinary: already set up, no new account/keys, same login and permissions. Free plan: 1 GB storage, about 5 GB egress/month. Revisit Cloudinary (25 credits/month free) only if we need heavy on-the-fly resizing or video.
+- **Creator cards** (Home hero x3, Creators, profiles) now show the photo uploaded in Board > Creators > Photo; initials when there's none.
+- **FC Lads+ page card:** new `plus.cardImage` (Board > Site settings > FC Lads+ membership > Membership card picture, upright about 4:5). Empty = the drawn card.
+- **Tests:** home 10/10, plus-auth 17/17, creators 7/7, typecheck + lint clean. Not tested with a real upload (would change the shared database).
+
 ## How to run locally
 
 ```bash
