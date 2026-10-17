@@ -2,12 +2,13 @@ import Image from "next/image";
 import { CheckCircle2, Lock, Zap } from "lucide-react";
 import { ShieldMark } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
-import { getPlus } from "@/lib/content";
+import { getContent, getPlus } from "@/lib/content";
 
 export const JOIN_HREF = "/signup?plan=plus";
 
 export async function PlusHero() {
   const plus = await getPlus();
+  const cardPicture = (await getContent()).settings.cards.plus;
   return (
     <section className="relative overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -56,12 +57,12 @@ export async function PlusHero() {
           </div>
         </div>
 
-        {/* Membership card: the picture uploaded in Site settings, or the drawn card */}
+        {/* Membership card: the picture uploaded on the posting board (Cards), or the drawn card */}
         <div className="flex justify-center lg:col-span-5">
           <div className="relative w-full max-w-sm rotate-2 rounded-3xl bg-gradient-to-br from-mint via-primary to-azure p-[2px] shadow-[0_0_60px_color-mix(in_oklab,var(--color-primary)_35%,transparent)] transition-transform duration-500 hover:rotate-0">
-            {plus.cardImage ? (
+            {cardPicture ? (
               <div className="relative aspect-[1/1.25] overflow-hidden rounded-[22px] bg-canvas">
-                <Image src={plus.cardImage} alt="FC Lads+ membership card" fill priority sizes="384px" className="object-cover" />
+                <Image src={cardPicture} alt="FC Lads+ membership card" fill priority sizes="384px" className="object-cover" />
               </div>
             ) : (
             <div className="relative flex aspect-[1/1.25] flex-col justify-between overflow-hidden rounded-[22px] bg-canvas p-6">

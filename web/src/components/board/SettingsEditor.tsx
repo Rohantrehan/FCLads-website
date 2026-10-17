@@ -196,7 +196,6 @@ export function SettingsEditor({ row, creators }: { row: SiteSettingsRow | null;
       currency: (row?.plus.currency ?? "USD") as SettingsInput["plus"]["currency"],
       trialDays: row?.plus.trialDays ?? 0,
       perks: row?.plus.perks ?? [],
-      cardImage: row?.plus.cardImage ?? null,
     },
     socials: { youtube: "", instagram: "", x: "", tiktok: "", discord: "", ...row?.socials },
     hardTruth: row?.hard_truth ?? [],

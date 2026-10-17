@@ -1,7 +1,7 @@
 "use client";
 
 import type { CreatorChoice } from "@/components/board/AuthorField";
-import { ImageField, ListEditor, NumberField, SelectField, TextField, inputClass } from "@/components/board/fields";
+import { ListEditor, NumberField, SelectField, TextField, inputClass } from "@/components/board/fields";
 import type { SettingsInput } from "@/lib/board/schemas";
 
 // The parts of Site settings that used to be fixed in the code: FC Lads+ price and perks, social
@@ -61,13 +61,6 @@ export function PlusEditor({ value, onChange }: { value: Plus; onChange: (value:
         Shown everywhere the price appears (Home, FC Lads+ page, sign-up, paywalls, Terms). When payments are connected,
         change the price in the payment provider too.
       </p>
-      <ImageField
-        label="Membership card picture"
-        hint="FC Lads+ page · upright, about 4:5 · leave empty for the drawn card"
-        folder="site"
-        value={value.cardImage}
-        onChange={(cardImage) => onChange({ ...value, cardImage })}
-      />
       <ListEditor
         label="Perks"
         hint="Home, the FC Lads+ page, paywalls and the membership page. {season} becomes the current season"

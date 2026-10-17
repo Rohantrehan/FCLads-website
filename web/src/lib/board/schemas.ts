@@ -271,7 +271,6 @@ export const settingsInput = z.object({
       )
       .min(1, "Add at least one perk.")
       .max(8, "Up to 8 perks."),
-    cardImage: imageUrl.nullable(),
   }),
   socials: z.object({
     youtube: link,
@@ -309,6 +308,22 @@ export const settingsInput = z.object({
   }),
 });
 
+export const cardsInput = z.object({
+  home: z
+    .array(
+      z.object({
+        image: imageUrl.nullable(),
+        name: optionalText(60).transform((value) => value ?? ""),
+        href: z
+          .string()
+          .trim()
+          .regex(/^(\/(?!\/)\S*)?$/, "Cards link to pages on this site and start with /, e.g. /creators/stefan."),
+      }),
+    )
+    .length(3),
+  plus: imageUrl.nullable(),
+});
+
 const gameName = z
   .string()
   .trim()
@@ -330,6 +345,7 @@ export type GuideInput = z.input<typeof guideInput>;
 export type CollectionInput = z.input<typeof collectionInput>;
 export type CreatorInput = z.input<typeof creatorInput>;
 export type SettingsInput = z.input<typeof settingsInput>;
+export type CardsInput = z.input<typeof cardsInput>;
 
 /** The first problem in plain words, e.g. "Add a title." */
 export function firstIssue(error: z.ZodError) {

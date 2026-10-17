@@ -219,6 +219,22 @@ export interface SiteSettings {
   socials: SocialLinks;
   hardTruth: HardTruthItem[];
   discord: DiscordSettings;
+  cards: CardPictures;
+}
+
+/** One card designed as a picture (posting board → Cards). No image = the drawn card shows instead. */
+export interface CardPicture {
+  image: string | null;
+  /** Who or what the card shows, read out by screen readers, e.g. "Stefan". */
+  name: string;
+  /** Page the card opens, e.g. "/creators/stefan". Empty = not a link. */
+  href: string;
+}
+
+/** Card pictures: the Home hero's three cards [front, back left, back right] and the FC Lads+ page card. */
+export interface CardPictures {
+  home: CardPicture[];
+  plus: string | null;
 }
 
 export type PerkKey = "guides" | "discord" | "creators" | "trading" | "review";
@@ -232,8 +248,6 @@ export interface PlusSettings {
   trialDays: number;
   /** `{season}` in a description becomes the current season. */
   perks: { key: PerkKey; title: string; description: string }[];
-  /** Uploaded picture for the membership card on the FC Lads+ page. None = the drawn card. */
-  cardImage?: string | null;
 }
 
 export type SocialKey = "youtube" | "instagram" | "x" | "tiktok" | "discord";

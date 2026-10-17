@@ -197,6 +197,11 @@ export async function fetchCatalog(): Promise<ContentData> {
       socials: { youtube: "", instagram: "", x: "", tiktok: "", discord: "", ...setting.socials },
       hardTruth: setting.hard_truth ?? [],
       discord: { channels: setting.discord?.channels ?? [], rules: setting.discord?.rules ?? [] },
+      cards: {
+        // Always three Home slots, so a missing one simply shows the drawn card.
+        home: [0, 1, 2].map((index) => setting.cards?.home?.[index] ?? { image: null, name: "", href: "" }),
+        plus: setting.cards?.plus ?? null,
+      },
     },
   };
 }

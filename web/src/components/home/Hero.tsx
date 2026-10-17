@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { CreatorCard } from "@/components/cards/CreatorCard";
+import { PictureCard } from "@/components/cards/PictureCard";
 import { Button } from "@/components/ui/Button";
 import { getPlus } from "@/lib/content";
-import type { Creator } from "@/types";
+import type { CardPicture, Creator } from "@/types";
 
 const topics = [
   { label: "Tactics", href: "/learn?category=tactics" },
@@ -15,14 +16,21 @@ const topics = [
 ];
 
 interface HeroProps {
-  /** [front, back-left, back-right]. Fewer than three creators shows fewer cards. */
-  cards: Creator[];
+  /** [front, back left, back right]: the drawn creator card for a slot with no picture. */
+  creators: Creator[];
+  /** Card pictures uploaded on the posting board, same order. */
+  pictures: CardPicture[];
   patch: string;
 }
 
-export async function Hero({ cards, patch }: HeroProps) {
+/** A hero slot: the uploaded card picture, else the drawn card for that creator, else nothing. */
+function Slot({ picture, creator, featured, className }: { picture?: CardPicture; creator?: Creator; featured?: boolean; className: string }) {
+  if (picture?.image) return <PictureCard picture={picture} featured={featured} className={className} />;
+  return creator ? <CreatorCard creator={creator} featured={featured} className={className} /> : null;
+}
+
+export async function Hero({ creators, pictures, patch }: HeroProps) {
   const plus = await getPlus();
-  const [front, left, right] = cards;
   return (
     <section className="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24">
       {/* Floodlight atmosphere */}
@@ -92,19 +100,17 @@ export async function Hero({ cards, patch }: HeroProps) {
         <div className="relative mx-auto flex h-[400px] w-full max-w-md items-center justify-center sm:h-[460px] lg:col-span-5">
           <div aria-hidden className="pointer-events-none absolute size-72 rounded-full bg-primary/20 blur-[100px]" />
           <div className="relative h-[390px] w-64 scale-[0.85] sm:scale-100">
-            {left && (
-              <CreatorCard
-                creator={left}
-                className="absolute top-6 -left-14 w-full -rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-left-28"
-              />
-            )}
-            {right && (
-              <CreatorCard
-                creator={right}
-                className="absolute top-6 -right-14 w-full rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-right-28"
-              />
-            )}
-            {front && <CreatorCard creator={front} featured className="absolute inset-x-0 top-0 z-10" />}
+            <Slot
+              picture={pictures[1]}
+              creator={creators[1]}
+              className="absolute top-6 -left-14 w-full -rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-left-28"
+            />
+            <Slot
+              picture={pictures[2]}
+              creator={creators[2]}
+              className="absolute top-6 -right-14 w-full rotate-12 opacity-80 hover:z-20 hover:opacity-100 sm:-right-28"
+            />
+            <Slot picture={pictures[0]} creator={creators[0]} featured className="absolute inset-x-0 top-0 z-10" />
           </div>
         </div>
       </div>

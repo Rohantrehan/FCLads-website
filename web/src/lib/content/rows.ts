@@ -1,6 +1,7 @@
 import type { EditorBlock } from "@/lib/content/guideBlocks";
 import type {
   AccessTier,
+  CardPictures,
   CollectionBadge,
   CollectionEpisode,
   CreatorSocials,
@@ -122,6 +123,7 @@ export interface SiteSettingsRow {
   socials: Partial<SocialLinks>;
   hard_truth: HardTruthItem[];
   discord: DiscordSettings;
+  cards: CardPictures | null;
   updated_at: string;
 }
 

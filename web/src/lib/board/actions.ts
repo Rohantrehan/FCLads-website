@@ -4,6 +4,7 @@ import { updateTag } from "next/cache";
 import type { z } from "zod";
 import { NotAllowedError, requireStaff, type Staff } from "@/lib/board/access";
 import {
+  cardsInput,
   collectionInput,
   creatorInput,
   feedFields,
@@ -231,6 +232,14 @@ export async function saveSettings(payload: unknown) {
       .eq("id", 1)
       .select("id")
       .maybeSingle();
+    return error ? { error } : { missing: !data, id: "1" };
+  });
+}
+
+export async function saveCards(payload: unknown) {
+  return save(cardsInput, payload, { adminOnly: true }, async (input) => {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("site_settings").update({ cards: input }).eq("id", 1).select("id").maybeSingle();
     return error ? { error } : { missing: !data, id: "1" };
   });
 }

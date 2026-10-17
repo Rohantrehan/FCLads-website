@@ -13,8 +13,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* The first three creators in the roster order, front card first. */}
-      <Hero cards={creators.slice(0, 3)} patch={content.settings.currentPatch} />
+      {/* Card pictures from the posting board (Cards); an empty slot shows the creator in that roster spot. */}
+      <Hero creators={creators.slice(0, 3)} pictures={content.settings.cards.home} patch={content.settings.currentPatch} />
       {content.settings.hardTruth.length > 0 && (
         <HardTruth
           items={content.settings.hardTruth}

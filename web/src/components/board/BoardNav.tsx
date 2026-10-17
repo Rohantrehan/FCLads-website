@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Cog, Home, LineChart, MessageSquare, PlayCircle, UserRound, Users } from "lucide-react";
+import { BookOpen, Cog, Home, Images, LineChart, MessageSquare, PlayCircle, UserRound, Users } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const postItems = [
@@ -15,6 +15,7 @@ const postItems = [
 const adminItems = [
   { href: "/collections", label: "Video collections", icon: PlayCircle },
   { href: "/creators", label: "Creators", icon: UserRound },
+  { href: "/cards", label: "Cards", icon: Images },
   { href: "/settings", label: "Site settings", icon: Cog },
   { href: "/team", label: "Team", icon: Users },
 ];
