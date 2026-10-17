@@ -429,7 +429,6 @@ User feedback on Home → implemented:
 - **Creator cards** (Home hero x3, Creators, profiles) now show the photo uploaded in Board > Creators > Photo; initials when there's none.
 - **FC Lads+ page card:** new `plus.cardImage` (Board > Site settings > FC Lads+ membership > Membership card picture, upright about 4:5). Empty = the drawn card.
 - **Tests:** home 10/10, plus-auth 17/17, creators 7/7, typecheck + lint clean. Not tested with a real upload (would change the shared database).
-- **Full player card picture** (user wanted the whole card as one image, not a photo inside it): `creators.card_image` (`20261017000000_creator_card_image.sql`, applied). Board > Creators > a creator > **Player card picture** (upright, about 2:3). When set, `CreatorCard` shows that picture as the whole card (Home hero, Creators, profile) and still links to the profile; otherwise the drawn card, with the Photo inside it if there is one. Typecheck + lint clean; not checked in the browser (the dev server was stopped for low memory).
 
 ## How to run locally
 

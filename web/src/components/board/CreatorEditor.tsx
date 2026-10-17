@@ -36,7 +36,6 @@ export function CreatorEditor({ base, row }: { base: string; row?: CreatorRow })
     reviewSpecialty: row?.review_specialty ?? "",
     since: row?.since ?? null,
     image: row?.image ?? null,
-    cardImage: row?.card_image ?? null,
   }));
   const set = <K extends keyof CreatorInput>(key: K, value: CreatorInput[K]) => setCreator((old) => ({ ...old, [key]: value }));
   const { save, pending, result } = useSaver(saveCreator, (slug) => `${base}/creators/${slug}`);
@@ -61,14 +60,7 @@ export function CreatorEditor({ base, row }: { base: string; row?: CreatorRow })
             <span className="font-semibold">Web address</span> <span className="text-muted">· /creators/{creator.slug}</span>
           </p>
         )}
-        <ImageField
-          label="Player card picture"
-          hint="the whole card, made in a card maker · upright, about 2:3 · shown on Home, Creators and their profile instead of the drawn card"
-          folder="creators"
-          value={creator.cardImage}
-          onChange={(cardImage) => set("cardImage", cardImage)}
-        />
-        <ImageField label="Photo" hint="optional · used inside the drawn card when there's no player card picture" folder="creators" value={creator.image} onChange={(image) => set("image", image)} />
+        <ImageField label="Photo" hint="shown on their card on Home, Creators and their profile · face in the middle" folder="creators" value={creator.image} onChange={(image) => set("image", image)} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <TextField label="Role" hint="e.g. Tactics Analyst" value={creator.role} onChange={(value) => set("role", value)} maxLength={60} />
           <TextField label="Second line" hint="e.g. Gameplay expert // Tactical" value={creator.tagline} onChange={(value) => set("tagline", value)} maxLength={80} />
