@@ -43,6 +43,7 @@ export interface CreatorRow {
   review_specialty: string | null;
   since: number | null;
   image: string | null;
+  card_image: string | null;
   updated_at: string;
 }
 

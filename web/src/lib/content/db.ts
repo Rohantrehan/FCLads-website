@@ -53,6 +53,7 @@ function toCreator(row: CreatorRow): Creator {
     reviewSpecialty: orUndefined(row.review_specialty),
     since: orUndefined(row.since),
     image: orUndefined(row.image),
+    cardImage: orUndefined(row.card_image),
   };
 }
 

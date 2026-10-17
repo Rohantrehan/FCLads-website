@@ -206,6 +206,7 @@ export async function saveCreator(payload: unknown) {
         review_specialty: input.reviewSpecialty ?? null,
         since: input.since,
         image: input.image,
+        card_image: input.cardImage,
       },
       input.isNew ? undefined : input.slug,
       "slug",

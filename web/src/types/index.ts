@@ -56,6 +56,8 @@ export interface Creator {
   /** Year they started competing / making FC content. */
   since?: number;
   image?: string;
+  /** The whole player card as one uploaded picture. Shown instead of the drawn card. */
+  cardImage?: string;
 }
 
 export type GuideCategory =

@@ -24,6 +24,29 @@ export function CreatorCard({
   showProfileLink?: boolean;
   className?: string;
 }) {
+  if (creator.cardImage) {
+    // The whole card was designed as one picture and uploaded on the posting board.
+    return (
+      <article className={cn("group relative transition-transform duration-300", showProfileLink && "hover:-translate-y-2", className)}>
+        <div className="relative aspect-[2/3] w-full">
+          <Image
+            src={creator.cardImage}
+            alt={`${creator.name}, ${creator.role}`}
+            fill
+            sizes="256px"
+            priority={featured}
+            className="object-contain drop-shadow-[0_12px_24px_rgb(0_0_0/0.45)]"
+          />
+        </div>
+        {showProfileLink && (
+          <Link href={`/creators/${creator.slug}`} className="absolute inset-0 rounded-xl focus-visible:ring-2 focus-visible:ring-mint/60">
+            <span className="sr-only">{creator.name}&apos;s profile</span>
+          </Link>
+        )}
+      </article>
+    );
+  }
+
   return (
     <article className={cn("group relative flex flex-col transition-transform duration-300", showProfileLink && "hover:-translate-y-2", className)}>
       {featured && (

@@ -231,6 +231,7 @@ export const creatorInput = z.object({
   reviewSpecialty: optionalText(80),
   since: z.number().int().min(1990).max(2100).nullable(),
   image: imageUrl.nullable(),
+  cardImage: imageUrl.nullable(),
 });
 
 /** An https:// link, or empty for "not set up yet". */
