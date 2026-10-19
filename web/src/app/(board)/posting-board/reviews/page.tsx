@@ -194,9 +194,28 @@ export default async function BoardReviewsPage({ searchParams }: PageProps<"/pos
       </section>
 
       {open === 0 && (
-        <p className="rounded-2xl border border-dashed border-white/12 p-6 text-sm text-muted">
-          Nothing waiting or in progress. New matches from members show up here.
-        </p>
+        <div className="flex flex-col gap-4 rounded-2xl border border-dashed border-white/12 p-6">
+          <p className="font-semibold">Nothing waiting or in progress. New matches from members show up here.</p>
+          <ol className="grid grid-cols-1 gap-3 text-sm text-muted md:grid-cols-2 xl:grid-cols-4">
+            {[
+              ["A member sends a match", "FC Lads+ members send a match link from their dashboard (My Lads+ › Review). It lands under “Waiting for a Lad”."],
+              ["Start review", "Press Start review on their card. It moves to “In review” and the review form opens on the card."],
+              ["Fill in the review", "Paste your video link (Loom, unlisted YouTube…), write the review and add a 1–3 point plan."],
+              ["Send review", "The member sees it on their review page straight away and gets an email. It counts under your name."],
+            ].map(([title, text], index) => (
+              <li key={title} className="flex gap-3 rounded-xl bg-surface p-4">
+                <span className="tabular flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-mint">
+                  {index + 1}
+                </span>
+                <span>
+                  <span className="block font-semibold text-on-surface">{title}</span>
+                  {text}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <p className="text-xs text-muted">Link doesn&apos;t work? Use “Link doesn&apos;t work” on the card to ask the member for a new one.</p>
+        </div>
       )}
 
       {reviews.inReview.length > 0 && (
