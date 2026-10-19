@@ -431,6 +431,9 @@ User feedback on Home → implemented:
 - **Tests:** home 10/10, plus-auth 17/17, creators 7/7, typecheck + lint clean. Not tested with a real upload (would change the shared database).
 - **Cards page on the board** (user: card pictures in their own section, not in Creators or Site settings): Board > **Cards** (admin menu). Home: three slots (front, back left, back right), each one finished card picture (upright, about 2:3, PNG with a see-through background best) + who's on it (alt text) + optional page it opens. FC Lads+ page: the Elite tier card picture (about 4:5). Empty slot = the drawn card (Home falls back to the first three creators' drawn cards). Stored in `site_settings.cards` (`20261017000100_site_cards.sql`, applied; it also drops the unused `creators.card_image` from a first attempt, which was reverted). Removed the card picture from Site settings > FC Lads+ membership. `PictureCard` renders an uploaded card; `saveCards` action. Typecheck + lint clean; not checked in the browser (dev server stopped for low memory).
 
+### Session: TFV Gaming removed (2026-10-19)
+- User asked to remove TFV Gaming from the creators. Deleted the `tfv-gaming` creator row and their 5 guides (user chose to delete the guides too): "5 skill moves that still work", "Best 100K hybrid squad", "Finesse shots after the nerf", "The custom tactic every Lad is using this patch", "Skill combos that crack a back five". They were already hidden, so the live site didn't change. Browser checks that assert "TFV not on page" still hold; `security-checks/reviews.mjs` still sends a review to `tfv-gaming` and expects a refusal (now refused as an unknown creator).
+
 ## How to run locally
 
 ```bash
