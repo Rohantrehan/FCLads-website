@@ -434,6 +434,10 @@ User feedback on Home → implemented:
 ### Session: TFV Gaming removed (2026-10-19)
 - User asked to remove TFV Gaming from the creators. Deleted the `tfv-gaming` creator row and their 5 guides (user chose to delete the guides too): "5 skill moves that still work", "Best 100K hybrid squad", "Finesse shots after the nerf", "The custom tactic every Lad is using this patch", "Skill combos that crack a back five". They were already hidden, so the live site didn't change. Browser checks that assert "TFV not on page" still hold; `security-checks/reviews.mjs` still sends a review to `tfv-gaming` and expects a refusal (now refused as an unknown creator).
 
+### Session: Favicon from the new logo (2026-10-19)
+- User made the "Neon Crest" logo in ChatGPT (source `web/Neon Crest FC LADS Logo.png`, not committed). First put it in the header by mistake (commit ce1d544, reverted in 63ee902): the user wants it as the **favicon only**; the header keeps the old shield + text.
+- Crowned FC shield cut out of the logo, on a dark rounded square so it shows on light and dark browser tabs: `src/app/favicon.ico` (16/32/48/64), `src/app/icon.png` (512), `src/app/apple-icon.png` (180, solid background for iPhone home screens). Next.js picks these up by file name.
+
 ## How to run locally
 
 ```bash
