@@ -438,6 +438,14 @@ User feedback on Home → implemented:
 - User made the "Neon Crest" logo in ChatGPT (source `web/Neon Crest FC LADS Logo.png`, not committed). First put it in the header by mistake (commit ce1d544, reverted in 63ee902): the user wants it as the **favicon only**; the header keeps the old shield + text.
 - Crowned FC shield cut out of the logo, on a dark rounded square so it shows on light and dark browser tabs: `src/app/favicon.ico` (16/32/48/64), `src/app/icon.png` (512), `src/app/apple-icon.png` (180, solid background for iPhone home screens). Next.js picks these up by file name.
 
+### Session: Speed (2026-10-19)
+- **User report:** clicks take 2-5 s, mostly on the posting board, also on the site.
+- **Measured (from India):** logged-out pages ~0.4-0.6 s to first byte when warm, 3.6 s on a cold start. Every page is dynamic (`no-store`). `x-vercel-id: bom1::iad1`: the functions run in **Washington DC (iad1, Vercel's default)** while **Supabase is in Sydney (ap-southeast-2)**, so each database round trip crosses the world (~200+ ms). Signed-in pages need 1 trip (profile + membership), board pages 2 in a row (login, then the posts), plus a full content refetch after every board save.
+- Already fine: content reads cached (tag `content`, 5 min); `getClaims()` checks the login locally (project uses ES256 signing keys, no Auth trip); board pages run their reads in parallel.
+- **Fixes:** `web/vercel.json` `regions: ["syd1"]` (functions next to the database; India to Sydney is also closer than India to Washington). `loading.tsx` for `(site)` and the posting board (`ui/PageSkeleton`): a click shows the page skeleton at once, and Next can now prefetch that part of dynamic pages (without loading.tsx it skips them).
+- **To check after the push:** `x-vercel-id` should show `::syd1::`. If the Vercel project's Root Directory isn't `web`, set Settings > Functions > Region to Sydney instead.
+- **Later, if most members are in the UK/Europe:** move Supabase to London (new project + data copy) and Vercel to lhr1.
+
 ## How to run locally
 
 ```bash
