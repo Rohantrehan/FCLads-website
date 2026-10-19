@@ -434,6 +434,10 @@ User feedback on Home → implemented:
 ### Session: TFV Gaming removed (2026-10-19)
 - User asked to remove TFV Gaming from the creators. Deleted the `tfv-gaming` creator row and their 5 guides (user chose to delete the guides too): "5 skill moves that still work", "Best 100K hybrid squad", "Finesse shots after the nerf", "The custom tactic every Lad is using this patch", "Skill combos that crack a back five". They were already hidden, so the live site didn't change. Browser checks that assert "TFV not on page" still hold; `security-checks/reviews.mjs` still sends a review to `tfv-gaming` and expects a refusal (now refused as an unknown creator).
 
+### Session: New logo (2026-10-19)
+- User made the "Neon Crest" logo (crowned FC shield + FC LADS wordmark) in ChatGPT; source `web/Neon Crest FC LADS Logo.png` (1254px square, dark background, not committed).
+- Cut out with a see-through background: `public/logo-crest.png` (217x256) and `public/logo-wordmark.png` (635x96). `Logo` (header, auth pages) = crest + wordmark; `ShieldMark` (login/sign-up/reset, footer, FC Lads+ card) = the crest picture instead of the old SVG. The crest is fixed green, so it doesn't follow the Site settings colour. Favicon not changed yet. Typecheck + lint clean; not checked in the browser (dev server stopped for low memory).
+
 ## How to run locally
 
 ```bash
