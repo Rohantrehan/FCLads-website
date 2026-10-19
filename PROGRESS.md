@@ -453,6 +453,13 @@ User feedback on Home → implemented:
 - ⚠️ `scripts/security-checks/reviews.mjs` still expects a creator to be blocked from another Lad's request; update it with the creator-access tests once the user says so.
 - Typecheck + lint clean; not checked in the browser (dev server stopped for low memory).
 
+### Session: Speed, part 2, ready-made public pages (2026-10-19)
+- **User report:** still slow. Measured live in headless Edge (`scratchpad/perf.mjs`): server ~0.45-0.5 s per page (Sydney OK), click-to-page 0.75-1.5 s, skeleton at ~30 ms, JS ~200 KB. Cause: every page was server-rendered per visit because `(site)/layout.tsx` read the login (`getViewer`) for the header, and Home fired ~15 background prefetches, each a full server render.
+- **Fix:** the header asks who's signed in from the browser: new `GET /api/account` (`private, no-store`), `useAccount` in `SiteHeader` asks once and again only when the `sb-*-auth-token` cookies change; header log-out clears it at once. `(site)/layout.tsx` no longer reads the login. **Now static (ISR, 5 min + cleared on board saves):** Home, Creators, every creator profile, FC Lads+, Collections, Legal. Still per-visit (they read the login or search params): Learn (`?category`), Feed, Trading, guides, collection pages, dashboard, account, auth pages.
+- **Bug found and fixed:** `fmtDate` (account pages) built `${timestamp}T00:00:00Z` from database timestamps → "Invalid time value": the **membership page crashed for every member** (and billing's next-charge line), so members couldn't log out from it. Now takes plain dates or timestamps, UK day.
+- **Tests (production build, `next start`):** auth 24/24 (twice), home 10, plus-auth 17, creators 7, learn 9, feed 10, dashboard 13; trading 9/16 (the date-based counts expect posts in the last 7 days; known drift).
+- **Next speed step if needed:** make Learn static (filter on the client), and move member-only bits of Feed/Trading to the browser so they can be static too.
+
 ## How to run locally
 
 ```bash

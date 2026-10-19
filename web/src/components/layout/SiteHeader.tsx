@@ -11,16 +11,57 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { isActive, mainNav } from "@/lib/site";
 
-/** `account` is set when someone is signed in (decided on the server by the layout). */
+type Account = { name: string; isMember: boolean; isCreator?: boolean };
+
+/** The Supabase login cookies, as one string: it changes when someone logs in or out. */
+const loginCookies = () =>
+  document.cookie
+    .split("; ")
+    .filter((cookie) => cookie.startsWith("sb-") && cookie.includes("auth-token"))
+    .join("; ");
+
+/**
+ * Who's signed in, asked from the browser (/api/account), so the public pages never read the login and
+ * can be served ready-made. Asks again only when the login cookies change. undefined = still asking.
+ */
+function useAccount(pathname: string) {
+  const [account, setAccount] = useState<Account | null>();
+  const [checked, setChecked] = useState<string>();
+
+  useEffect(() => {
+    const cookies = loginCookies();
+    if (cookies === checked) return;
+    let cancelled = false;
+    if (!cookies) {
+      // No login cookie: nobody's signed in, no need to ask.
+      Promise.resolve().then(() => !cancelled && (setAccount(null), setChecked(cookies)));
+    } else {
+      fetch("/api/account", { cache: "no-store" })
+        .then((response) => (response.ok ? response.json() : { account: null }))
+        .then((data: { account: Account | null }) => !cancelled && (setAccount(data.account), setChecked(cookies)))
+        .catch(() => !cancelled && setAccount(null));
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname, checked]);
+
+  /** Logging out from the header: show signed out straight away (the page may not change address). */
+  const forget = () => {
+    setAccount(null);
+    setChecked("");
+  };
+  return [account, forget] as const;
+}
+
 export function SiteHeader({
-  account,
   plus,
 }: {
-  account?: { name: string; isMember: boolean; isCreator?: boolean };
   /** FC Lads+ price and trial from Site settings. */
   plus: { priceLabel: string; trialDays: number };
 }) {
   const pathname = usePathname();
+  const [account, forgetAccount] = useAccount(pathname);
   const [open, setOpen] = useState(false);
   // Close the phone menu whenever the route changes (React "adjust state on prop change" pattern).
   const [lastPath, setLastPath] = useState(pathname);
@@ -115,13 +156,16 @@ export function SiteHeader({
               </span>
               {account.isMember ? "My Lads+" : "Account"}
             </Link>
-          ) : (
+          ) : account === null ? (
             <Link
               href="/login"
               className="hidden px-3 py-1.5 text-sm font-semibold text-white/90 transition-colors hover:text-primary xl:block"
             >
               Log in
             </Link>
+          ) : (
+            // Still checking: keep the space so nothing jumps.
+            <span aria-hidden className="hidden h-9 w-24 xl:block" />
           )}
           <button
             type="button"
@@ -181,7 +225,7 @@ export function SiteHeader({
                 <Button href="/account" variant="glass" size="lg">
                   {account.isMember ? "Account & billing" : "My account"}
                 </Button>
-                <form action={logOut} className="flex">
+                <form action={logOut} onSubmit={forgetAccount} className="flex">
                   <Button type="submit" variant="danger" size="lg" className="w-full">
                     <LogOut aria-hidden className="size-4" />
                     Log out

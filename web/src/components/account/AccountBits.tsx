@@ -6,14 +6,19 @@ import { ArrowRight, CheckCircle2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 const dateFormats = {
-  long: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }),
-  short: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }),
-  month: new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric", timeZone: "UTC" }),
+  long: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/London" }),
+  short: new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "Europe/London" }),
+  month: new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric", timeZone: "Europe/London" }),
 };
 
-/** Formats an ISO date: "28 Oct 2026" (long), "28 Oct" (short) or "Oct 2026" (month). */
+/**
+ * Formats a date as a UK day: "28 Oct 2026" (long), "28 Oct" (short) or "Oct 2026" (month). Takes a plain
+ * date ("2026-10-28") or a database timestamp ("2026-10-28T09:30:00+00:00").
+ */
 export function fmtDate(iso: string, style: keyof typeof dateFormats = "long") {
-  return dateFormats[style].format(new Date(`${iso}T00:00:00Z`));
+  // A plain date is read at midday UTC, so it's the same day in the UK.
+  const date = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? `${iso}T12:00:00Z` : iso);
+  return Number.isNaN(date.getTime()) ? "" : dateFormats[style].format(date);
 }
 
 /** Title row for an account page. */
