@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Cog, Home, Images, LineChart, MessageSquare, PlayCircle, UserRound, Users } from "lucide-react";
+import { BookOpen, Cog, Home, Images, LineChart, MessageSquare, PlayCircle, UserRound, Users, Video } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const postItems = [
@@ -10,6 +10,7 @@ const postItems = [
   { href: "/trading", label: "Trading posts", icon: LineChart },
   { href: "/feed", label: "Feed posts", icon: MessageSquare },
   { href: "/guides", label: "Guides", icon: BookOpen },
+  { href: "/reviews", label: "Reviews", icon: Video },
 ];
 
 const adminItems = [

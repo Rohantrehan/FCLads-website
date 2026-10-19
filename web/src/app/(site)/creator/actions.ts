@@ -6,8 +6,8 @@ import { reviewErrorMessage } from "@/lib/reviews";
 import { createClient } from "@/lib/supabase/server";
 import { canRunReviews, getViewer } from "@/lib/viewer";
 
-// Creator hub actions. The database functions check the caller is the creator (or an admin) and that
-// the request is theirs or open to any Lad.
+// Gameplay review actions, used by the Creator hub and the posting board's Reviews page. The database
+// functions check the caller is a creator or admin; any Lad can handle any review, credited to them.
 
 export interface CreatorFormState {
   message?: string;
@@ -28,6 +28,7 @@ async function run(fn: string, args: Record<string, unknown>, ok: string, onDone
   if (error) return { message: reviewErrorMessage(error.message) };
   onDone?.();
   revalidatePath("/creator");
+  revalidatePath("/posting-board/reviews");
   return { ok };
 }
 

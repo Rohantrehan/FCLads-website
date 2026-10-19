@@ -160,6 +160,52 @@ export async function getCreatorReviews(creatorSlug: string) {
   };
 }
 
+/** Done reviews, light columns only: enough for the totals on the posting board. */
+export interface DoneReview {
+  creatorSlug?: string;
+  requestedSlug?: string;
+  createdAt: string;
+  completedAt: string;
+}
+
+/**
+ * Every review, for the posting board (any Lad can handle any review): all open ones oldest first, the
+ * last 90 days of sent ones in full, and every sent one in brief for the totals.
+ */
+export async function getAllReviews() {
+  const supabase = await createClient();
+  const since = new Date(Date.now() - 90 * 86_400_000).toISOString();
+  const [open, recent, allDone] = await Promise.all([
+    supabase.from("review_requests").select(COLUMNS).in("status", OPEN).order("created_at"),
+    supabase
+      .from("review_requests")
+      .select(COLUMNS)
+      .eq("status", "done")
+      .gte("completed_at", since)
+      .order("completed_at", { ascending: false }),
+    supabase.from("review_requests").select("creator_slug, requested_slug, created_at, completed_at").eq("status", "done"),
+  ]);
+  for (const result of [open, recent, allDone]) {
+    if (result.error) throw new Error(`Couldn't load reviews: ${result.error.message}`);
+  }
+
+  const requests = (open.data as Row[]).map(toRequest);
+  return {
+    inReview: requests.filter((request) => request.status === "in_review"),
+    waiting: requests.filter((request) => request.status === "waiting"),
+    needsLink: requests.filter((request) => request.status === "fix_link"),
+    recent: (recent.data as Row[]).map(toRequest),
+    done: (allDone.data as Pick<Row, "creator_slug" | "requested_slug" | "created_at" | "completed_at">[]).map(
+      (row): DoneReview => ({
+        creatorSlug: row.creator_slug ?? undefined,
+        requestedSlug: row.requested_slug ?? undefined,
+        createdAt: row.created_at,
+        completedAt: row.completed_at ?? row.created_at,
+      }),
+    ),
+  };
+}
+
 /** Plain-English messages for the error codes the review functions raise. */
 export function reviewErrorMessage(code: string | undefined) {
   switch (code) {

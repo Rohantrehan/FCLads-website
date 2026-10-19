@@ -15,6 +15,10 @@ export interface ReviewCardView {
   status: "waiting" | "in_review";
   matchUrl: string;
   focus: string;
+  /** The Lad the member asked for, when it isn't you (posting board). */
+  askedFor?: string;
+  /** Who's reviewing it, when it isn't you (posting board): you can take it over. */
+  reviewer?: string;
 }
 
 const input =
@@ -29,7 +33,7 @@ function Feedback({ state }: { state: CreatorFormState }) {
   );
 }
 
-/** One member's match on the Creator hub: pick it up, then send the review (or ask for a new link). */
+/** One member's match: pick it up (or take it over), then send the review, or ask for a new link. */
 export function ReviewCard({ review, creator }: { review: ReviewCardView; creator?: string }) {
   const id = useId();
   const [askingLink, setAskingLink] = useState(false);
@@ -42,7 +46,18 @@ export function ReviewCard({ review, creator }: { review: ReviewCardView; creato
       {step && <input type="hidden" name="step" value={step} />}
     </>
   );
-  const reviewing = review.status === "in_review";
+  // In progress with someone else: you can see it and take it over, but not send it.
+  const takenByOther = review.status === "in_review" && Boolean(review.reviewer);
+  const reviewing = review.status === "in_review" && !takenByOther;
+  const badge = reviewing
+    ? "You're reviewing"
+    : takenByOther
+      ? `${review.reviewer} is reviewing`
+      : review.forAnyLad
+        ? "Any Lad"
+        : review.askedFor
+          ? `Asked for ${review.askedFor}`
+          : "Asked for you";
 
   return (
     <article
@@ -62,10 +77,10 @@ export function ReviewCard({ review, creator }: { review: ReviewCardView; creato
         <span
           className={cn(
             "tabular rounded-full px-3 py-1 text-[11px] font-bold uppercase",
-            reviewing ? "bg-primary/15 text-mint" : review.forAnyLad ? "bg-azure/15 text-[#93c5fd]" : "bg-gold/10 text-gold",
+            reviewing || takenByOther ? "bg-primary/15 text-mint" : review.forAnyLad ? "bg-azure/15 text-[#93c5fd]" : "bg-gold/10 text-gold",
           )}
         >
-          {reviewing ? "You're reviewing" : review.forAnyLad ? "Any Lad" : "Asked for you"}
+          {badge}
         </span>
       </header>
 
@@ -171,11 +186,11 @@ export function ReviewCard({ review, creator }: { review: ReviewCardView; creato
                 className="text-label flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2.5 text-on-primary disabled:opacity-60"
               >
                 <Play aria-hidden className="size-4" />
-                {stepPending ? "Starting…" : "Start review"}
+                {stepPending ? "Starting…" : takenByOther ? "Take over" : "Start review"}
               </button>
             </form>
           )}
-          {reviewing && (
+          {review.status === "in_review" && (
             <form action={stepAction}>
               {hidden("release")}
               <button
