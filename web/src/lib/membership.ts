@@ -34,14 +34,14 @@ export const getMembership = cache(async (viewer: Viewer): Promise<Membership | 
   const supabase = await createClient();
   const { data } = await supabase
     .from("memberships")
-    .select("status, stripe_subscription_id, trial_end, current_period_end, cancel_at_period_end, created_at")
+    .select("status, subscription_id, trial_end, current_period_end, cancel_at_period_end, created_at")
     .eq("user_id", viewer.id)
     .maybeSingle();
   if (!data) return undefined;
   return {
     status: data.status,
     statusLabel: STATUS_LABELS[data.status] ?? data.status,
-    subscriptionId: data.stripe_subscription_id ?? undefined,
+    subscriptionId: data.subscription_id ?? undefined,
     trialEnd: data.trial_end ?? undefined,
     currentPeriodEnd: data.current_period_end ?? undefined,
     cancelAtPeriodEnd: data.cancel_at_period_end,

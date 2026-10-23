@@ -18,8 +18,7 @@ export default async function SignupPage({ searchParams }: PageProps<"/signup">)
   const plus = await getPlus();
   // ?plan=plus comes from the "Join FC Lads+" buttons: after sign-up the user goes to checkout.
   const joiningPlus = (await searchParams).plan === "plus";
-  // Checkout arrives with Stripe; until then new members land on the FC Lads+ page.
-  const next = joiningPlus ? "/lads-plus" : "/";
+  const next = joiningPlus ? "/join" : "/";
   if ((await getViewer()).isSignedIn) redirect(joiningPlus ? next : "/account");
 
   return (

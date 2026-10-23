@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
 import { ArrowRight, Award, CalendarDays, History, Lock, RotateCcw, ShieldCheck, TriangleAlert, X } from "lucide-react";
+import { cancelMembership, keepMembership } from "@/app/(site)/account/actions";
 import { cn } from "@/lib/cn";
 
 interface MembershipPlanProps {
   plan: string;
-  /** Payment provider's subscription id, once payments are connected. */
+  /** Dodo Payments subscription id. */
   subscriptionId?: string;
   priceLabel: string;
   /** e.g. "Active membership", "Free trial". */
@@ -25,8 +26,8 @@ interface MembershipPlanProps {
 }
 
 /**
- * Plan card + "Cancel membership" row + the confirmation dialog.
- * Cancelling isn't saved yet (no payments backend): it previews the cancelled state only.
+ * Plan card + "Cancel membership" row + the confirmation dialog. Cancelling turns auto-renew off in Dodo
+ * Payments: access stays until the date shown, and it can be turned back on until then.
  */
 export function MembershipPlan({
   plan,
@@ -44,7 +45,9 @@ export function MembershipPlan({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
   const keepButtonRef = useRef<HTMLButtonElement>(null);
-  const [cancelled, setCancelled] = useState(false);
+  const [cancelled, setCancelled] = useState(!autoRenew);
+  const [error, setError] = useState<string>();
+  const [pending, startTransition] = useTransition();
   const changed = useRef(false);
 
   // Move focus to the row that replaced the button the user just pressed.
@@ -59,10 +62,14 @@ export function MembershipPlan({
     changed.current = true;
     setCancelled(value);
   };
-  const confirmCancel = () => {
-    setStatus(true);
-    close();
-  };
+  const save = (cancel: boolean) =>
+    startTransition(async () => {
+      setError(undefined);
+      const result = await (cancel ? cancelMembership() : keepMembership());
+      if (result.message) setError(result.message);
+      else setStatus(cancel);
+      close();
+    });
 
   return (
     <>
@@ -116,7 +123,7 @@ export function MembershipPlan({
               <span className="text-lg text-muted">/ month</span>
             </p>
             <span className="tabular rounded-md border border-white/10 bg-canvas/60 px-3 py-1.5 text-xs font-bold text-mint uppercase">
-              {cancelled || !autoRenew ? "Auto-renew off" : "Auto-renew on"}
+              {cancelled ? "Auto-renew off" : "Auto-renew on"}
             </span>
           </div>
 
@@ -142,6 +149,12 @@ export function MembershipPlan({
 
       {children}
 
+      {error && (
+        <p role="alert" className="rounded-xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger-soft">
+          {error}
+        </p>
+      )}
+
       {cancelled ? (
         <section
           aria-labelledby="cancelled-heading"
@@ -155,17 +168,15 @@ export function MembershipPlan({
             <p className="text-sm text-muted">
               You won&apos;t be charged again. Changed your mind? Turn it back on any time before then.
             </p>
-            <p className="mt-1 text-xs text-muted/80">
-              Preview only: payments aren&apos;t connected yet, so nothing was cancelled.
-            </p>
           </div>
           <button
             ref={keepButtonRef}
             type="button"
-            onClick={() => setStatus(false)}
-            className="text-label rounded-lg bg-primary px-4 py-2.5 text-on-primary transition-all hover:brightness-110"
+            onClick={() => save(false)}
+            disabled={pending}
+            className="text-label rounded-lg bg-primary px-4 py-2.5 text-on-primary transition-all hover:brightness-110 disabled:opacity-60"
           >
-            Keep my membership
+            {pending ? "Saving…" : "Keep my membership"}
           </button>
         </section>
       ) : (
@@ -262,10 +273,11 @@ export function MembershipPlan({
             </button>
             <button
               type="button"
-              onClick={confirmCancel}
-              className="rounded-xl px-5 py-3 text-sm font-semibold text-danger-soft uppercase transition-colors hover:bg-danger/10"
+              onClick={() => save(true)}
+              disabled={pending}
+              className="rounded-xl px-5 py-3 text-sm font-semibold text-danger-soft uppercase transition-colors hover:bg-danger/10 disabled:opacity-60"
             >
-              Yes, cancel membership
+              {pending ? "Cancelling…" : "Yes, cancel membership"}
             </button>
           </div>
         </div>

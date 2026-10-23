@@ -35,9 +35,21 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
   const viewer = await getViewer();
   if (!viewer.isSignedIn) return <SignInToManage />;
 
-  const passwordNote = (await searchParams).password === "updated" && (
-    <StatusNote tone="success">Your password has been changed.</StatusNote>
-  );
+  const params = await searchParams;
+  const passwordNote =
+    params.password === "updated" ? (
+      <StatusNote tone="success">Your password has been changed.</StatusNote>
+    ) : params.welcome && viewer.isMember ? (
+      <StatusNote tone="success">Welcome to FC Lads+! Everything is unlocked.</StatusNote>
+    ) : params.welcome ? (
+      <StatusNote tone="info">Your payment is being confirmed. Refresh this page in a minute.</StatusNote>
+    ) : params.checkout ? (
+      <StatusNote tone="error">
+        {params.checkout === "failed"
+          ? "The payment didn't go through, so nothing was started. Try again with another card."
+          : "We couldn't open the checkout just now. Please try again in a minute."}
+      </StatusNote>
+    ) : null;
 
   if (!viewer.isMember) {
     return (

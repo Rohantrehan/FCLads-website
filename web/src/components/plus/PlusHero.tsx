@@ -4,7 +4,8 @@ import { ShieldMark } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
 import { getContent, getPlus } from "@/lib/content";
 
-export const JOIN_HREF = "/signup?plan=plus";
+/** Starts checkout (or sign-up first): see app/join/route.ts. */
+export const JOIN_HREF = "/join";
 
 export async function PlusHero() {
   const plus = await getPlus();

@@ -23,7 +23,7 @@ export interface Viewer {
 
 const visitor: Viewer = { isSignedIn: false, isMember: false };
 
-/** Stripe statuses that keep FC Lads+ access. `past_due` keeps it while Stripe retries the card. */
+/** Membership statuses that keep FC Lads+ access. `past_due` keeps it during Dodo's grace period. */
 const MEMBER_STATUSES = new Set(["trialing", "active", "past_due"]);
 
 export const isMemberStatus = (status: string) => MEMBER_STATUSES.has(status);

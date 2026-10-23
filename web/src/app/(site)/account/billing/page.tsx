@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Coins, CreditCard, Info, Lock, ReceiptText } from "lucide-react";
+import { ArrowUpRight, Coins, CreditCard, Info, Lock, ReceiptText } from "lucide-react";
+import { openBillingPortal } from "@/app/(site)/account/actions";
 import { AccountHeading, fmtDate, SignInToManage } from "@/components/account/AccountBits";
+import { StatusNote } from "@/components/auth/AuthBits";
 import { DashPanel } from "@/components/dashboard/DashboardBits";
+import { Button } from "@/components/ui/Button";
 import { LEGAL_EMAIL } from "@/data/legal";
 import { getPlus } from "@/lib/content";
 import { getMembership } from "@/lib/membership";
+import { getBillingIds, listPayments } from "@/lib/payments";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Billing" };
 
-// Cards and receipts live with the payment provider (Stripe, still to connect). Until then this page
-// shows the member's real plan dates and empty states, never sample cards or invoices.
+// Cards and receipts live with Dodo Payments. This page lists the payments from Dodo; changing the card
+// and downloading invoices happen in Dodo's billing portal (openBillingPortal).
+
+const money = (amount: number, currency: string) =>
+  new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(amount / 100);
+
+const PAYMENT_LABELS: Record<string, string> = {
+  succeeded: "Paid",
+  failed: "Failed",
+  cancelled: "Cancelled",
+  processing: "Processing",
+};
 
 function Empty({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
@@ -23,7 +37,7 @@ function Empty({ icon, title, children }: { icon: React.ReactNode; title: string
   );
 }
 
-export default async function BillingPage() {
+export default async function BillingPage({ searchParams }: PageProps<"/account/billing">) {
   const viewer = await getViewer();
   if (!viewer.isSignedIn) return <SignInToManage next="/account/billing" />;
   if (!viewer.isMember) {
@@ -44,7 +58,9 @@ export default async function BillingPage() {
     );
   }
 
-  const [plus, membership] = await Promise.all([getPlus(), getMembership(viewer)]);
+  const [plus, membership, billing] = await Promise.all([getPlus(), getMembership(viewer), getBillingIds(viewer)]);
+  const payments = billing?.customerId ? await listPayments(billing.customerId).catch(() => undefined) : [];
+  const portalError = (await searchParams).portal === "error";
   const nextCharge = membership?.status === "trialing" ? (membership.trialEnd ?? membership.currentPeriodEnd) : membership?.currentPeriodEnd;
 
   return (
@@ -60,10 +76,24 @@ export default async function BillingPage() {
         }
       />
 
+      {portalError && <StatusNote tone="error">We couldn&apos;t open the billing portal just now. Please try again.</StatusNote>}
+
       <DashPanel id="card-heading" title="Payment method">
-        <Empty icon={<CreditCard aria-hidden className="size-7 text-muted" />} title="No card on file yet">
-          Card payments are being set up. Your card will show here, and you&apos;ll be able to change it, once they&apos;re live.
-        </Empty>
+        <div className="flex flex-col gap-4 rounded-xl border border-white/8 bg-surface p-5 sm:flex-row sm:items-center">
+          <CreditCard aria-hidden className="size-7 shrink-0 text-primary" />
+          <p className="flex-1 text-sm text-muted">
+            Your card is kept safely by our payment partner, Dodo Payments. Change it, or download invoices, in the
+            billing portal.
+          </p>
+          {billing?.customerId && (
+            <form action={openBillingPortal}>
+              <Button type="submit" variant="glass" size="md" className="w-full sm:w-auto">
+                Change card
+                <ArrowUpRight aria-hidden className="size-4" />
+              </Button>
+            </form>
+          )}
+        </div>
         {!membership?.cancelAtPeriodEnd && nextCharge && (
           <p className="flex items-start gap-2 text-sm text-muted">
             <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-primary" />
@@ -76,9 +106,41 @@ export default async function BillingPage() {
       </DashPanel>
 
       <DashPanel id="invoices-heading" title="Payment history" icon={<ReceiptText aria-hidden className="size-5 text-primary" />}>
-        <Empty icon={<ReceiptText aria-hidden className="size-7 text-muted" />} title="No payments yet">
-          Every payment and its receipt will be listed here.
-        </Empty>
+        {payments === undefined ? (
+          <Empty icon={<ReceiptText aria-hidden className="size-7 text-muted" />} title="Payments couldn't load">
+            Refresh the page in a minute, or open the billing portal.
+          </Empty>
+        ) : payments.length === 0 ? (
+          <Empty icon={<ReceiptText aria-hidden className="size-7 text-muted" />} title="No payments yet">
+            {membership?.status === "trialing"
+              ? "You're on the free trial, so nothing has been charged yet."
+              : "Every payment and its receipt will be listed here."}
+          </Empty>
+        ) : (
+          <ul className="flex flex-col divide-y divide-white/8 rounded-xl border border-white/8 bg-surface">
+            {payments.map((payment) => (
+              <li key={payment.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-sm">
+                <span className="tabular min-w-24 text-white">{fmtDate(payment.createdAt)}</span>
+                <span className="tabular font-semibold">{money(payment.amount, payment.currency)}</span>
+                <span className="text-muted">
+                  {payment.amount === 0 ? "Free trial started" : (PAYMENT_LABELS[payment.status] ?? "Pending")}
+                </span>
+                {payment.card && <span className="tabular text-muted">{payment.card}</span>}
+                {payment.invoiceUrl && (
+                  <a
+                    href={payment.invoiceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-label ml-auto flex items-center gap-1 text-primary hover:text-white"
+                  >
+                    Invoice
+                    <ArrowUpRight aria-hidden className="size-3.5" />
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
         <p className="rounded-xl bg-surface px-4 py-3 text-sm text-muted">
           Need a VAT invoice?{" "}
           <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary hover:text-white">

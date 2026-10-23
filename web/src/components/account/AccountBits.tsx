@@ -117,7 +117,7 @@ export async function FreePlan({ name, email }: { name?: string; email?: string 
         ))}
       </ul>
 
-      <Button href="/lads-plus" variant="primary" size="lg" className="w-full sm:w-auto sm:self-start">
+      <Button href="/join" variant="primary" size="lg" className="w-full sm:w-auto sm:self-start">
         Start {plus.trialDays}-day free trial
         <ArrowRight aria-hidden className="size-4" />
       </Button>

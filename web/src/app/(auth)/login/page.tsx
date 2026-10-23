@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const params = await searchParams;
   // ?next= is where to go after logging in, e.g. a members-only page that sent the user here.
-  const next = params.next ? safeNext(params.next) : undefined;
+  // ?plan=plus comes from the FC Lads+ sign-up tabs: after logging in the user goes to checkout.
+  const next = params.plan === "plus" ? "/join" : params.next ? safeNext(params.next) : undefined;
   const viewer = await getViewer();
   if (viewer.isSignedIn) redirect(next ?? (viewer.isMember ? "/dashboard" : "/account"));
 
@@ -28,7 +29,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         <p className="text-muted">Log in to your FC Lads account.</p>
       </div>
       <div className="flex flex-col gap-6">
-        <AuthTabs active="login" />
+        <AuthTabs active="login" plan={params.plan === "plus" ? "plus" : undefined} />
         <LoginForm
           next={next}
           notice={params.error === "link" ? "That link has expired or was already used. Log in, or sign up again." : undefined}
