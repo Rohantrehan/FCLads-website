@@ -55,13 +55,23 @@ const waitFor = async (expr, ms = 15000) => { for (let t = 0; t < ms; t += 400) 
 const primary = () => evaluate("getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim()");
 
 try {
-  // A creator can't call the rename function at all.
-  const creator = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
-  await creator.auth.signInWithPassword({ email: env.QA_CREATOR_EMAIL, password: env.QA_CREATOR_PASSWORD });
-  const denied = await creator.rpc("rename_game", { p_from: "FC 27", p_to: "FC 99" });
-  check("creator can't rename the game", !!denied.error, denied.error?.message);
-  const colour = await creator.from("site_settings").update({ theme_color: "#ff0000" }).eq("id", 1).select();
-  check("creator can't change the colour", !colour.error && colour.data.length === 0);
+  // A member can't call the rename function or change the colour; a creator can, like an admin (a
+  // same-name rename stops after the permission check, and the colour is saved back unchanged).
+  const signIn = async (email, password) => {
+    const client = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
+    await client.auth.signInWithPassword({ email, password });
+    return client;
+  };
+  const member = await signIn(env.QA_MEMBER_EMAIL, env.QA_MEMBER_PASSWORD);
+  const denied = await member.rpc("rename_game", { p_from: "FC 27", p_to: "FC 99" });
+  check("member can't rename the game", !!denied.error, denied.error?.message);
+  const blocked = await member.from("site_settings").update({ theme_color: "#ff0000" }).eq("id", 1).select();
+  check("member can't change the colour", !blocked.error && blocked.data.length === 0);
+  const creator = await signIn(env.QA_CREATOR_EMAIL, env.QA_CREATOR_PASSWORD);
+  const allowed = await creator.rpc("rename_game", { p_from: "FC 27", p_to: "FC 27" });
+  check("creator may rename the game", allowed.error?.message === "bad_name", allowed.error?.message);
+  const colour = await creator.from("site_settings").update({ theme_color: original.theme_color }).eq("id", 1).select();
+  check("creator can change the colour", !colour.error && colour.data.length === 1, colour.error?.message);
 
   await send("Network.clearBrowserCookies");
   await go("/login");

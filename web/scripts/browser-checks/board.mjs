@@ -1,5 +1,5 @@
 // Drives headless Edge via CDP through the hidden posting board with the QA accounts in web/.env.local
-// (free, member, creator linked to "stefan", admin). Needs BOARD_PATH set and DEV_VIEWER unset.
+// (free, member, creator linked to "stefan", admin; creators get the same board as admins). Needs BOARD_PATH set and DEV_VIEWER unset.
 // Checks who gets in (everyone else sees the normal 404), then posts, schedules, rejects bad input and
 // deletes again. Leaves nothing behind.
 import { spawn } from "node:child_process";
@@ -93,15 +93,15 @@ try {
   await logIn(env.QA_CREATOR_EMAIL, env.QA_CREATOR_PASSWORD);
   await go(BOARD);
   check("creator: board home opens", /What are we posting\?/.test(await text()));
-  check("creator: no admin menu", !(await evaluate(`[...document.querySelectorAll('nav a')].some(a=>/Team|Site settings|Creators/.test(a.textContent))`)));
+  check("creator: same menu as an admin", await evaluate(`['Team','Site settings','Creators','Video collections'].every(n=>[...document.querySelectorAll('nav a')].some(a=>a.textContent.trim()===n))`));
   await go(`${BOARD}/team`);
-  check("creator: Team page is 404", await is404());
+  check("creator: Team page opens", /qa-creator@fclads\.test/.test(await text()));
   await go(`${BOARD}/settings`);
-  check("creator: Settings page is 404", await is404());
+  check("creator: Settings page opens", await evaluate(`!!document.querySelector('input[name=currentPatch]')?.value`));
 
   // Bad input is refused with a plain message.
   await go(`${BOARD}/trading/new`);
-  check("creator: posts as themselves (no author picker)", /Posted by · Stefan/.test(await text()));
+  check("creator: author picker shown, like an admin", await evaluate(`[...document.querySelectorAll('main label')].some(l=>/^Posted by/.test(l.textContent))`));
   await clickOn(button("/^Publish$/"), 2500);
   check("empty post is refused", /Add a title\./.test(await text()));
 

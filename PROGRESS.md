@@ -6,7 +6,7 @@
 
 **Last updated:** 15 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Sanity replaced by our own posting board (15 Oct 2026). **Waiting on the user:** add `SUPABASE_SECRET_KEY` to `web/.env.local` (site still shows sample content until then), then delete the Sanity project before its trial ends (~13 Nov). Next feature: **emails** (Resend) → preview deploy → Stripe (last). Client: give real creators the role on the board's Team page, confirm review capacity.
+**Next action:** Payments are live (Dodo Payments, account approved by Dodo 24 Oct 2026; real-card trial checked end to end on fclads.com). **Waiting on the user:** rotate the Supabase secret + Resend keys, Vercel Pro, Supabase auth emails via Resend, delete Sanity project `0c43y88p` before ~13 Nov, delete `test@fclads.test`, upload card/creator photos + social links. Next code work (on request): Discord role sync, launch checks.
 
 ---
 
@@ -403,7 +403,7 @@ User feedback on Home → implemented:
 - **User request:** creators and admins should have the same access on the posting board.
 - App: `getStaff()` gives every creator/admin full board access (`isAdmin: true`, plus `role` for the header label).
 - Database: `20261016000000_creators_full_board.sql` widens `is_admin()` to creators. **Not applied: the user runs it in the SQL Editor** (MCP apply was blocked by permissions). Until then creators see the admin pages but saves there are refused.
-- ⚠️ Security/browser checks still expect creators to be blocked (content.mjs creator section, board.mjs creator menu, settings.mjs creator checks); updating them was blocked by the auto-mode classifier, waiting for the user's go-ahead.
+- ✅ (24 Oct) Tests updated for creator access: `security-checks/content.mjs` 28/28, `browser-checks/board.mjs` 34/34, `browser-checks/settings.mjs` 23/23. Creators now checked to have admin access (writes put back or refused before changing anything); members and visitors still checked to be blocked. Migration confirmed applied (`is_admin()` includes creators).
 
 ### Session: Emails (2026-10-16)
 - **Sender:** `lib/email/send.ts` posts to the Resend API with fetch (no new package). No `RESEND_API_KEY` → nothing sent, subject logged. Test addresses (`.test`, `example.com`, …) are never emailed. Never throws.

@@ -1,7 +1,7 @@
 // Checks the content tables' row-level security through the real Supabase API, with the public key
 // and the QA accounts in web/.env.local (member, creator linked to "stefan", admin). No browser needed.
 // Run from web/: node scripts/security-checks/content.mjs
-// Adds one draft trading post as the QA creator and deletes it again.
+// Adds a draft trading post and a collection as the QA creator and deletes them again.
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 
@@ -46,38 +46,41 @@ try {
   const memberUpload = await member.storage.from("media").upload(`trading/qa-${Date.now()}.webp`, tinyImage(), { contentType: "image/webp" });
   check("member can't upload images", !!memberUpload.error);
 
-  // ---- Creators: their own posts only
+  // ---- Creators: the same board access as admins (is_admin() covers creators). Every write here puts
+  // back what was there, or is refused before it changes anything.
   const creator = await signIn(env.QA_CREATOR_EMAIL, env.QA_CREATOR_PASSWORD);
-  r = await creator.from("guides").select("author_slug");
-  check("creator only sees own guides", !r.error && r.data.length > 0 && r.data.every((g) => g.author_slug === "stefan"), `${r.data?.length} rows`);
-  r = await creator.from("trading_posts").insert({ author_slug: "wessam", title: "QA bad" }).select();
-  check("creator can't post as another creator", !!r.error, r.error?.code);
-  r = await creator.from("trading_posts").update({ title: "QA hacked" }).eq("author_slug", "wessam").select();
-  check("creator can't edit another creator's post", !r.error && r.data.length === 0);
-  r = await creator.from("trading_posts").update({ author_slug: "wessam" }).eq("author_slug", "stefan").select();
-  check("creator can't hand a post to someone else", !!r.error, r.error?.code);
-  r = await creator.from("creators").update({ name: "QA" }).eq("slug", "stefan").select();
-  check("creator can't edit creator profiles", !r.error && r.data.length === 0);
-  r = await creator.from("site_settings").update({ current_patch: "QA" }).eq("id", 1).select();
-  check("creator can't edit site settings", !r.error && r.data.length === 0);
-  r = await creator.from("collections").insert({ slug: "qa-bad", title: "QA" }).select();
-  check("creator can't add collections", !!r.error);
-  r = await creator.rpc("set_team_role", { p_email: env.QA_MEMBER_EMAIL, p_role: "admin", p_creator_slug: null });
-  check("creator can't change roles", !!r.error);
-  r = await creator.from("trading_posts").insert({ author_slug: "stefan", title: "QA security check post", status: "draft" }).select("id").single();
-  check("creator can add their own post", !r.error, r.error?.message);
-  if (r.data) {
-    const removed = await creator.from("trading_posts").delete().eq("id", r.data.id).select();
-    check("creator can delete their own post", !removed.error && removed.data.length === 1);
-  }
-
-  // ---- Admins: everything, except changing their own role
   const admin = await signIn(env.QA_ADMIN_EMAIL, env.QA_ADMIN_PASSWORD);
   const [{ count: all }, mine] = await Promise.all([
     admin.from("guides").select("id", { count: "exact", head: true }),
     creator.from("guides").select("id", { count: "exact", head: true }),
   ]);
-  check("admin sees more guides than a creator", (all ?? 0) > (mine.count ?? 0), `${all} vs ${mine.count}`);
+  check("creator sees every guide, like an admin", (all ?? 0) > 0 && mine.count === all, `${mine.count} vs ${all}`);
+  r = await creator.from("trading_posts").insert({ author_slug: "wessam", title: "QA security check post", status: "draft" }).select("id").single();
+  check("creator can post for another creator", !r.error, r.error?.message);
+  if (r.data) {
+    const removed = await creator.from("trading_posts").delete().eq("id", r.data.id).select();
+    check("creator can delete any post", !removed.error && removed.data.length === 1);
+  }
+  const { data: profile } = await creator.from("creators").select("name").eq("slug", "stefan").single();
+  r = await creator.from("creators").update({ name: profile?.name }).eq("slug", "stefan").select();
+  check("creator can edit creator profiles", !r.error && r.data.length === 1, r.error?.message);
+  const { data: settings } = await creator.from("site_settings").select("current_patch").eq("id", 1).single();
+  r = await creator.from("site_settings").update({ current_patch: settings?.current_patch }).eq("id", 1).select();
+  check("creator can edit site settings", !r.error && r.data.length === 1, r.error?.message);
+  r = await creator.from("collections").insert({ slug: `qa-sec-${Date.now()}`, title: "QA" }).select("id").single();
+  check("creator can add collections", !r.error, r.error?.message);
+  if (r.data) await creator.from("collections").delete().eq("id", r.data.id);
+  // A same-name rename and an unknown role get past the permission check and stop before changing anything.
+  r = await creator.rpc("rename_game", { p_from: "FC 27", p_to: "FC 27" });
+  check("creator may rename the game", r.error?.message === "bad_name", r.error?.message);
+  r = await creator.rpc("list_team");
+  check("creator lists the team", !r.error && r.data.length >= 2, r.error?.message ?? `${r.data?.length}`);
+  r = await creator.rpc("set_team_role", { p_email: env.QA_MEMBER_EMAIL, p_role: "owner", p_creator_slug: null });
+  check("creator may set roles", r.error?.message === "bad_role", r.error?.message);
+  r = await creator.rpc("set_team_role", { p_email: env.QA_CREATOR_EMAIL, p_role: "member", p_creator_slug: null });
+  check("creator can't change their own role", r.error?.message === "own_role", r.error?.message);
+
+  // ---- Admins: everything, except changing their own role
   r = await admin.rpc("list_team");
   check("admin lists the team", !r.error && r.data.length >= 2, r.error?.message ?? `${r.data?.length}`);
   r = await admin.rpc("set_team_role", { p_email: env.QA_ADMIN_EMAIL, p_role: "member", p_creator_slug: null });
