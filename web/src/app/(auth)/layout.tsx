@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
+
+// Log in, sign up and password pages stay out of search results.
+export const metadata: Metadata = { robots: { index: false, follow: true } };
 
 // Focused shell for log in / sign up: logo and a way back, no full navigation.
 export default function AuthLayout({ children }: LayoutProps<"/">) {

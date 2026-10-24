@@ -10,6 +10,7 @@ import { getContent, getPlus } from "@/lib/content";
 import { FEED_PAGE_SIZE, feedTopics, isFeedTopic } from "@/lib/content/constants";
 import { queryFeed } from "@/lib/feedAccess";
 import { formatCompact } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { getViewer } from "@/lib/viewer";
 import type { FeedTopic } from "@/types";
 
@@ -37,12 +38,12 @@ function feedHref(topic?: FeedTopic, limit?: number) {
 
 export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
   const { topic } = await readParams(searchParams);
-  return {
-    title: topic ? `${feedTopics[topic]} feed` : "The FC Lads feed",
-    description:
-      "Everything happening in EA SPORTS FC: patch changes, gameplay clips, trading tips and Champs advice from the Lads.",
-    alternates: { canonical: topic ? `/feed?topic=${topic}` : "/feed" },
-  };
+  const season = (await getContent()).settings.currentSeason;
+  return pageMeta({
+    title: topic ? `${season} ${feedTopics[topic].toLowerCase()} news & tips` : `${season} news, patch notes & tips`,
+    description: `Everything happening in EA SPORTS ${season}: patch changes, gameplay clips, trading tips and FUT Champs advice from the FC Lads creators. Free to read.`,
+    path: topic ? `/feed?topic=${topic}` : "/feed",
+  });
 }
 
 export default async function FeedPage({ searchParams }: { searchParams: SearchParams }) {

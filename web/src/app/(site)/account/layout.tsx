@@ -5,7 +5,7 @@ import { LEGAL_EMAIL } from "@/data/legal";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = {
-  title: { default: "Account | FC Lads", template: "%s · Account | FC Lads" },
+  title: { default: "Account", template: "%s · Account | FC Lads" },
   robots: { index: false },
 };
 

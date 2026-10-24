@@ -13,6 +13,7 @@ import { Avatar } from "@/components/ui/DataBits";
 import { Paywall } from "@/components/ui/Paywall";
 import { getContent, getGuideContent, type Content } from "@/lib/content";
 import { categoryLabels } from "@/lib/format";
+import { absoluteUrl, breadcrumbs, jsonLd, organization, pageMeta } from "@/lib/seo";
 import { getGuideView } from "@/lib/guideAccess";
 import { getViewer } from "@/lib/viewer";
 import type { Guide } from "@/types";
@@ -28,12 +29,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const guide = (await getContent()).getGuide((await params).slug);
   if (!guide) return {};
-  return {
-    title: guide.title,
-    description: guide.excerpt,
-    alternates: { canonical: `/guides/${guide.slug}` },
-    openGraph: { type: "article", title: guide.title, description: guide.excerpt, publishedTime: guide.publishedAt },
-  };
+  return pageMeta({ title: guide.title, description: guide.excerpt, path: `/guides/${guide.slug}`, type: "article", publishedTime: guide.publishedAt, ownImage: true });
 }
 
 const dateFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -72,20 +68,35 @@ export default async function GuidePage({ params }: { params: Params }) {
   const hasVideo = guide.format === "video" || !!guide.video;
   const published = dateFormat.format(new Date(guide.publishedAt));
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: guide.title,
-    description: guide.excerpt,
-    datePublished: guide.publishedAt,
-    author: author ? { "@type": "Person", name: author.name } : undefined,
-    publisher: { "@type": "Organization", name: "FC Lads" },
-    isAccessibleForFree: guide.access === "free" && !view.isLocked,
-  };
+  // The members-only part is marked (Google's paywalled-content markup) so the free part can be indexed
+  // without it looking like cloaking.
+  const path = `/guides/${guide.slug}`;
+  const structuredData = jsonLd(
+    {
+      "@type": "Article",
+      headline: guide.title,
+      description: guide.excerpt,
+      url: absoluteUrl(path),
+      mainEntityOfPage: absoluteUrl(path),
+      image: guide.image ?? absoluteUrl("/opengraph-image"),
+      datePublished: guide.publishedAt,
+      articleSection: categoryLabels[guide.category],
+      inLanguage: "en",
+      author: author ? { "@type": "Person", name: author.name, url: absoluteUrl(`/creators/${author.slug}`) } : undefined,
+      publisher: organization,
+      isAccessibleForFree: !view.isLocked,
+      ...(view.isLocked ? { hasPart: { "@type": "WebPageElement", isAccessibleForFree: false, cssSelector: ".members-only" } } : {}),
+    },
+    breadcrumbs([
+      ["Learn", "/learn"],
+      [categoryLabels[guide.category], `/learn?category=${guide.category}`],
+      [guide.title, path],
+    ]),
+  );
 
   return (
     <div className="relative">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={structuredData} />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_70%_60%_at_30%_0%,color-mix(in_oklab,var(--color-pitch-green)_80%,transparent),transparent)]"
@@ -183,7 +194,7 @@ export default async function GuidePage({ params }: { params: Params }) {
             )}
 
             {view.isLocked && (
-              <div id="members-only" className="relative mt-4 scroll-mt-28">
+              <div id="members-only" className="members-only relative mt-4 scroll-mt-28">
                 {view.teaser && (
                   <p
                     aria-hidden

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { ArrowRight, ArrowUpRight, CheckCircle2, MessagesSquare, Video } from "lucide-react";
+import { ArrowRight, CheckCircle2, MessagesSquare, Video } from "lucide-react";
 import { AccountHeading, fmtDate, FreePlan, SignInToManage } from "@/components/account/AccountBits";
+import { DiscordBadge, DiscordConnect, DiscordNote } from "@/components/account/DiscordLink";
 import { StatusNote } from "@/components/auth/AuthBits";
 import { MembershipPlan } from "@/components/account/MembershipPlan";
 import { DashPanel, ProgressBar } from "@/components/dashboard/DashboardBits";
 import { Button } from "@/components/ui/Button";
 import { getContent, getPlus } from "@/lib/content";
+import { discordServerUrl, getDiscordLink, isDiscordConfigured } from "@/lib/discord";
 import { withSeason } from "@/lib/format";
 import { getMembership } from "@/lib/membership";
 import { getReviewSummary } from "@/lib/reviews";
@@ -49,7 +51,9 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
           ? "The payment didn't go through, so nothing was started. Try again with another card."
           : "We couldn't open the checkout just now. Please try again in a minute."}
       </StatusNote>
-    ) : null;
+    ) : (
+      <DiscordNote result={params.discord} />
+    );
 
   if (!viewer.isMember) {
     return (
@@ -61,11 +65,12 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
     );
   }
 
-  const [review, content, plus, membership] = await Promise.all([
+  const [review, content, plus, membership, discordLink] = await Promise.all([
     getReviewSummary(viewer),
     getContent(),
     getPlus(),
     getMembership(viewer),
+    getDiscordLink(viewer.id),
   ]);
   const reviewsLeft = review.left;
   const tags = perkTags(content.guides.length);
@@ -147,27 +152,15 @@ export default async function MembershipPage({ searchParams }: PageProps<"/accou
             id="discord-link-heading"
             title="Discord"
             icon={<MessagesSquare aria-hidden className="size-5 text-primary" />}
-            action={
-              <span className="tabular rounded-md border border-white/10 px-2 py-1 text-[11px] text-muted uppercase">
-                Not linked
-              </span>
-            }
+            action={<DiscordBadge link={discordLink} />}
           >
-            <div className="flex flex-col gap-2">
-              <p className="font-display text-3xl leading-none font-extrabold">Join the server</p>
-              <p className="text-sm text-muted">
-                Automatic linking of your Discord account and the FC Lads+ role is coming soon. Until then, join with
-                the invite and ask a Lad for the members role.
-              </p>
-            </div>
-            {discordInvite ? (
-              <Button href={discordInvite} target="_blank" rel="noopener noreferrer" variant="glass" size="md" className="mt-auto w-full">
-                Open Discord
-                <ArrowUpRight aria-hidden className="size-4" />
-              </Button>
-            ) : (
-              <p className="mt-auto text-sm text-muted">The invite link will appear here soon.</p>
-            )}
+            <p className="font-display text-3xl leading-none font-extrabold">{discordLink ? "You're in" : "Join the server"}</p>
+            <DiscordConnect
+              link={discordLink}
+              configured={isDiscordConfigured}
+              invite={discordInvite}
+              serverUrl={discordServerUrl ?? discordInvite}
+            />
           </DashPanel>
         </div>
       </MembershipPlan>

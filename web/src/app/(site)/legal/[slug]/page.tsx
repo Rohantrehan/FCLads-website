@@ -6,6 +6,7 @@ import { CopyEmail, PrintButton } from "@/components/legal/LegalActions";
 import { LegalToc } from "@/components/legal/LegalToc";
 import { cn } from "@/lib/cn";
 import { getPlus } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 import { LEGAL_EMAIL, LEGAL_UPDATED, getLegalDoc, legalDocs, type LegalBlock, type LegalSlug } from "@/data/legal";
 
 export const dynamicParams = false;
@@ -17,11 +18,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): Promise<Metadata> {
   const doc = getLegalDoc((await params).slug);
   if (!doc) return {};
-  return {
-    title: doc.title,
-    description: doc.description,
-    alternates: { canonical: `/legal/${doc.slug}` },
-  };
+  return pageMeta({ title: doc.title, description: doc.description, path: `/legal/${doc.slug}` });
 }
 
 const tabIcons: Record<LegalSlug, typeof Gavel> = {

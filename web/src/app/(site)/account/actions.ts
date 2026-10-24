@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { removeDiscordLink } from "@/lib/discord";
 import { createPortalLink, dodo, getBillingIds, syncSubscription } from "@/lib/payments";
 import { getViewer } from "@/lib/viewer";
 
@@ -58,4 +59,19 @@ export async function openBillingPortal() {
     redirect("/account/billing?portal=error");
   }
   redirect(link);
+}
+
+/** Takes the FC Lads+ role off the viewer's Discord account and forgets the link. */
+export async function unlinkDiscord() {
+  const viewer = await getViewer();
+  if (!viewer.id) redirect("/login");
+  try {
+    await removeDiscordLink(viewer.id);
+  } catch (error) {
+    console.error("[discord] unlink failed", error);
+    redirect("/dashboard/discord?discord=error");
+  }
+  revalidatePath("/account", "layout");
+  revalidatePath("/dashboard", "layout");
+  redirect(`${viewer.isMember ? "/dashboard/discord" : "/account/membership"}?discord=unlinked`);
 }

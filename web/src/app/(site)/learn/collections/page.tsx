@@ -5,14 +5,15 @@ import { LearningPath } from "@/components/collections/LearningPath";
 import { LearnTabs } from "@/components/learn/LearnTabs";
 import { Badge } from "@/components/ui/Badge";
 import { getContent } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const season = (await getContent()).settings.currentSeason;
-  return {
-    title: `${season} video collections`,
+  return pageMeta({
+    title: `${season} video courses: learn Ultimate Team step by step`,
     description: `${season} video series for FC Lads+ members, in the order we recommend: fundamentals, defending, attacking, meta, tactics and squads.`,
-    alternates: { canonical: "/learn/collections" },
-  };
+    path: "/learn/collections",
+  });
 }
 
 export default async function CollectionsPage() {

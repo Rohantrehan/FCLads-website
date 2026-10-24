@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import { CheckCircle2, Zap } from "lucide-react";
-import { CompareTable, Faq } from "@/components/plus/CompareAndFaq";
+import { CompareTable, Faq, faqs } from "@/components/plus/CompareAndFaq";
 import { PerkShowcase } from "@/components/plus/PerkShowcase";
 import { JOIN_HREF, PlusHero } from "@/components/plus/PlusHero";
 import { CreatorAccessSection, DiscordSection, ReviewSection, TradingSection } from "@/components/plus/PlusSections";
 import { Button } from "@/components/ui/Button";
 import { getContent, getPlus } from "@/lib/content";
+import { absoluteUrl, breadcrumbs, jsonLd, organization, pageMeta } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const plus = await getPlus();
-  return {
-    title: "FC Lads+ membership",
-    description: `Every guide and video series, the private FC Lads Discord, creator access, members-only trading posts and a monthly 1-on-1 gameplay review. ${plus.priceLabel} a month after a ${plus.trialDays}-day free trial, cancel anytime.`,
-    alternates: { canonical: "/lads-plus" },
-  };
+  const season = (await getContent()).settings.currentSeason;
+  return pageMeta({
+    title: `FC Lads+ membership: ${season} coaching, guides & private Discord`,
+    description: `Every ${season} guide and video series, the private FC Lads Discord, creator access, members-only trading posts and a monthly gameplay review. ${plus.priceLabel} a month after a ${plus.trialDays}-day free trial, cancel anytime.`,
+    path: "/lads-plus",
+  });
 }
 
 const outcomes = [
@@ -27,8 +29,38 @@ const outcomes = [
 
 export default async function LadsPlusPage() {
   const plus = await getPlus();
+  const structuredData = jsonLd(
+    {
+      "@type": "Product",
+      name: "FC Lads+ membership",
+      description: "Monthly EA SPORTS FC Ultimate Team membership: every guide and video series, private Discord, creator access, members-only trading posts and a monthly gameplay review.",
+      brand: organization,
+      image: absoluteUrl("/opengraph-image"),
+      offers: {
+        "@type": "Offer",
+        url: absoluteUrl("/lads-plus"),
+        price: plus.price,
+        priceCurrency: plus.currency,
+        availability: "https://schema.org/InStock",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: plus.price,
+          priceCurrency: plus.currency,
+          billingDuration: 1,
+          billingIncrement: 1,
+          unitCode: "MON",
+        },
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs(plus).map((faq) => ({ "@type": "Question", name: faq.q, acceptedAnswer: { "@type": "Answer", text: faq.a } })),
+    },
+    breadcrumbs([["Home", "/"], ["FC Lads+", "/lads-plus"]]),
+  );
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={structuredData} />
       <PlusHero />
 
       <section aria-labelledby="includes-heading" className="border-t border-white/6 bg-surface py-16 lg:py-20">

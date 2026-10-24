@@ -2,6 +2,7 @@ import "server-only";
 
 import DodoPayments from "dodopayments";
 import type { Subscription } from "dodopayments/resources/subscriptions";
+import { syncDiscordRole } from "@/lib/discord";
 import { adminDb } from "@/lib/supabase/admin";
 import { isMemberStatus, type Viewer } from "@/lib/viewer";
 
@@ -87,6 +88,8 @@ export async function syncSubscription(subscription: Subscription) {
     trial_used: Boolean(current?.trial_used) || trialStarted,
   });
   if (error) throw new Error(`Couldn't save the membership: ${error.message}`);
+  // The Discord members role follows the membership (never throws).
+  await syncDiscordRole(userId);
   return true;
 }
 

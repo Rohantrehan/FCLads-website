@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { getContent } from "@/lib/content";
 import { GUIDE_PAGE_SIZE as PAGE_SIZE, isGuideCategory } from "@/lib/content/constants";
 import { categoryLabels } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 
 const BANNER_AFTER = 6; // upsell banner position in the grid
 
@@ -34,12 +35,14 @@ async function readParams(searchParams: SearchParams) {
 
 export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
   const { category } = await readParams(searchParams);
-  const title = category ? `${categoryLabels[category]} guides` : "Learn FC: FC Lads+ guides";
-  return {
-    title,
-    description: "In-depth EA SPORTS FC guides for FC Lads+ members: tactics, skill moves, meta players, FUT Champs and more.",
-    alternates: { canonical: category ? `/learn?category=${category}` : "/learn" },
-  };
+  const season = (await getContent()).settings.currentSeason;
+  return pageMeta({
+    title: category
+      ? `${season} ${categoryLabels[category].toLowerCase()} guides`
+      : `${season} guides: meta tactics, skill moves & Weekend League tips`,
+    description: `In-depth EA SPORTS ${season} Ultimate Team guides from pro creators: custom tactics, meta formations, skill moves, defending, meta players and FUT Champs (Weekend League) tips.`,
+    path: category ? `/learn?category=${category}` : "/learn",
+  });
 }
 
 export default async function LearnPage({ searchParams }: { searchParams: SearchParams }) {

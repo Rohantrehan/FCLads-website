@@ -87,7 +87,7 @@ export async function CompareTable() {
 
 // Answers that depend on open client decisions (refunds, payment methods, review turnaround)
 // are kept general until confirmed — see PROGRESS.md open questions.
-const faqs = (plus: Plus) => [
+export const faqs = (plus: Plus) => [
   {
     q: "Is there a free trial?",
     a: `Yes. New members get ${plus.trialDays} days of FC Lads+ free. You add a card when you join, and the first ${plus.priceLabel} payment is taken when the trial ends. Cancel before then and you won't be charged. One trial per account.`,

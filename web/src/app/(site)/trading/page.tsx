@@ -3,14 +3,17 @@ import { TaxCalculator } from "@/components/trading/TaxCalculator";
 import { TradingDisclaimer } from "@/components/trading/TradingDisclaimer";
 import { TradingFeed } from "@/components/trading/TradingFeed";
 import { getContent } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 import { getViewer } from "@/lib/viewer";
 
-export const metadata: Metadata = {
-  title: "Trading: market posts from the Lads",
-  description:
-    "Trading posts from the FC Lads creators, with screenshots, plus a free transfer tax calculator. Filter by today, yesterday, the last 3 or 7 days, or your own dates.",
-  alternates: { canonical: "/trading" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const season = (await getContent()).settings.currentSeason;
+  return pageMeta({
+    title: `${season} trading tips: Ultimate Team market picks & coin making`,
+    description: `Daily ${season} Ultimate Team trading posts from the FC Lads creators: players to invest in, when to sell, promo and TOTW market moves, plus a free EA tax calculator.`,
+    path: "/trading",
+  });
+}
 
 export default async function TradingPage({ searchParams }: PageProps<"/trading">) {
   const viewer = await getViewer();

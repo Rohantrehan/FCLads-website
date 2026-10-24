@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Hash, MessagesSquare, Pin, ScrollText, Users } from "lucide-react";
+import { Hash, MessagesSquare, Pin, ScrollText, Users } from "lucide-react";
+import { DiscordConnect, DiscordNote } from "@/components/account/DiscordLink";
 import { DashboardHeading, DashPanel, MembersOnly } from "@/components/dashboard/DashboardBits";
-import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/DataBits";
 import { getContent } from "@/lib/content";
+import { discordServerUrl, getDiscordLink, isDiscordConfigured } from "@/lib/discord";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = { title: "Discord" };
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-export default async function DashboardDiscordPage() {
+export default async function DashboardDiscordPage({ searchParams }: PageProps<"/dashboard/discord">) {
   const viewer = await getViewer();
   if (!viewer.isMember) return <MembersOnly />;
-  const { creators, settings } = await getContent();
+  const [{ creators, settings }, link, { discord: result }] = await Promise.all([getContent(), getDiscordLink(viewer.id), searchParams]);
   // Channels, rules and the invite link are edited on the posting board (Site settings).
   const invite = settings.socials.discord;
   const { channels, rules } = settings.discord;
@@ -25,6 +26,7 @@ export default async function DashboardDiscordPage() {
         title="The private Discord"
         description="Members-only channels with the Lads: tactics help, squad feedback, trading alerts and a direct line to the creators."
       />
+      <DiscordNote result={result} />
 
       <section
         aria-labelledby="discord-connect-heading"
@@ -37,23 +39,12 @@ export default async function DashboardDiscordPage() {
           <h2 id="discord-connect-heading" className="font-display text-2xl font-extrabold uppercase md:text-3xl">
             FC Lads+ members&apos; server
           </h2>
-          <p className="text-sm text-muted">
-            Automatic account linking is coming soon. For now, join with the invite and ask a Lad in #help for your
-            members&apos; role.
-          </p>
           <p className="max-w-xl text-muted">
             Patch news as it happens, tactics workshops, and channels where the Lads answer your questions every day.
           </p>
         </div>
-        <div className="flex flex-col gap-3 lg:col-span-4">
-          {invite ? (
-            <Button href={invite} variant="primary" size="lg" className="w-full" {...external}>
-              Join the Discord
-              <ArrowUpRight aria-hidden className="size-4" />
-            </Button>
-          ) : (
-            <p className="text-center text-sm text-muted">The invite link is on its way.</p>
-          )}
+        <div className="lg:col-span-4">
+          <DiscordConnect link={link} configured={isDiscordConfigured} invite={invite} serverUrl={discordServerUrl ?? invite} />
         </div>
       </section>
 

@@ -6,7 +6,7 @@ import { getReviewSummary } from "@/lib/reviews";
 import { getViewer } from "@/lib/viewer";
 
 export const metadata: Metadata = {
-  title: { default: "My Lads+ | FC Lads", template: "%s · My Lads+ | FC Lads" },
+  title: { default: "My Lads+", template: "%s · My Lads+ | FC Lads" },
   robots: { index: false },
 };
 

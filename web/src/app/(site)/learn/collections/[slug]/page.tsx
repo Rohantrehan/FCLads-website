@@ -13,6 +13,7 @@ import { Paywall } from "@/components/ui/Paywall";
 import { getCollectionView } from "@/lib/collectionAccess";
 import { getContent, getPlus } from "@/lib/content";
 import { categoryLabels } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { getViewer } from "@/lib/viewer";
 
 type Params = Promise<{ slug: string }>;
@@ -25,11 +26,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const collection = (await getContent()).getCollection((await params).slug);
   if (!collection) return {};
-  return {
+  return pageMeta({
     title: `${collection.title} (${collection.season})`,
     description: collection.description,
-    alternates: { canonical: `/learn/collections/${collection.slug}` },
-  };
+    path: `/learn/collections/${collection.slug}`,
+  });
 }
 
 export default async function CollectionPage({ params }: { params: Params }) {

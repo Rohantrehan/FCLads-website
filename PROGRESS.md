@@ -6,7 +6,7 @@
 
 **Last updated:** 15 Oct 2026
 **Current phase:** Frontend-first. ✅ The 4 planned public pages are built. Now at the **Step 6 review checkpoint**.
-**Next action:** Payments are live (Dodo Payments, account approved by Dodo 24 Oct 2026; real-card trial checked end to end on fclads.com). **Waiting on the user:** rotate the Supabase secret + Resend keys, Vercel Pro, Supabase auth emails via Resend, delete Sanity project `0c43y88p` before ~13 Nov, delete `test@fclads.test`, upload card/creator photos + social links. Next code work (on request): Discord role sync, launch checks.
+**Next action:** Payments are live (Dodo Payments, account approved by Dodo 24 Oct 2026; real-card trial checked end to end on fclads.com). **Waiting on the user:** rotate the Supabase secret + Resend keys, Vercel Pro, Supabase auth emails via Resend, delete Sanity project `0c43y88p` before ~13 Nov, delete `test@fclads.test`, upload card/creator photos + social links. Next code work (on request): launch checks. Discord role sync built, waiting for the user's Discord app/server details.
 
 ---
 
@@ -472,3 +472,24 @@ npm run build
 ```
 
 Pages so far: `/` (Home), `/learn` (guides), `/learn/collections` + 14 collection pages, `/guides/[slug]` (11 visible guides), `/creators` (Meet the Lads), `/creators/[slug]` (4 visible profiles), `/lads-plus` (FC Lads+), `/legal/terms` + `/legal/privacy` + `/legal/trading-disclaimer`, `/dashboard` + 5 member tabs (members only), `/account/membership` + `/account/billing`, `/feed`, `/trading`, `/login`, `/signup`, `/design-system` (component preview). Every other nav link shows the styled 404 until built.
+
+### Session: SEO, technical setup (2026-10-24)
+- **Target:** English-speaking EA FC markets (US, UK, Canada, Australia, Ireland). One English site, no per-country copies or hreflang. Titles use the current season (`settings.currentSeason`) and words people search ("trading tips", "meta tactics", "Weekend League"); home description mentions "football (soccer)" for US/Canada.
+- **`lib/seo.ts`:** `SITE_URL` (NEXT_PUBLIC_SITE_URL, else https://fclads.com), `pageMeta()` (title, description, canonical, openGraph with site name, en_US/en_GB and the site share picture; `ownImage` for pages with their own picture), `organization`, `breadcrumbs()`, `jsonLd()` (escapes `<`).
+- **Root layout:** `metadataBase`, keyword default title, description, openGraph defaults, `summary_large_image` Twitter card.
+- **`app/robots.ts`:** blocks /account, /dashboard, /creator, /join, /payments, /auth, /api, /design-system, /email-preview; links the sitemap. The secret board path is never listed (the board sends noindex itself).
+- **`app/sitemap.ts`:** home, FC Lads+, Learn, Trading, Feed, Collections, Creators, every guide/collection/creator, legal docs. Content cache refreshes it within 5 minutes of a board post.
+- **Share pictures:** `lib/shareImage.tsx` (1200×630, crowned shield, label, headline); `app/opengraph-image.tsx` (site) and `guides/[slug]/opengraph-image.tsx` (guide title, category, season, author).
+- **Structured data:** home = Organization + WebSite; FC Lads+ = Product with monthly Offer (price from Site settings) + FAQPage (same `faqs()` as the page) + breadcrumbs; guides = Article (author, publisher, image, section) + breadcrumbs, with Google's paywalled-content markup (`isAccessibleForFree`, `hasPart` → `.members-only`).
+- **Out of search:** login/sign-up/password pages now noindex (auth layout); account, dashboard, creator hub and board already were. Fixed "Account | FC Lads | FC Lads" doubled titles (account + dashboard layouts).
+- **Checked:** typecheck, lint, production build; robots, sitemap (39 addresses), titles, canonicals, share pictures (viewed), JSON-LD parsed on home, FC Lads+ and a guide; public pages 200.
+- **User to do after deploy:** check `NEXT_PUBLIC_SITE_URL` on Vercel is `https://fclads.com` (or unset); verify fclads.com in Google Search Console + Bing Webmaster Tools and submit `https://fclads.com/sitemap.xml`.
+- FC Lads+ FAQ says the Discord role is added automatically: built in the next session (Discord role sync).
+
+### Session: Discord role sync (2026-10-24)
+- **Flow:** member clicks **Connect Discord** (dashboard Discord tab or Membership panel) → `/discord/connect` (members only; one-time state cookie, path /discord, 10 min) → Discord sign-in (scopes `identify guilds.join`) → `/discord/callback` checks state, gets the Discord id/name, saves the link, adds them to the server with the members role (or adds the role if already in it). Back with `?discord=linked | cancelled | in-use | members-only | unavailable | error`.
+- **Role follows the membership:** `syncSubscription` (webhook, checkout return, cancel/keep) calls `syncDiscordRole`, which puts the role on for trialing/active/past_due and takes it off otherwise. Never throws, so Discord problems can't undo a payment update. Someone who left the server shows "role missing, connect again".
+- **Disconnect** (`unlinkDiscord` action): takes the role off, deletes the link.
+- **Files:** `lib/discord.ts`, `app/discord/connect|callback/route.ts`, `components/account/DiscordLink.tsx`, unlink in `account/actions.ts`, migration `20261024000000_discord_links.sql` (table `discord_links`: one Discord account per FC Lads account and the other way round; members read their own row; writes only with the secret key). `/discord` added to robots disallow.
+- **Env (all needed, else the old "join with the invite" text shows):** `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`, `DISCORD_BOT_TOKEN`, `DISCORD_GUILD_ID`, `DISCORD_MEMBER_ROLE_ID`. Discord app redirect: `https://fclads.com/discord/callback` (+ `http://localhost:3000/discord/callback` for local). Bot needs Manage Roles + Create Instant Invite, and its role above the members role.
+- **Checked:** typecheck, lint, build; logged-out → login; member without config → "being set up"; notes render; dashboard gates + account checks pass. Real Discord linking not tested yet (needs the app). **SQL not applied yet: the user runs the migration.**

@@ -3,14 +3,15 @@ import { Gamepad2, MessagesSquare, Users, Zap } from "lucide-react";
 import { CreatorRoster, type RosterEntry } from "@/components/creators/CreatorRoster";
 import { Button } from "@/components/ui/Button";
 import { getContent, getPlus } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { creators } = await getContent();
-  return {
-    title: "Meet the Lads",
-    description: `The FC creators, analysts and competitors behind FC Lads: ${creators.map((creator) => creator.name).join(", ")}.`,
-    alternates: { canonical: "/creators" },
-  };
+  return pageMeta({
+    title: "Meet the Lads: pro EA FC creators & competitors",
+    description: `The EA SPORTS FC creators, analysts and competitors behind FC Lads: ${creators.map((creator) => creator.name).join(", ")}.`,
+    path: "/creators",
+  });
 }
 
 // TODO: replace with real combined audience once the client confirms numbers.

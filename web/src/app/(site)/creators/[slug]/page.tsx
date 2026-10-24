@@ -8,6 +8,7 @@ import { AudienceStats } from "@/components/creators/CreatorBits";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { getContent, getPlus, getSocials } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 
 type Params = Promise<{ slug: string }>;
 
@@ -19,11 +20,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const creator = (await getContent()).getCreator((await params).slug);
   if (!creator) return {};
-  return {
+  return pageMeta({
     title: `${creator.name} — ${creator.role}`,
-    description: creator.bio ?? `${creator.name}'s guides and videos on FC Lads.`,
-    alternates: { canonical: `/creators/${creator.slug}` },
-  };
+    description: creator.bio ?? `${creator.name}'s EA SPORTS FC guides, tips and videos on FC Lads.`,
+    path: `/creators/${creator.slug}`,
+    type: "profile",
+  });
 }
 
 export default async function CreatorProfilePage({ params }: { params: Params }) {
